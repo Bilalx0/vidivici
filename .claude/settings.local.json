@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pg_isready 2>&1 || sudo service postgresql start 2>&1)",
+      "Bash(sudo -u postgres psql -p 5433 -c \"CREATE DATABASE falcon_car_rental;\" 2>&1; sudo -u postgres psql -p 5433 -c \"ALTER USER postgres PASSWORD 'postgres';\" 2>&1)",
+      "Bash(grep -v \"^$\")",
+      "Bash(psql -h 127.0.0.1 -p 5433 -U postgres -c \"CREATE DATABASE falcon_car_rental;\" 2>&1)",
+      "Bash(npx prisma:*)",
+      "Bash(npx next:*)",
+      "Bash(ls /home/developer1/Car/falcon-car-rental/src/app/ -d */  2>/dev/null; ls /home/developer1/Car/falcon-car-rental/src/app/*.tsx 2>/dev/null)",
+      "Read(//home/developer1/Car/**)",
+      "Bash(zip -r falcon-car-rental.zip falcon-car-rental -x \"falcon-car-rental/node_modules/*\" \"falcon-car-rental/.next/*\")"
+    ]
+  }
+}

@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String
+  role          Role      @default(USER)
+  phone         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  bookings      Booking[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  image       String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  cars        Car[]
+}
+
+model Brand {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?  @db.Text
+  logo        String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  cars        Car[]
+}
+
+model Car {
+  id               String     @id @default(cuid())
+  name             String
+  slug             String     @unique
+  brand            Brand      @relation(fields: [brandId], references: [id])
+  brandId          String
+  category         Category   @relation(fields: [categoryId], references: [id])
+  categoryId       String
+  description      String?    @db.Text
+  shortDescription String?
+  pricePerDay      Float
+  year             Int?
+  seats            Int        @default(4)
+  transmission     String     @default("Automatic")
+  fuelType         String     @default("Gasoline")
+  horsepower       Int?
+  topSpeed         String?
+  acceleration     String?
+  milesIncluded    Int        @default(100)
+  extraMileRate    Float      @default(9.0)
+  minRentalDays    Int        @default(1)
+  isAvailable      Boolean    @default(true)
+  isFeatured       Boolean    @default(false)
+  location         String     @default("Los Angeles")
+  images           CarImage[]
+  bookings         Booking[]
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}
+
+model CarImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  isPrimary Boolean  @default(false)
+  car       Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId     String
+  createdAt DateTime @default(now())
+}
+
+model Booking {
+  id              String        @id @default(cuid())
+  user            User          @relation(fields: [userId], references: [id])
+  userId          String
+  car             Car           @relation(fields: [carId], references: [id])
+  carId           String
+  startDate       DateTime
+  endDate         DateTime
+  pickupLocation  String
+  dropoffLocation String
+  totalPrice      Float
+  status          BookingStatus @default(PENDING)
+  paymentStatus   PaymentStatus @default(UNPAID)
+  paymentIntentId String?
+  notes           String?       @db.Text
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  REFUNDED
+  FAILED
+}
+
+model BlogPost {
+  id         String   @id @default(cuid())
+  title      String
+  slug       String   @unique
+  content    String   @db.Text
+  excerpt    String?
+  coverImage String?
+  published  Boolean  @default(false)
+  author     String   @default("Falcon Car Rental")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model FAQ {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  content   String   @db.Text
+  rating    Int      @default(5)
+  isVisible Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id          String  @id @default(cuid())
+  key         String  @unique
+  value       String  @db.Text
+  description String?
+}

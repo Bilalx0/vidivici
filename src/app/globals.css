@@ -1,26 +1,8 @@
 @import "tailwindcss";
 
-:root {
-  --gold: #dbb241;
-  --blue: #1B73E7;
-  --dark: #0a0a0a;
-  --dark-card: #1a1a1a;
-  --dark-border: #2a2a2a;
-}
 
-@theme inline {
-  --color-gold: #dbb241;
-  --color-blue: #1B73E7;
-  --color-dark: #0a0a0a;
-  --color-dark-card: #1a1a1a;
-  --color-dark-border: #2a2a2a;
-}
 
-body {
-  background: #0a0a0a;
-  color: #ffffff;
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
-}
+
 
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #111; }
@@ -34,4 +16,27 @@ body {
 }
 .accordion-content.open {
   max-height: 500px;
+}
+
+:root {
+  --font-sans: var(--font-raleway);
+}
+
+body {
+  font-family: var(--font-sans), sans-serif;
+}
+
+
+@keyframes scrollXReverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll-x-reverse {
+  animation: scrollXReverse 25s linear infinite;
+  width: max-content;
 }

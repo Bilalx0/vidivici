@@ -1,194 +1,222 @@
-"use client"
+import { useState, useEffect, useRef } from "react";
 
-import Link from "next/link"
-import { useState } from "react"
+const Logo = () => (
+  <svg width="40" height="40" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="1" y="1" width="42" height="42" rx="6" stroke="white" strokeWidth="1.5" />
+    <g transform="translate(8, 8)">
+      <path d="M4 4 L14 4 L14 8 L8 8 L8 14 L4 14 Z" fill="none" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M24 4 L14 4 L14 8 L20 8 L20 14 L24 14 Z" fill="none" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M4 24 L14 24 L14 20 L8 20 L8 14 L4 14 Z" fill="none" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M24 24 L14 24 L14 20 L20 20 L20 14 L24 14 Z" fill="none" stroke="white" strokeWidth="1.5" strokeLinejoin="round" />
+    </g>
+  </svg>
+);
 
-const brands = [
-  { name: "Rolls-Royce", slug: "rolls-royce" },
-  { name: "Bentley", slug: "bentley" },
-  { name: "Aston Martin", slug: "aston-martin" },
-  { name: "Lamborghini", slug: "lamborghini" },
-  { name: "Ferrari", slug: "ferrari" },
-  { name: "McLaren", slug: "mclaren" },
-  { name: "Porsche", slug: "porsche" },
-  { name: "Mercedes", slug: "mercedes" },
-  { name: "BMW", slug: "bmw" },
-  { name: "Range Rover", slug: "range-rover" },
-  { name: "Cadillac", slug: "cadillac" },
-  { name: "Corvette", slug: "corvette" },
-  { name: "Tesla", slug: "tesla" },
-  { name: "Audi", slug: "audi" },
-  { name: "Rivian", slug: "rivian" },
-  { name: "Hummer", slug: "hummer" },
-]
+// inline style used here because Tailwind can't do dynamic rotate from props
+const ChevronIcon = ({ rotated }) => (
+  <svg
+    width="12" height="12" viewBox="0 0 12 12" fill="none"
+    className="shrink-0 transition-transform duration-300"
+    style={{ transform: rotated ? "rotate(180deg)" : "rotate(0deg)" }}
+  >
+    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 
-const categories = [
-  { name: "Supercar", slug: "supercar" },
-  { name: "Convertible", slug: "convertible" },
-  { name: "SUV", slug: "suv" },
-  { name: "Chauffeur", slug: "chauffeur" },
-  { name: "EV", slug: "ev" },
-  { name: "Coupe/Sports", slug: "coupe-sports" },
-  { name: "Sedan", slug: "sedan" },
-  { name: "Ultra-Luxury", slug: "ultra-luxury" },
-]
+const UserIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+    <circle cx="10" cy="7" r="3.5" stroke="white" strokeWidth="1.5" />
+    <path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
+const NAV_ITEMS = [
+  { label: "Cars",    sub: ["Luxury Sedans", "Sports Cars", "SUVs", "Convertibles"] },
+  { label: "Villas",  sub: ["Beachfront", "Mountain", "Private Estates"] },
+  { label: "Events",  sub: ["Corporate", "Weddings", "Private Parties"] },
+  { label: "About",   sub: ["Our Story", "Team", "Press"] },
+  { label: "Contact", sub: [] },
+];
 
 export default function Header() {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [makesOpen, setMakesOpen] = useState(false)
-  const [catsOpen, setCatsOpen] = useState(false)
+  const [openDropdown, setOpenDropdown]     = useState(null);
+  const [mobileOpen, setMobileOpen]         = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState(null);
+  const headerRef = useRef(null);
+
+  // Close desktop dropdown on outside click
+  useEffect(() => {
+    const handler = (e) => {
+      if (headerRef.current && !headerRef.current.contains(e.target))
+        setOpenDropdown(null);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // Lock body scroll when mobile drawer open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/5">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
+    <div ref={headerRef}>
+      {/* ── Top bar ── */}
+      <header className=" top-0 z-50 bg-transparent font-['Jost',sans-serif] absolute w-full px-6">
+        <div className="max-w-[1400px] mx-auto flex items-center justify-between px-8 h-16 gap-4">
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
-            {/* Diamond icon */}
-            <svg className="w-7 h-7 text-[#dbb241]" viewBox="0 0 32 32" fill="currentColor">
-              <path d="M16 2L2 12l14 18L30 12z" opacity="0.2"/>
-              <path d="M16 2L2 12h28L16 2z"/>
-              <path d="M2 12l14 18L30 12H2z" opacity="0.7"/>
-            </svg>
-            <span className="text-white font-semibold text-base tracking-wide">Falcon</span>
-          </Link>
+          {/* Left nav — hidden on mobile */}
+          <nav className="hidden sm:flex items-center gap-0.5 flex-1">
+            {NAV_ITEMS.map((item) => (
+              <div key={item.label} className="relative">
+                <button
+                  onClick={() =>
+                    item.sub.length
+                      ? setOpenDropdown(openDropdown === item.label ? null : item.label)
+                      : null
+                  }
+                  className={`flex items-center gap-1.5 px-3.5 py-2 text-[13.5px] tracking-[0.04em] font-normal rounded-md whitespace-nowrap transition-colors duration-200 cursor-pointer border-none
+                    ${openDropdown === item.label
+                      ? "text-white bg-white/5"
+                      : "text-white/75 hover:text-white hover:bg-white/5"
+                    }`}
+                >
+                  {item.label}
+                  {item.sub.length > 0 && <ChevronIcon rotated={openDropdown === item.label} />}
+                </button>
 
-          {/* Desktop Nav — centered */}
-          <nav className="hidden lg:flex items-center gap-7 absolute left-1/2 -translate-x-1/2">
-            {/* Cars dropdown */}
-            <div className="relative group">
-              <button className="text-sm text-gray-300 hover:text-white transition-colors flex items-center gap-1">
-                Cars
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-              </button>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                <div className="bg-[#111] border border-[#2a2a2a] rounded-xl p-5 shadow-2xl" style={{ minWidth: 480 }}>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-2 px-1">Browse by Make</p>
-                  <div className="grid grid-cols-4 gap-1 mb-4">
-                    {brands.map((b) => (
-                      <Link key={b.slug} href={`/cars?brand=${b.slug}`} className="text-sm text-gray-300 hover:text-[#dbb241] py-1 px-2 rounded hover:bg-[#1a1a1a] transition-colors whitespace-nowrap">
-                        {b.name}
-                      </Link>
+                {/* Dropdown */}
+                {item.sub.length > 0 && openDropdown === item.label && (
+                  <div className="absolute top-[calc(100%+10px)] left-0 min-w-[170px] bg-[#0f1319] border border-white/[0.09] rounded-xl p-1.5 shadow-[0_24px_48px_rgba(0,0,0,0.55)] z-[300] animate-[dropIn_0.18s_ease_forwards]">
+                    {item.sub.map((s) => (
+                      <div
+                        key={s}
+                        className="px-3.5 py-2.5 text-[13px] text-white/60 rounded-md cursor-pointer whitespace-nowrap transition-colors duration-150 hover:bg-white/[0.06] hover:text-white"
+                      >
+                        {s}
+                      </div>
                     ))}
                   </div>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-2 px-1">Browse by Category</p>
-                  <div className="grid grid-cols-4 gap-1">
-                    {categories.map((c) => (
-                      <Link key={c.slug} href={`/cars?category=${c.slug}`} className="text-sm text-gray-300 hover:text-[#dbb241] py-1 px-2 rounded hover:bg-[#1a1a1a] transition-colors whitespace-nowrap">
-                        {c.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
+                )}
               </div>
-            </div>
-
-            {/* Villas dropdown (placeholder) */}
-            <div className="relative group">
-              <button className="text-sm text-gray-300 hover:text-white transition-colors flex items-center gap-1">
-                Villas
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-              </button>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                <div className="bg-[#111] border border-[#2a2a2a] rounded-xl p-4 shadow-2xl w-40">
-                  <Link href="/contact" className="block text-sm text-gray-300 hover:text-[#dbb241] py-1.5 px-2 rounded hover:bg-[#1a1a1a] transition-colors">Enquire Now</Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Events dropdown (placeholder) */}
-            <div className="relative group">
-              <button className="text-sm text-gray-300 hover:text-white transition-colors flex items-center gap-1">
-                Events
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-              </button>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                <div className="bg-[#111] border border-[#2a2a2a] rounded-xl p-4 shadow-2xl w-40">
-                  <Link href="/contact" className="block text-sm text-gray-300 hover:text-[#dbb241] py-1.5 px-2 rounded hover:bg-[#1a1a1a] transition-colors">Enquire Now</Link>
-                </div>
-              </div>
-            </div>
-
-            <Link href="/about" className="text-sm text-gray-300 hover:text-white transition-colors">About</Link>
-            <Link href="/contact" className="text-sm text-gray-300 hover:text-white transition-colors">Contact</Link>
+            ))}
           </nav>
 
-          {/* Right side CTAs */}
-          <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
-            <Link href="/contact" className="text-sm text-gray-300 hover:text-white transition-colors">
-              Become a Partner
-            </Link>
-            <Link
-              href="/cars"
-              className="border border-white text-white px-5 py-2 rounded-md text-sm font-medium hover:bg-white hover:text-black transition-colors"
-            >
-              Reserve Now
-            </Link>
-            {/* User icon */}
-            <Link href="/login" className="text-gray-400 hover:text-white transition-colors" aria-label="Account">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </Link>
+          {/* Center logo */}
+          <div className="flex items-center justify-center shrink-0 opacity-[0.92] hover:opacity-100 transition-opacity duration-200 cursor-pointer">
+            <Logo />
           </div>
 
-          {/* Mobile toggle */}
+          {/* Right actions — hidden on mobile */}
+          <div className="hidden sm:flex items-center justify-end gap-2.5 flex-1">
+            <button className="hidden md:block px-4 py-2 text-[13px] tracking-[0.04em] font-normal text-white/80 border border-white/20 rounded-lg whitespace-nowrap transition-all duration-200 hover:border-white/50 hover:text-white hover:bg-white/[0.04] cursor-pointer bg-transparent">
+              Become a Partner
+            </button>
+            <button className="px-4 py-2 text-[13px] tracking-[0.04em] font-medium text-white border border-white/80 rounded-lg whitespace-nowrap transition-all duration-200 hover:bg-white hover:text-[#0a0d12] cursor-pointer bg-transparent">
+              Reserve Now
+            </button>
+            <button className="flex items-center justify-center w-9 h-9 rounded-full border border-white/20 shrink-0 transition-all duration-200 hover:border-white/50 hover:bg-white/5 cursor-pointer bg-transparent">
+              <UserIcon />
+            </button>
+          </div>
+
+          {/* Hamburger — mobile only */}
           <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden text-white p-2"
-            aria-label="Toggle menu"
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            className="sm:hidden flex flex-col justify-center gap-[5px] w-9 h-9 p-1 shrink-0 bg-transparent border-none cursor-pointer"
           >
-            {mobileOpen ? (
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
-            )}
+            {/* inline style: Tailwind can't do dynamic translate+rotate combos */}
+            <span className="block w-[22px] h-[1.5px] bg-white/80 rounded-sm transition-all duration-300"
+              style={{ transform: mobileOpen ? "rotate(45deg) translate(0, 6.5px)" : "none" }} />
+            <span className="block w-[22px] h-[1.5px] bg-white/80 rounded-sm transition-all duration-300"
+              style={{ opacity: mobileOpen ? 0 : 1 }} />
+            <span className="block w-[22px] h-[1.5px] bg-white/80 rounded-sm transition-all duration-300"
+              style={{ transform: mobileOpen ? "rotate(-45deg) translate(0, -6.5px)" : "none" }} />
           </button>
+
         </div>
-      </div>
+      </header>
 
-      {/* Mobile menu */}
+      {/* ── Mobile overlay ── */}
       {mobileOpen && (
-        <div className="lg:hidden bg-[#0d0d0d] border-t border-[#2a2a2a] max-h-[80vh] overflow-y-auto">
-          <div className="px-5 py-4 space-y-1">
-            <Link href="/" className="block py-2.5 text-gray-300 hover:text-white" onClick={() => setMobileOpen(false)}>Home</Link>
-            <Link href="/cars" className="block py-2.5 text-gray-300 hover:text-white" onClick={() => setMobileOpen(false)}>All Cars</Link>
+        <div
+          onClick={() => setMobileOpen(false)}
+          className="sm:hidden fixed inset-0 bg-black/55 z-40 animate-[fadeIn_0.2s_ease]"
+        />
+      )}
 
-            <button onClick={() => setMakesOpen(!makesOpen)} className="w-full text-left py-2.5 text-gray-300 hover:text-white flex justify-between">
-              Browse by Make
-              <svg className={`w-4 h-4 transition-transform ${makesOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+      {/* ── Mobile drawer ── */}
+      {mobileOpen && (
+        <div className="sm:hidden fixed top-16 left-0 right-0 bg-[#0a0d12] border-b border-white/[0.08] z-[45] pb-7 max-h-[calc(100vh-64px)] overflow-y-auto animate-[slideDown_0.22s_ease]">
+          {NAV_ITEMS.map((item, i) => (
+            <div key={item.label}>
+              <button
+                onClick={() =>
+                  item.sub.length
+                    ? setMobileExpanded(mobileExpanded === item.label ? null : item.label)
+                    : setMobileOpen(false)
+                }
+                className="flex items-center justify-between w-full px-6 py-3.5 text-[15px] tracking-[0.03em] font-normal text-white/80 hover:text-white transition-colors duration-150 bg-transparent border-none cursor-pointer text-left"
+              >
+                {item.label}
+                {item.sub.length > 0 && <ChevronIcon rotated={mobileExpanded === item.label} />}
+              </button>
+
+              {/* Accordion sub-items — inline style: dynamic maxHeight can't be done in Tailwind */}
+              {item.sub.length > 0 && (
+                <div
+                  className="overflow-hidden transition-all duration-300"
+                  style={{
+                    maxHeight: mobileExpanded === item.label ? `${item.sub.length * 44}px` : "0px",
+                    opacity: mobileExpanded === item.label ? 1 : 0,
+                  }}
+                >
+                  {item.sub.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => setMobileOpen(false)}
+                      className="block w-full pl-9 pr-6 py-2.5 text-[13.5px] text-white/45 hover:text-white/85 transition-colors duration-150 bg-transparent border-none cursor-pointer text-left"
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {i < NAV_ITEMS.length - 1 && (
+                <div className="h-px bg-white/[0.06] mx-6 my-1" />
+              )}
+            </div>
+          ))}
+
+          <div className="h-px bg-white/[0.06] mx-6 my-4" />
+          <div className="flex flex-col gap-2.5 px-6">
+            <button className="w-full py-3 text-[14px] tracking-[0.04em] text-white/80 border border-white/20 rounded-lg transition-all duration-200 hover:border-white/50 hover:text-white hover:bg-white/[0.04] cursor-pointer bg-transparent">
+              Become a Partner
             </button>
-            {makesOpen && (
-              <div className="pl-4 grid grid-cols-2 gap-1 pb-2">
-                {brands.map((b) => (
-                  <Link key={b.slug} href={`/cars?brand=${b.slug}`} className="text-sm text-gray-400 hover:text-[#dbb241] py-1" onClick={() => setMobileOpen(false)}>{b.name}</Link>
-                ))}
-              </div>
-            )}
-
-            <button onClick={() => setCatsOpen(!catsOpen)} className="w-full text-left py-2.5 text-gray-300 hover:text-white flex justify-between">
-              Categories
-              <svg className={`w-4 h-4 transition-transform ${catsOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+            <button className="w-full py-3 text-[14px] tracking-[0.04em] font-medium text-white border border-white/80 rounded-lg transition-all duration-200 hover:bg-white hover:text-[#0a0d12] cursor-pointer bg-transparent">
+              Reserve Now
             </button>
-            {catsOpen && (
-              <div className="pl-4 space-y-1 pb-2">
-                {categories.map((c) => (
-                  <Link key={c.slug} href={`/cars?category=${c.slug}`} className="block text-sm text-gray-400 hover:text-[#dbb241] py-1" onClick={() => setMobileOpen(false)}>{c.name}</Link>
-                ))}
-              </div>
-            )}
-
-            <Link href="/about" className="block py-2.5 text-gray-300 hover:text-white" onClick={() => setMobileOpen(false)}>About</Link>
-            <Link href="/contact" className="block py-2.5 text-gray-300 hover:text-white" onClick={() => setMobileOpen(false)}>Contact</Link>
-
-            <hr className="border-[#2a2a2a] my-3" />
-            <Link href="/contact" className="block py-2.5 text-gray-300 hover:text-white" onClick={() => setMobileOpen(false)}>Become a Partner</Link>
-            <Link href="/login" className="block py-2 text-gray-400 hover:text-white" onClick={() => setMobileOpen(false)}>Login / Register</Link>
-            <Link href="/cars" className="block border border-white text-white text-center py-2.5 rounded-md font-medium mt-2 hover:bg-white hover:text-black transition-colors" onClick={() => setMobileOpen(false)}>Reserve Now</Link>
           </div>
         </div>
       )}
-    </header>
-  )
+
+      {/* Keyframe animations — only for things Tailwind doesn't ship by default */}
+      <style>{`
+        @keyframes dropIn {
+          from { opacity: 0; transform: translateY(-6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; } to { opacity: 1; }
+        }
+        @keyframes slideDown {
+          from { opacity: 0; transform: translateY(-8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </div>
+  );
 }

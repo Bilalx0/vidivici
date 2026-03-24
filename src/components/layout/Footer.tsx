@@ -1,110 +1,208 @@
-import Link from "next/link"
+"use client";
 
-const brands = [
-  { name: "Rolls-Royce", slug: "rolls-royce" }, { name: "Bentley", slug: "bentley" },
-  { name: "Aston Martin", slug: "aston-martin" }, { name: "Lamborghini", slug: "lamborghini" },
-  { name: "Ferrari", slug: "ferrari" }, { name: "McLaren", slug: "mclaren" },
-  { name: "Porsche", slug: "porsche" }, { name: "Mercedes", slug: "mercedes" },
-  { name: "BMW", slug: "bmw" }, { name: "Range Rover", slug: "range-rover" },
-  { name: "Cadillac", slug: "cadillac" }, { name: "Corvette", slug: "corvette" },
-  { name: "Tesla", slug: "tesla" }, { name: "Audi", slug: "audi" },
-  { name: "Rivian", slug: "rivian" }, { name: "Hummer", slug: "hummer" },
-]
+import { useState } from "react";
+import { Facebook, Instagram, Youtube } from "lucide-react";
 
-const categories = [
-  { name: "Supercar", slug: "supercar" }, { name: "Convertible", slug: "convertible" },
-  { name: "SUV", slug: "suv" }, { name: "Chauffeur", slug: "chauffeur" },
-  { name: "EV", slug: "ev" }, { name: "Coupe/Sports", slug: "coupe-sports" },
-  { name: "Sedan", slug: "sedan" }, { name: "Ultra-Luxury", slug: "ultra-luxury" },
-]
+const TikTokIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z" />
+  </svg>
+);
+
+const PayPalIcon = () => (
+  <svg width="36" height="22" viewBox="0 0 80 30" fill="none">
+    <rect width="80" height="30" rx="4" fill="#003087" />
+    <text x="8" y="21" fontSize="14" fontWeight="700" fill="#009cde" fontFamily="Arial">Pay</text>
+    <text x="32" y="21" fontSize="14" fontWeight="700" fill="#012169" fontFamily="Arial">Pal</text>
+  </svg>
+);
+
+const VisaIcon = () => (
+  <svg width="36" height="22" viewBox="0 0 80 30" fill="none">
+    <rect width="80" height="30" rx="4" fill="#1a1f71" />
+    <text x="12" y="22" fontSize="16" fontWeight="900" fill="white" fontFamily="Arial" letterSpacing="1">VISA</text>
+  </svg>
+);
+
+const ShopPayIcon = () => (
+  <svg width="36" height="22" viewBox="0 0 80 30" fill="none">
+    <rect width="80" height="30" rx="4" fill="#5a31f4" />
+    <text x="6" y="21" fontSize="11" fontWeight="700" fill="white" fontFamily="Arial">Shop Pay</text>
+  </svg>
+);
+
+const GPayIcon = () => (
+  <svg width="36" height="22" viewBox="0 0 80 30" fill="none">
+    <rect width="80" height="30" rx="4" fill="white" />
+    <text x="8" y="21" fontSize="13" fontWeight="700" fill="#5f6368" fontFamily="Arial">G</text>
+    <text x="22" y="21" fontSize="13" fontWeight="700" fill="#4285F4" fontFamily="Arial">P</text>
+    <text x="33" y="21" fontSize="13" fontWeight="700" fill="#EA4335" fontFamily="Arial">a</text>
+    <text x="43" y="21" fontSize="13" fontWeight="700" fill="#FBBC05" fontFamily="Arial">y</text>
+  </svg>
+);
+
+const MasterCardIcon = () => (
+  <svg width="36" height="22" viewBox="0 0 80 30" fill="none">
+    <rect width="80" height="30" rx="4" fill="#252525" />
+    <circle cx="30" cy="15" r="9" fill="#EB001B" />
+    <circle cx="50" cy="15" r="9" fill="#F79E1B" />
+    <path d="M40 8a9 9 0 0 1 0 14 9 9 0 0 1 0-14z" fill="#FF5F00" />
+  </svg>
+);
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+
   return (
-    <footer className="bg-[#111] border-t border-[#2a2a2a]">
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          {/* Company Info */}
-          <div className="lg:col-span-1">
-            <h3 className="text-xl font-bold text-[#dbb241] tracking-wider mb-4">FALCON</h3>
-            <p className="text-sm text-gray-400 mb-4">Premium luxury & exotic car rental in Los Angeles and Miami.</p>
-            <div className="space-y-2 text-sm text-gray-400">
-              <p>499 N Canon Dr, Beverly Hills, CA 90210</p>
-              <p>+1-310-887-7005</p>
-              <p>info@falconcarrental.com</p>
-              <p className="mt-3">Mon-Fri: 8am - 8pm</p>
-              <p>Sat-Sun: 8am - 6pm</p>
+    <footer className="w-full bg-[#1a1a1a] text-white">
+
+      {/* Top section */}
+      <div className="max-w-6xl mx-auto px-6 pt-12 pb-8">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 pb-8 border-b border-white/10">
+
+          {/* Logo + brand */}
+          <div className="flex items-center gap-4 flex-shrink-0">
+            {/* Logo mark */}
+            <div className="w-14 h-14 border-2 border-white/80 rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg width="36" height="36" viewBox="0 0 40 40" fill="none">
+                <rect x="4" y="4" width="14" height="14" rx="2" stroke="white" strokeWidth="2" fill="none" />
+                <rect x="22" y="4" width="14" height="14" rx="2" stroke="white" strokeWidth="2" fill="none" />
+                <rect x="4" y="22" width="14" height="14" rx="2" stroke="white" strokeWidth="2" fill="none" />
+                <rect x="22" y="22" width="14" height="14" rx="2" stroke="white" strokeWidth="2" fill="none" />
+                <rect x="13" y="13" width="14" height="14" rx="2" stroke="white" strokeWidth="2" fill="#1a1a1a" />
+              </svg>
             </div>
-            {/* Social */}
-            <div className="flex gap-4 mt-4">
-              <a href="#" className="text-gray-400 hover:text-[#dbb241] transition-colors text-sm">Instagram</a>
-              <a href="#" className="text-gray-400 hover:text-[#dbb241] transition-colors text-sm">Facebook</a>
-              <a href="#" className="text-gray-400 hover:text-[#dbb241] transition-colors text-sm">YouTube</a>
+            <div>
+              <p className="text-xl font-black tracking-wide">Vidi Vici</p>
+              <p className="text-[11px] tracking-[0.25em] text-white/50 uppercase">Rental</p>
             </div>
           </div>
 
-          {/* Company Links */}
-          <div>
-            <h4 className="text-[#dbb241] font-semibold mb-4 text-sm uppercase tracking-wider">Company</h4>
-            <ul className="space-y-2">
-              <li><Link href="/about" className="text-sm text-gray-400 hover:text-white transition-colors">About Us</Link></li>
-              <li><Link href="/faqs" className="text-sm text-gray-400 hover:text-white transition-colors">FAQs</Link></li>
-              <li><Link href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors">Blog</Link></li>
-              <li><Link href="/cars" className="text-sm text-gray-400 hover:text-white transition-colors">Reserve Now</Link></li>
-              <li><Link href="/contact" className="text-sm text-gray-400 hover:text-white transition-colors">Contact Us</Link></li>
-            </ul>
-          </div>
+          {/* Tagline */}
+          <p className="text-[13px] text-white/50 leading-relaxed max-w-xs lg:max-w-sm lg:text-right">
+            Experience the pinnacle of luxury and adventure with our exclusive fleet of exotic cars, premium
+            villas, and world-class events — crafted for unforgettable moments.
+          </p>
+        </div>
 
-          {/* Rental Types */}
-          <div>
-            <h4 className="text-[#dbb241] font-semibold mb-4 text-sm uppercase tracking-wider">Rental Types</h4>
-            <ul className="space-y-2">
-              <li><Link href="/cars" className="text-sm text-gray-400 hover:text-white transition-colors">One Day Rental</Link></li>
-              <li><Link href="/cars" className="text-sm text-gray-400 hover:text-white transition-colors">High End Rental</Link></li>
-              <li><Link href="/cars" className="text-sm text-gray-400 hover:text-white transition-colors">Long Term Rental</Link></li>
-              <li><Link href="/cars" className="text-sm text-gray-400 hover:text-white transition-colors">Luxury Rental</Link></li>
-              <li><Link href="/cars" className="text-sm text-gray-400 hover:text-white transition-colors">Weddings</Link></li>
-              <li><Link href="/cars" className="text-sm text-gray-400 hover:text-white transition-colors">Proms</Link></li>
-              <li><Link href="/cars" className="text-sm text-gray-400 hover:text-white transition-colors">Production</Link></li>
-              <li><Link href="/cars" className="text-sm text-gray-400 hover:text-white transition-colors">One-way Rental</Link></li>
-            </ul>
-          </div>
+        {/* Links grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 py-10 border-b border-white/10">
 
-          {/* Makes */}
-          <div>
-            <h4 className="text-[#dbb241] font-semibold mb-4 text-sm uppercase tracking-wider">Makes</h4>
-            <ul className="space-y-2">
-              {brands.map((b) => (
-                <li key={b.slug}>
-                  <Link href={`/cars?brand=${b.slug}`} className="text-sm text-gray-400 hover:text-white transition-colors">{b.name}</Link>
-                </li>
+          <FooterCol title="Company" links={["About Us", "Reserve Now", "Become a Partner", "FAQs", "Blogs", "Contact"]} />
+
+          <FooterCol
+            title="Services"
+            links={[
+              "Cars", "Villas", "Events",
+              "Luxury Car Rental", "Corporate Car Rental",
+              "Luxury Airport Transfer", "Wedding Car Rental",
+              "Prom Car Rental", "Long-Term Car Rental",
+              "Insurance Replacement Vehicle",
+              "Film, TV & Video Car & House Rental",
+            ]}
+          />
+
+          <FooterCol
+            title="By Brand"
+            links={[
+              "Ferrari", "Lamborghini", "Rolls Royce",
+              "Bentley", "Porsche", "Tesla", "Audi",
+              "Cadillac", "McLaren", "Range Rover",
+              "BMW", "Aston Martin", "Mercedes", "Corvette",
+            ]}
+          />
+
+          <FooterCol
+            title="By Type"
+            links={[
+              "Supercar", "SUV", "Convertible",
+              "Chauffeur", "Ultra-Luxury", "EV",
+              "Coupe | Sports", "Sedan | 4-Door",
+            ]}
+          />
+
+          {/* Newsletter + Social */}
+          <div className="col-span-2 sm:col-span-3 lg:col-span-1 flex flex-col gap-4">
+            <p className="text-[12px] font-bold text-white/80 uppercase tracking-wide">
+              Subscribe for VIP updates & exclusive offers
+            </p>
+            <div className="flex">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="flex-1 min-w-0 bg-white/10 border border-white/20 rounded-l-lg px-3 py-2.5 text-[12px] text-white placeholder-white/30 outline-none focus:border-white/40"
+              />
+              <button className="bg-white text-gray-900 text-[12px] font-bold px-4 py-2.5 rounded-r-lg hover:bg-gray-100 transition-colors flex-shrink-0">
+                Subscribe
+              </button>
+            </div>
+
+            {/* Social icons */}
+            <div className="flex items-center gap-3 mt-1">
+              {[
+                { icon: <Facebook size={16} />, label: "Facebook" },
+                { icon: <Instagram size={16} />, label: "Instagram" },
+                { icon: <TikTokIcon />, label: "TikTok" },
+                { icon: <Youtube size={16} />, label: "YouTube" },
+              ].map(({ icon, label }) => (
+                <button
+                  key={label}
+                  aria-label={label}
+                  className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white transition-all duration-200"
+                >
+                  {icon}
+                </button>
               ))}
-            </ul>
+            </div>
           </div>
 
-          {/* Categories */}
-          <div>
-            <h4 className="text-[#dbb241] font-semibold mb-4 text-sm uppercase tracking-wider">Categories</h4>
-            <ul className="space-y-2">
-              {categories.map((c) => (
-                <li key={c.slug}>
-                  <Link href={`/cars?category=${c.slug}`} className="text-sm text-gray-400 hover:text-white transition-colors">{c.name}</Link>
-                </li>
-              ))}
-            </ul>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6">
+          <p className="text-[12px] text-white/40 text-center sm:text-left">
+            ©2026 <span className="font-bold text-white/60">Vidi Vici.</span> All rights reserved.
+            {" · "}
+            <a href="#" className="hover:text-white/80 transition-colors">Privacy</a>
+            {" · "}
+            <a href="#" className="hover:text-white/80 transition-colors">Terms</a>
+            {" · "}
+            <a href="#" className="hover:text-white/80 transition-colors">Sitemap</a>
+          </p>
+
+          {/* Payment icons */}
+          <div className="flex items-center gap-2 flex-wrap justify-center">
+            <VisaIcon />
+            <PayPalIcon />
+            <ShopPayIcon />
+            <GPayIcon />
+            <MasterCardIcon />
           </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-[#2a2a2a] py-6">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-gray-500">&copy; 2024 Falcon Car Rental. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="text-xs text-gray-500 hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="text-xs text-gray-500 hover:text-white transition-colors">Terms of Service</Link>
-          </div>
-        </div>
-      </div>
     </footer>
-  )
+  );
+}
+
+function FooterCol({ title, links }) {
+  return (
+    <div className="flex flex-col gap-3">
+      <p className="text-[12px] font-bold text-white/80 uppercase tracking-wide">{title}</p>
+      <ul className="flex flex-col gap-2">
+        {links.map((link) => (
+          <li key={link}>
+            <a
+              href="#"
+              className="text-[12px] text-white/40 hover:text-white/80 transition-colors duration-150 leading-snug"
+            >
+              {link}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }

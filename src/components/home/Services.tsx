@@ -34,17 +34,17 @@ export default function LuxuryServices() {
       <div className="max-w-[1300px] mx-auto flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
 
         {/* Left — heading + subtitle */}
-        <div className="lg:w-[260px] shrink-0 lg:pt-6">
-          <h2 className="text-[2.6rem] font-bold leading-[1.1] text-gray-900 mb-5">
+        <div className="w-full lg:w-[260px] shrink-0 lg:pt-6 text-center lg:text-left">
+          <h2 className="text-[2rem] sm:text-[2.6rem] font-bold leading-[1.1] text-gray-900 mb-5">
             Our<br />Luxury<br />Services
           </h2>
-          <p className="text-[14.5px] text-gray-500 leading-relaxed font-light max-w-[220px]">
+          <p className="text-[14.5px] text-gray-500 leading-relaxed font-light max-w-[220px] mx-auto lg:mx-0">
             Exotic cars, premium villas, and unforgettable nightlife – all curated for your ultimate comfort and style.
           </p>
         </div>
 
         {/* Right — cards grid */}
-        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {services.map((service) => (
             <div
               key={service.title}

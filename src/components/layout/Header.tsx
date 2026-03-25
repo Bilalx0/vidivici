@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 const Logo = () => (
   <svg width="40" height="40" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,7 +106,7 @@ export default function Header() {
 
           {/* Center logo */}
           <div className="flex items-center justify-center shrink-0 opacity-[0.92] hover:opacity-100 transition-opacity duration-200 cursor-pointer">
-            <Logo />
+            <Image src="/Logo.png" alt="Logo" width={40} height={40} />
           </div>
 
           {/* Right actions — hidden on mobile */}
@@ -113,7 +114,7 @@ export default function Header() {
             <button className="hidden md:block px-4 py-2 text-[13px] tracking-[0.04em] font-normal text-white/80 border border-white/20 rounded-lg whitespace-nowrap transition-all duration-200 hover:border-white/50 hover:text-white hover:bg-white/[0.04] cursor-pointer bg-transparent">
               Become a Partner
             </button>
-            <button className="px-4 py-2 text-[13px] tracking-[0.04em] font-medium text-white border border-white/80 rounded-lg whitespace-nowrap transition-all duration-200 hover:bg-white hover:text-[#0a0d12] cursor-pointer bg-transparent">
+            <button className="px-4 py-2 text-[13px] tracking-[0.04em] font-medium text-[#0a0d12] border border-white/80 rounded-lg whitespace-nowrap transition-all duration-200 hover:bg-transparent hover:text-white cursor-pointer bg-white">
               Reserve Now
             </button>
             <button className="flex items-center justify-center w-9 h-9 rounded-full border border-white/20 shrink-0 transition-all duration-200 hover:border-white/50 hover:bg-white/5 cursor-pointer bg-transparent">
@@ -189,21 +190,21 @@ export default function Header() {
                 <div className="h-px bg-white/[0.06] mx-6 my-1" />
               )}
             </div>
-          ))}
+            ))}
 
-          <div className="h-px bg-white/[0.06] mx-6 my-4" />
-          <div className="flex flex-col gap-2.5 px-6">
+            <div className="h-px bg-white/[0.06] mx-6 my-4" />
+            <div className="flex flex-col gap-2.5 px-6">
             <button className="w-full py-3 text-[14px] tracking-[0.04em] text-white/80 border border-white/20 rounded-lg transition-all duration-200 hover:border-white/50 hover:text-white hover:bg-white/[0.04] cursor-pointer bg-transparent">
               Become a Partner
             </button>
-            <button className="w-full py-3 text-[14px] tracking-[0.04em] font-medium text-white border border-white/80 rounded-lg transition-all duration-200 hover:bg-white hover:text-[#0a0d12] cursor-pointer bg-transparent">
+            <button className="w-full py-3 text-[14px] tracking-[0.04em] font-medium text-white border border-white/80 rounded-lg transition-all duration-200 hover:bg-transparent hover:text-white cursor-pointer bg-white text-[#0a0d12]">
               Reserve Now
             </button>
+            </div>
           </div>
-        </div>
-      )}
+          )}
 
-      {/* Keyframe animations — only for things Tailwind doesn't ship by default */}
+          {/* Keyframe animations — only for things Tailwind doesn't ship by default */}
       <style>{`
         @keyframes dropIn {
           from { opacity: 0; transform: translateY(-6px); }

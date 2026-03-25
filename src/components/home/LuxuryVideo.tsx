@@ -10,15 +10,22 @@ export default function LuxuryVideo() {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <section className="relative w-full bg-[#eeeeed] overflow-hidden py-16 px-6">
+    <section className="relative w-full bg-[#eeeeed] py-16 px-6 overflow-visible">
 
-      {/* Background watermark pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.06] pointer-events-none select-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='80' font-size='80' font-family='serif' font-weight='700' fill='%23000'%3EV%3C/text%3E%3C/svg%3E")`,
-          backgroundSize: "120px 120px",
-        }}
+      {/* Left side vector decoration */}
+      <img
+        src="/Vector 7.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none opacity-80 rotate-180"
+      />
+
+      {/* Right side vector decoration */}
+      <img
+        src="/Vector 7.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none opacity-80 scale-x-[-1] rotate-180"
       />
 
       {/* Header */}
@@ -37,7 +44,7 @@ export default function LuxuryVideo() {
       </div>
 
       {/* Laptop frame + video */}
-      <div className="relative max-w-2xl mx-auto">
+      <div className="relative max-w-2xl mx-auto -mb-32">
         {/* Laptop screen bezel */}
         <div className="rounded-2xl overflow-hidden border-[8px] border-gray-800 shadow-2xl bg-gray-800">
           {/* Screen area */}

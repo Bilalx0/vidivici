@@ -44,7 +44,7 @@ export default function FAQ() {
       <div className="max-w-2xl mx-auto">
 
         {/* Header */}
-        <h2 className="text-3xl font-black text-gray-900 text-center tracking-tight mb-10">
+        <h2 className="text-3xl font-black text-gray-900 text-center tracking-tight mb-10 mt-20">
           Frequently Asked Questions
         </h2>
 

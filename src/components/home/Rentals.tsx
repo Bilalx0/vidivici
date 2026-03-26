@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import CarCard from "@/components/ui/CarCard";
 
 export const cars = [
@@ -80,9 +80,21 @@ export const cars = [
 
 const CARD_WIDTH = 270 + 20; // card width + gap
 
-export default function ExoticCarRentals() {
+export default function ExoticCarRentals( { showHeader = true }) {
   const trackRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const [canLeft, setCanLeft] = useState(false);
+const [canRight, setCanRight] = useState(true);
+
+// Replace your handleScroll with this
+const handleScroll = () => {
+  const el = trackRef.current;
+  if (!el) return;
+  setActiveIndex(Math.round(el.scrollLeft / CARD_WIDTH));
+  setCanLeft(el.scrollLeft > 4);
+  setCanRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+};
 
   const scrollTo = (index) => {
     if (!trackRef.current) return;
@@ -91,25 +103,40 @@ export default function ExoticCarRentals() {
     setActiveIndex(clamped);
   };
 
-  const handleScroll = () => {
-    if (!trackRef.current) return;
-    const index = Math.round(trackRef.current.scrollLeft / CARD_WIDTH);
-    setActiveIndex(index);
-  };
-
   return (
     <section className="bg-white w-full py-16 overflow-hidden ">
 
       {/* Header */}
-      <div className="max-w-[1300px] mx-auto px-6 flex items-center justify-between mb-8 md:px-12 lg:px-20">
-        <h2 className="text-[2rem] font-bold text-gray-900 tracking-tight">
-          Exotic Car Rentals
-        </h2>
-        <button className="flex items-center gap-2 px-5 py-2.5 text-[13.5px] font-medium text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
-          View all
-          <ArrowUpRight size={15} />
-        </button>
-      </div>
+      {showHeader && (
+  <div className="max-w-full mx-auto flex items-center justify-between mb-8 px-16">
+    <h2 className="text-[2rem] font-bold text-gray-900 tracking-tight">
+      Exotic Car Rentals
+    </h2>
+
+    <button className="flex items-center gap-2 px-5 py-2.5 text-[13.5px] font-medium text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
+      View all
+      <ArrowUpRight size={15} />
+    </button>
+  </div>
+)}
+
+<div className="relative">
+  {canLeft && (
+    <button
+      onClick={() => scrollTo(activeIndex - 2)}
+      className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center hover:bg-gray-50 transition-all"
+    >
+      <ChevronLeft size={16} strokeWidth={2.5} className="text-gray-700" />
+    </button>
+  )}
+  {canRight && (
+    <button
+      onClick={() => scrollTo(activeIndex + 2)}
+      className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center hover:bg-gray-50 transition-all"
+    >
+      <ChevronRight size={16} strokeWidth={2.5} className="text-gray-700" />
+    </button>
+  )}
 
       {/* Carousel track — hide scrollbar via inline style (no Tailwind utility) */}
       <div
@@ -125,6 +152,7 @@ export default function ExoticCarRentals() {
         <div className="w-6 shrink-0" />
       </div>
 
+</div>
       {/* Dot indicators */}
       <div className="flex items-center justify-center gap-2 mt-7">
         {cars.map((_, i) => (

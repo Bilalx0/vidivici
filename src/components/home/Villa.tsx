@@ -93,7 +93,7 @@ const villas = [
 
 const CARD_WIDTH = 240 + 16; // card width + gap
 
-export default function Villa() {
+export default function Villa({ showHeader = true }) {
   const trackRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -127,62 +127,61 @@ export default function Villa() {
       <div className="mx-auto">
 
         {/* Header */}
-        <div className="px-6 flex items-center justify-between mb-8 md:px-12 lg:px-20">
-          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
-            Luxury Villa Rentals
-          </h2>
+        {showHeader && (
+  <div className="max-w-full mx-auto flex items-center justify-between mb-8 px-16">
+    <h2 className="text-[2rem] font-bold text-gray-900 tracking-tight">
+      Exotic Car Rentals
+    </h2>
 
-          <div className="flex items-center gap-3">
+    <button className="flex items-center gap-2 px-5 py-2.5 text-[13.5px] font-medium text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
+      View all
+      <ArrowUpRight size={15} />
+    </button>
+  </div>
+)}
+
+        <div className="relative">
+          {canScrollLeft && (
             <button
               onClick={() => scroll(-1)}
-              disabled={!canScrollLeft}
-              className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-200 ${
-                canScrollLeft
-                  ? "border-gray-300 bg-white text-gray-700 hover:border-gray-900"
-                  : "border-gray-200 bg-gray-100 text-gray-300 cursor-not-allowed"
-              }`}
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center hover:bg-gray-50 transition-all"
             >
-              <ChevronLeft size={16} strokeWidth={2.5} />
+              <ChevronLeft size={16} strokeWidth={2.5} className="text-gray-700" />
             </button>
+          )}
+          {canScrollRight && (
             <button
               onClick={() => scroll(1)}
-              disabled={!canScrollRight}
-              className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-200 ${
-                canScrollRight
-                  ? "border-gray-300 bg-white text-gray-700 hover:border-gray-900"
-                  : "border-gray-200 bg-gray-100 text-gray-300 cursor-not-allowed"
-              }`}
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center hover:bg-gray-50 transition-all"
             >
-              <ChevronRight size={16} strokeWidth={2.5} />
+              <ChevronRight size={16} strokeWidth={2.5} className="text-gray-700" />
             </button>
+          )}
 
-            <button className="flex items-center gap-1.5 text-[13px] font-semibold text-gray-700 bg-white border border-gray-200 rounded-full px-4 py-2 hover:border-gray-400 transition-all duration-200">
-              View all <ArrowUpRight size={13} strokeWidth={2.5} />
-            </button>
+
+          {/* Carousel Track */}
+          <div
+            ref={trackRef}
+            className="flex gap-5 px-6 md:px-12 overflow-x-auto pb-2 scroll-smooth"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {villas.map((villa) => (
+              <VillaCard
+                key={villa.id}
+                image={villa.image}
+                tag={villa.tag}
+                name={villa.name}
+                bedrooms={villa.bedrooms}
+                guests={villa.guests}
+                sqft={villa.sqft}
+                price={villa.price}
+                oldPrice={villa.oldPrice}
+                isFavorited={villa.isFavorited}
+              />
+            ))}
+            <div className="w-4 flex-shrink-0" />
           </div>
-        </div>
 
-        {/* Carousel Track */}
-        <div
-          ref={trackRef}
-          className="flex gap-5 px-6 md:px-12 overflow-x-auto pb-2 scroll-smooth"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          {villas.map((villa) => (
-            <VillaCard
-              key={villa.id}
-              image={villa.image}
-              tag={villa.tag}
-              name={villa.name}
-              bedrooms={villa.bedrooms}
-              guests={villa.guests}
-              sqft={villa.sqft}
-              price={villa.price}
-              oldPrice={villa.oldPrice}
-              isFavorited={villa.isFavorited}
-            />
-          ))}
-          <div className="w-4 flex-shrink-0" />
         </div>
 
         {/* Dot indicators */}
@@ -191,11 +190,10 @@ export default function Villa() {
             <button
               key={i}
               onClick={() => scrollToIndex(i)}
-              className={`rounded-full transition-all duration-300 ${
-                i === activeIndex
-                  ? "w-5 h-2 bg-gray-900"
-                  : "w-2 h-2 bg-gray-300 hover:bg-gray-500"
-              }`}
+              className={`rounded-full transition-all duration-300 ${i === activeIndex
+                ? "w-5 h-2 bg-gray-900"
+                : "w-2 h-2 bg-gray-300 hover:bg-gray-500"
+                }`}
             />
           ))}
         </div>

@@ -23,18 +23,18 @@ const features = [
   },
 ];
 
-export default function WhyChooseUs() {
+export default function WhyChooseUs({ bg = "#f0f0ee" }) {
   return (
-    <section className="w-full bg-[#f0f0ee] px-8 py-20">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+    <section className={`w-full bg-[${bg}] px-20 py-20`}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-32 items-start">
 
         {/* Left: Heading + CTA */}
         <div className="flex flex-col justify-between h-full gap-8">
-          <div>
+          <div >
             <h2 className="text-4xl font-black text-gray-900 leading-tight tracking-tight">
               Why Choose <br /> Vidi Vici?
             </h2>
-            <p className="mt-4 text-sm text-gray-500 leading-relaxed max-w-[220px]">
+            <p className="mt-4 text-sm text-gray-500 leading-relaxed">
               Experience the ultimate in luxury, convenience, and personalized
               service in Los Angeles.
             </p>

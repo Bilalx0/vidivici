@@ -79,32 +79,33 @@ export default function Hero() {
           </p>
 
           {/* Search bar */}
-          <div className="hero-search w-full max-w-[440px]">
-            <div className="flex items-center gap-3 px-5 py-3.5 rounded-xl bg-white/10 border border-white/20 backdrop-blur-md transition-all duration-300 focus-within:bg-white/15 focus-within:border-white/35">
-              {/* Search icon */}
-              <svg
-                width="18" height="18" viewBox="0 0 20 20" fill="none"
-                className="shrink-0 text-white/50"
-              >
-                <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M13.5 13.5L17 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              <input
-                type="text"
-                placeholder="Search cars, villas, or events..."
-                className="search-input flex-1 bg-transparent text-white text-[14px] tracking-[0.02em] font-light border-none"
-                style={{ fontFamily: "'Jost', sans-serif" }}
-              />
-            </div>
-          </div>
+        <div className="hero-search w-full max-w-lg">
+  <div className="flex items-center gap-3 px-6 py-3 rounded-2xl border border-white/40 transition-all duration-300 focus-within:border-white/60 shadow-[0_8px_40px_rgba(0,0,0,0.5)]"
+    style={{
+  background: "rgba(255, 255, 255, 0.22)",
+  backdropFilter: "blur(100px) saturate(200%)",
+  WebkitBackdropFilter: "blur(60px) saturate(200%)",
+  boxShadow: "0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.3)"
+}}
+  >
+    <svg
+      width="20" height="20" viewBox="0 0 20 20" fill="none"
+      className="shrink-0 text-white/70"
+    >
+      <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M13.5 13.5L17 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+    <input
+      type="text"
+      placeholder="Search cars, villas, or events..."
+      className="flex-1 bg-transparent text-white placeholder-white/60 text-[15px] tracking-wide font-light outline-none border-none"
+      style={{ fontFamily: "'Jost', sans-serif" }}
+    />
+  </div>
+</div>
         </div>
 
-        {/* Scroll chevron */}
-        <div className="hero-chevron absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-white/50">
-            <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
+        
       </section>
     </>
   );

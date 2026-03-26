@@ -86,7 +86,17 @@ export default function Footer() {
           {/* Links grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 py-10 border-b border-white/10">
 
-            <FooterCol title="Company" links={["About Us", "Reserve Now", "Become a Partner", "FAQs", "Blogs", "Contact"]} />
+            <FooterCol
+              title="Company"
+              links={[
+                { label: "About Us", href: "/about" },
+                { label: "Reserve Now", href: "#" },
+                { label: "Become a Partner", href: "/partner" },
+                { label: "FAQs", href: "/faqs" },
+                { label: "Blogs", href: "/blog" },
+                { label: "Contact", href: "/contact" },
+              ]}
+            />
 
             <FooterCol
               title="Services"
@@ -191,16 +201,20 @@ function FooterCol({ title, links }) {
     <div className="flex flex-col gap-3">
       <p className="text-[12px] font-bold text-white/80 uppercase tracking-wide">{title}</p>
       <ul className="flex flex-col gap-2">
-        {links.map((link) => (
-          <li key={link}>
-            <a
-              href="#"
-              className="text-[12px] text-white/40 hover:text-white/80 transition-colors duration-150 leading-snug"
-            >
-              {link}
-            </a>
-          </li>
-        ))}
+        {links.map((link) => {
+          const label = typeof link === "string" ? link : link.label;
+          const href = typeof link === "string" ? "#" : link.href;
+          return (
+            <li key={label}>
+              <a
+                href={href}
+                className="text-[12px] text-white/40 hover:text-white/80 transition-colors duration-150 leading-snug"
+              >
+                {label}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

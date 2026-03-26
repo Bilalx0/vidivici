@@ -40,11 +40,11 @@ export default function FAQ() {
   const [openId, setOpenId] = useState(1);
 
   return (
-    <section className="w-full bg-white py-16 px-6">
-      <div className="max-w-2xl mx-auto">
+    <section className="w-full bg-white py-16 px-24">
+      <div className="">
 
         {/* Header */}
-        <h2 className="text-3xl font-black text-gray-900 text-center tracking-tight mb-10 mt-20">
+        <h2 className="text-3xl font-bold text-gray-900 text-center tracking-tight mb-10 mt-20">
           Frequently Asked Questions
         </h2>
 

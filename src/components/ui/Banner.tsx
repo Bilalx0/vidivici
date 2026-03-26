@@ -27,7 +27,6 @@ interface DefaultSearchBarProps {
 
 function DefaultSearchBar({
   placeholder = "Search...",
-  buttonLabel = "Search",
   onSearch,
 }: DefaultSearchBarProps) {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -40,22 +39,32 @@ function DefaultSearchBar({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center bg-white rounded-full shadow-lg overflow-hidden w-full max-w-lg mx-auto"
+      className="w-full max-w-lg mx-auto"
     >
-      <div className="flex items-center gap-2 flex-1 px-4 py-2.5">
-        <Search size={16} className="text-gray-400 flex-shrink-0" />
+      <div
+        className="flex items-center gap-3 px-6 py-3 rounded-2xl border border-white/40 transition-all duration-300 focus-within:border-white/60"
+        style={{
+          background: "rgba(255, 255, 255, 0.22)",
+          backdropFilter: "blur(100px) saturate(200%)",
+          WebkitBackdropFilter: "blur(60px) saturate(200%)",
+          boxShadow: "0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.3)",
+        }}
+      >
+        <svg
+          width="20" height="20" viewBox="0 0 20 20" fill="none"
+          className="shrink-0 text-white/70"
+        >
+          <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" strokeWidth="1.5" />
+          <path d="M13.5 13.5L17 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
         <input
           name="search"
+          type="text"
           placeholder={placeholder}
-          className="flex-1 text-[13px] text-gray-800 outline-none placeholder-gray-400 bg-transparent"
+          className="flex-1 bg-transparent text-white text-[15px] tracking-wide font-light outline-none border-none"
+          style={{ caretColor: "white" }}
         />
       </div>
-      <button
-        type="submit"
-        className="bg-gray-900 text-white text-[13px] font-semibold px-5 py-2.5 hover:bg-gray-700 transition-colors duration-200 flex-shrink-0"
-      >
-        {buttonLabel}
-      </button>
     </form>
   );
 }

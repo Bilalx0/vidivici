@@ -30,8 +30,8 @@ export default function Contact() {
   };
 
   return (
-    <section className="w-full bg-white py-16 px-6">
-      <div className="max-w-4xl mx-auto">
+    <section className="w-full bg-white py-16 px-20">
+      <div className="">
         <div className="border border-gray-200 rounded-3xl overflow-hidden flex flex-col md:flex-row">
 
           {/* Left panel */}

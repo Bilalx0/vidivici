@@ -1,14 +1,29 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useEffect, Suspense } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import toast, { Toaster } from "react-hot-toast"
 
-const brandOptions = ["Rolls-Royce", "Bentley", "Aston Martin", "Lamborghini", "Ferrari", "McLaren", "Porsche", "Mercedes", "BMW", "Range Rover", "Cadillac", "Corvette", "Tesla", "Audi", "Rivian", "Hummer"]
-const categoryOptions = ["Supercar", "Convertible", "SUV", "Chauffeur", "EV", "Coupe/Sports", "Sedan", "Ultra-Luxury"]
+interface BrandOption {
+  id: string
+  name: string
+}
 
-export default function AddCarPage() {
+interface CategoryOption {
+  id: string
+  name: string
+}
+
+function AddCarForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const editId = searchParams.get("edit")
+  const isEditing = !!editId
+
   const [submitting, setSubmitting] = useState(false)
+  const [loadingData, setLoadingData] = useState(true)
+  const [brands, setBrands] = useState<BrandOption[]>([])
+  const [categories, setCategories] = useState<CategoryOption[]>([])
   const [form, setForm] = useState({
     name: "", brandId: "", categoryId: "", pricePerDay: "", year: "", seats: "4",
     transmission: "Automatic", fuelType: "Gasoline", horsepower: "", topSpeed: "",
@@ -18,8 +33,79 @@ export default function AddCarPage() {
   })
   const [images, setImages] = useState<FileList | null>(null)
 
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [brandsRes, categoriesRes] = await Promise.all([
+          fetch("/api/brands"),
+          fetch("/api/categories"),
+        ])
+
+        if (brandsRes.ok) {
+          const brandsData = await brandsRes.json()
+          setBrands(brandsData)
+        }
+        if (categoriesRes.ok) {
+          const categoriesData = await categoriesRes.json()
+          setCategories(categoriesData)
+        }
+
+        if (editId) {
+          const carRes = await fetch(`/api/cars/${editId}`)
+          if (carRes.ok) {
+            const car = await carRes.json()
+            setForm({
+              name: car.name || "",
+              brandId: car.brandId || "",
+              categoryId: car.categoryId || "",
+              pricePerDay: car.pricePerDay?.toString() || "",
+              year: car.year?.toString() || "",
+              seats: car.seats?.toString() || "4",
+              transmission: car.transmission || "Automatic",
+              fuelType: car.fuelType || "Gasoline",
+              horsepower: car.horsepower?.toString() || "",
+              topSpeed: car.topSpeed || "",
+              acceleration: car.acceleration || "",
+              milesIncluded: car.milesIncluded?.toString() || "100",
+              extraMileRate: car.extraMileRate?.toString() || "9",
+              minRentalDays: car.minRentalDays?.toString() || "1",
+              description: car.description || "",
+              shortDescription: car.shortDescription || "",
+              location: car.location || "Los Angeles",
+              isAvailable: car.isAvailable ?? true,
+              isFeatured: car.isFeatured ?? false,
+            })
+          } else {
+            toast.error("Failed to load car data")
+          }
+        }
+      } catch {
+        toast.error("Failed to load form data")
+      } finally {
+        setLoadingData(false)
+      }
+    }
+
+    loadData()
+  }, [editId])
+
+  const validate = (): string | null => {
+    if (!form.name.trim()) return "Car name is required"
+    if (!form.brandId) return "Brand is required"
+    if (!form.categoryId) return "Category is required"
+    if (!form.pricePerDay || parseFloat(form.pricePerDay) <= 0) return "Valid price per day is required"
+    return null
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    const error = validate()
+    if (error) {
+      toast.error(error)
+      return
+    }
+
     setSubmitting(true)
 
     try {
@@ -35,25 +121,37 @@ export default function AddCarPage() {
         }
       }
 
-      const res = await fetch("/api/cars", {
-        method: "POST",
+      const payload = {
+        ...form,
+        pricePerDay: parseFloat(form.pricePerDay),
+        year: form.year ? parseInt(form.year) : null,
+        seats: parseInt(form.seats),
+        horsepower: form.horsepower ? parseInt(form.horsepower) : null,
+        milesIncluded: parseInt(form.milesIncluded),
+        extraMileRate: parseFloat(form.extraMileRate),
+        minRentalDays: parseInt(form.minRentalDays),
+        images: imageUrls.length > 0 ? imageUrls : undefined,
+      }
+
+      const url = isEditing ? `/api/cars/${editId}` : "/api/cars"
+      const method = isEditing ? "PUT" : "POST"
+
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          pricePerDay: parseFloat(form.pricePerDay),
-          year: parseInt(form.year),
-          seats: parseInt(form.seats),
-          horsepower: form.horsepower ? parseInt(form.horsepower) : null,
-          milesIncluded: parseInt(form.milesIncluded),
-          extraMileRate: parseFloat(form.extraMileRate),
-          minRentalDays: parseInt(form.minRentalDays),
-          images: imageUrls,
-        }),
+        body: JSON.stringify(payload),
       })
 
-      if (res.ok) router.push("/admin/cars")
+      if (res.ok) {
+        toast.success(isEditing ? "Car updated successfully" : "Car created successfully")
+        setTimeout(() => router.push("/admin/cars"), 500)
+      } else {
+        const data = await res.json().catch(() => ({}))
+        toast.error(data.error || `Failed to ${isEditing ? "update" : "create"} car`)
+      }
     } catch (err) {
       console.error(err)
+      toast.error("An unexpected error occurred")
     } finally {
       setSubmitting(false)
     }
@@ -61,9 +159,19 @@ export default function AddCarPage() {
 
   const inputClass = "w-full bg-[#111] border border-[#2a2a2a] text-white text-sm px-4 py-3 rounded focus:border-[#dbb241] focus:outline-none"
 
+  if (loadingData) {
+    return (
+      <div>
+        <h1 className="text-2xl font-bold mb-8">{isEditing ? "Edit Car" : "Add New Car"}</h1>
+        <p className="text-gray-400 text-sm">Loading...</p>
+      </div>
+    )
+  }
+
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-8">Add New Car</h1>
+      <Toaster position="top-right" />
+      <h1 className="text-2xl font-bold mb-8">{isEditing ? "Edit Car" : "Add New Car"}</h1>
 
       <form onSubmit={handleSubmit} className="max-w-4xl space-y-8">
         {/* Basic Info */}
@@ -78,14 +186,14 @@ export default function AddCarPage() {
               <label className="text-xs text-gray-400 block mb-1">Brand *</label>
               <select required value={form.brandId} onChange={(e) => setForm({ ...form, brandId: e.target.value })} className={inputClass}>
                 <option value="">Select Brand</option>
-                {brandOptions.map(b => <option key={b} value={b}>{b}</option>)}
+                {brands.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
               </select>
             </div>
             <div>
               <label className="text-xs text-gray-400 block mb-1">Category *</label>
               <select required value={form.categoryId} onChange={(e) => setForm({ ...form, categoryId: e.target.value })} className={inputClass}>
                 <option value="">Select Category</option>
-                {categoryOptions.map(c => <option key={c} value={c}>{c}</option>)}
+                {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
               </select>
             </div>
             <div>
@@ -195,7 +303,7 @@ export default function AddCarPage() {
         <div className="flex gap-3">
           <button type="submit" disabled={submitting}
             className="bg-[#dbb241] text-black px-8 py-3 rounded font-semibold hover:bg-[#c9a238] transition-colors disabled:opacity-50">
-            {submitting ? "Saving..." : "Save Car"}
+            {submitting ? "Saving..." : isEditing ? "Update Car" : "Save Car"}
           </button>
           <button type="button" onClick={() => router.back()}
             className="border border-[#2a2a2a] text-gray-300 px-8 py-3 rounded hover:border-[#dbb241] transition-colors">
@@ -204,5 +312,13 @@ export default function AddCarPage() {
         </div>
       </form>
     </div>
+  )
+}
+
+export default function AddCarPage() {
+  return (
+    <Suspense fallback={<div><h1 className="text-2xl font-bold mb-8">Car</h1><p className="text-gray-400 text-sm">Loading...</p></div>}>
+      <AddCarForm />
+    </Suspense>
   )
 }

@@ -1,21 +1,67 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Car, CalendarDays, DollarSign, Key } from "lucide-react"
 
-const stats = [
-  { label: "Total Cars", value: "24", change: "+3 this month", icon: Car },
-  { label: "Total Bookings", value: "156", change: "+12 this week", icon: CalendarDays },
-  { label: "Revenue", value: "$284,500", change: "+18% vs last month", icon: DollarSign },
-  { label: "Active Rentals", value: "8", change: "Currently out", icon: Key },
-]
-
-const recentBookings = [
-  { id: "BK-001", customer: "James R.", car: "Lamborghini Hurac\u00e1n", date: "2024-12-15", total: "$4,500", status: "Confirmed" },
-  { id: "BK-002", customer: "Sarah M.", car: "Rolls-Royce Cullinan", date: "2024-12-14", total: "$7,500", status: "Active" },
-  { id: "BK-003", customer: "Michael T.", car: "Ferrari 488 Spider", date: "2024-12-13", total: "$5,400", status: "Completed" },
-  { id: "BK-004", customer: "Emily K.", car: "Porsche 911 Turbo S", date: "2024-12-12", total: "$3,600", status: "Pending" },
-]
+interface Booking {
+  id: string
+  totalPrice: number
+  status: string
+  startDate: string
+  car: { name: string; brand: { name: string } }
+  user: { name: string | null; email: string }
+}
 
 export default function AdminDashboard() {
+  const [totalCars, setTotalCars] = useState(0)
+  const [bookings, setBookings] = useState<Booking[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [carsRes, bookingsRes] = await Promise.all([
+          fetch("/api/cars?limit=1"),
+          fetch("/api/bookings"),
+        ])
+        if (carsRes.ok) {
+          const carsData = await carsRes.json()
+          setTotalCars(carsData.total || 0)
+        }
+        if (bookingsRes.ok) {
+          const bookingsData = await bookingsRes.json()
+          setBookings(bookingsData)
+        }
+      } catch {
+        // silently fail, show zeros
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
+
+  const totalBookings = bookings.length
+  const revenue = bookings
+    .filter((b) => b.status !== "CANCELLED")
+    .reduce((sum, b) => sum + b.totalPrice, 0)
+  const activeRentals = bookings.filter((b) => b.status === "ACTIVE").length
+  const recentBookings = bookings.slice(0, 5)
+
+  const stats = [
+    { label: "Total Cars", value: loading ? "..." : String(totalCars), change: "", icon: Car },
+    { label: "Total Bookings", value: loading ? "..." : String(totalBookings), change: "", icon: CalendarDays },
+    { label: "Revenue", value: loading ? "..." : `$${revenue.toLocaleString()}`, change: "", icon: DollarSign },
+    { label: "Active Rentals", value: loading ? "..." : String(activeRentals), change: "Currently out", icon: Key },
+  ]
+
+  const displayStatus = (status: string) => status.charAt(0) + status.slice(1).toLowerCase()
+
+  const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString("en-CA")
+  }
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-8">Dashboard</h1>
@@ -62,23 +108,30 @@ export default function AdminDashboard() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
-              {recentBookings.map((b) => (
-                <tr key={b.id} className="hover:bg-gray-50/50 transition-colors">
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{b.id}</td>
-                  <td className="px-6 py-4 text-sm text-gray-700">{b.customer}</td>
-                  <td className="px-6 py-4 text-sm text-gray-500">{b.car}</td>
-                  <td className="px-6 py-4 text-sm text-gray-500">{b.date}</td>
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{b.total}</td>
-                  <td className="px-6 py-4">
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
-                      b.status === "Confirmed" ? "bg-blue-50 text-blue-600" :
-                      b.status === "Active" ? "bg-green-50 text-green-600" :
-                      b.status === "Completed" ? "bg-gray-100 text-gray-600" :
-                      "bg-yellow-50 text-yellow-600"
-                    }`}>{b.status}</span>
-                  </td>
-                </tr>
-              ))}
+              {loading ? (
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-sm text-gray-500">Loading...</td></tr>
+              ) : recentBookings.length === 0 ? (
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-sm text-gray-500">No bookings yet</td></tr>
+              ) : (
+                recentBookings.map((b) => (
+                  <tr key={b.id} className="hover:bg-gray-50/50 transition-colors">
+                    <td className="px-6 py-4 text-sm font-medium text-gray-900">{b.id.slice(0, 8)}</td>
+                    <td className="px-6 py-4 text-sm text-gray-700">{b.user.name || b.user.email}</td>
+                    <td className="px-6 py-4 text-sm text-gray-500">{b.car.brand.name} {b.car.name}</td>
+                    <td className="px-6 py-4 text-sm text-gray-500">{formatDate(b.startDate)}</td>
+                    <td className="px-6 py-4 text-sm font-medium text-gray-900">${b.totalPrice.toLocaleString()}</td>
+                    <td className="px-6 py-4">
+                      <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
+                        b.status === "CONFIRMED" ? "bg-blue-50 text-blue-600" :
+                        b.status === "ACTIVE" ? "bg-green-50 text-green-600" :
+                        b.status === "COMPLETED" ? "bg-gray-100 text-gray-600" :
+                        b.status === "CANCELLED" ? "bg-red-50 text-red-600" :
+                        "bg-yellow-50 text-yellow-600"
+                      }`}>{displayStatus(b.status)}</span>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

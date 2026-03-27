@@ -1,13 +1,51 @@
-import Link from "next/link"
+"use client"
 
-const posts = [
-  { id: "1", title: "Luxury Winter Road Trips from Los Angeles", status: "Published", date: "Dec 15, 2024" },
-  { id: "2", title: "Lamborghini Urus S vs Urus SE", status: "Published", date: "Dec 1, 2024" },
-  { id: "3", title: "The FALCON Difference", status: "Draft", date: "Nov 20, 2024" },
-  { id: "4", title: "5 Exotic Cars That Depreciated the Least", status: "Published", date: "Nov 10, 2024" },
-]
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+import toast from "react-hot-toast"
+
+interface BlogPost {
+  id: string
+  title: string
+  published: boolean
+  createdAt: string
+}
 
 export default function AdminBlogPage() {
+  const router = useRouter()
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchPosts = async () => {
+    try {
+      setLoading(true)
+      const res = await fetch("/api/blog?limit=100&published=all")
+      const data = await res.json()
+      setPosts(data.posts || [])
+    } catch {
+      toast.error("Failed to load blog posts")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchPosts()
+  }, [])
+
+  const handleDelete = async (id: string, title: string) => {
+    if (!confirm(`Are you sure you want to delete "${title}"?`)) return
+    try {
+      const res = await fetch(`/api/blog/${id}`, { method: "DELETE" })
+      if (!res.ok) throw new Error()
+      toast.success("Post deleted successfully")
+      fetchPosts()
+    } catch {
+      toast.error("Failed to delete post")
+    }
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
@@ -28,19 +66,33 @@ export default function AdminBlogPage() {
             </tr>
           </thead>
           <tbody>
-            {posts.map((p) => (
-              <tr key={p.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 text-sm text-gray-900">{p.title}</td>
-                <td className="px-6 py-4">
-                  <span className={`text-xs px-2 py-1 rounded ${p.status === "Published" ? "bg-green-50 text-green-600" : "bg-yellow-50 text-yellow-600"}`}>{p.status}</span>
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-500">{p.date}</td>
-                <td className="px-6 py-4 flex gap-2">
-                  <Link href={`/admin/blog/${p.id}/edit`} className="text-xs text-black font-medium hover:underline">Edit</Link>
-                  <button className="text-xs text-red-500 hover:underline">Delete</button>
-                </td>
+            {loading ? (
+              <tr>
+                <td colSpan={4} className="px-6 py-8 text-center text-sm text-gray-500">Loading...</td>
               </tr>
-            ))}
+            ) : posts.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="px-6 py-8 text-center text-sm text-gray-500">No blog posts found.</td>
+              </tr>
+            ) : (
+              posts.map((p) => {
+                const status = p.published ? "Published" : "Draft"
+                const date = new Date(p.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+                return (
+                  <tr key={p.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 text-sm text-gray-900">{p.title}</td>
+                    <td className="px-6 py-4">
+                      <span className={`text-xs px-2 py-1 rounded ${status === "Published" ? "bg-green-50 text-green-600" : "bg-yellow-50 text-yellow-600"}`}>{status}</span>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-500">{date}</td>
+                    <td className="px-6 py-4 flex gap-2">
+                      <button onClick={() => router.push(`/admin/blog/new?edit=${p.id}`)} className="text-xs text-black font-medium hover:underline">Edit</button>
+                      <button onClick={() => handleDelete(p.id, p.title)} className="text-xs text-red-500 hover:underline">Delete</button>
+                    </td>
+                  </tr>
+                )
+              })
+            )}
           </tbody>
         </table>
       </div>

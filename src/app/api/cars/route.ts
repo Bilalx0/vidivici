@@ -12,7 +12,8 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '12')
 
-    const where: any = { isAvailable: true }
+    const all = searchParams.get('all')
+    const where: any = all === 'true' ? {} : { isAvailable: true }
     if (brand) where.brand = { slug: brand }
     if (category) where.category = { slug: category }
     if (location) where.location = location

@@ -1,28 +1,104 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import toast from "react-hot-toast"
 
-const initialCategories = [
-  { id: "1", name: "Supercar", slug: "supercar", description: "High-performance exotic supercars", cars: 8 },
-  { id: "2", name: "Convertible", slug: "convertible", description: "Open-top luxury convertibles", cars: 5 },
-  { id: "3", name: "SUV", slug: "suv", description: "Luxury SUVs and crossovers", cars: 6 },
-  { id: "4", name: "Chauffeur", slug: "chauffeur", description: "Premium chauffeur services", cars: 3 },
-  { id: "5", name: "EV", slug: "ev", description: "Electric vehicles", cars: 4 },
-  { id: "6", name: "Coupe/Sports", slug: "coupe-sports", description: "Sports coupes", cars: 5 },
-  { id: "7", name: "Sedan", slug: "sedan", description: "Luxury sedans", cars: 3 },
-  { id: "8", name: "Ultra-Luxury", slug: "ultra-luxury", description: "The most exclusive vehicles", cars: 4 },
-]
+interface Category {
+  id: string
+  name: string
+  description: string | null
+  _count?: { cars: number }
+}
 
 export default function AdminCategoriesPage() {
   const [showForm, setShowForm] = useState(false)
+  const [categories, setCategories] = useState<Category[]>([])
+  const [loading, setLoading] = useState(true)
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
+  const [editingId, setEditingId] = useState<string | null>(null)
+
+  const fetchCategories = async () => {
+    try {
+      setLoading(true)
+      const res = await fetch("/api/categories")
+      if (!res.ok) throw new Error("Failed to fetch")
+      const data = await res.json()
+      setCategories(data)
+    } catch {
+      toast.error("Failed to fetch categories")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
+  const resetForm = () => {
+    setName("")
+    setDescription("")
+    setEditingId(null)
+    setShowForm(false)
+  }
+
+  const handleSubmit = async () => {
+    if (!name.trim()) {
+      toast.error("Category name is required")
+      return
+    }
+    try {
+      const payload = { name, description }
+
+      if (editingId) {
+        const res = await fetch(`/api/categories/${editingId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+        if (!res.ok) throw new Error("Failed to update")
+        toast.success("Category updated successfully")
+      } else {
+        const res = await fetch("/api/categories", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+        if (!res.ok) throw new Error("Failed to create")
+        toast.success("Category created successfully")
+      }
+      resetForm()
+      fetchCategories()
+    } catch {
+      toast.error(editingId ? "Failed to update category" : "Failed to create category")
+    }
+  }
+
+  const handleEdit = (cat: Category) => {
+    setName(cat.name)
+    setDescription(cat.description || "")
+    setEditingId(cat.id)
+    setShowForm(true)
+  }
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this category?")) return
+    try {
+      const res = await fetch(`/api/categories/${id}`, { method: "DELETE" })
+      if (!res.ok) throw new Error("Failed to delete")
+      toast.success("Category deleted successfully")
+      fetchCategories()
+    } catch {
+      toast.error("Failed to delete category")
+    }
+  }
 
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold text-gray-900">Manage Categories</h1>
-        <button onClick={() => setShowForm(!showForm)} className="bg-black text-white px-6 py-2.5 rounded text-sm font-semibold hover:bg-gray-800 transition-colors">
+        <button onClick={() => { if (showForm) { resetForm() } else { setShowForm(true) } }} className="bg-black text-white px-6 py-2.5 rounded text-sm font-semibold hover:bg-gray-800 transition-colors">
           {showForm ? "Cancel" : "+ Add Category"}
         </button>
       </div>
@@ -41,23 +117,27 @@ export default function AdminCategoriesPage() {
                 className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-sm px-4 py-3 rounded focus:border-black focus:outline-none" />
             </div>
           </div>
-          <button className="mt-4 bg-black text-white px-6 py-2 rounded text-sm font-semibold hover:bg-gray-800 transition-colors">Save Category</button>
+          <button onClick={handleSubmit} className="mt-4 bg-black text-white px-6 py-2 rounded text-sm font-semibold hover:bg-gray-800 transition-colors">{editingId ? "Update Category" : "Save Category"}</button>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {initialCategories.map((cat) => (
-          <div key={cat.id} className="bg-white border border-gray-200 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">{cat.name}</h3>
-            <p className="text-sm text-gray-500 mb-3">{cat.description}</p>
-            <p className="text-xs text-gray-900 font-medium mb-4">{cat.cars} vehicles</p>
-            <div className="flex gap-2">
-              <button className="text-xs text-black font-medium hover:underline">Edit</button>
-              <button className="text-xs text-red-500 hover:underline">Delete</button>
+      {loading ? (
+        <div className="text-center py-12 text-gray-500">Loading categories...</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {categories.map((cat) => (
+            <div key={cat.id} className="bg-white border border-gray-200 rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">{cat.name}</h3>
+              <p className="text-sm text-gray-500 mb-3">{cat.description}</p>
+              <p className="text-xs text-gray-900 font-medium mb-4">{cat._count?.cars ?? 0} vehicles</p>
+              <div className="flex gap-2">
+                <button onClick={() => handleEdit(cat)} className="text-xs text-black font-medium hover:underline">Edit</button>
+                <button onClick={() => handleDelete(cat.id)} className="text-xs text-red-500 hover:underline">Delete</button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

@@ -1,8 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import toast from "react-hot-toast"
 
 export default function AdminSettingsPage() {
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
   const [form, setForm] = useState({
     siteName: "Falcon Car Rental",
     contactEmail: "info@falconcarrental.com",
@@ -15,6 +18,48 @@ export default function AdminSettingsPage() {
     youtube: "",
     twitter: "",
   })
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const res = await fetch("/api/settings")
+        if (!res.ok) throw new Error("Failed to fetch")
+        const data = await res.json()
+        setForm((prev) => ({ ...prev, ...data }))
+      } catch {
+        // Keep defaults if settings not found
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchSettings()
+  }, [])
+
+  const handleSave = async () => {
+    setSaving(true)
+    try {
+      const res = await fetch("/api/settings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      })
+      if (!res.ok) throw new Error("Failed to save")
+      toast.success("Settings saved successfully")
+    } catch {
+      toast.error("Failed to save settings")
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900 mb-8">Site Settings</h1>
+        <div className="text-center py-12 text-gray-500">Loading settings...</div>
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -87,8 +132,8 @@ export default function AdminSettingsPage() {
           </div>
         </div>
 
-        <button type="button" className="bg-black text-white px-8 py-3 rounded font-semibold hover:bg-gray-800 transition-colors">
-          Save Settings
+        <button type="button" onClick={handleSave} disabled={saving} className="bg-black text-white px-8 py-3 rounded font-semibold hover:bg-gray-800 transition-colors disabled:opacity-50">
+          {saving ? "Saving..." : "Save Settings"}
         </button>
       </form>
     </div>

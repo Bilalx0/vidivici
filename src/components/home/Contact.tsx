@@ -30,18 +30,19 @@ export default function Contact() {
   };
 
   return (
-    <section className="w-full bg-white py-8 px-4 sm:px-10 md:py-16 md:px-20">
-      <div className="border border-gray-200 rounded-3xl flex flex-col md:flex-row p-3 gap-3 md:h-[500px]">
+    <section className="w-full bg-white py-16 px-20">
+      <div className="">
+        <div className="border border-gray-200 rounded-3xl overflow-hidden flex flex-col md:flex-row">
 
           {/* Left panel */}
-          <div className="bg-[#F0F1F2] p-5 sm:p-8 md:w-[380px] flex-shrink-0 flex flex-col gap-6 relative overflow-hidden rounded-2xl">
-            {/* Vector image */}
-            <img
-              src="/Vector 7.png"
-              alt=""
-              aria-hidden="true"
-              className="absolute bottom-0 right-0 h-[89%] w-auto object-contain object-right pointer-events-none select-none"
-            />
+          <div className="bg-[#f7f7f6] p-8 md:w-[300px] flex-shrink-0 flex flex-col gap-6 relative overflow-hidden">
+            {/* Watermark */}
+            <div
+              className="absolute bottom-0 right-0 opacity-[0.06] pointer-events-none select-none text-[160px] font-black text-gray-900 leading-none"
+              style={{ fontFamily: "serif" }}
+            >
+              V
+            </div>
 
             <div>
               <h3 className="text-[18px] font-black text-gray-900 leading-snug mb-2">
@@ -77,7 +78,7 @@ export default function Contact() {
           </div>
 
           {/* Right form */}
-          <div className="flex-1 p-4 sm:p-8">
+          <div className="flex-1 p-8">
             <h2 className="text-2xl font-black text-gray-900 mb-6 tracking-tight">
               Get in touch with us
             </h2>
@@ -159,6 +160,7 @@ export default function Contact() {
             </form>
           </div>
         </div>
+      </div>
 
       <style>{`
         .input-base {

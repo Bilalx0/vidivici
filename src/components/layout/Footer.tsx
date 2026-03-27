@@ -57,34 +57,49 @@ export default function Footer() {
   return (
     <>
 
-      <footer className="w-full bg-[#1a1a1a] text-white">
-       
+      <footer className="relative w-full bg-[#1a1a1a] text-white overflow-hidden">
+
+        {/* Left side vector decoration */}
+        <img
+          src="/Vector 6.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute left-0 top-60 h-[45%] sm:h-[70%] w-auto object-contain object-left pointer-events-none select-none"
+        />
+
+        {/* Right side vector decoration */}
+        <img
+          src="/Vector 6.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute right-0 -top-20 h-[45%] sm:h-[70%] w-auto object-contain object-right pointer-events-none select-none rotate-180"
+        />
 
         {/* Top section */}
-        <div className="max-w-6xl mx-auto px-6 pt-12 pb-8">
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 pb-8 border-b border-white/10">
+        <div className="max-w-6xl mx-auto px-8 pt-14 pb-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 pb-10 border-b border-white/10">
 
             {/* Logo + brand */}
-            <div className="flex items-center gap-4 flex-shrink-0">
+            <div className="flex items-center gap-6 flex-shrink-0">
               {/* Logo mark */}
-              <div className="w-14 h-14">
-                <Image src="/logo.png" alt="Vidi Vici Logo" width={56} height={56} />
+              <div className="w-[110px] h-[110px] flex-shrink-0">
+                <Image src="/Logo.png" alt="Vidi Vici Logo" width={110} height={110} />
               </div>
               <div>
-                <p className="text-xl font-black tracking-wide">Vidi Vici</p>
-                <p className="text-[11px] tracking-[0.25em] text-white/50 uppercase">Rental</p>
+                <p className="text-xl sm:text-3xl font-black tracking-wide leading-tight">Vidi Vici</p>
+                <p className="text-xs sm:text-base tracking-[0.5rem] sm:tracking-[0.75rem] text-[#EDEDED] uppercase mt-1">Rental</p>
               </div>
             </div>
 
             {/* Tagline */}
-            <p className="text-[13px] text-white/50 leading-relaxed max-w-xs lg:max-w-sm lg:text-right">
+            <p className="text-[13px] text-white/50 leading-relaxed max-w-sm lg:text-right">
               Experience the pinnacle of luxury and adventure with our exclusive fleet of exotic cars, premium
               villas, and world-class events — crafted for unforgettable moments.
             </p>
           </div>
 
           {/* Links grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 py-10 border-b border-white/10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 py-12 border-b border-white/10">
 
             <FooterCol
               title="Company"
@@ -130,19 +145,19 @@ export default function Footer() {
             />
 
             {/* Newsletter + Social */}
-            <div className="col-span-2 sm:col-span-3 lg:col-span-1 flex flex-col gap-4">
+            <div className="col-span-2 sm:col-span-3 lg:col-span-2 flex flex-col gap-4">
               <p className="text-[12px] font-bold text-white/80 uppercase tracking-wide">
                 Subscribe for VIP updates & exclusive offers
               </p>
-              <div className="flex">
+              <div className="flex items-center bg-white/10 border border-white/20 rounded-lg px-2 py-1.5 focus-within:border-white/40 transition-colors">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="flex-1 min-w-0 bg-white/10 border border-white/20 rounded-l-lg px-3 py-2.5 text-[12px] text-white placeholder-white/30 outline-none focus:border-white/40"
+                  className="flex-1 min-w-0 bg-transparent border-none outline-none text-white placeholder-white/40 text-[12px] px-3 py-1.5"
                 />
-                <button className="bg-white text-gray-900 text-[12px] font-bold px-4 py-2.5 rounded-r-lg hover:bg-gray-100 transition-colors flex-shrink-0">
+                <button className="bg-white text-gray-900 text-[12px] font-bold px-5 py-2 rounded-md hover:bg-gray-100 transition-colors flex-shrink-0">
                   Subscribe
                 </button>
               </div>
@@ -208,7 +223,7 @@ function FooterCol({ title, links }) {
             <li key={label}>
               <a
                 href={href}
-                className="text-[12px] text-white/40 hover:text-white/80 transition-colors duration-150 leading-snug"
+                className="text-[12px] text-[#EDEDED]/70 hover:text-[#EDEDED] transition-colors duration-150 leading-snug"
               >
                 {label}
               </a>

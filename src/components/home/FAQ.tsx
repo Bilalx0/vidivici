@@ -40,7 +40,7 @@ export default function FAQ() {
   const [openId, setOpenId] = useState(1);
 
   return (
-    <section className="w-full bg-white py-16 px-24">
+    <section className="w-full bg-white py-8 px-4 sm:px-10 md:py-16 md:px-24">
       <div className="">
 
         {/* Header */}

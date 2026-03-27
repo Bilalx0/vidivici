@@ -30,15 +30,15 @@ export default function LuxuryVideo() {
 
       {/* Header */}
       <div className="relative text-center mb-10 max-w-4xl mx-auto">
-        <h2 className="text-4xl font-black text-gray-900">
+        <h2 className="text-4xl font-black text-mist-900">
           Luxury Is a Lifestyle. <br /> Make It Yours.
         </h2>
-        <p className="mt-4 text-sm text-gray-500 leading-relaxed max-w-xl mx-auto">
+        <p className="mt-4 text-sm text-mist-500 leading-relaxed max-w-xl mx-auto">
           At Vidi Vici, luxury isn't just what you drive or where you stay—it's
           how you feel. From the moment you arrive in Los Angeles, every detail
           is curated for sophistication, comfort, and exclusivity.
         </p>
-        <button className="mt-6 bg-gray-900 text-white text-sm font-semibold px-7 py-3 rounded-xl hover:bg-gray-700 transition-colors duration-200">
+        <button className="mt-6 bg-mist-900 text-white text-sm font-semibold px-7 py-3 rounded-xl hover:bg-gray-700 transition-colors duration-200">
           Reserve Now
         </button>
       </div>
@@ -46,7 +46,7 @@ export default function LuxuryVideo() {
       {/* Laptop frame + video */}
       <div className="relative max-w-2xl mx-auto -mb-32">
         {/* Laptop screen bezel */}
-        <div className="rounded-2xl overflow-hidden border-[8px] border-gray-800 shadow-2xl bg-gray-800">
+        <div className="rounded-2xl overflow-hidden shadow-2xl bg-gray-800">
           {/* Screen area */}
           <div className="relative bg-black" style={{ aspectRatio: "16/9" }}>
 
@@ -64,7 +64,7 @@ export default function LuxuryVideo() {
                   className="absolute inset-0 flex items-center justify-center group"
                 >
                   <div className="w-16 h-12 bg-white/90 rounded-xl flex items-center justify-center shadow-lg group-hover:bg-white group-hover:scale-105 transition-all duration-200">
-                    <Play size={22} className="text-gray-900 ml-1" fill="currentColor" />
+                    <Play size={22} className="text-mist-900 ml-1" fill="currentColor" />
                   </div>
                 </button>
               </>
@@ -84,8 +84,8 @@ export default function LuxuryVideo() {
         </div>
 
         {/* Laptop base / hinge */}
-        <div className="relative mx-auto mt-0">
-          <div className="h-2 bg-gray-600 rounded-b-2xl mx-0 shadow-lg" />
+        <div className="relative mx-4">
+          <div className="h-5 bg-mist-900 rounded-b-4xl mx-0 shadow-lg" />
         </div>
       </div>
 

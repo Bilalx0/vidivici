@@ -17,7 +17,7 @@ export default function CarsPage() {
       {/* Hero */}
       <section className="py-16 px-4 bg-gradient-to-b from-[#111] to-[#0a0a0a] text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">Our <span className="text-[#dbb241]">Fleet</span></h1>
-        <p className="text-gray-400">Browse our collection of exotic and luxury vehicles</p>
+        <p className="text-mist-400">Browse our collection of exotic and luxury vehicles</p>
       </section>
 
       {/* Content */}
@@ -33,7 +33,7 @@ export default function CarsPage() {
           {/* Cars Grid */}
           <div className="flex-1">
             <div className="flex justify-between items-center mb-6">
-              <p className="text-sm text-gray-400">{sampleCars.length} vehicles available</p>
+              <p className="text-sm text-mist-400">{sampleCars.length} vehicles available</p>
               <select className="bg-[#1a1a1a] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded focus:border-[#dbb241] focus:outline-none">
                 <option>Sort by: Featured</option>
                 <option>Price: Low to High</option>
@@ -50,8 +50,8 @@ export default function CarsPage() {
             {/* Pagination placeholder */}
             <div className="flex justify-center gap-2 mt-10">
               <button className="bg-[#dbb241] text-black w-10 h-10 rounded font-semibold text-sm">1</button>
-              <button className="bg-[#1a1a1a] border border-[#2a2a2a] text-gray-400 w-10 h-10 rounded text-sm hover:border-[#dbb241]">2</button>
-              <button className="bg-[#1a1a1a] border border-[#2a2a2a] text-gray-400 w-10 h-10 rounded text-sm hover:border-[#dbb241]">3</button>
+              <button className="bg-[#1a1a1a] border border-[#2a2a2a] text-mist-400 w-10 h-10 rounded text-sm hover:border-[#dbb241]">2</button>
+              <button className="bg-[#1a1a1a] border border-[#2a2a2a] text-mist-400 w-10 h-10 rounded text-sm hover:border-[#dbb241]">3</button>
             </div>
           </div>
         </div>

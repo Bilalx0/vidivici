@@ -1,12 +1,14 @@
+import { Inter } from "next/font/google";
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google"; // 👈 change here
 import "./globals.css";
 import ClientLayout from "@/components/layout/ClientLayout";
 
-const openSans = Open_Sans({
+import { Manrope } from "next/font/google";
+
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-open-sans",
-  weight: ["300", "400", "500", "600", "700"], // same weights
+  variable: "--font-manrope",
+  weight: ["300","400","500","600","700"],
 });
 
 export const metadata: Metadata = {
@@ -22,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${openSans.variable} antialiased`}>
+      <body className={`${manrope.variable} antialiased`}>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

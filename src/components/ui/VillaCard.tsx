@@ -6,9 +6,9 @@ import { Heart, BedDouble, Users, Maximize2, ArrowUpRight } from "lucide-react";
 function StatPill({ icon, label, value }) {
   return (
     <div className="flex flex-col items-center gap-0.5">
-      <div className="text-gray-400">{icon}</div>
-      <span className="text-[10px] text-gray-400">{label}</span>
-      <span className="text-[11px] font-semibold text-gray-700">{value}</span>
+      <div className="text-mist-400">{icon}</div>
+      <span className="text-[10px] text-mist-400">{label}</span>
+      <span className="text-[11px] font-semibold text-mist-700">{value}</span>
     </div>
   );
 }
@@ -40,7 +40,7 @@ export default function VillaCard({
   const [fav, setFav] = useState(isFavorited);
 
   return (
-    <div className="relative flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 w-xs flex-shrink-0 group cursor-pointer">
+    <div className="relative flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 w-xs flex-shrink-0 group cursor-pointer">
       {/* Image */}
       <div className="relative h-56 overflow-hidden">
         <img
@@ -53,7 +53,7 @@ export default function VillaCard({
           className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${
             fav
               ? "bg-red-500 text-white"
-              : "bg-white/75 text-gray-500 hover:bg-white hover:text-red-400"
+              : "bg-white/75 text-mist-500 hover:bg-white hover:text-red-400"
           }`}
         >
           <Heart size={13} fill={fav ? "currentColor" : "none"} strokeWidth={2} />
@@ -63,10 +63,10 @@ export default function VillaCard({
 
       {/* Body */}
       <div className="flex flex-col gap-2 px-4 pt-3.5 pb-4">
-        <p className="text-[10px] text-gray-400 font-medium tracking-wide uppercase truncate">
+        <p className="text-[10px] text-mist-400 font-medium tracking-wide uppercase truncate">
           {tag}
         </p>
-        <h3 className="text-[15px] font-semibold text-gray-900 leading-snug -mt-0.5">
+        <h3 className="text-[15px] font-semibold text-mist-900 leading-snug -mt-0.5">
           {name}
         </h3>
 
@@ -82,13 +82,13 @@ export default function VillaCard({
 
         <div className="flex items-center justify-between mt-0.5">
           <button
-            className="flex items-center gap-1 text-[11px] font-semibold text-gray-500 hover:text-gray-900 transition-colors"
+            className="flex items-center gap-1 text-[11px] font-semibold text-mist-500 hover:text-mist-900 transition-colors"
           >
             View Details <ArrowUpRight size={11} strokeWidth={2.5} />
           </button>
           <div className="flex flex-col items-end">
-            <span className="text-[15px] font-bold text-gray-900">{price}</span>
-            <span className="text-[10px] text-gray-400 line-through">{oldPrice}/night</span>
+            <span className="text-[15px] font-bold text-mist-900">{price}</span>
+            <span className="text-[10px] text-mist-400 line-through">{oldPrice}/night</span>
           </div>
         </div>
       </div>

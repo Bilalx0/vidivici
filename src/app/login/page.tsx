@@ -38,19 +38,19 @@ export default function LoginPage() {
         <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-8">
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-[#dbb241] mb-2">Welcome Back</h1>
-            <p className="text-sm text-gray-400">Sign in to your Falcon Car Rental account</p>
+            <p className="text-sm text-mist-400">Sign in to your Falcon Car Rental account</p>
           </div>
 
           {error && <p className="text-red-400 text-sm bg-red-400/10 p-3 rounded mb-4">{error}</p>}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Email</label>
+              <label className="text-xs text-mist-400 block mb-1">Email</label>
               <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-[#111] border border-[#2a2a2a] text-white px-4 py-3 rounded focus:border-[#dbb241] focus:outline-none" placeholder="you@example.com" />
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Password</label>
+              <label className="text-xs text-mist-400 block mb-1">Password</label>
               <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)}
                 className="w-full bg-[#111] border border-[#2a2a2a] text-white px-4 py-3 rounded focus:border-[#dbb241] focus:outline-none" placeholder="••••••••" />
             </div>
@@ -60,7 +60,7 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-mist-500 mt-6">
             Don&apos;t have an account?{" "}
             <Link href="/register" className="text-[#dbb241] hover:underline">Register</Link>
           </p>

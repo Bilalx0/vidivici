@@ -71,33 +71,33 @@ export default function AddCarPage() {
           <h2 className="text-lg font-semibold text-[#dbb241] mb-4">Basic Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
-              <label className="text-xs text-gray-400 block mb-1">Car Name *</label>
+              <label className="text-xs text-mist-400 block mb-1">Car Name *</label>
               <input type="text" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={inputClass} placeholder="e.g., Lamborghini Huracán EVO" />
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Brand *</label>
+              <label className="text-xs text-mist-400 block mb-1">Brand *</label>
               <select required value={form.brandId} onChange={(e) => setForm({ ...form, brandId: e.target.value })} className={inputClass}>
                 <option value="">Select Brand</option>
                 {brandOptions.map(b => <option key={b} value={b}>{b}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Category *</label>
+              <label className="text-xs text-mist-400 block mb-1">Category *</label>
               <select required value={form.categoryId} onChange={(e) => setForm({ ...form, categoryId: e.target.value })} className={inputClass}>
                 <option value="">Select Category</option>
                 {categoryOptions.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Price Per Day ($) *</label>
+              <label className="text-xs text-mist-400 block mb-1">Price Per Day ($) *</label>
               <input type="number" required value={form.pricePerDay} onChange={(e) => setForm({ ...form, pricePerDay: e.target.value })} className={inputClass} />
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Year</label>
+              <label className="text-xs text-mist-400 block mb-1">Year</label>
               <input type="number" value={form.year} onChange={(e) => setForm({ ...form, year: e.target.value })} className={inputClass} />
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Location</label>
+              <label className="text-xs text-mist-400 block mb-1">Location</label>
               <select value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} className={inputClass}>
                 <option>Los Angeles</option>
                 <option>Miami</option>
@@ -111,18 +111,18 @@ export default function AddCarPage() {
           <h2 className="text-lg font-semibold text-[#dbb241] mb-4">Specifications</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Seats</label>
+              <label className="text-xs text-mist-400 block mb-1">Seats</label>
               <input type="number" value={form.seats} onChange={(e) => setForm({ ...form, seats: e.target.value })} className={inputClass} />
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Transmission</label>
+              <label className="text-xs text-mist-400 block mb-1">Transmission</label>
               <select value={form.transmission} onChange={(e) => setForm({ ...form, transmission: e.target.value })} className={inputClass}>
                 <option>Automatic</option>
                 <option>Manual</option>
               </select>
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Fuel Type</label>
+              <label className="text-xs text-mist-400 block mb-1">Fuel Type</label>
               <select value={form.fuelType} onChange={(e) => setForm({ ...form, fuelType: e.target.value })} className={inputClass}>
                 <option>Gasoline</option>
                 <option>Electric</option>
@@ -130,27 +130,27 @@ export default function AddCarPage() {
               </select>
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Horsepower</label>
+              <label className="text-xs text-mist-400 block mb-1">Horsepower</label>
               <input type="number" value={form.horsepower} onChange={(e) => setForm({ ...form, horsepower: e.target.value })} className={inputClass} />
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Top Speed</label>
+              <label className="text-xs text-mist-400 block mb-1">Top Speed</label>
               <input type="text" value={form.topSpeed} onChange={(e) => setForm({ ...form, topSpeed: e.target.value })} className={inputClass} placeholder="e.g., 202 mph" />
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">0-60 Acceleration</label>
+              <label className="text-xs text-mist-400 block mb-1">0-60 Acceleration</label>
               <input type="text" value={form.acceleration} onChange={(e) => setForm({ ...form, acceleration: e.target.value })} className={inputClass} placeholder="e.g., 2.9s" />
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Miles Included</label>
+              <label className="text-xs text-mist-400 block mb-1">Miles Included</label>
               <input type="number" value={form.milesIncluded} onChange={(e) => setForm({ ...form, milesIncluded: e.target.value })} className={inputClass} />
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Extra Mile Rate ($)</label>
+              <label className="text-xs text-mist-400 block mb-1">Extra Mile Rate ($)</label>
               <input type="number" step="0.01" value={form.extraMileRate} onChange={(e) => setForm({ ...form, extraMileRate: e.target.value })} className={inputClass} />
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Min Rental Days</label>
+              <label className="text-xs text-mist-400 block mb-1">Min Rental Days</label>
               <input type="number" value={form.minRentalDays} onChange={(e) => setForm({ ...form, minRentalDays: e.target.value })} className={inputClass} />
             </div>
           </div>
@@ -161,11 +161,11 @@ export default function AddCarPage() {
           <h2 className="text-lg font-semibold text-[#dbb241] mb-4">Description</h2>
           <div className="space-y-4">
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Short Description</label>
+              <label className="text-xs text-mist-400 block mb-1">Short Description</label>
               <input type="text" value={form.shortDescription} onChange={(e) => setForm({ ...form, shortDescription: e.target.value })} className={inputClass} placeholder="Brief tagline" />
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">Full Description</label>
+              <label className="text-xs text-mist-400 block mb-1">Full Description</label>
               <textarea rows={5} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className={`${inputClass} resize-none`} />
             </div>
           </div>
@@ -175,7 +175,7 @@ export default function AddCarPage() {
         <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-6">
           <h2 className="text-lg font-semibold text-[#dbb241] mb-4">Images</h2>
           <input type="file" multiple accept="image/*" onChange={(e) => setImages(e.target.files)}
-            className="text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#dbb241] file:text-black hover:file:bg-[#c9a238]" />
+            className="text-sm text-mist-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#dbb241] file:text-black hover:file:bg-[#c9a238]" />
         </div>
 
         {/* Toggles */}
@@ -183,11 +183,11 @@ export default function AddCarPage() {
           <div className="flex gap-6">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={form.isAvailable} onChange={(e) => setForm({ ...form, isAvailable: e.target.checked })} className="accent-[#dbb241]" />
-              <span className="text-sm text-gray-300">Available for Rent</span>
+              <span className="text-sm text-mist-300">Available for Rent</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={form.isFeatured} onChange={(e) => setForm({ ...form, isFeatured: e.target.checked })} className="accent-[#dbb241]" />
-              <span className="text-sm text-gray-300">Featured Vehicle</span>
+              <span className="text-sm text-mist-300">Featured Vehicle</span>
             </label>
           </div>
         </div>
@@ -198,7 +198,7 @@ export default function AddCarPage() {
             {submitting ? "Saving..." : "Save Car"}
           </button>
           <button type="button" onClick={() => router.back()}
-            className="border border-[#2a2a2a] text-gray-300 px-8 py-3 rounded hover:border-[#dbb241] transition-colors">
+            className="border border-[#2a2a2a] text-mist-300 px-8 py-3 rounded hover:border-[#dbb241] transition-colors">
             Cancel
           </button>
         </div>

@@ -31,16 +31,16 @@ export default function AboutPage() {
       />
 
       {/* About Vidi Vici */}
-      <section className="w-full bg-white px-20 py-40">
+      <section className="w-full bg-white sm:px-16 lg:px-20 px-10 py-40">
         <div className="flex flex-col md:flex-row items-center gap-12">
 
           {/* Left text */}
           <div className="flex-1 flex flex-col gap-5">
-            <h2 className="text-4xl font-bold text-gray-900 tracking-tight">About Vidi Vici</h2>
-            <div className="flex flex-col gap-4 text-base text-gray-400 leading-relaxed">
+            <h2 className="text-4xl font-bold text-mist-900 tracking-tight">About Vidi Vici</h2>
+            <div className="flex flex-col gap-4 text-base text-mist-400 leading-relaxed">
               <p>
-                At <span className="font-bold text-gray-900">Vidi Vici Rental</span>, we are driven by a singular passion: to
-                deliver unforgettable luxury experiences. Founded in <span className="font-bold text-gray-900">2024</span> in
+                At <span className="font-bold text-mist-900">Vidi Vici Rental</span>, we are driven by a singular passion: to
+                deliver unforgettable luxury experiences. Founded in <span className="font-bold text-mist-900">2024</span> in
                 Los Angeles, our company was built on principles of excellence, trust, and customer satisfaction.
               </p>
               <p>
@@ -81,10 +81,10 @@ export default function AboutPage() {
 
         <div className="relative z-10 max-w-md mx-auto flex flex-col items-center gap-8">
 
-          <h2 className="text-5xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-5xl font-bold text-mist-900 tracking-tight">
             Ready to experience luxury like never before?
           </h2>
-          <p className="text-base text-gray-500 leading-relaxed">
+          <p className="text-base text-mist-500 leading-relaxed">
             Our dedicated support team is available 24/7 to assist you with
             bookings, inquiries, or custom requests.
           </p>

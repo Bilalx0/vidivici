@@ -97,14 +97,14 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
           className="w-9 h-9 rounded-full object-cover flex-shrink-0"
         />
         <div>
-          <p className="text-[13px] font-semibold text-gray-900 leading-none mb-1">
+          <p className="text-[13px] font-semibold text-mist-900 leading-none mb-1">
             {review.name}
           </p>
           <Stars rating={review.rating} />
         </div>
       </div>
       {/* Text below */}
-      <p className="text-[12.5px] text-gray-500 leading-relaxed">{review.text}</p>
+      <p className="text-[12.5px] text-mist-500 leading-relaxed">{review.text}</p>
     </div>
   );
 }
@@ -143,14 +143,14 @@ function ScrollColumn({ reviews, duration, tilt }: ColProps) {
 
 export default function Testimonials() {
   return (
-    <section className="relative w-full bg-white py-32 px-20 overflow-hidden">
+    <section className="relative w-full bg-white py-32 sm:px-16 lg:px-20 px-10 overflow-hidden">
 
       {/* Header */}
       <div className="text-center mb-20">
-        <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+        <h2 className="text-3xl font-bold text-mist-900 tracking-tight">
           What Our Customers Are Saying
         </h2>
-        <p className="mt-3 text-sm text-gray-400 max-w-md mx-auto leading-relaxed">
+        <p className="mt-3 text-sm text-mist-400 max-w-md mx-auto leading-relaxed">
           From first-class service to unforgettable moments, our clients share
           why Vidi Vici is their choice for luxury in Los Angeles.
         </p>

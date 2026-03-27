@@ -124,7 +124,7 @@ export default function BlogPage() {
               className={`px-4 py-2 rounded-lg text-[12.5px] font-semibold transition-all duration-200 ${
                 activeCategory === cat
                   ? "bg-gray-900 text-white"
-                  : "bg-gray-100 border border-gray-100 text-gray-600 hover:border-gray-400"
+                  : "bg-gray-100 border border-gray-100 text-mist-600 hover:border-gray-400"
               }`}
             >
               {cat}
@@ -134,16 +134,16 @@ export default function BlogPage() {
       </div>
 
       {/* Articles grid */}
-      <section className="w-full py-14 px-20 mt-40">
+      <section className="w-full py-14 sm:px-16 lg:px-20 px-10 mt-40">
         <div className="">
 
-          <h2 className="text-3xl font-bold text-gray-900 text-center tracking-tight mb-10">
+          <h2 className="text-3xl font-bold text-mist-900 text-center tracking-tight mb-10">
             Featured Articles
           </h2>
 
           {filtered.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-gray-400 text-sm">No articles found. Try a different search or category.</p>
+              <p className="text-mist-400 text-sm">No articles found. Try a different search or category.</p>
             </div>
           ) : (
             <>
@@ -161,16 +161,16 @@ export default function BlogPage() {
 
         </div>
       </section>
-      <section className="w-full py-14 px-20">
+      <section className="w-full py-14 sm:px-16 lg:px-20 px-10">
         <div className="">
 
-          <h2 className="text-3xl font-bold text-gray-900 text-center tracking-tight mb-10">
+          <h2 className="text-3xl font-bold text-mist-900 text-center tracking-tight mb-10">
             All Articles
           </h2>
 
           {filtered.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-gray-400 text-sm">No articles found. Try a different search or category.</p>
+              <p className="text-mist-400 text-sm">No articles found. Try a different search or category.</p>
             </div>
           ) : (
             <>
@@ -205,15 +205,15 @@ export default function BlogPage() {
       </div>
 
       {/* CTA Banner */}
-      <div className="w-full bg-white px-20 py-20">
+      <div className="w-full bg-white sm:px-16 lg:px-20 px-10 py-20">
         <div className="overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6 ">
 
           {/* Left text */}
           <div className="flex flex-col gap-3 max-w-md">
-            <h3 className="text-4xl font-bold text-gray-900 leading-snug">
+            <h3 className="text-4xl font-bold text-mist-900 leading-snug">
               Ready for Your Next Luxury Experience?
             </h3>
-            <p className="text-base text-gray-400 leading-relaxed">
+            <p className="text-base text-mist-400 leading-relaxed">
               Explore our exclusive collection of luxury cars, villas, and nightlife experiences — tailored just for you.
             </p>
             <button className="w-fit mt-2 bg-gray-900 text-white text-base px-6 py-2.5 rounded-xl hover:bg-gray-700 transition-colors duration-200">

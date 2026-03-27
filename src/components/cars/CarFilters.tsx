@@ -48,12 +48,12 @@ export default function CarFilters() {
     <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-[#dbb241]">Filters</h3>
-        <button onClick={clearAll} className="text-xs text-gray-500 hover:text-white transition-colors">Clear All</button>
+        <button onClick={clearAll} className="text-xs text-mist-500 hover:text-white transition-colors">Clear All</button>
       </div>
 
       {/* Location */}
       <div>
-        <label className="text-xs text-gray-400 block mb-2">Location</label>
+        <label className="text-xs text-mist-400 block mb-2">Location</label>
         <select value={location} onChange={(e) => setLocation(e.target.value)} className="w-full bg-[#111] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded focus:border-[#dbb241] focus:outline-none">
           <option value="">All Locations</option>
           <option value="Los Angeles">Los Angeles</option>
@@ -63,7 +63,7 @@ export default function CarFilters() {
 
       {/* Brand */}
       <div>
-        <label className="text-xs text-gray-400 block mb-2">Brand</label>
+        <label className="text-xs text-mist-400 block mb-2">Brand</label>
         <select value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)} className="w-full bg-[#111] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded focus:border-[#dbb241] focus:outline-none">
           <option value="">All Brands</option>
           {brandsList.map((b) => (
@@ -74,7 +74,7 @@ export default function CarFilters() {
 
       {/* Category */}
       <div>
-        <label className="text-xs text-gray-400 block mb-2">Category</label>
+        <label className="text-xs text-mist-400 block mb-2">Category</label>
         <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="w-full bg-[#111] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded focus:border-[#dbb241] focus:outline-none">
           <option value="">All Categories</option>
           {categoriesList.map((c) => (
@@ -85,7 +85,7 @@ export default function CarFilters() {
 
       {/* Price Range */}
       <div>
-        <label className="text-xs text-gray-400 block mb-2">Price Range (per day)</label>
+        <label className="text-xs text-mist-400 block mb-2">Price Range (per day)</label>
         <div className="flex gap-2">
           <input type="number" placeholder="Min" value={minPrice} onChange={(e) => setMinPrice(e.target.value)}
             className="w-1/2 bg-[#111] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded focus:border-[#dbb241] focus:outline-none" />
@@ -96,7 +96,7 @@ export default function CarFilters() {
 
       {/* Transmission */}
       <div>
-        <label className="text-xs text-gray-400 block mb-2">Transmission</label>
+        <label className="text-xs text-mist-400 block mb-2">Transmission</label>
         <select value={transmission} onChange={(e) => setTransmission(e.target.value)} className="w-full bg-[#111] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded focus:border-[#dbb241] focus:outline-none">
           <option value="">Any</option>
           <option value="Automatic">Automatic</option>

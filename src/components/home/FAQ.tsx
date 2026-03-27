@@ -44,7 +44,7 @@ export default function FAQ() {
       <div className="">
 
         {/* Header */}
-        <h2 className="text-3xl font-bold text-gray-900 text-center tracking-tight mb-10 mt-20">
+        <h2 className="text-3xl font-bold text-mist-900 text-center tracking-tight mb-10 mt-20">
           Frequently Asked Questions
         </h2>
 
@@ -62,14 +62,14 @@ export default function FAQ() {
                   onClick={() => setOpenId(isOpen ? null : faq.id)}
                   className="w-full flex items-center justify-between px-5 py-4 text-left"
                 >
-                  <span className="text-[14px] font-semibold text-gray-900 pr-4 leading-snug">
+                  <span className="text-[14px] font-semibold text-mist-900 pr-4 leading-snug">
                     {faq.question}
                   </span>
                   <span
                     className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200 ${
                       isOpen
                         ? "bg-gray-900 text-white"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                        : "bg-gray-100 text-mist-600 hover:bg-gray-200"
                     }`}
                   >
                     {isOpen ? <Minus size={14} strokeWidth={2.5} /> : <Plus size={14} strokeWidth={2.5} />}
@@ -82,7 +82,7 @@ export default function FAQ() {
                     isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
                   }`}
                 >
-                  <p className="px-5 pb-5 text-[13px] text-gray-400 leading-relaxed">
+                  <p className="px-5 pb-5 text-[13px] text-mist-400 leading-relaxed">
                     {faq.answer}
                   </p>
                 </div>

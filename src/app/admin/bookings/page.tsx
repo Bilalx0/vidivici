@@ -10,8 +10,8 @@ export default function AdminBookingsPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Manage Bookings</h1>
-        <select className="bg-white border border-gray-200 text-gray-900 text-sm px-3 py-2 rounded focus:border-black focus:outline-none">
+        <h1 className="text-2xl font-bold text-mist-900">Manage Bookings</h1>
+        <select className="bg-white border border-gray-200 text-mist-900 text-sm px-3 py-2 rounded focus:border-black focus:outline-none">
           <option>All Statuses</option>
           <option>Pending</option>
           <option>Confirmed</option>
@@ -25,7 +25,7 @@ export default function AdminBookingsPage() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="text-left text-xs text-gray-500 border-b border-gray-200">
+              <tr className="text-left text-xs text-mist-500 border-b border-gray-200">
                 <th className="px-6 py-3">ID</th>
                 <th className="px-6 py-3">Customer</th>
                 <th className="px-6 py-3">Car</th>
@@ -39,16 +39,16 @@ export default function AdminBookingsPage() {
             <tbody>
               {bookings.map((b) => (
                 <tr key={b.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{b.id}</td>
-                  <td className="px-6 py-4"><p className="text-sm text-gray-900">{b.customer}</p><p className="text-xs text-gray-400">{b.email}</p></td>
-                  <td className="px-6 py-4 text-sm text-gray-600">{b.car}</td>
-                  <td className="px-6 py-4 text-sm text-gray-500">{b.dates}</td>
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{b.total}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-mist-900">{b.id}</td>
+                  <td className="px-6 py-4"><p className="text-sm text-mist-900">{b.customer}</p><p className="text-xs text-mist-400">{b.email}</p></td>
+                  <td className="px-6 py-4 text-sm text-mist-600">{b.car}</td>
+                  <td className="px-6 py-4 text-sm text-mist-500">{b.dates}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-mist-900">{b.total}</td>
                   <td className="px-6 py-4">
                     <span className={`text-xs px-2 py-1 rounded ${
                       b.status === "Confirmed" ? "bg-blue-50 text-blue-600" :
                       b.status === "Active" ? "bg-green-50 text-green-600" :
-                      b.status === "Completed" ? "bg-gray-100 text-gray-600" :
+                      b.status === "Completed" ? "bg-gray-100 text-mist-600" :
                       b.status === "Cancelled" ? "bg-red-50 text-red-600" :
                       "bg-yellow-50 text-yellow-600"
                     }`}>{b.status}</span>

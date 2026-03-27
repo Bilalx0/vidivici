@@ -32,7 +32,7 @@ export default async function CarDetailPage({ params }: { params: Promise<{ slug
     <div className="py-10 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+        <div className="flex items-center gap-2 text-sm text-mist-500 mb-6">
           <Link href="/" className="hover:text-white">Home</Link>
           <span>/</span>
           <Link href="/cars" className="hover:text-white">Cars</Link>
@@ -49,7 +49,7 @@ export default async function CarDetailPage({ params }: { params: Promise<{ slug
             <div>
               <p className="text-sm text-[#dbb241] font-medium mb-1">{car.brand}</p>
               <h1 className="text-3xl md:text-4xl font-bold mb-2">{car.name}</h1>
-              <p className="text-2xl text-[#dbb241] font-bold">${car.pricePerDay} <span className="text-sm text-gray-500 font-normal">/ day</span></p>
+              <p className="text-2xl text-[#dbb241] font-bold">${car.pricePerDay} <span className="text-sm text-mist-500 font-normal">/ day</span></p>
             </div>
 
             {/* Specs Grid */}
@@ -66,7 +66,7 @@ export default async function CarDetailPage({ params }: { params: Promise<{ slug
                 { label: "Extra Mile Rate", value: `$${car.extraMileRate}/mile` },
               ].map((spec) => (
                 <div key={spec.label} className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-4">
-                  <p className="text-xs text-gray-500 mb-1">{spec.label}</p>
+                  <p className="text-xs text-mist-500 mb-1">{spec.label}</p>
                   <p className="text-sm font-semibold text-white">{spec.value}</p>
                 </div>
               ))}
@@ -75,7 +75,7 @@ export default async function CarDetailPage({ params }: { params: Promise<{ slug
             {/* Description */}
             <div>
               <h2 className="text-xl font-semibold text-[#dbb241] mb-3">About This Vehicle</h2>
-              <p className="text-gray-400 leading-relaxed">{car.description}</p>
+              <p className="text-mist-400 leading-relaxed">{car.description}</p>
             </div>
           </div>
 

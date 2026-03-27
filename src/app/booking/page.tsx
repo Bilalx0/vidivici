@@ -15,18 +15,18 @@ export default function BookingsPage() {
 
         {sampleBookings.length === 0 ? (
           <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-12 text-center">
-            <p className="text-gray-400 mb-4">You haven&apos;t made any bookings yet.</p>
+            <p className="text-mist-400 mb-4">You haven&apos;t made any bookings yet.</p>
             <Link href="/cars" className="bg-[#dbb241] text-black px-6 py-2.5 rounded font-semibold hover:bg-[#c9a238] transition-colors inline-block">Browse Cars</Link>
           </div>
         ) : (
           <div className="space-y-4">
             {sampleBookings.map((booking) => (
               <div key={booking.id} className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-6 flex flex-col md:flex-row md:items-center gap-4">
-                <div className="w-20 h-16 bg-[#2a2a2a] rounded flex items-center justify-center flex-shrink-0"><ImageOff size={20} className="text-gray-600" /></div>
+                <div className="w-20 h-16 bg-[#2a2a2a] rounded flex items-center justify-center flex-shrink-0"><ImageOff size={20} className="text-mist-600" /></div>
                 <div className="flex-1">
                   <p className="text-xs text-[#dbb241] mb-1">{booking.id}</p>
                   <h3 className="text-base font-semibold">{booking.car}</h3>
-                  <p className="text-sm text-gray-400">{booking.startDate} - {booking.endDate}</p>
+                  <p className="text-sm text-mist-400">{booking.startDate} - {booking.endDate}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-bold text-[#dbb241]">${booking.total.toLocaleString()}</p>

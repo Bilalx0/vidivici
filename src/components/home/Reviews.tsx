@@ -115,11 +115,11 @@ export default function Testimonials() {
     <section className="w-full bg-white py-16 overflow-hidden">
 
       {/* Header */}
-      <div className="text-center mb-10 px-6">
-        <h2 className="text-3xl font-black text-gray-900 tracking-tight">
+      <div className="text-center mb-10 sm:px-16 lg:px-20 px-10">
+        <h2 className="text-3xl font-black text-mist-900 tracking-tight">
           What Our Customers Are Saying
         </h2>
-        <p className="mt-3 text-sm text-gray-400 max-w-md mx-auto leading-relaxed">
+        <p className="mt-3 text-sm text-mist-400 max-w-md mx-auto leading-relaxed">
           From first-class service to unforgettable moments, our clients share why Vidi Vici is
           their choice for luxury in Los Angeles.
         </p>
@@ -132,7 +132,7 @@ export default function Testimonials() {
             onClick={() => scroll(-1)}
             className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center hover:bg-gray-50 transition-all"
           >
-            <ChevronLeft size={16} strokeWidth={2.5} className="text-gray-700" />
+            <ChevronLeft size={16} strokeWidth={2.5} className="text-mist-700" />
           </button>
         )}
         {canRight && (
@@ -140,7 +140,7 @@ export default function Testimonials() {
             onClick={() => scroll(1)}
             className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center hover:bg-gray-50 transition-all"
           >
-            <ChevronRight size={16} strokeWidth={2.5} className="text-gray-700" />
+            <ChevronRight size={16} strokeWidth={2.5} className="text-mist-700" />
           </button>
         )}
 
@@ -155,7 +155,7 @@ export default function Testimonials() {
               className="flex-shrink-0 bg-white border border-gray-100 rounded-2xl shadow-sm p-5 flex flex-col justify-between"
               style={{ width: `${CARD_WIDTH}px` }}
             >
-              <p className="text-[13px] text-gray-500 leading-relaxed">
+              <p className="text-[13px] text-mist-500 leading-relaxed">
                 {r.text}
               </p>
               <div className="flex items-center gap-3 mt-5 pt-4 border-t border-gray-100">
@@ -165,7 +165,7 @@ export default function Testimonials() {
                   className="w-9 h-9 rounded-full object-cover flex-shrink-0"
                 />
                 <div>
-                  <p className="text-[13px] font-semibold text-gray-900 leading-none">
+                  <p className="text-[13px] font-semibold text-mist-900 leading-none">
                     {r.name}
                   </p>
                   <Stars rating={r.rating} />

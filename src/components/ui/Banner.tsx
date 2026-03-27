@@ -61,7 +61,7 @@ function DefaultSearchBar({
           name="search"
           type="text"
           placeholder={placeholder}
-          className="flex-1 bg-transparent text-white text-[15px] tracking-wide font-light outline-none border-none"
+          className="flex-1 bg-transparent text-white text-[15px] tracking-wide outline-none border-none"
           style={{ caretColor: "white" }}
         />
       </div>

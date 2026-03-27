@@ -17,7 +17,7 @@ export default function CarCard({ car }) {
   const [liked, setLiked] = useState(car.liked || false);
 
   return (
-    <div className="relative flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 w-xs flex-shrink-0 group cursor-pointer">
+    <div className="relative flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 w-xs flex-shrink-0 group cursor-pointer">
 
       {/* Image */}
       <div className="relative h-56 overflow-hidden">
@@ -44,7 +44,7 @@ export default function CarCard({ car }) {
         <p className="text-[10px] text-gray-400 font-medium tracking-wide uppercase truncate">
           {car.brand}
         </p>
-        <h3 className="text-[15px] font-semibold text-gray-900 leading-snug -mt-0.5">
+        <h3 className="text-[15px] font-semibold text-mist-900 leading-snug -mt-0.5">
           {car.name}
         </h3>
 
@@ -59,11 +59,11 @@ export default function CarCard({ car }) {
         <div className="h-px bg-gray-100 mt-0.5" />
 
         <div className="flex items-center justify-between mt-0.5">
-          <button className="flex items-center gap-1 text-[11px] font-semibold text-gray-500 hover:text-gray-900 transition-colors">
+          <button className="flex items-center gap-1 text-[11px] font-semibold text-gray-500 hover:text-mist-900 transition-colors">
             View Details <ArrowUpRight size={11} strokeWidth={2.5} />
           </button>
           <div className="flex flex-col items-end">
-            <span className="text-[15px] font-bold text-gray-900">${car.pricePerDay}</span>
+            <span className="text-[15px] font-bold text-mist-900">${car.pricePerDay}</span>
             <span className="text-[10px] text-gray-400 line-through">${car.originalPrice}/day</span>
           </div>
         </div>

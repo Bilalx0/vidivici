@@ -40,18 +40,18 @@ export default function ArticleCard({ article, onReadMore }: ArticleCardProps) {
         </span>
 
         {/* Title */}
-        <h3 className="text-[15px] font-bold text-gray-900 leading-snug">
+        <h3 className="text-[15px] font-bold text-mist-900 leading-snug">
           {article.title}
         </h3>
 
         {/* Excerpt */}
-        <p className="text-[12.5px] text-gray-400 leading-relaxed line-clamp-3 flex-1">
+        <p className="text-[12.5px] text-mist-400 leading-relaxed line-clamp-3 flex-1">
           {article.excerpt}
         </p>
 
         {/* Footer */}
         <div className="flex items-center justify-between pt-3 border-t border-gray-100 mt-auto">
-          <div className="flex items-center gap-3 text-[11px] text-gray-400">
+          <div className="flex items-center gap-3 text-[11px] text-mist-400">
             <span className="flex items-center gap-1">
               <Calendar size={11} /> {article.date}
             </span>
@@ -61,7 +61,7 @@ export default function ArticleCard({ article, onReadMore }: ArticleCardProps) {
           </div>
           <button
             onClick={() => onReadMore?.(article)}
-            className="flex items-center gap-0.5 text-[12px] font-semibold text-gray-700 hover:text-gray-900 transition-colors"
+            className="flex items-center gap-0.5 text-[12px] font-semibold text-mist-700 hover:text-mist-900 transition-colors"
           >
             Read More <ChevronRight size={13} strokeWidth={2.5} />
           </button>

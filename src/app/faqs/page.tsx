@@ -114,7 +114,7 @@ export default function FAQPage() {
       <section className="w-full min-h-screen">
         <div className="bg-gray-200 py-16 px-6">
           {/* Heading */}
-          <h2 className="text-3xl font-bold text-gray-900 text-center tracking-tight mb-12">
+          <h2 className="text-3xl font-bold text-mist-900 text-center tracking-tight mb-12">
             Frequently Asked Questions
           </h2>
 
@@ -126,7 +126,7 @@ export default function FAQPage() {
                 onClick={() => { setActiveCategory(cat); setOpenId(null); }}
                 className={`px-4 py-2 rounded-lg text-[12.5px] font-semibold transition-all duration-200 ${activeCategory === cat
                     ? "bg-gray-900 text-white"
-                    : "bg-white border border-gray-200 text-gray-600 hover:border-gray-400"
+                    : "bg-white border border-gray-200 text-mist-600 hover:border-gray-400"
                   }`}
               >
                 {cat}
@@ -148,7 +148,7 @@ export default function FAQPage() {
           onClick={() => setOpenId(isOpen ? null : faq.id)}
           className="w-full flex items-center justify-between px-5 py-4 text-left"
         >
-          <span className="text-[14px] font-semibold text-gray-900 pr-4 leading-snug">
+          <span className="text-[14px] font-semibold text-mist-900 pr-4 leading-snug">
             {faq.question}
           </span>
           <span
@@ -171,7 +171,7 @@ export default function FAQPage() {
           }`}
         >
           <div className="bg-gray-50 border-t border-gray-100 px-5 py-4">
-            <p className="text-[13px] text-gray-400 leading-relaxed">
+            <p className="text-[13px] text-mist-400 leading-relaxed">
               {faq.answer}
             </p>
           </div>
@@ -185,10 +185,10 @@ export default function FAQPage() {
 
   <div className="relative z-10 max-w-md mx-auto flex flex-col items-center gap-8">
     
-    <h2 className="text-5xl font-bold text-gray-900 tracking-tight">
+    <h2 className="text-5xl font-bold text-mist-900 tracking-tight">
       Still have questions?
     </h2>
-    <p className="text-base text-gray-500 leading-relaxed">
+    <p className="text-base text-mist-500 leading-relaxed">
       Our dedicated support team is available 24/7 to assist you with
       bookings, inquiries, or custom requests.
     </p>

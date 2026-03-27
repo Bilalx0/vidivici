@@ -128,17 +128,17 @@ export default function Villa({ showHeader = true }) {
 
         {/* Header */}
         {showHeader && (
-  <div className="max-w-full mx-auto flex items-center justify-between mb-8 px-16">
-    <h2 className="text-[2rem] font-bold text-gray-900 tracking-tight">
-      Exotic Car Rentals
-    </h2>
+        <div className="flex items-center-safe justify-between mb-8 px-10 sm:px-16 lg:px-20 gap-4">
+          <h2 className="text-xl sm:text-4xl font-bold text-mist-900 tracking-tight">
+            Luxury Villa Rentals
+          </h2>
+          <button className="flex items-center gap-2 px-5 py-2.5 text-xs font-medium text-mist-700 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
+            View all
+            <ArrowUpRight size={15} />
+          </button>
+        </div>
+      )}
 
-    <button className="flex items-center gap-2 px-5 py-2.5 text-[13.5px] font-medium text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
-      View all
-      <ArrowUpRight size={15} />
-    </button>
-  </div>
-)}
 
         <div className="relative">
           {canScrollLeft && (
@@ -146,7 +146,7 @@ export default function Villa({ showHeader = true }) {
               onClick={() => scroll(-1)}
               className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center hover:bg-gray-50 transition-all"
             >
-              <ChevronLeft size={16} strokeWidth={2.5} className="text-gray-700" />
+              <ChevronLeft size={16} strokeWidth={2.5} className="text-mist-700" />
             </button>
           )}
           {canScrollRight && (
@@ -154,7 +154,7 @@ export default function Villa({ showHeader = true }) {
               onClick={() => scroll(1)}
               className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center hover:bg-gray-50 transition-all"
             >
-              <ChevronRight size={16} strokeWidth={2.5} className="text-gray-700" />
+              <ChevronRight size={16} strokeWidth={2.5} className="text-mist-700" />
             </button>
           )}
 

@@ -13,7 +13,7 @@ export default function AdminCarsPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Manage Cars</h1>
+        <h1 className="text-2xl font-bold text-mist-900">Manage Cars</h1>
         <Link href="/admin/cars/new" className="bg-black text-white px-6 py-2.5 rounded text-sm font-semibold hover:bg-gray-800 transition-colors">
           + Add New Car
         </Link>
@@ -23,7 +23,7 @@ export default function AdminCarsPage() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="text-left text-xs text-gray-500 border-b border-gray-200">
+              <tr className="text-left text-xs text-mist-500 border-b border-gray-200">
                 <th className="px-6 py-3">Car</th>
                 <th className="px-6 py-3">Brand</th>
                 <th className="px-6 py-3">Category</th>
@@ -37,13 +37,13 @@ export default function AdminCarsPage() {
                 <tr key={car.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-10 bg-gray-100 rounded flex items-center justify-center text-xs text-gray-400">IMG</div>
-                      <span className="text-sm font-medium text-gray-900">{car.name}</span>
+                      <div className="w-12 h-10 bg-gray-100 rounded flex items-center justify-center text-xs text-mist-400">IMG</div>
+                      <span className="text-sm font-medium text-mist-900">{car.name}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">{car.brand}</td>
-                  <td className="px-6 py-4 text-sm text-gray-500">{car.category}</td>
-                  <td className="px-6 py-4 text-sm text-gray-900 font-medium">${car.price}</td>
+                  <td className="px-6 py-4 text-sm text-mist-500">{car.brand}</td>
+                  <td className="px-6 py-4 text-sm text-mist-500">{car.category}</td>
+                  <td className="px-6 py-4 text-sm text-mist-900 font-medium">${car.price}</td>
                   <td className="px-6 py-4">
                     <span className={`text-xs px-2 py-1 rounded ${
                       car.status === "Available" ? "bg-green-50 text-green-600" :

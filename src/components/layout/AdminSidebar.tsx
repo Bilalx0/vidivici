@@ -36,7 +36,7 @@ export default function AdminSidebar() {
       <aside className={`fixed top-0 left-0 h-full bg-black z-30 transition-transform duration-200 w-64 ${collapsed ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}>
         <div className="p-6 border-b border-gray-800">
           <Link href="/admin/dashboard" className="text-xl font-bold text-white tracking-wider">
-            FALCON <span className="text-xs text-gray-400 font-normal">ADMIN</span>
+            FALCON <span className="text-xs text-mist-400 font-normal">ADMIN</span>
           </Link>
         </div>
 
@@ -52,7 +52,7 @@ export default function AdminSidebar() {
                 className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-colors ${
                   isActive
                     ? "bg-white text-black font-medium"
-                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                    : "text-mist-400 hover:text-white hover:bg-white/5"
                 }`}
               >
                 <Icon size={16} strokeWidth={isActive ? 2.5 : 1.5} />
@@ -63,7 +63,7 @@ export default function AdminSidebar() {
         </nav>
 
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-800">
-          <Link href="/" className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors">
+          <Link href="/" className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-mist-400 hover:text-white hover:bg-white/5 transition-colors">
             <ArrowLeft size={16} strokeWidth={1.5} />
             <span>Back to Site</span>
           </Link>

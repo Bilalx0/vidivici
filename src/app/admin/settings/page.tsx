@@ -55,8 +55,8 @@ export default function AdminSettingsPage() {
   if (loading) {
     return (
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-8">Site Settings</h1>
-        <div className="text-center py-12 text-gray-500">Loading settings...</div>
+        <h1 className="text-2xl font-bold text-mist-900 mb-8">Site Settings</h1>
+        <div className="text-center py-12 text-mist-500">Loading settings...</div>
       </div>
     )
   }

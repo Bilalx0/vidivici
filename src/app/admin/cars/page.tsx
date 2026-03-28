@@ -82,11 +82,11 @@ export default function AdminCarsPage() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-sm text-gray-400">Loading cars...</td>
+                  <td colSpan={6} className="px-6 py-12 text-center text-sm text-mist-400">Loading cars...</td>
                 </tr>
               ) : cars.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-sm text-gray-400">No cars found. Add your first car to get started.</td>
+                  <td colSpan={6} className="px-6 py-12 text-center text-sm text-mist-400">No cars found. Add your first car to get started.</td>
                 </tr>
               ) : (
                 cars.map((car) => {
@@ -99,14 +99,14 @@ export default function AdminCarsPage() {
                           {primaryImage ? (
                             <img src={primaryImage} alt={car.name} className="w-12 h-10 bg-gray-100 rounded object-cover" />
                           ) : (
-                            <div className="w-12 h-10 bg-gray-100 rounded flex items-center justify-center text-xs text-gray-400">IMG</div>
+                            <div className="w-12 h-10 bg-gray-100 rounded flex items-center justify-center text-xs text-mist-400">IMG</div>
                           )}
-                          <span className="text-sm font-medium text-gray-900">{car.name}</span>
+                          <span className="text-sm font-medium text-mist-900">{car.name}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">{car.brand?.name}</td>
-                      <td className="px-6 py-4 text-sm text-gray-500">{car.category?.name}</td>
-                      <td className="px-6 py-4 text-sm text-gray-900 font-medium">${car.pricePerDay}</td>
+                      <td className="px-6 py-4 text-sm text-mist-500">{car.brand?.name}</td>
+                      <td className="px-6 py-4 text-sm text-mist-500">{car.category?.name}</td>
+                      <td className="px-6 py-4 text-sm text-mist-900 font-medium">${car.pricePerDay}</td>
                       <td className="px-6 py-4">
                         <span className={`text-xs px-2 py-1 rounded ${
                           status === "Available" ? "bg-green-50 text-green-600" :

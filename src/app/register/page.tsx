@@ -52,7 +52,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-[440px]">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 sm:p-10">
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Create Your Vidi Vici Account</h1>
+            <h1 className="text-2xl font-bold text-mist-900">Create Your Vidi Vici Account</h1>
           </div>
 
           {error && (
@@ -61,30 +61,30 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="text-sm font-medium text-gray-700 block mb-1.5">Full Name</label>
+              <label className="text-sm font-medium text-mist-700 block mb-1.5">Full Name</label>
               <input type="text" required value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="Enter your name"
-                className="w-full border border-gray-200 text-gray-900 px-4 py-3 rounded-lg focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none transition text-sm" />
+                className="w-full border border-gray-200 text-mist-900 px-4 py-3 rounded-lg focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none transition text-sm" />
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-700 block mb-1.5">Email</label>
+              <label className="text-sm font-medium text-mist-700 block mb-1.5">Email</label>
               <input type="email" required value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 placeholder="Enter your email"
-                className="w-full border border-gray-200 text-gray-900 px-4 py-3 rounded-lg focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none transition text-sm" />
+                className="w-full border border-gray-200 text-mist-900 px-4 py-3 rounded-lg focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none transition text-sm" />
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-700 block mb-1.5">Password</label>
+              <label className="text-sm font-medium text-mist-700 block mb-1.5">Password</label>
               <div className="relative">
                 <input type={showPassword ? "text" : "password"} required value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
                   placeholder="Enter password"
-                  className="w-full border border-gray-200 text-gray-900 px-4 py-3 rounded-lg focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none transition text-sm pr-11" />
+                  className="w-full border border-gray-200 text-mist-900 px-4 py-3 rounded-lg focus:border-gray-900 focus:ring-1 focus:ring-gray-900 outline-none transition text-sm pr-11" />
                 <button type="button" onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 hover:text-mist-600">
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
@@ -92,8 +92,8 @@ export default function RegisterPage() {
 
             <label className="flex items-start gap-2 cursor-pointer">
               <input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)}
-                className="w-4 h-4 border-gray-300 rounded text-gray-900 focus:ring-gray-900 mt-0.5" />
-              <span className="text-sm text-gray-600">I Agree to the Terms & Conditions</span>
+                className="w-4 h-4 border-gray-300 rounded text-mist-900 focus:ring-gray-900 mt-0.5" />
+              <span className="text-sm text-mist-600">I Agree to the Terms & Conditions</span>
             </label>
 
             <button type="submit" disabled={loading}
@@ -104,11 +104,11 @@ export default function RegisterPage() {
 
           <div className="flex items-center gap-3 my-6">
             <div className="flex-1 h-px bg-gray-200" />
-            <span className="text-xs text-gray-400">Or continue with</span>
+            <span className="text-xs text-mist-400">Or continue with</span>
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          <button className="w-full flex items-center justify-center gap-2 border border-gray-200 rounded-lg py-3 text-sm text-gray-700 hover:bg-gray-50 transition">
+          <button className="w-full flex items-center justify-center gap-2 border border-gray-200 rounded-lg py-3 text-sm text-mist-700 hover:bg-gray-50 transition">
             <svg width="18" height="18" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -118,9 +118,9 @@ export default function RegisterPage() {
             Sign up with google
           </button>
 
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-mist-500 mt-6">
             Already have an account?{" "}
-            <Link href="/login" className="text-gray-900 font-semibold hover:underline">Sign in</Link>
+            <Link href="/login" className="text-mist-900 font-semibold hover:underline">Sign in</Link>
           </p>
         </div>
       </div>

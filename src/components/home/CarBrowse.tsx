@@ -3,6 +3,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+type Category = {
+  name: string;
+  slug: string;
+};
+
 const carMakes = [
   { name: "Rolls-Royce", logo: "/carlogo1.png" },
   { name: "Cadillac", logo: "/carlogo2.png" },
@@ -55,7 +60,7 @@ function CategoryCard({ category, onClick }: { category: Category; onClick: (slu
         py-8 px-14 my-3 rounded-2xl border shrink-0
         transition-all duration-200 border-gray-200 bg-white hover:border-gray-400 hover:scale-105"
         >
-            <span className="text-lg font-semibold text-gray-700">{category.name}</span>
+            <span className="text-lg font-semibold text-mist-700">{category.name}</span>
         </button>
     );
 }

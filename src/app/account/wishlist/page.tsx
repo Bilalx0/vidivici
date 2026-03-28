@@ -48,7 +48,7 @@ export default function MyWishlistPage() {
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">My Wishlist</h1>
+      <h1 className="text-2xl font-bold text-mist-900 mb-6">My Wishlist</h1>
 
       {/* Tabs */}
       <div className="flex gap-2 mb-8">
@@ -59,7 +59,7 @@ export default function MyWishlistPage() {
             className={`px-5 py-2 rounded-full text-sm font-medium border transition ${
               activeTab === tab
                 ? "bg-gray-900 text-white border-gray-900"
-                : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+                : "bg-white text-mist-600 border-gray-200 hover:border-gray-400"
             }`}
           >
             {tab}
@@ -68,8 +68,8 @@ export default function MyWishlistPage() {
       </div>
 
       {activeTab !== "Cars" ? (
-        <div className="text-center py-16 text-gray-400">
-          <p className="text-lg font-medium text-gray-500">Coming soon</p>
+        <div className="text-center py-16 text-mist-400">
+          <p className="text-lg font-medium text-mist-500">Coming soon</p>
           <p className="text-sm">{activeTab} wishlist is not available yet</p>
         </div>
       ) : loading ? (
@@ -79,9 +79,9 @@ export default function MyWishlistPage() {
           ))}
         </div>
       ) : items.length === 0 ? (
-        <div className="text-center py-16 text-gray-400">
-          <Heart size={48} className="mx-auto text-gray-300" />
-          <p className="mt-4 text-lg font-medium text-gray-500">No wishlisted cars</p>
+        <div className="text-center py-16 text-mist-400">
+          <Heart size={48} className="mx-auto text-mist-300" />
+          <p className="mt-4 text-lg font-medium text-mist-500">No wishlisted cars</p>
           <p className="text-sm">Cars you save will appear here</p>
           <Link href="/cars" className="inline-block mt-4 bg-gray-900 text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition">
             Browse Cars
@@ -97,7 +97,7 @@ export default function MyWishlistPage() {
                   {img ? (
                     <Image src={img} alt={item.car.name} fill className="object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-300"><ImageOff size={32} /></div>
+                    <div className="w-full h-full flex items-center justify-center text-mist-300"><ImageOff size={32} /></div>
                   )}
                   <button
                     onClick={() => removeFromWishlist(item.car.id)}
@@ -107,10 +107,10 @@ export default function MyWishlistPage() {
                   </button>
                 </div>
                 <div className="p-4">
-                  <p className="text-xs text-gray-400">{item.car.brand.name}</p>
-                  <p className="font-bold text-gray-900">{item.car.name}</p>
+                  <p className="text-xs text-mist-400">{item.car.brand.name}</p>
+                  <p className="font-bold text-mist-900">{item.car.name}</p>
                   <div className="flex items-center justify-between mt-3">
-                    <p className="font-bold text-gray-900">${item.car.pricePerDay}<span className="text-xs font-normal text-gray-400"> /day</span></p>
+                    <p className="font-bold text-mist-900">${item.car.pricePerDay}<span className="text-xs font-normal text-mist-400"> /day</span></p>
                     <Link
                       href={`/cars/${item.car.slug}`}
                       className="text-xs bg-gray-900 text-white px-4 py-1.5 rounded-full hover:bg-gray-800 transition"

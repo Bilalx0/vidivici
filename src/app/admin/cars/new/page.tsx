@@ -163,7 +163,7 @@ function AddCarForm() {
     return (
       <div>
         <h1 className="text-2xl font-bold mb-8">{isEditing ? "Edit Car" : "Add New Car"}</h1>
-        <p className="text-gray-400 text-sm">Loading...</p>
+        <p className="text-mist-400 text-sm">Loading...</p>
       </div>
     )
   }
@@ -317,7 +317,7 @@ function AddCarForm() {
 
 export default function AddCarPage() {
   return (
-    <Suspense fallback={<div><h1 className="text-2xl font-bold mb-8">Car</h1><p className="text-gray-400 text-sm">Loading...</p></div>}>
+    <Suspense fallback={<div><h1 className="text-2xl font-bold mb-8">Car</h1><p className="text-mist-400 text-sm">Loading...</p></div>}>
       <AddCarForm />
     </Suspense>
   )

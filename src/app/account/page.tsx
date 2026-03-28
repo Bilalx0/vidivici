@@ -122,8 +122,8 @@ export default function PersonalInfoPage() {
       onChange={(e) => setForm({ ...form, [id]: e.target.value })}
       className={`w-full px-3 py-2.5 rounded-lg text-sm outline-none transition border ${
         disabled || !editing
-          ? "bg-gray-50 border-gray-100 text-gray-600 cursor-default"
-          : "bg-white border-gray-300 text-gray-900 focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
+          ? "bg-gray-50 border-gray-100 text-mist-600 cursor-default"
+          : "bg-white border-gray-300 text-mist-900 focus:border-gray-900 focus:ring-1 focus:ring-gray-900"
       }`}
     />
   )
@@ -134,7 +134,7 @@ export default function PersonalInfoPage() {
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-visible">
       {/* Header */}
       <div className="px-6 sm:px-8 pt-8 pb-6 border-b border-gray-100 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Personal Information</h1>
+        <h1 className="text-2xl font-bold text-mist-900">Personal Information</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="px-6 sm:px-8 py-6">
@@ -146,7 +146,7 @@ export default function PersonalInfoPage() {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={form.image} alt="Profile" className="w-full h-full object-cover" />
               ) : (
-                <span className="text-4xl font-bold text-gray-500">{initials}</span>
+                <span className="text-4xl font-bold text-mist-500">{initials}</span>
               )}
             </div>
             {/* Edit pencil — top right of avatar */}
@@ -159,7 +159,7 @@ export default function PersonalInfoPage() {
               {uploading ? (
                 <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-700 rounded-full animate-spin" />
               ) : (
-                <Camera size={14} className="text-gray-600" />
+                <Camera size={14} className="text-mist-600" />
               )}
             </button>
             <input
@@ -178,7 +178,7 @@ export default function PersonalInfoPage() {
             <button
               type="button"
               onClick={() => setEditing(true)}
-              className="flex items-center gap-2 border border-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:border-gray-900 hover:text-gray-900 transition"
+              className="flex items-center gap-2 border border-gray-200 text-mist-700 px-4 py-2 rounded-lg text-sm font-medium hover:border-gray-900 hover:text-mist-900 transition"
             >
               <Pencil size={14} /> Edit
             </button>
@@ -187,7 +187,7 @@ export default function PersonalInfoPage() {
               <button
                 type="button"
                 onClick={() => { setEditing(false); fetchProfile() }}
-                className="border border-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm font-medium hover:border-gray-400 transition"
+                className="border border-gray-200 text-mist-600 px-4 py-2 rounded-lg text-sm font-medium hover:border-gray-400 transition"
               >
                 Cancel
               </button>
@@ -207,15 +207,15 @@ export default function PersonalInfoPage() {
           {/* Row 1 */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">Name</label>
+              <label className="text-xs text-mist-400 mb-1 block">Name</label>
               {field("name")}
             </div>
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">Email</label>
+              <label className="text-xs text-mist-400 mb-1 block">Email</label>
               {field("email", true)}
             </div>
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">Phone Number</label>
+              <label className="text-xs text-mist-400 mb-1 block">Phone Number</label>
               {field("phone")}
             </div>
           </div>
@@ -223,11 +223,11 @@ export default function PersonalInfoPage() {
           {/* Row 2 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">Date of birth</label>
+              <label className="text-xs text-mist-400 mb-1 block">Date of birth</label>
               {field("dateOfBirth")}
             </div>
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">Company</label>
+              <label className="text-xs text-mist-400 mb-1 block">Company</label>
               {field("company")}
             </div>
           </div>
@@ -235,11 +235,11 @@ export default function PersonalInfoPage() {
           {/* Row 3 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">Address</label>
+              <label className="text-xs text-mist-400 mb-1 block">Address</label>
               {field("address")}
             </div>
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">Country</label>
+              <label className="text-xs text-mist-400 mb-1 block">Country</label>
               {field("country")}
             </div>
           </div>
@@ -247,15 +247,15 @@ export default function PersonalInfoPage() {
           {/* Row 4 */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">City</label>
+              <label className="text-xs text-mist-400 mb-1 block">City</label>
               {field("city")}
             </div>
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">State</label>
+              <label className="text-xs text-mist-400 mb-1 block">State</label>
               {field("state")}
             </div>
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">Zip code</label>
+              <label className="text-xs text-mist-400 mb-1 block">Zip code</label>
               {field("zipCode")}
             </div>
           </div>

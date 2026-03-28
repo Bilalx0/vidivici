@@ -177,11 +177,11 @@ export default function Footer() {
             <p className="text-[12px] text-white/40 text-center sm:text-left">
               ©2026 <span className="font-bold text-white/60">Vidi Vici.</span> All rights reserved.
               {" · "}
-              <a href="#" className="hover:text-white/80 transition-colors">Privacy</a>
+              <a href="/privacy" className="hover:text-white/80 transition-colors">Privacy</a>
               {" · "}
-              <a href="#" className="hover:text-white/80 transition-colors">Terms</a>
+              <a href="/terms" className="hover:text-white/80 transition-colors">Terms</a>
               {" · "}
-              <a href="#" className="hover:text-white/80 transition-colors">Sitemap</a>
+              <a href="/sitemap" className="hover:text-white/80 transition-colors">Sitemap</a>
             </p>
 
             {/* Payment icons */}

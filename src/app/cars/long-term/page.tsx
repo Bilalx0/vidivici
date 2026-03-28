@@ -20,10 +20,10 @@ export default function LongTermPage() {
       {/* Intro Section */}
       <section className="bg-white py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-mist-900 mb-6">
             Save Up to 65% on Long-Term Rentals
           </h2>
-          <div className="space-y-4 text-gray-600 leading-relaxed">
+          <div className="space-y-4 text-mist-600 leading-relaxed">
             <p>
               Drive your dream car for longer with our exclusive long-term rental plans. Whether you need a vehicle for a
               month or a full year, enjoy significant savings with flexible terms that adapt to your lifestyle.
@@ -57,7 +57,7 @@ export default function LongTermPage() {
                   { duration: "9 – 12 months", discount: "65% off" },
                 ].map((row) => (
                   <tr key={row.duration} className="hover:bg-gray-50 transition">
-                    <td className="px-6 py-4 text-sm text-gray-700">{row.duration}</td>
+                    <td className="px-6 py-4 text-sm text-mist-700">{row.duration}</td>
                     <td className="px-6 py-4 text-sm font-semibold text-green-600">{row.discount}</td>
                   </tr>
                 ))}

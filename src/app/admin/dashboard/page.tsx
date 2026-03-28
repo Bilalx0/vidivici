@@ -109,22 +109,22 @@ export default function AdminDashboard() {
             </thead>
             <tbody className="divide-y divide-gray-50">
               {loading ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-sm text-gray-500">Loading...</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-sm text-mist-500">Loading...</td></tr>
               ) : recentBookings.length === 0 ? (
-                <tr><td colSpan={6} className="px-6 py-8 text-center text-sm text-gray-500">No bookings yet</td></tr>
+                <tr><td colSpan={6} className="px-6 py-8 text-center text-sm text-mist-500">No bookings yet</td></tr>
               ) : (
                 recentBookings.map((b) => (
                   <tr key={b.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-gray-900">{b.id.slice(0, 8)}</td>
-                    <td className="px-6 py-4 text-sm text-gray-700">{b.user.name || b.user.email}</td>
-                    <td className="px-6 py-4 text-sm text-gray-500">{b.car.brand.name} {b.car.name}</td>
-                    <td className="px-6 py-4 text-sm text-gray-500">{formatDate(b.startDate)}</td>
-                    <td className="px-6 py-4 text-sm font-medium text-gray-900">${b.totalPrice.toLocaleString()}</td>
+                    <td className="px-6 py-4 text-sm font-medium text-mist-900">{b.id.slice(0, 8)}</td>
+                    <td className="px-6 py-4 text-sm text-mist-700">{b.user.name || b.user.email}</td>
+                    <td className="px-6 py-4 text-sm text-mist-500">{b.car.brand.name} {b.car.name}</td>
+                    <td className="px-6 py-4 text-sm text-mist-500">{formatDate(b.startDate)}</td>
+                    <td className="px-6 py-4 text-sm font-medium text-mist-900">${b.totalPrice.toLocaleString()}</td>
                     <td className="px-6 py-4">
                       <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
                         b.status === "CONFIRMED" ? "bg-blue-50 text-blue-600" :
                         b.status === "ACTIVE" ? "bg-green-50 text-green-600" :
-                        b.status === "COMPLETED" ? "bg-gray-100 text-gray-600" :
+                        b.status === "COMPLETED" ? "bg-gray-100 text-mist-600" :
                         b.status === "CANCELLED" ? "bg-red-50 text-red-600" :
                         "bg-yellow-50 text-yellow-600"
                       }`}>{displayStatus(b.status)}</span>

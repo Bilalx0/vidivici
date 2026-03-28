@@ -68,12 +68,12 @@ export default function AdminMessagesPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Contact Messages</h1>
-        <span className="text-sm text-gray-500">{messages.filter(m => !m.isRead).length} unread</span>
+        <h1 className="text-2xl font-bold text-mist-900">Contact Messages</h1>
+        <span className="text-sm text-mist-500">{messages.filter(m => !m.isRead).length} unread</span>
       </div>
 
       {loading ? (
-        <div className="text-center py-12 text-gray-500">Loading messages...</div>
+        <div className="text-center py-12 text-mist-500">Loading messages...</div>
       ) : (
         <div className="space-y-3">
           {messages.map((msg) => (
@@ -82,22 +82,22 @@ export default function AdminMessagesPage() {
                 {!msg.isRead && <div className="w-2 h-2 bg-black rounded-full flex-shrink-0" />}
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-center mb-1">
-                    <p className="text-sm font-medium text-gray-900">{msg.name} <span className="text-gray-400 font-normal">-- {msg.subject || "No Subject"}</span></p>
-                    <span className="text-xs text-gray-400 ml-4 flex-shrink-0">{formatDate(msg.createdAt)}</span>
+                    <p className="text-sm font-medium text-mist-900">{msg.name} <span className="text-mist-400 font-normal">-- {msg.subject || "No Subject"}</span></p>
+                    <span className="text-xs text-mist-400 ml-4 flex-shrink-0">{formatDate(msg.createdAt)}</span>
                   </div>
-                  <p className="text-xs text-gray-500 truncate">{msg.message}</p>
+                  <p className="text-xs text-mist-500 truncate">{msg.message}</p>
                 </div>
               </button>
               {expanded === msg.id && (
                 <div className="px-5 pb-5 border-t border-gray-200 pt-4">
-                  <div className="flex gap-4 mb-3 text-xs text-gray-500">
+                  <div className="flex gap-4 mb-3 text-xs text-mist-500">
                     <span>From: {msg.email}</span>
                     <span>Date: {formatDate(msg.createdAt)}</span>
                   </div>
-                  <p className="text-sm text-gray-600 mb-4">{msg.message}</p>
+                  <p className="text-sm text-mist-600 mb-4">{msg.message}</p>
                   <div className="flex gap-2">
                     <a href={`mailto:${msg.email}`} className="text-xs bg-black text-white px-4 py-1.5 rounded font-medium hover:bg-gray-800 transition-colors">Reply via Email</a>
-                    <button onClick={() => toggleRead(msg)} className="text-xs text-gray-500 hover:text-gray-900 transition-colors">{msg.isRead ? "Mark Unread" : "Mark Read"}</button>
+                    <button onClick={() => toggleRead(msg)} className="text-xs text-mist-500 hover:text-mist-900 transition-colors">{msg.isRead ? "Mark Unread" : "Mark Read"}</button>
                     <button onClick={() => handleDelete(msg.id)} className="text-xs text-red-500 hover:underline">Delete</button>
                   </div>
                 </div>

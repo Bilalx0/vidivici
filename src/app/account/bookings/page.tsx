@@ -58,9 +58,9 @@ export default function MyBookingsPage() {
       case "CONFIRMED": return "bg-green-50 text-green-700"
       case "PENDING": return "bg-yellow-50 text-yellow-700"
       case "ACTIVE": return "bg-blue-50 text-blue-700"
-      case "COMPLETED": return "bg-gray-100 text-gray-600"
+      case "COMPLETED": return "bg-gray-100 text-mist-600"
       case "CANCELLED": return "bg-red-50 text-red-600"
-      default: return "bg-gray-100 text-gray-600"
+      default: return "bg-gray-100 text-mist-600"
     }
   }
 
@@ -69,7 +69,7 @@ export default function MyBookingsPage() {
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">My Bookings</h1>
+      <h1 className="text-2xl font-bold text-mist-900 mb-6">My Bookings</h1>
 
       {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-8">
@@ -80,7 +80,7 @@ export default function MyBookingsPage() {
             className={`px-5 py-2 rounded-full text-sm font-medium border transition ${
               activeTab === tab
                 ? "bg-gray-900 text-white border-gray-900"
-                : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+                : "bg-white text-mist-600 border-gray-200 hover:border-gray-400"
             }`}
           >
             {tab}
@@ -95,9 +95,9 @@ export default function MyBookingsPage() {
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16 text-gray-400">
+        <div className="text-center py-16 text-mist-400">
           <CalendarEmpty />
-          <p className="mt-4 text-lg font-medium text-gray-500">No bookings found</p>
+          <p className="mt-4 text-lg font-medium text-mist-500">No bookings found</p>
           <p className="text-sm">Your {activeTab !== "All" ? activeTab.toLowerCase() : ""} bookings will appear here</p>
         </div>
       ) : (
@@ -112,7 +112,7 @@ export default function MyBookingsPage() {
                   {img ? (
                     <Image src={img} alt={booking.car.name} fill className="object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-300">
+                    <div className="w-full h-full flex items-center justify-center text-mist-300">
                       <ImageOff size={32} />
                     </div>
                   )}
@@ -121,10 +121,10 @@ export default function MyBookingsPage() {
                 {/* Details */}
                 <div className="flex-1 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                   <div>
-                    <p className="text-xs text-gray-400">{booking.car.brand.name}</p>
-                    <p className="font-bold text-gray-900 text-lg">{booking.car.name}</p>
-                    <p className="text-xs text-gray-400 mt-1">Booking ID: VV-{booking.id.slice(-8).toUpperCase()}</p>
-                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                    <p className="text-xs text-mist-400">{booking.car.brand.name}</p>
+                    <p className="font-bold text-mist-900 text-lg">{booking.car.name}</p>
+                    <p className="text-xs text-mist-400 mt-1">Booking ID: VV-{booking.id.slice(-8).toUpperCase()}</p>
+                    <div className="flex items-center gap-4 mt-2 text-xs text-mist-500">
                       <span className="flex items-center gap-1"><Calendar size={12} />{formatDate(booking.startDate)}–{formatDate(booking.endDate)}</span>
                       <span className="flex items-center gap-1"><MapPin size={12} />{booking.pickupLocation}</span>
                     </div>
@@ -134,7 +134,7 @@ export default function MyBookingsPage() {
                     <span className={`text-xs font-semibold px-3 py-1 rounded-full ${statusColor(booking.status)}`}>
                       {booking.status === "CONFIRMED" ? "Confirmed" : booking.status.charAt(0) + booking.status.slice(1).toLowerCase()}
                     </span>
-                    <p className="text-xl font-bold text-gray-900">${booking.totalPrice}<span className="text-xs font-normal text-gray-400"> /day</span></p>
+                    <p className="text-xl font-bold text-mist-900">${booking.totalPrice}<span className="text-xs font-normal text-mist-400"> /day</span></p>
                   </div>
                 </div>
               </div>
@@ -148,7 +148,7 @@ export default function MyBookingsPage() {
 
 function CalendarEmpty() {
   return (
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" className="mx-auto text-gray-300">
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" className="mx-auto text-mist-300">
       <rect x="6" y="10" width="36" height="32" rx="4" stroke="currentColor" strokeWidth="2" />
       <path d="M6 18H42" stroke="currentColor" strokeWidth="2" />
       <path d="M16 6V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />

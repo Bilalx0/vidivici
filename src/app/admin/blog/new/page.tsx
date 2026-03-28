@@ -103,7 +103,7 @@ function NewBlogPostForm() {
     return (
       <div>
         <h1 className="text-2xl font-bold mb-8">Edit Blog Post</h1>
-        <p className="text-sm text-gray-400">Loading...</p>
+        <p className="text-sm text-mist-400">Loading...</p>
       </div>
     )
   }
@@ -133,11 +133,11 @@ function NewBlogPostForm() {
             className="w-full bg-[#111] border border-[#2a2a2a] text-white text-sm px-4 py-3 rounded focus:border-[#dbb241] focus:outline-none resize-none" />
         </div>
         <div>
-          <label className="text-xs text-gray-400 block mb-1">Cover Image</label>
+          <label className="text-xs text-mist-400 block mb-1">Cover Image</label>
           {form.coverImage && (
-            <p className="text-xs text-gray-500 mb-1">Current: {form.coverImage}</p>
+            <p className="text-xs text-mist-500 mb-1">Current: {form.coverImage}</p>
           )}
-          <input type="file" accept="image/*" ref={fileInputRef} className="text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#dbb241] file:text-black" />
+          <input type="file" accept="image/*" ref={fileInputRef} className="text-sm text-mist-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#dbb241] file:text-black" />
         </div>
         <label className="flex items-center gap-2 cursor-pointer">
           <input type="checkbox" checked={form.published} onChange={(e) => setForm({ ...form, published: e.target.checked })} className="accent-[#dbb241]" />
@@ -156,7 +156,7 @@ function NewBlogPostForm() {
 
 export default function NewBlogPostPage() {
   return (
-    <Suspense fallback={<div><h1 className="text-2xl font-bold mb-8">Blog Post</h1><p className="text-sm text-gray-400">Loading...</p></div>}>
+    <Suspense fallback={<div><h1 className="text-2xl font-bold mb-8">Blog Post</h1><p className="text-sm text-mist-400">Loading...</p></div>}>
       <NewBlogPostForm />
     </Suspense>
   )

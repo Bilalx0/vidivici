@@ -58,7 +58,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
               {/* Avatar + Name */}
               <div className="flex flex-col items-center text-center pb-6 border-b border-gray-100">
-                <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-2xl font-bold text-gray-500 mb-3 overflow-hidden">
+                <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-2xl font-bold text-mist-500 mb-3 overflow-hidden">
                   {profileImage ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
@@ -66,8 +66,8 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
                     <span>{initials}</span>
                   )}
                 </div>
-                <p className="font-semibold text-gray-900 text-lg">{user.name || "User"}</p>
-                <p className="text-sm text-gray-400">{user.name || user.email}</p>
+                <p className="font-semibold text-mist-900 text-lg">{user.name || "User"}</p>
+                <p className="text-sm text-mist-400">{user.name || user.email}</p>
               </div>
 
               {/* Nav Links */}
@@ -82,7 +82,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
                       className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition ${
                         isActive
                           ? "bg-gray-900 text-white"
-                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                          : "text-mist-600 hover:bg-gray-50 hover:text-mist-900"
                       }`}
                     >
                       <Icon size={18} />
@@ -101,14 +101,14 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
               <div className="mt-4 pt-4 border-t border-gray-100 space-y-1">
                 <Link
                   href="/"
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition w-full"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-mist-600 hover:bg-gray-50 hover:text-mist-900 transition w-full"
                 >
                   <ArrowLeft size={18} />
                   Back to Website
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-600 hover:bg-red-50 hover:text-red-600 transition w-full"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-mist-600 hover:bg-red-50 hover:text-red-600 transition w-full"
                 >
                   <LogOut size={18} />
                   Logout

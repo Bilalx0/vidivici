@@ -20,10 +20,10 @@ export default function ExperiencePage() {
       {/* Intro Section */}
       <section className="bg-white py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-mist-900 mb-6">
             Crafted Experiences, Not Just Rentals
           </h2>
-          <div className="space-y-4 text-gray-600 leading-relaxed">
+          <div className="space-y-4 text-mist-600 leading-relaxed">
             <p>
               At Vidi Vici, every rental is an experience. From the moment you reserve to the second the key is in your
               hand, our team ensures a seamless, white-glove journey tailored to your preferences.

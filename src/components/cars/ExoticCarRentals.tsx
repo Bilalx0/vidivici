@@ -50,8 +50,8 @@ export default function ExoticCarRentals({
   return (
     <section className="bg-white py-16 px-4">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-2">{title}</h2>
-        <p className="text-gray-500 text-center mb-10 max-w-2xl mx-auto">{description}</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-mist-900 text-center mb-2">{title}</h2>
+        <p className="text-mist-500 text-center mb-10 max-w-2xl mx-auto">{description}</p>
 
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -60,7 +60,7 @@ export default function ExoticCarRentals({
             ))}
           </div>
         ) : cars.length === 0 ? (
-          <p className="text-center text-gray-400 py-12">No vehicles available at this time.</p>
+          <p className="text-center text-mist-400 py-12">No vehicles available at this time.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
             {cars.map((car) => (

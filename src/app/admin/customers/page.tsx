@@ -39,20 +39,20 @@ export default function CustomersPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Customers</h1>
-          <p className="text-gray-500 text-sm mt-1">{customers.length} registered users</p>
+          <h1 className="text-2xl font-bold text-mist-900">Customers</h1>
+          <p className="text-mist-500 text-sm mt-1">{customers.length} registered users</p>
         </div>
       </div>
 
       {/* Search */}
       <div className="relative mb-6 max-w-sm">
-        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-mist-400" />
         <input
           type="text"
           placeholder="Search by name, email..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-900 transition"
+          className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm text-mist-900 placeholder:text-mist-400 outline-none focus:border-gray-900 transition"
         />
       </div>
 
@@ -64,14 +64,14 @@ export default function CustomersPage() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-20">
-          <Users size={48} className="mx-auto text-gray-300 mb-3" />
-          <p className="text-gray-500">No customers found</p>
+          <Users size={48} className="mx-auto text-mist-300 mb-3" />
+          <p className="text-mist-500">No customers found</p>
         </div>
       ) : (
         <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-200 text-gray-500 text-xs uppercase tracking-wide bg-gray-50">
+              <tr className="border-b border-gray-200 text-mist-500 text-xs uppercase tracking-wide bg-gray-50">
                 <th className="text-left px-5 py-3">Customer</th>
                 <th className="text-left px-5 py-3 hidden sm:table-cell">Email</th>
                 <th className="text-left px-5 py-3 hidden md:table-cell">Phone</th>
@@ -90,20 +90,20 @@ export default function CustomersPage() {
                   >
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center text-sm font-bold text-gray-500">
+                        <div className="w-9 h-9 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center text-sm font-bold text-mist-500">
                           {c.image ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img src={c.image} alt={c.name || ""} className="w-full h-full object-cover" />
                           ) : initials}
                         </div>
                         <div>
-                          <p className="font-medium text-gray-900">{c.name || "—"}</p>
-                          <p className="text-xs text-gray-400 sm:hidden">{c.email}</p>
+                          <p className="font-medium text-mist-900">{c.name || "—"}</p>
+                          <p className="text-xs text-mist-400 sm:hidden">{c.email}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-600 hidden sm:table-cell">{c.email}</td>
-                    <td className="px-5 py-3.5 text-gray-600 hidden md:table-cell">{c.phone || "—"}</td>
+                    <td className="px-5 py-3.5 text-mist-600 hidden sm:table-cell">{c.email}</td>
+                    <td className="px-5 py-3.5 text-mist-600 hidden md:table-cell">{c.phone || "—"}</td>
                     <td className="px-5 py-3.5 text-center">
                       <span className="inline-block bg-blue-50 text-blue-600 text-xs font-semibold px-2.5 py-0.5 rounded-full">
                         {c._count.bookings}
@@ -114,7 +114,7 @@ export default function CustomersPage() {
                         {c._count.wishlist}
                       </span>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-400 hidden lg:table-cell text-xs">
+                    <td className="px-5 py-3.5 text-mist-400 hidden lg:table-cell text-xs">
                       {new Date(c.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                     </td>
                   </tr>

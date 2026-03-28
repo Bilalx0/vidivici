@@ -17,12 +17,12 @@ export default function PaymentMethodsPage() {
     setForm({ nameOnCard: "", cardNumber: "", expiry: "", cvv: "", billingAddress: "", country: "United States", zipCode: "" })
   }
 
-  const inputCls = "w-full px-3 py-2.5 rounded-lg text-sm border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 outline-none focus:border-gray-900 focus:ring-1 focus:ring-gray-900 transition"
+  const inputCls = "w-full px-3 py-2.5 rounded-lg text-sm border border-gray-200 bg-white text-mist-900 placeholder:text-mist-400 outline-none focus:border-gray-900 focus:ring-1 focus:ring-gray-900 transition"
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Payment Methods</h1>
+        <h1 className="text-2xl font-bold text-mist-900">Payment Methods</h1>
         {!showForm && (
           <button
             onClick={() => setShowForm(true)}
@@ -36,10 +36,10 @@ export default function PaymentMethodsPage() {
       {showForm ? (
         <form onSubmit={handleSubmit}>
           {/* Card Info */}
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Card Info</h2>
+          <h2 className="text-lg font-bold text-mist-900 mb-4">Card Info</h2>
 
           <div className="mb-4">
-            <label className="text-sm font-medium text-gray-700 mb-1.5 block">Name on card</label>
+            <label className="text-sm font-medium text-mist-700 mb-1.5 block">Name on card</label>
             <input
               type="text"
               placeholder="Name on card"
@@ -51,7 +51,7 @@ export default function PaymentMethodsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-1.5 block">Card number</label>
+              <label className="text-sm font-medium text-mist-700 mb-1.5 block">Card number</label>
               <div className="relative">
                 <input
                   type="text"
@@ -63,11 +63,11 @@ export default function PaymentMethodsPage() {
                   }}
                   className={`${inputCls} pl-10`}
                 />
-                <CreditCard size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <CreditCard size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-mist-400" />
               </div>
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-1.5 block">Expiration date</label>
+              <label className="text-sm font-medium text-mist-700 mb-1.5 block">Expiration date</label>
               <input
                 type="text"
                 placeholder="MM/YY"
@@ -81,7 +81,7 @@ export default function PaymentMethodsPage() {
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-1.5 block">Security code</label>
+              <label className="text-sm font-medium text-mist-700 mb-1.5 block">Security code</label>
               <input
                 type="text"
                 placeholder="CVV"
@@ -93,10 +93,10 @@ export default function PaymentMethodsPage() {
           </div>
 
           {/* Billing Address */}
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Billing Address</h2>
+          <h2 className="text-lg font-bold text-mist-900 mb-4">Billing Address</h2>
 
           <div className="mb-4">
-            <label className="text-sm font-medium text-gray-700 mb-1.5 block">Billing address</label>
+            <label className="text-sm font-medium text-mist-700 mb-1.5 block">Billing address</label>
             <input
               type="text"
               placeholder="Enter billing address"
@@ -108,7 +108,7 @@ export default function PaymentMethodsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-1.5 block">Country</label>
+              <label className="text-sm font-medium text-mist-700 mb-1.5 block">Country</label>
               <select
                 value={form.country}
                 onChange={(e) => setForm({ ...form, country: e.target.value })}
@@ -123,7 +123,7 @@ export default function PaymentMethodsPage() {
               </select>
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-1.5 block">Zip code</label>
+              <label className="text-sm font-medium text-mist-700 mb-1.5 block">Zip code</label>
               <input
                 type="text"
                 placeholder="Zip code"
@@ -134,7 +134,7 @@ export default function PaymentMethodsPage() {
             </div>
           </div>
 
-          <p className="text-xs text-gray-500 mb-6">
+          <p className="text-xs text-mist-500 mb-6">
             By adding the card, I agree to the{" "}
             <a href="#" className="text-blue-600 hover:underline">Terms &amp; Conditions</a>{" "}
             and <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>.
@@ -151,7 +151,7 @@ export default function PaymentMethodsPage() {
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                className="border border-gray-200 text-gray-600 px-6 py-2.5 rounded-lg text-sm font-medium hover:border-gray-400 transition"
+                className="border border-gray-200 text-mist-600 px-6 py-2.5 rounded-lg text-sm font-medium hover:border-gray-400 transition"
               >
                 Cancel
               </button>
@@ -159,16 +159,16 @@ export default function PaymentMethodsPage() {
             {/* Card brand logos */}
             <div className="hidden sm:flex items-center gap-2">
               {["VISA", "PayPal", "Shop", "GPay", "MC"].map((b) => (
-                <span key={b} className="text-[10px] font-bold text-gray-400 border border-gray-200 rounded px-2 py-1">{b}</span>
+                <span key={b} className="text-[10px] font-bold text-mist-400 border border-gray-200 rounded px-2 py-1">{b}</span>
               ))}
             </div>
           </div>
         </form>
       ) : (
         <div className="border border-dashed border-gray-200 rounded-xl p-10 text-center">
-          <CreditCard size={48} className="mx-auto text-gray-300" />
-          <p className="mt-4 text-lg font-medium text-gray-500">No payment methods</p>
-          <p className="text-sm text-gray-400">Add a card to make bookings faster.</p>
+          <CreditCard size={48} className="mx-auto text-mist-300" />
+          <p className="mt-4 text-lg font-medium text-mist-500">No payment methods</p>
+          <p className="text-sm text-mist-400">Add a card to make bookings faster.</p>
         </div>
       )}
     </div>

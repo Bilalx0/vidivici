@@ -72,22 +72,22 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
     <div className="bg-white min-h-screen">
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-4">
-        <div className="flex items-center gap-2 text-sm text-gray-400">
-          <Link href="/" className="hover:text-gray-700">Los Angeles</Link>
+        <div className="flex items-center gap-2 text-sm text-mist-400">
+          <Link href="/" className="hover:text-mist-700">Los Angeles</Link>
           <span>/</span>
-          <Link href={`/cars?brand=${car.brandSlug}`} className="hover:text-gray-700">{car.brandName}</Link>
+          <Link href={`/cars?brand=${car.brandSlug}`} className="hover:text-mist-700">{car.brandName}</Link>
           <span>/</span>
-          <Link href={`/cars?category=${car.categorySlug}`} className="hover:text-gray-700">{car.categoryName}</Link>
+          <Link href={`/cars?category=${car.categorySlug}`} className="hover:text-mist-700">{car.categoryName}</Link>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
         {/* Share / Save */}
         <div className="flex justify-end gap-3 mb-4">
-          <button className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800">
+          <button className="flex items-center gap-1.5 text-sm text-mist-500 hover:text-mist-800">
             <Share2 size={14} /> Share
           </button>
-          <button className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800">
+          <button className="flex items-center gap-1.5 text-sm text-mist-500 hover:text-mist-800">
             <Bookmark size={14} /> Save
           </button>
         </div>
@@ -100,15 +100,15 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
 
             {/* Title + Price */}
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{car.name}</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-mist-900">{car.name}</h1>
               {car.shortDescription && (
-                <p className="text-sm text-gray-400 mt-1">{car.shortDescription}</p>
+                <p className="text-sm text-mist-400 mt-1">{car.shortDescription}</p>
               )}
               <div className="flex items-baseline gap-3 mt-3">
-                <span className="text-2xl font-bold text-gray-900">
+                <span className="text-2xl font-bold text-mist-900">
                   ${car.pricePerDay.toLocaleString()}.00
                 </span>
-                <span className="text-sm text-gray-400 line-through">
+                <span className="text-sm text-mist-400 line-through">
                   ${originalDayRate.toLocaleString()}.00 USD / day
                 </span>
               </div>
@@ -116,16 +116,16 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
 
             {/* Quick Info Pills */}
             <div className="flex flex-wrap gap-3">
-              <div className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 rounded-xl text-sm text-gray-600">
-                <Shield size={14} className="text-gray-400" />
+              <div className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 rounded-xl text-sm text-mist-600">
+                <Shield size={14} className="text-mist-400" />
                 Security Deposit: ${securityDeposit.toLocaleString()}
               </div>
-              <div className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 rounded-xl text-sm text-gray-600">
-                <Clock size={14} className="text-gray-400" />
+              <div className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 rounded-xl text-sm text-mist-600">
+                <Clock size={14} className="text-mist-400" />
                 Rental Duration: {car.minRentalDays}+ day min
               </div>
-              <div className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 rounded-xl text-sm text-gray-600">
-                <DollarSign size={14} className="text-gray-400" />
+              <div className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 rounded-xl text-sm text-mist-600">
+                <DollarSign size={14} className="text-mist-400" />
                 Extra Hours: 25% of the daily rate
               </div>
             </div>
@@ -143,42 +143,42 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                 { label: "Miles/Day", value: `${car.milesIncluded}` },
               ].map((spec) => (
                 <div key={spec.label} className="bg-gray-50 rounded-xl p-3 text-center">
-                  <p className="text-[11px] text-gray-400 mb-0.5">{spec.label}</p>
-                  <p className="text-sm font-semibold text-gray-800">{spec.value}</p>
+                  <p className="text-[11px] text-mist-400 mb-0.5">{spec.label}</p>
+                  <p className="text-sm font-semibold text-mist-800">{spec.value}</p>
                 </div>
               ))}
             </div>
 
             {/* Long-Term Rental Discounts */}
             <div>
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Long-Term Rental Discounts</h2>
+              <h2 className="text-lg font-bold text-mist-900 mb-4">Long-Term Rental Discounts</h2>
               <div className="border border-gray-200 rounded-xl overflow-hidden">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="bg-gray-50">
-                      <th className="text-left px-4 py-3 font-medium text-gray-500">Duration</th>
-                      <th className="text-left px-4 py-3 font-medium text-gray-500">Discount</th>
-                      <th className="text-left px-4 py-3 font-medium text-gray-500">Mileage</th>
+                      <th className="text-left px-4 py-3 font-medium text-mist-500">Duration</th>
+                      <th className="text-left px-4 py-3 font-medium text-mist-500">Discount</th>
+                      <th className="text-left px-4 py-3 font-medium text-mist-500">Mileage</th>
                     </tr>
                   </thead>
                   <tbody>
                     {discountTiers.map((tier, i) => (
                       <tr key={i} className="border-t border-gray-100">
-                        <td className="px-4 py-3 text-gray-700">{tier.duration}</td>
+                        <td className="px-4 py-3 text-mist-700">{tier.duration}</td>
                         <td className="px-4 py-3 font-semibold text-green-600">{tier.discount}</td>
-                        <td className="px-4 py-3 text-gray-500">{tier.miles}</td>
+                        <td className="px-4 py-3 text-mist-500">{tier.miles}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
+              <p className="text-xs text-mist-400 mt-2 flex items-center gap-1">
                 Vehicle Swap Option: Available with 30-day notice
               </p>
             </div>
 
             {/* Pickup Location */}
-            <div className="flex items-center gap-2 text-sm text-gray-500">
+            <div className="flex items-center gap-2 text-sm text-mist-500">
               <MapPin size={14} />
               Pickup: {car.location}
             </div>
@@ -186,10 +186,10 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
             {/* Description */}
             {car.description && (
               <div>
-                <h2 className="text-lg font-bold text-gray-900 mb-3">
+                <h2 className="text-lg font-bold text-mist-900 mb-3">
                   Rent a {car.name} in {car.location}
                 </h2>
-                <p className="text-sm text-gray-500 leading-relaxed">{car.description}</p>
+                <p className="text-sm text-mist-500 leading-relaxed">{car.description}</p>
               </div>
             )}
           </div>
@@ -201,30 +201,30 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                 {/* Date Inputs */}
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs font-medium text-gray-500 block mb-1.5">Start Date</label>
+                    <label className="text-xs font-medium text-mist-500 block mb-1.5">Start Date</label>
                     <input
                       type="date"
                       min={today}
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-700 focus:border-gray-400 focus:outline-none"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 focus:border-gray-400 focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-medium text-gray-500 block mb-1.5">End Date</label>
+                    <label className="text-xs font-medium text-mist-500 block mb-1.5">End Date</label>
                     <input
                       type="date"
                       min={startDate || today}
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-700 focus:border-gray-400 focus:outline-none"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 focus:border-gray-400 focus:outline-none"
                     />
                   </div>
                 </div>
 
                 {/* Need a Driver */}
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-2">Need a Driver?</p>
+                  <p className="text-xs font-medium text-mist-500 mb-2">Need a Driver?</p>
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="checkbox"
@@ -232,7 +232,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                       onChange={(e) => setNeedDriver(e.target.checked)}
                       className="accent-gray-900 w-4 h-4"
                     />
-                    <span className="text-sm text-gray-600">Yes, I will rent a driver ($65/hour)</span>
+                    <span className="text-sm text-mist-600">Yes, I will rent a driver ($65/hour)</span>
                   </label>
                 </div>
 
@@ -245,9 +245,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
 
                     {/* Price Breakdown */}
                     <div className="space-y-2 text-sm">
-                      <div className="flex justify-between text-gray-500">
+                      <div className="flex justify-between text-mist-500">
                         <span>Car Total · ${car.pricePerDay}/day × {days} days</span>
-                        <span className="text-gray-900">${subtotal.toLocaleString()}</span>
+                        <span className="text-mist-900">${subtotal.toLocaleString()}</span>
                       </div>
                       {discountPercent > 0 && (
                         <div className="flex justify-between text-green-600">
@@ -256,21 +256,21 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                         </div>
                       )}
                       {driverTotal > 0 && (
-                        <div className="flex justify-between text-gray-500">
+                        <div className="flex justify-between text-mist-500">
                           <span>Driver · {days} days</span>
-                          <span className="text-gray-900">${driverTotal.toLocaleString()}</span>
+                          <span className="text-mist-900">${driverTotal.toLocaleString()}</span>
                         </div>
                       )}
-                      <div className="flex justify-between text-gray-500">
+                      <div className="flex justify-between text-mist-500">
                         <span>Tax · 8.5%</span>
-                        <span className="text-gray-900">${tax.toLocaleString()}</span>
+                        <span className="text-mist-900">${tax.toLocaleString()}</span>
                       </div>
-                      <div className="flex justify-between text-gray-500">
+                      <div className="flex justify-between text-mist-500">
                         <span>Security Deposit · Fully refundable</span>
-                        <span className="text-gray-900">${securityDeposit.toLocaleString()}</span>
+                        <span className="text-mist-900">${securityDeposit.toLocaleString()}</span>
                       </div>
                       <hr className="border-gray-100" />
-                      <div className="flex justify-between font-bold text-gray-900 text-base">
+                      <div className="flex justify-between font-bold text-mist-900 text-base">
                         <span>Total Charges</span>
                         <span>${total.toLocaleString()}</span>
                       </div>
@@ -278,7 +278,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                   </>
                 ) : (
                   <div className="text-center py-4">
-                    <p className="text-sm text-gray-400">Select dates to see pricing</p>
+                    <p className="text-sm text-mist-400">Select dates to see pricing</p>
                   </div>
                 )}
               </div>

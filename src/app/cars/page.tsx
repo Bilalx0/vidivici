@@ -116,7 +116,7 @@ function CarsContent() {
           {/* Mobile filter toggle */}
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="lg:hidden flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 w-fit"
+            className="lg:hidden flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-mist-700 w-fit"
           >
             <SlidersHorizontal size={16} /> {showFilters ? "Hide Filters" : "Show Filters"}
           </button>
@@ -131,11 +131,11 @@ function CarsContent() {
           {/* Cars Grid */}
           <div className="flex-1">
             <div className="flex justify-between items-center mb-6">
-              <p className="text-sm text-gray-500">{total} vehicles available</p>
+              <p className="text-sm text-mist-500">{total} vehicles available</p>
               <select
                 value={sort}
                 onChange={(e) => handleSortChange(e.target.value)}
-                className="bg-white border border-gray-200 text-gray-700 text-sm px-3 py-2 rounded-lg focus:border-gray-400 focus:outline-none"
+                className="bg-white border border-gray-200 text-mist-700 text-sm px-3 py-2 rounded-lg focus:border-gray-400 focus:outline-none"
               >
                 <option value="newest">Sort by: Newest</option>
                 <option value="price-asc">Price: Low to High</option>
@@ -151,8 +151,8 @@ function CarsContent() {
               </div>
             ) : cars.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-gray-400 text-lg mb-2">No cars found</p>
-                <p className="text-gray-300 text-sm">Try adjusting your filters or search</p>
+                <p className="text-mist-400 text-lg mb-2">No cars found</p>
+                <p className="text-mist-300 text-sm">Try adjusting your filters or search</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -187,7 +187,7 @@ function CarsContent() {
                     className={`w-10 h-10 rounded-lg font-semibold text-sm transition-colors ${
                       p === currentPage
                         ? "bg-gray-900 text-white"
-                        : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                        : "bg-gray-100 text-mist-500 hover:bg-gray-200"
                     }`}
                   >
                     {p}

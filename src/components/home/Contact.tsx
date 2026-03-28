@@ -67,10 +67,10 @@ export default function ContactForm() {
 
             {/* Header Text */}
             <div className="relative z-10">
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900 leading-snug mb-3">
+              <h3 className="text-xl md:text-2xl font-bold text-mist-900 leading-snug mb-3">
                 Have questions or want to book your luxury experience?
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className="text-sm text-mist-600 leading-relaxed">
                 Our team is here to assist you with cars, villas, and VIP events in Los Angeles
               </p>
             </div>
@@ -105,7 +105,7 @@ export default function ContactForm() {
 
           {/* Right Panel - Form */}
           <div className="flex-1 p-8 md:p-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-mist-900 mb-8 tracking-tight">
               Get in touch with us
             </h2>
 
@@ -119,7 +119,7 @@ export default function ContactForm() {
                     value={form.fullName}
                     onChange={handleChange}
                     placeholder="Enter your full name"
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-400 transition-colors duration-200 bg-white"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-mist-900 placeholder-gray-400 focus:outline-none focus:border-gray-400 transition-colors duration-200 bg-white"
                     required
                   />
                 </Field>
@@ -130,7 +130,7 @@ export default function ContactForm() {
                     value={form.email}
                     onChange={handleChange}
                     placeholder="Enter your email"
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-400 transition-colors duration-200 bg-white"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-mist-900 placeholder-gray-400 focus:outline-none focus:border-gray-400 transition-colors duration-200 bg-white"
                     required
                   />
                 </Field>
@@ -140,7 +140,7 @@ export default function ContactForm() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <Field label="Phone">
                   <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden focus-within:border-gray-400 transition-colors duration-200 bg-white">
-                    <span className="px-4 py-3 text-lg border-r border-gray-300 bg-gray-50 flex items-center gap-2 text-gray-600 flex-shrink-0">
+                    <span className="px-4 py-3 text-lg border-r border-gray-300 bg-gray-50 flex items-center gap-2 text-mist-600 flex-shrink-0">
                       🇺🇸
                     </span>
                     <input
@@ -149,7 +149,7 @@ export default function ContactForm() {
                       value={form.phone}
                       onChange={handleChange}
                       placeholder="Enter your phone number"
-                      className="flex-1 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none bg-white"
+                      className="flex-1 px-4 py-3 text-sm text-mist-900 placeholder-gray-400 outline-none bg-white"
                       required
                     />
                   </div>
@@ -159,7 +159,7 @@ export default function ContactForm() {
                     name="inquiryType"
                     value={form.inquiryType}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-400 transition-colors duration-200 bg-white appearance-none cursor-pointer"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-mist-900 placeholder-gray-400 focus:outline-none focus:border-gray-400 transition-colors duration-200 bg-white appearance-none cursor-pointer"
                     required
                   >
                     <option value="" disabled>
@@ -210,7 +210,7 @@ interface FieldProps {
 function Field({ label, children }: FieldProps) {
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-xs font-semibold text-gray-700 uppercase tracking-wide">
+      <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">
         {label}
       </label>
       {children}
@@ -227,12 +227,12 @@ interface ContactInfoProps {
 function ContactInfo({ icon, label, value }: ContactInfoProps) {
   return (
     <div className="flex items-start gap-4">
-      <div className="w-8 h-8 rounded-full border border-gray-300 bg-white flex items-center justify-center text-gray-600 flex-shrink-0 mt-0.5">
+      <div className="w-8 h-8 rounded-full border border-gray-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
         {icon}
       </div>
       <div>
-        <p className="text-sm font-bold text-gray-900">{label}</p>
-        <p className="text-sm text-gray-600 leading-relaxed">{value}</p>
+        <p className="text-sm font-bold text-mist-900">{label}</p>
+        <p className="text-sm text-mist-600 leading-relaxed">{value}</p>
       </div>
     </div>
   );

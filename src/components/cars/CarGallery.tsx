@@ -13,7 +13,7 @@ export default function CarGallery({ images }: CarGalleryProps) {
   if (!images || images.length === 0) {
     return (
       <div className="bg-gray-100 rounded-2xl h-96 flex items-center justify-center">
-        <ImageOff size={48} className="text-gray-300" />
+        <ImageOff size={48} className="text-mist-300" />
       </div>
     )
   }

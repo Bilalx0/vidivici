@@ -68,11 +68,11 @@ export default function AdminBlogPage() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={4} className="px-6 py-8 text-center text-sm text-gray-500">Loading...</td>
+                <td colSpan={4} className="px-6 py-8 text-center text-sm text-mist-500">Loading...</td>
               </tr>
             ) : posts.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-6 py-8 text-center text-sm text-gray-500">No blog posts found.</td>
+                <td colSpan={4} className="px-6 py-8 text-center text-sm text-mist-500">No blog posts found.</td>
               </tr>
             ) : (
               posts.map((p) => {
@@ -80,11 +80,11 @@ export default function AdminBlogPage() {
                 const date = new Date(p.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
                 return (
                   <tr key={p.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 text-sm text-gray-900">{p.title}</td>
+                    <td className="px-6 py-4 text-sm text-mist-900">{p.title}</td>
                     <td className="px-6 py-4">
                       <span className={`text-xs px-2 py-1 rounded ${status === "Published" ? "bg-green-50 text-green-600" : "bg-yellow-50 text-yellow-600"}`}>{status}</span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">{date}</td>
+                    <td className="px-6 py-4 text-sm text-mist-500">{date}</td>
                     <td className="px-6 py-4 flex gap-2">
                       <button onClick={() => router.push(`/admin/blog/new?edit=${p.id}`)} className="text-xs text-black font-medium hover:underline">Edit</button>
                       <button onClick={() => handleDelete(p.id, p.title)} className="text-xs text-red-500 hover:underline">Delete</button>

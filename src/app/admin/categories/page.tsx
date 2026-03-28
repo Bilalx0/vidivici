@@ -97,7 +97,7 @@ export default function AdminCategoriesPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Manage Categories</h1>
+        <h1 className="text-2xl font-bold text-mist-900">Manage Categories</h1>
         <button onClick={() => { if (showForm) { resetForm() } else { setShowForm(true) } }} className="bg-black text-white px-6 py-2.5 rounded text-sm font-semibold hover:bg-gray-800 transition-colors">
           {showForm ? "Cancel" : "+ Add Category"}
         </button>
@@ -122,14 +122,14 @@ export default function AdminCategoriesPage() {
       )}
 
       {loading ? (
-        <div className="text-center py-12 text-gray-500">Loading categories...</div>
+        <div className="text-center py-12 text-mist-500">Loading categories...</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {categories.map((cat) => (
             <div key={cat.id} className="bg-white border border-gray-200 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">{cat.name}</h3>
-              <p className="text-sm text-gray-500 mb-3">{cat.description}</p>
-              <p className="text-xs text-gray-900 font-medium mb-4">{cat._count?.cars ?? 0} vehicles</p>
+              <h3 className="text-lg font-semibold text-mist-900 mb-1">{cat.name}</h3>
+              <p className="text-sm text-mist-500 mb-3">{cat.description}</p>
+              <p className="text-xs text-mist-900 font-medium mb-4">{cat._count?.cars ?? 0} vehicles</p>
               <div className="flex gap-2">
                 <button onClick={() => handleEdit(cat)} className="text-xs text-black font-medium hover:underline">Edit</button>
                 <button onClick={() => handleDelete(cat.id)} className="text-xs text-red-500 hover:underline">Delete</button>

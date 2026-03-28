@@ -17,35 +17,11 @@ export default function DriveExtraordinaryPage() {
         height="h-80"
       />
 
-      {/* Intro Section */}
-      <section className="bg-white py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-mist-900 mb-6">
-            Tailored Luxury for Every Occasion
-          </h2>
-          <div className="space-y-4 text-mist-600 leading-relaxed">
-            <p>
-              Whether it&apos;s a special celebration, a weekend getaway along the Pacific Coast, or simply the desire to
-              experience automotive excellence — our Drive the Extraordinary collection delivers.
-            </p>
-            <p>
-              Hand-picked supercars, grand tourers, and ultra-luxury vehicles curated for those who appreciate the
-              finer things. Each car is meticulously maintained and delivered to your location with white-glove service.
-            </p>
-            <p>
-              From Lamborghinis and Ferraris to Rolls-Royces and Bentleys, every vehicle in our extraordinary
-              collection transforms a simple drive into an unforgettable experience.
-            </p>
-          </div>
-        </div>
-      </section>
-
+      <CarBrowse />
       <ExoticCarRentals
         title="Extraordinary Collection"
         description="Our finest selection of exotic and luxury vehicles for extraordinary experiences."
       />
-
-      <CarBrowse />
       <WhyChooseUs />
       <Reviews />
       <FAQ />

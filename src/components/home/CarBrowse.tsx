@@ -32,7 +32,7 @@ const carTypes = [
   { name: "Electric", logo: "/type6.png" },
 ];
 
-function CarLogo({ car, selected, onClick }) {
+function CarLogo({ car, selected, onClick }: { car: { name: string; logo: string }; selected: boolean; onClick: (name: string) => void }) {
   return (
     <button
       onClick={() => onClick(car.name)}
@@ -52,7 +52,7 @@ function CarLogo({ car, selected, onClick }) {
   );
 }
 
-function CategoryCard({ category, onClick }: { category: Category; onClick: (slug: string) => void }) {
+function CategoryCard({ category, onClick }: { category: { slug: string; name: string }; onClick: (slug: string) => void }) {
     return (
         <button
             onClick={() => onClick(category.slug)}
@@ -66,7 +66,7 @@ function CategoryCard({ category, onClick }: { category: Category; onClick: (slu
 }
 
 export default function CarBrowseSection() {
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("make");
 
   const data = activeTab === "make" ? carMakes : carTypes;

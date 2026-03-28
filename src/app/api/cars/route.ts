@@ -4,6 +4,18 @@ import { prisma } from '@/lib/prisma'
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
+
+    // Single car by slug
+    const slug = searchParams.get('slug')
+    if (slug) {
+      const car = await prisma.car.findUnique({
+        where: { slug },
+        include: { brand: true, category: true, images: { orderBy: { isPrimary: 'desc' } } },
+      })
+      if (!car) return NextResponse.json({ error: 'Car not found' }, { status: 404 })
+      return NextResponse.json(car)
+    }
+
     const brand = searchParams.get('brand')
     const category = searchParams.get('category')
     const location = searchParams.get('location')

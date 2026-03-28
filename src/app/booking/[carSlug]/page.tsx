@@ -11,9 +11,6 @@ import {
   CreditCard,
   CheckCircle,
   MapPin,
-  Calendar,
-  Clock,
-  ArrowLeft,
 } from "lucide-react"
 
 /* ------------------------------------------------------------------ */

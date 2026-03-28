@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const ChevronIcon = ({ rotated }) => (
   <svg
@@ -78,6 +79,7 @@ const SearchIcon = () => (
 
 export default function Header() {
   const router = useRouter();
+  const { data: session } = useSession();
   const [openDropdown, setOpenDropdown] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(null);
@@ -207,9 +209,12 @@ export default function Header() {
               Reserve Now
             </button>
 
-            <button className="flex items-center justify-center w-9 h-9 rounded-full border border-white/20 hover:border-white/50 hover:bg-white/5">
+            <Link
+              href={session?.user ? "/account" : "/login"}
+              className="flex items-center justify-center w-9 h-9 rounded-full border border-white/20 hover:border-white/50 hover:bg-white/5"
+            >
               <UserIcon />
-            </button>
+            </Link>
           </div>
 
           {/* MOBILE HAMBURGER */}

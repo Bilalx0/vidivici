@@ -10,20 +10,40 @@ generator client {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String     @unique
   password      String
-  role          Role      @default(USER)
+  role          Role       @default(USER)
   phone         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  image         String?
+  dateOfBirth   String?
+  company       String?
+  address       String?
+  country       String?
+  city          String?
+  state         String?
+  zipCode       String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   bookings      Booking[]
+  wishlist      Wishlist[]
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+model Wishlist {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  car       Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId     String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, carId])
 }
 
 model Category {
@@ -76,6 +96,7 @@ model Car {
   location         String     @default("Los Angeles")
   images           CarImage[]
   bookings         Booking[]
+  wishlist         Wishlist[]
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
 }

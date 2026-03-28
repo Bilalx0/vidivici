@@ -97,7 +97,7 @@ function CarsContent() {
       <Banner
         heading="Exotic Car Rentals"
         description="Browse our collection of exotic and luxury vehicles available for rent"
-        height="h-72"
+        height="h-96"
         searchBar={{
           placeholder: "Search cars by name, brand...",
           onSearch: (value: string) => {

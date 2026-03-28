@@ -207,7 +207,7 @@ export default function ReservationPage() {
   if (!car) {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center pt-20 gap-4">
-        <p className="text-gray-500">Car not found</p>
+        <p className="text-mist-500">Car not found</p>
         <Link href="/cars" className="text-sm text-blue-600 hover:underline">
           Browse Cars
         </Link>
@@ -223,7 +223,7 @@ export default function ReservationPage() {
           <div className="flex-1 py-2.5 text-center text-sm font-medium bg-gray-900 text-white">
             Car
           </div>
-          <div className="flex-1 py-2.5 text-center text-sm font-medium text-gray-400 bg-gray-50 cursor-not-allowed">
+          <div className="flex-1 py-2.5 text-center text-sm font-medium text-mist-400 bg-gray-50 cursor-not-allowed">
             Villa
           </div>
         </div>
@@ -234,12 +234,12 @@ export default function ReservationPage() {
           <div className="flex flex-col items-center">
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                step >= 1 ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-400"
+                step >= 1 ? "bg-blue-600 text-white" : "bg-gray-200 text-mist-400"
               }`}
             >
               {step > 1 ? <CheckCircle size={16} /> : "1"}
             </div>
-            <span className={`text-xs mt-1.5 ${step >= 1 ? "text-blue-600 font-medium" : "text-gray-400"}`}>
+            <span className={`text-xs mt-1.5 ${step >= 1 ? "text-blue-600 font-medium" : "text-mist-400"}`}>
               Select
             </span>
           </div>
@@ -248,12 +248,12 @@ export default function ReservationPage() {
           <div className="flex flex-col items-center">
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                step >= 2 ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-400"
+                step >= 2 ? "bg-blue-600 text-white" : "bg-gray-200 text-mist-400"
               }`}
             >
               {step > 2 ? <CheckCircle size={16} /> : "2"}
             </div>
-            <span className={`text-xs mt-1.5 ${step >= 2 ? "text-blue-600 font-medium" : "text-gray-400"}`}>
+            <span className={`text-xs mt-1.5 ${step >= 2 ? "text-blue-600 font-medium" : "text-mist-400"}`}>
               Pay
             </span>
           </div>
@@ -262,12 +262,12 @@ export default function ReservationPage() {
           <div className="flex flex-col items-center">
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                step >= 3 ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-400"
+                step >= 3 ? "bg-blue-600 text-white" : "bg-gray-200 text-mist-400"
               }`}
             >
               3
             </div>
-            <span className={`text-xs mt-1.5 ${step >= 3 ? "text-blue-600 font-medium" : "text-gray-400"}`}>
+            <span className={`text-xs mt-1.5 ${step >= 3 ? "text-blue-600 font-medium" : "text-mist-400"}`}>
               Done
             </span>
           </div>
@@ -418,24 +418,24 @@ function SelectStep({
     <div className="space-y-8">
       {/* Select Vehicle */}
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Select Vehicle</h2>
+        <h2 className="text-lg font-semibold text-mist-900 mb-4">Select Vehicle</h2>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="text-xs text-gray-500 block mb-1.5">Make</label>
+            <label className="text-xs text-mist-500 block mb-1.5">Make</label>
             <div className="relative">
-              <select className="w-full appearance-none border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-500 bg-white focus:border-gray-400 focus:outline-none pr-8" disabled>
+              <select className="w-full appearance-none border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-mist-500 bg-white focus:border-gray-400 focus:outline-none pr-8" disabled>
                 <option>{car.brandName || "Select a make"}</option>
               </select>
-              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none" />
             </div>
           </div>
           <div>
-            <label className="text-xs text-gray-500 block mb-1.5">Model</label>
+            <label className="text-xs text-mist-500 block mb-1.5">Model</label>
             <div className="relative">
-              <select className="w-full appearance-none border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-500 bg-white focus:border-gray-400 focus:outline-none pr-8" disabled>
+              <select className="w-full appearance-none border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-mist-500 bg-white focus:border-gray-400 focus:outline-none pr-8" disabled>
                 <option>{car.name || "Select a model"}</option>
               </select>
-              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none" />
             </div>
           </div>
         </div>
@@ -443,47 +443,47 @@ function SelectStep({
 
       {/* When & Where */}
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">When & Where</h2>
+        <h2 className="text-lg font-semibold text-mist-900 mb-4">When & Where</h2>
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs text-gray-500 block mb-1.5">Start Date</label>
+              <label className="text-xs text-mist-500 block mb-1.5">Start Date</label>
               <input
                 type="date"
                 min={today}
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-700 focus:border-gray-400 focus:outline-none"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 focus:border-gray-400 focus:outline-none"
               />
             </div>
             <div>
-              <label className="text-xs text-gray-500 block mb-1.5">Time</label>
+              <label className="text-xs text-mist-500 block mb-1.5">Time</label>
               <input
                 type="time"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-700 focus:border-gray-400 focus:outline-none"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 focus:border-gray-400 focus:outline-none"
               />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs text-gray-500 block mb-1.5">End Date</label>
+              <label className="text-xs text-mist-500 block mb-1.5">End Date</label>
               <input
                 type="date"
                 min={startDate || today}
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-700 focus:border-gray-400 focus:outline-none"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 focus:border-gray-400 focus:outline-none"
               />
             </div>
             <div>
-              <label className="text-xs text-gray-500 block mb-1.5">Time</label>
+              <label className="text-xs text-mist-500 block mb-1.5">Time</label>
               <input
                 type="time"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-700 focus:border-gray-400 focus:outline-none"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 focus:border-gray-400 focus:outline-none"
               />
             </div>
           </div>
@@ -492,7 +492,7 @@ function SelectStep({
 
       {/* Need a Driver */}
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Need a Driver?</h2>
+        <h2 className="text-lg font-semibold text-mist-900 mb-4">Need a Driver?</h2>
         <label className="flex items-center gap-2.5 cursor-pointer mb-4">
           <div
             className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
@@ -507,14 +507,14 @@ function SelectStep({
             onChange={(e) => setNeedDriver(e.target.checked)}
             className="sr-only"
           />
-          <span className="text-sm text-gray-600">Yes, I will need a driver ($45/hour)</span>
+          <span className="text-sm text-mist-600">Yes, I will need a driver ($45/hour)</span>
         </label>
 
         {needDriver && (
           <div className="space-y-5 pl-0.5">
             {/* Driver Hours Slider */}
             <div>
-              <p className="text-xs text-gray-500 mb-2">Driver Hours per Day</p>
+              <p className="text-xs text-mist-500 mb-2">Driver Hours per Day</p>
               <input
                 type="range"
                 min={1}
@@ -523,7 +523,7 @@ function SelectStep({
                 onChange={(e) => setDriverHours(Number(e.target.value))}
                 className="w-full accent-gray-900"
               />
-              <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+              <div className="flex justify-between text-[10px] text-mist-400 mt-1">
                 <span>0 hr</span>
                 <span>{driverHours} hr</span>
                 <span>16 hr</span>
@@ -532,7 +532,7 @@ function SelectStep({
 
             {/* Driver Availability */}
             <div>
-              <p className="text-xs text-gray-500 mb-2">Driver Availability</p>
+              <p className="text-xs text-mist-500 mb-2">Driver Availability</p>
               <div className="space-y-2">
                 <label className="flex items-center gap-2.5 cursor-pointer">
                   <div
@@ -551,7 +551,7 @@ function SelectStep({
                     onChange={() => setDriverAvailability("full")}
                     className="sr-only"
                   />
-                  <span className="text-sm text-gray-600">Full Rental</span>
+                  <span className="text-sm text-mist-600">Full Rental</span>
                 </label>
                 <label className="flex items-center gap-2.5 cursor-pointer">
                   <div
@@ -570,7 +570,7 @@ function SelectStep({
                     onChange={() => setDriverAvailability("select")}
                     className="sr-only"
                   />
-                  <span className="text-sm text-gray-600">Select Days</span>
+                  <span className="text-sm text-mist-600">Select Days</span>
                 </label>
               </div>
             </div>
@@ -581,17 +581,17 @@ function SelectStep({
                 <button
                   type="button"
                   onClick={() => setDriverDays(Math.max(1, driverDays - 1))}
-                  className="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50"
+                  className="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-mist-500 hover:bg-gray-50"
                 >
                   <Minus size={14} />
                 </button>
-                <span className="text-sm font-medium text-gray-900 w-6 text-center">
+                <span className="text-sm font-medium text-mist-900 w-6 text-center">
                   {driverDays}
                 </span>
                 <button
                   type="button"
                   onClick={() => setDriverDays(Math.min(days || 365, driverDays + 1))}
-                  className="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50"
+                  className="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-mist-500 hover:bg-gray-50"
                 >
                   <Plus size={14} />
                 </button>
@@ -666,7 +666,7 @@ function PayStep({
 
   return (
     <div className="space-y-6">
-      <h2 className="text-lg font-semibold text-gray-900">Card Info</h2>
+      <h2 className="text-lg font-semibold text-mist-900">Card Info</h2>
 
       {/* Card type */}
       <div className="border border-blue-200 bg-blue-50/30 rounded-xl p-4">
@@ -675,32 +675,32 @@ function PayStep({
             <div className="w-4 h-4 rounded-full border-2 border-blue-600 flex items-center justify-center">
               <div className="w-2 h-2 rounded-full bg-blue-600" />
             </div>
-            <span className="text-sm font-medium text-gray-900">Credit card</span>
+            <span className="text-sm font-medium text-mist-900">Credit card</span>
           </label>
           <div className="flex items-center gap-1.5">
             <div className="h-5 px-1.5 bg-[#1A1F71] rounded text-white text-[8px] font-bold flex items-center">VISA</div>
             <div className="h-5 px-1.5 bg-[#2E77BC] rounded text-white text-[8px] font-bold flex items-center">AMEX</div>
             <div className="h-5 px-1.5 bg-[#EB001B] rounded text-white text-[8px] font-bold flex items-center">MC</div>
-            <CreditCard size={18} className="text-gray-400" />
+            <CreditCard size={18} className="text-mist-400" />
           </div>
         </div>
       </div>
 
       {/* Name on Card */}
       <div>
-        <label className="text-xs text-gray-500 block mb-1.5">Name on Card</label>
+        <label className="text-xs text-mist-500 block mb-1.5">Name on Card</label>
         <input
           type="text"
           placeholder="MM/YY"
           value={cardName}
           onChange={(e) => setCardName(e.target.value)}
-          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none"
+          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-gray-400 focus:outline-none"
         />
       </div>
 
       {/* Card Number */}
       <div>
-        <label className="text-xs text-gray-500 block mb-1.5">Card Number</label>
+        <label className="text-xs text-mist-500 block mb-1.5">Card Number</label>
         <div className="relative">
           <input
             type="text"
@@ -708,7 +708,7 @@ function PayStep({
             value={cardNumber}
             onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
             maxLength={19}
-            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none pr-20"
+            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-gray-400 focus:outline-none pr-20"
           />
           <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
             <span className="text-[8px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-medium">AutoFill</span>
@@ -719,50 +719,50 @@ function PayStep({
       {/* Expiry & CVV */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-xs text-gray-500 block mb-1.5">Expiration Date</label>
+          <label className="text-xs text-mist-500 block mb-1.5">Expiration Date</label>
           <input
             type="text"
             placeholder="MM/YY"
             value={expiry}
             onChange={(e) => setExpiry(formatExpiry(e.target.value))}
             maxLength={5}
-            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none"
+            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-gray-400 focus:outline-none"
           />
         </div>
         <div>
-          <label className="text-xs text-gray-500 block mb-1.5">Security Code</label>
+          <label className="text-xs text-mist-500 block mb-1.5">Security Code</label>
           <input
             type="text"
             placeholder="CVV"
             value={cvv}
             onChange={(e) => setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
             maxLength={4}
-            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none"
+            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-gray-400 focus:outline-none"
           />
         </div>
       </div>
 
       {/* Billing Address */}
       <div>
-        <label className="text-xs text-gray-500 block mb-1.5">Billing Address</label>
+        <label className="text-xs text-mist-500 block mb-1.5">Billing Address</label>
         <input
           type="text"
           placeholder="Enter billing address"
           value={billingAddress}
           onChange={(e) => setBillingAddress(e.target.value)}
-          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none"
+          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-gray-400 focus:outline-none"
         />
       </div>
 
       {/* Country & Zip */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-xs text-gray-500 block mb-1.5">Country</label>
+          <label className="text-xs text-mist-500 block mb-1.5">Country</label>
           <div className="relative">
             <select
               value={country}
               onChange={(e) => setCountry(e.target.value)}
-              className="w-full appearance-none border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 bg-white focus:border-gray-400 focus:outline-none pr-8"
+              className="w-full appearance-none border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 bg-white focus:border-gray-400 focus:outline-none pr-8"
             >
               <option>United States</option>
               <option>Canada</option>
@@ -772,17 +772,17 @@ function PayStep({
               <option>France</option>
               <option>United Arab Emirates</option>
             </select>
-            <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+            <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none" />
           </div>
         </div>
         <div>
-          <label className="text-xs text-gray-500 block mb-1.5">ZIP Code</label>
+          <label className="text-xs text-mist-500 block mb-1.5">ZIP Code</label>
           <input
             type="text"
             placeholder="ZIP code"
             value={zipCode}
             onChange={(e) => setZipCode(e.target.value)}
-            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none"
+            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-gray-400 focus:outline-none"
           />
         </div>
       </div>
@@ -791,26 +791,26 @@ function PayStep({
       <div className="border border-gray-200 rounded-xl p-4">
         <label className="flex items-center gap-2.5 cursor-pointer">
           <div className="w-4 h-4 rounded-full border-2 border-gray-300" />
-          <span className="text-sm text-gray-500">PayPal</span>
+          <span className="text-sm text-mist-500">PayPal</span>
         </label>
       </div>
 
       {/* Terms */}
-      <p className="text-xs text-gray-400 leading-relaxed">
+      <p className="text-xs text-mist-400 leading-relaxed">
         By placing this order, I agree to the{" "}
         <span className="text-blue-600 cursor-pointer">Terms & Conditions</span> &{" "}
         <span className="text-blue-600 cursor-pointer">Privacy Policy.</span>
       </p>
-      <p className="text-xs text-gray-400 leading-relaxed">
+      <p className="text-xs text-mist-400 leading-relaxed">
         We will temporarily reserve the funds on your credit card with a pre-authorization. Your credit card will only be charged after the reservation gets confirmed by the Sales Team.
       </p>
-      <p className="text-xs text-gray-400">Safe and Secure SSL Encrypted</p>
+      <p className="text-xs text-mist-400">Safe and Secure SSL Encrypted</p>
 
       {/* Buttons */}
       <div className="flex gap-3">
         <button
           onClick={onBack}
-          className="flex-1 border border-gray-200 text-gray-700 py-3 rounded-xl font-semibold text-sm hover:bg-gray-50 transition-colors"
+          className="flex-1 border border-gray-200 text-mist-700 py-3 rounded-xl font-semibold text-sm hover:bg-gray-50 transition-colors"
         >
           Back
         </button>
@@ -835,15 +835,15 @@ function DoneStep({ bookingId, carName }: { bookingId: string; carName: string }
       <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto">
         <CheckCircle size={32} className="text-green-600" />
       </div>
-      <h2 className="text-2xl font-bold text-gray-900">Reservation Confirmed!</h2>
-      <p className="text-gray-500 text-sm max-w-md mx-auto">
-        Your booking for the <span className="font-medium text-gray-900">{carName}</span> has been
+      <h2 className="text-2xl font-bold text-mist-900">Reservation Confirmed!</h2>
+      <p className="text-mist-500 text-sm max-w-md mx-auto">
+        Your booking for the <span className="font-medium text-mist-900">{carName}</span> has been
         submitted successfully. Our team will confirm your reservation shortly.
       </p>
-      <p className="text-xs text-gray-400">
-        Booking Reference: <span className="font-mono font-semibold text-gray-700">VV-{bookingId}</span>
+      <p className="text-xs text-mist-400">
+        Booking Reference: <span className="font-mono font-semibold text-mist-700">VV-{bookingId}</span>
       </p>
-      <p className="text-xs text-gray-400">
+      <p className="text-xs text-mist-400">
         Free cancellation within 24 hours from the time you place the order.
       </p>
       <div className="flex gap-3 justify-center pt-4">
@@ -855,7 +855,7 @@ function DoneStep({ bookingId, carName }: { bookingId: string; carName: string }
         </Link>
         <Link
           href="/cars"
-          className="px-6 py-2.5 border border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-colors"
+          className="px-6 py-2.5 border border-gray-200 text-mist-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-colors"
         >
           Browse More Cars
         </Link>
@@ -913,31 +913,31 @@ function SummaryCard({
             // eslint-disable-next-line @next/next/no-img-element
             <img src={car.image} alt={car.name} className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
+            <div className="w-full h-full flex items-center justify-center text-xs text-mist-400">
               No image
             </div>
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 text-sm">{car.name}</h3>
+          <h3 className="font-semibold text-mist-900 text-sm">{car.name}</h3>
           <div className="mt-2 space-y-1.5">
             <div className="flex items-start gap-2">
               <div className="w-2 h-2 rounded-full bg-gray-900 mt-1 flex-shrink-0" />
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-mist-500">
                 <p>{formatDate(startDate, startTime)}</p>
-                <p className="text-gray-400">{car.location}</p>
+                <p className="text-mist-400">{car.location}</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
               <div className="w-2 h-2 rounded-full bg-gray-400 mt-1 flex-shrink-0" />
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-mist-500">
                 <p>{formatDate(endDate, endTime)}</p>
-                <p className="text-gray-400">{car.location}</p>
+                <p className="text-mist-400">{car.location}</p>
               </div>
             </div>
           </div>
           {days > 0 && (
-            <p className="text-[10px] text-gray-400 mt-2 flex items-center gap-1">
+            <p className="text-[10px] text-mist-400 mt-2 flex items-center gap-1">
               <MapPin size={10} /> Up to {car.milesIncluded} miles/day
             </p>
           )}
@@ -946,18 +946,18 @@ function SummaryCard({
 
       {/* User info (Pay step) */}
       {step >= 2 && session?.user && (
-        <div className="text-xs text-gray-500 space-y-0.5 border-t border-gray-100 pt-3">
+        <div className="text-xs text-mist-500 space-y-0.5 border-t border-gray-100 pt-3">
           <p>
-            <span className="text-gray-700 font-medium">Full name:</span> {session.user.name || "—"}
+            <span className="text-mist-700 font-medium">Full name:</span> {session.user.name || "—"}
           </p>
           <p>
-            <span className="text-gray-700 font-medium">Email:</span> {session.user.email || "—"}
+            <span className="text-mist-700 font-medium">Email:</span> {session.user.email || "—"}
           </p>
         </div>
       )}
 
       {step >= 2 && (
-        <p className="text-xs text-gray-400 border-t border-gray-100 pt-3">
+        <p className="text-xs text-mist-400 border-t border-gray-100 pt-3">
           Free cancellation within 24 hours from the time you place the order.
         </p>
       )}
@@ -965,9 +965,9 @@ function SummaryCard({
       {/* Price Breakdown */}
       {pricing && days > 0 && (
         <div className="space-y-2 text-sm border-t border-gray-100 pt-3">
-          <div className="flex justify-between text-gray-500">
+          <div className="flex justify-between text-mist-500">
             <span>Car Total <span className="text-xs">({`$${car.pricePerDay} × ${days}d`})</span></span>
-            <span className="text-gray-900">${pricing.subtotal.toLocaleString()}</span>
+            <span className="text-mist-900">${pricing.subtotal.toLocaleString()}</span>
           </div>
           {pricing.discountPercent > 0 && (
             <div className="flex justify-between text-green-600">
@@ -976,29 +976,29 @@ function SummaryCard({
             </div>
           )}
           {pricing.driverTotal > 0 && (
-            <div className="flex justify-between text-gray-500">
+            <div className="flex justify-between text-mist-500">
               <span>Driver Total <span className="text-xs">({driverHours}hr × $45 × {actualDriverDays}d)</span></span>
-              <span className="text-gray-900">${pricing.driverTotal.toLocaleString()}</span>
+              <span className="text-mist-900">${pricing.driverTotal.toLocaleString()}</span>
             </div>
           )}
-          <div className="flex justify-between text-gray-500">
+          <div className="flex justify-between text-mist-500">
             <span>Tax <span className="text-xs">(8.5%)</span></span>
-            <span className="text-gray-900">${pricing.tax.toLocaleString()}</span>
+            <span className="text-mist-900">${pricing.tax.toLocaleString()}</span>
           </div>
-          <div className="flex justify-between text-gray-500">
+          <div className="flex justify-between text-mist-500">
             <span>Security Deposit <span className="text-xs">(Fully Refundable)</span></span>
-            <span className="text-gray-900">${pricing.securityDeposit.toLocaleString()}</span>
+            <span className="text-mist-900">${pricing.securityDeposit.toLocaleString()}</span>
           </div>
 
           {step >= 2 && (
             <>
-              <div className="flex justify-between text-gray-500">
+              <div className="flex justify-between text-mist-500">
                 <span>Delivery Fee</span>
-                <span className="text-gray-400">TBD</span>
+                <span className="text-mist-400">TBD</span>
               </div>
-              <div className="flex justify-between text-gray-500">
+              <div className="flex justify-between text-mist-500">
                 <span>Return Fee</span>
-                <span className="text-gray-400">TBD</span>
+                <span className="text-mist-400">TBD</span>
               </div>
             </>
           )}
@@ -1007,20 +1007,20 @@ function SummaryCard({
 
           {step >= 2 ? (
             <>
-              <div className="flex justify-between text-gray-500">
+              <div className="flex justify-between text-mist-500">
                 <span className="font-medium">Pay Now <span className="text-xs">(Authorize Hold)</span></span>
                 <span className="text-blue-600 font-semibold">${pricing.securityDeposit.toLocaleString()}</span>
               </div>
-              <div className="flex justify-between text-gray-500">
+              <div className="flex justify-between text-mist-500">
                 <span className="font-medium">Due at Pickup</span>
-                <span className="text-gray-900 font-semibold">
+                <span className="text-mist-900 font-semibold">
                   ${(pricing.total - pricing.securityDeposit).toLocaleString()}
                 </span>
               </div>
             </>
           ) : null}
 
-          <div className="flex justify-between font-bold text-gray-900 text-base pt-1">
+          <div className="flex justify-between font-bold text-mist-900 text-base pt-1">
             <span>Total Charges</span>
             <span>${pricing.total.toLocaleString()}</span>
           </div>

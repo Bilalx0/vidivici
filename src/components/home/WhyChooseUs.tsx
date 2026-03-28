@@ -29,6 +29,21 @@ export default function WhyChooseUs({ bg = "#f0f0ee" }: { bg?: string }) {
       className="w-full px-10 sm:px-16 lg:px-20 py-20 relative overflow-visible"
       style={{ backgroundColor: bg }}
     >
+
+        <img
+        src="/Vector 7.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none  rotate-180"
+      />
+
+      {/* Right side vector decoration */}
+      <img
+        src="/Vector 7.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180"
+      />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-32 items-start">
 
         {/* Left: Heading + CTA */}

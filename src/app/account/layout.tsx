@@ -4,7 +4,7 @@ import { useSession, signOut } from "next-auth/react"
 import { useRouter, usePathname } from "next/navigation"
 import { useEffect } from "react"
 import Link from "next/link"
-import { User, CalendarDays, Heart, FileText, CreditCard, LogOut } from "lucide-react"
+import { User, CalendarDays, Heart, FileText, CreditCard, LogOut, ArrowLeft } from "lucide-react"
 
 const SIDEBAR_ITEMS = [
   { label: "Personal Information", href: "/account", icon: User },
@@ -83,7 +83,14 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
               </nav>
 
               {/* Logout */}
-              <div className="mt-4 pt-4 border-t border-gray-100">
+              <div className="mt-4 pt-4 border-t border-gray-100 space-y-1">
+                <Link
+                  href="/"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition w-full"
+                >
+                  <ArrowLeft size={18} />
+                  Back to Website
+                </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
                   className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-600 hover:bg-red-50 hover:text-red-600 transition w-full"

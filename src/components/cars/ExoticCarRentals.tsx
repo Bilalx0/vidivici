@@ -66,6 +66,7 @@ export default function ExoticCarRentals({
             {cars.map((car) => (
               <CarCard
                 key={car.id}
+                id={car.id}
                 name={car.name}
                 slug={car.slug}
                 brand={car.brand.name}

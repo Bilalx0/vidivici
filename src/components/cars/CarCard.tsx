@@ -1,7 +1,11 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 import { ImageOff, Users, Gauge, Zap, ArrowUpRight, Heart } from "lucide-react"
 
 interface CarCardProps {
+  id?: string
   name: string
   slug: string
   brand: string
@@ -14,9 +18,35 @@ interface CarCardProps {
   shortDescription?: string
   horsepower?: number
   acceleration?: string
+  wishlisted?: boolean
 }
 
-export default function CarCard({ name, slug, brand, pricePerDay, seats, image, horsepower, acceleration }: CarCardProps) {
+export default function CarCard({ id, name, slug, brand, pricePerDay, seats, image, horsepower, acceleration, wishlisted: initialWishlisted }: CarCardProps) {
+  const [wishlisted, setWishlisted] = useState(initialWishlisted || false)
+  const [toggling, setToggling] = useState(false)
+
+  const toggleWishlist = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!id || toggling) return
+    setToggling(true)
+    try {
+      const res = await fetch("/api/wishlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ carId: id }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setWishlisted(data.wishlisted)
+      } else if (res.status === 401) {
+        window.location.href = "/login"
+      }
+    } catch {} finally {
+      setToggling(false)
+    }
+  }
+
   return (
     <div className="relative flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group">
       {/* Image */}
@@ -28,8 +58,16 @@ export default function CarCard({ name, slug, brand, pricePerDay, seats, image, 
             <ImageOff size={32} className="text-gray-300" />
           </div>
         )}
-        <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
-          <Heart size={14} />
+        <button
+          onClick={toggleWishlist}
+          disabled={toggling}
+          className={`absolute top-3 right-3 w-8 h-8 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-200 ${
+            wishlisted
+              ? "bg-red-500 text-white"
+              : "bg-white/80 text-gray-400 hover:text-red-500"
+          }`}
+        >
+          <Heart size={14} fill={wishlisted ? "currentColor" : "none"} />
         </button>
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </div>

@@ -1,8 +1,9 @@
 "use client"
 
 import { useSession } from "next-auth/react"
-import { useState, useEffect } from "react"
-import { Pencil } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
+import Image from "next/image"
+import { Pencil, Camera } from "lucide-react"
 import toast from "react-hot-toast"
 
 interface ProfileForm {
@@ -16,11 +17,12 @@ interface ProfileForm {
   city: string
   state: string
   zipCode: string
+  image: string
 }
 
 const EMPTY: ProfileForm = {
   name: "", email: "", phone: "", dateOfBirth: "", company: "",
-  address: "", country: "", city: "", state: "", zipCode: "",
+  address: "", country: "", city: "", state: "", zipCode: "", image: "",
 }
 
 export default function PersonalInfoPage() {
@@ -28,6 +30,8 @@ export default function PersonalInfoPage() {
   const [form, setForm] = useState<ProfileForm>(EMPTY)
   const [editing, setEditing] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const fileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (session?.user) fetchProfile()
@@ -49,9 +53,42 @@ export default function PersonalInfoPage() {
           city: data.city || "",
           state: data.state || "",
           zipCode: data.zipCode || "",
+          image: data.image || "",
         })
       }
     } catch {}
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append("files", file)
+      const res = await fetch("/api/upload", { method: "POST", body: formData })
+      if (res.ok) {
+        const { urls } = await res.json()
+        const imageUrl = urls[0]
+        // Save image to profile immediately
+        const saveRes = await fetch("/api/account/profile", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...form, image: imageUrl }),
+        })
+        if (saveRes.ok) {
+          setForm((prev) => ({ ...prev, image: imageUrl }))
+          toast.success("Profile photo updated")
+          await update()
+        }
+      } else {
+        toast.error("Upload failed")
+      }
+    } catch {
+      toast.error("Upload failed")
+    } finally {
+      setUploading(false)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -95,29 +132,48 @@ export default function PersonalInfoPage() {
   const initials = (form.name || form.email || "U").charAt(0).toUpperCase()
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-visible">
       {/* Header */}
       <div className="px-6 sm:px-8 pt-8 pb-6 border-b border-gray-100 flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Personal Information</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="px-6 sm:px-8 py-6">
-        {/* Avatar row */}
-        <div className="flex items-center gap-5 mb-8">
+        {/* Avatar row — overflow top */}
+        <div className="flex justify-center -mt-20 mb-6">
           <div className="relative">
-            <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-2xl font-bold text-gray-500">
-              {initials}
+            <div className="w-36 h-36 rounded-full border-4 border-white shadow-lg overflow-hidden bg-gray-200 flex items-center justify-center">
+              {form.image ? (
+                <Image src={form.image} alt="Profile" fill className="object-cover" />
+              ) : (
+                <span className="text-4xl font-bold text-gray-500">{initials}</span>
+              )}
             </div>
-            {editing && (
-              <button
-                type="button"
-                className="absolute bottom-0 right-0 w-7 h-7 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50"
-              >
-                <Pencil size={13} className="text-gray-600" />
-              </button>
-            )}
+            {/* Edit pencil — top right of avatar */}
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              disabled={uploading}
+              className="absolute bottom-2 right-2 w-8 h-8 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-md hover:bg-gray-50 transition disabled:opacity-50"
+            >
+              {uploading ? (
+                <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-700 rounded-full animate-spin" />
+              ) : (
+                <Camera size={14} className="text-gray-600" />
+              )}
+            </button>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageUpload}
+            />
           </div>
-          <div className="flex-1" />
+        </div>
+
+        {/* Edit button row */}
+        <div className="flex justify-end mb-6">
           {!editing ? (
             <button
               type="button"

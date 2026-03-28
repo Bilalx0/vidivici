@@ -116,12 +116,16 @@ export default function Footer() {
             <FooterCol
               title="Services"
               links={[
-                "Cars", "Villas", "Events",
-                "Luxury Car Rental", "Corporate Car Rental",
-                "Luxury Airport Transfer", "Wedding Car Rental",
-                "Prom Car Rental", "Long-Term Car Rental",
-                "Insurance Replacement Vehicle",
-                "Film, TV & Video Car & House Rental",
+                { label: "Cars", href: "/cars" },
+                { label: "Insurance Replacement", href: "/cars/insurance" },
+                { label: "Drive the Extraordinary", href: "/cars/drive-the-extraordinary" },
+                { label: "Long-Term Car Rental", href: "/cars/long-term" },
+                { label: "Experience", href: "/cars/experience" },
+                "Villas",
+                "Events",
+                "Luxury Airport Transfer",
+                "Wedding Car Rental",
+                "Corporate Car Rental",
               ]}
             />
 

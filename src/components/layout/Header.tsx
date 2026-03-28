@@ -37,9 +37,34 @@ const UserIcon = () => (
 );
 
 const NAV_ITEMS = [
-  { label: "Cars", sub: ["Luxury Sedans", "Sports Cars", "SUVs", "Convertibles"] },
-  { label: "Villas", sub: ["Beachfront", "Mountain", "Private Estates"] },
-  { label: "Events", sub: ["Corporate", "Weddings", "Private Parties"] },
+  {
+    label: "Cars",
+    href: "/cars",
+    sub: [
+      { label: "Insurance Replacement", href: "/cars/insurance" },
+      { label: "Drive the Extraordinary", href: "/cars/drive-the-extraordinary" },
+      { label: "Long-Term Rental", href: "/cars/long-term" },
+      { label: "Experience", href: "/cars/experience" },
+    ],
+  },
+  {
+    label: "Villas",
+    href: "#",
+    sub: [
+      { label: "Beachfront", href: "#" },
+      { label: "Mountain", href: "#" },
+      { label: "Private Estates", href: "#" },
+    ],
+  },
+  {
+    label: "Events",
+    href: "#",
+    sub: [
+      { label: "Corporate", href: "#" },
+      { label: "Weddings", href: "#" },
+      { label: "Private Parties", href: "#" },
+    ],
+  },
   { label: "About", href: "/about", sub: [] },
   { label: "Contact", href: "/contact", sub: [] },
 ];
@@ -98,50 +123,40 @@ export default function Header() {
           {/* LEFT NAV */}
           <nav className="hidden sm:flex items-center gap-0.5 flex-1">
             {NAV_ITEMS.map((item) => (
-              <div key={item.label} className="relative">
+              <div
+                key={item.label}
+                className="relative group"
+                onMouseEnter={() => item.sub.length > 0 && setOpenDropdown(item.label)}
+                onMouseLeave={() => setOpenDropdown(null)}
+              >
+                {/* NAV LINK — always clickable */}
+                <Link
+                  href={item.href}
+                  className={`flex items-center gap-1.5 px-3.5 py-2 text-[13.5px] tracking-[0.04em] rounded-md transition
+                  ${
+                    openDropdown === item.label
+                      ? "text-white bg-white/5"
+                      : "text-white/75 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  {item.label}
+                  {item.sub.length > 0 && <ChevronIcon rotated={openDropdown === item.label} />}
+                </Link>
 
-                {/* LINK ITEMS */}
-                {item.sub.length === 0 ? (
-                  <Link
-                    href={item.href}
-                    className="flex items-center px-3.5 py-2 text-[13.5px] tracking-[0.04em] rounded-md text-white/75 hover:text-white hover:bg-white/5 transition"
-                  >
-                    {item.label}
-                  </Link>
-                ) : (
-
-                  /* DROPDOWN BUTTON */
-                  <>
-                    <button
-                      onClick={() =>
-                        setOpenDropdown(
-                          openDropdown === item.label ? null : item.label
-                        )
-                      }
-                      className={`flex items-center gap-1.5 px-3.5 py-2 text-[13.5px] tracking-[0.04em] rounded-md transition
-                      ${
-                        openDropdown === item.label
-                          ? "text-white bg-white/5"
-                          : "text-white/75 hover:text-white hover:bg-white/5"
-                      }`}
-                    >
-                      {item.label}
-                      <ChevronIcon rotated={openDropdown === item.label} />
-                    </button>
-
-                    {openDropdown === item.label && (
-                      <div className="absolute top-[calc(100%+10px)] left-0 min-w-[170px] bg-[#0f1319] border border-white/[0.09] rounded-xl p-1.5 shadow-[0_24px_48px_rgba(0,0,0,0.55)] z-[300]">
-                        {item.sub.map((s) => (
-                          <div
-                            key={s}
-                            className="px-3.5 py-2.5 text-[13px] text-white/60 rounded-md cursor-pointer hover:bg-white/[0.06] hover:text-white"
-                          >
-                            {s}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </>
+                {/* DROPDOWN — hover only */}
+                {item.sub.length > 0 && openDropdown === item.label && (
+                  <div className="absolute top-[calc(100%+4px)] left-0 min-w-[200px] bg-[#0f1319] border border-white/[0.09] rounded-xl p-1.5 shadow-[0_24px_48px_rgba(0,0,0,0.55)] z-[300]">
+                    {item.sub.map((s) => (
+                      <Link
+                        key={s.label}
+                        href={s.href}
+                        onClick={() => setOpenDropdown(null)}
+                        className="block px-3.5 py-2.5 text-[13px] text-white/60 rounded-md hover:bg-white/[0.06] hover:text-white transition"
+                      >
+                        {s.label}
+                      </Link>
+                    ))}
+                  </div>
                 )}
               </div>
             ))}
@@ -248,27 +263,30 @@ export default function Header() {
                 </Link>
               ) : (
                 <>
-                  <button
-                    onClick={() =>
-                      setMobileExpanded(
-                        mobileExpanded === item.label ? null : item.label
-                      )
-                    }
-                    className="flex justify-between w-full px-6 py-3 text-white/80"
-                  >
-                    {item.label}
-                    <ChevronIcon rotated={mobileExpanded === item.label} />
-                  </button>
+                  <div className="flex items-center justify-between px-6 py-3">
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="text-[15px] text-white/80 hover:text-white"
+                    >
+                      {item.label}
+                    </Link>
+                    <button onClick={() => setMobileExpanded(mobileExpanded === item.label ? null : item.label)}>
+                      <ChevronIcon rotated={mobileExpanded === item.label} />
+                    </button>
+                  </div>
 
                   {mobileExpanded === item.label && (
                     <div className="pl-9">
                       {item.sub.map((s) => (
-                        <div
-                          key={s}
-                          className="py-2 text-white/50 hover:text-white"
+                        <Link
+                          key={s.label}
+                          href={s.href}
+                          onClick={() => setMobileOpen(false)}
+                          className="block py-2 text-white/50 hover:text-white text-[14px]"
                         >
-                          {s}
-                        </div>
+                          {s.label}
+                        </Link>
                       ))}
                     </div>
                   )}

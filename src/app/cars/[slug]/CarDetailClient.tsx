@@ -4,7 +4,11 @@
 // import { useRouter } from "next/navigation"
 // import Link from "next/link"
 // import CarGallery from "@/components/cars/CarGallery"
-
+// import Rentals from "@/components/home/Rentals"
+// import WhyChooseUs from "@/components/home/WhyChooseUs"
+// import Reviews from "@/components/home/Reviews"
+// import FAQ from "@/components/home/FAQ"
+// import Contact from "@/components/home/Contact"
 // import {
 //   MapPin, Shield, Clock, DollarSign,
 //   Share2, Bookmark, ChevronDown, ChevronUp,
@@ -372,7 +376,25 @@
 
 //         </div>
 //       </div>
-//       
+//       <div className="px-10 sm:px-16 lg:px-20 pt-16 flex items-center justify-between">
+//         <h2 className="text-xl sm:text-3xl font-bold text-mist-900">
+//           You may also like
+//         </h2>
+//         <a
+//           href="#"
+//           className="flex items-center gap-1 text-sm font-medium text-mist-500 bg-mist-100 rounded-md px-4 py-2 hover:bg-mist-50 transition-colors duration-150 whitespace-nowrap shrink-0"
+//         >
+//           View all
+//           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+//             <path strokeLinecap="round" strokeLinejoin="round" d="M7 17 17 7M7 7h10v10" />
+//           </svg>
+//         </a>
+//       </div>
+//       <Rentals showHeader={false} />
+//       <WhyChooseUs />
+//       <Reviews /> 
+//             <FAQ />
+//             <Contact />
 //     </div>
 //   )
 // }
@@ -402,12 +424,6 @@ const car = {
 };
 
 const today = new Date().toISOString().split("T")[0];
-
-function calcDays(start, end) {
-  if (!start || !end) return 0;
-  const diff = (new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24);
-  return diff > 0 ? diff : 0;
-}
 
 function calcDiscount(days) {
   if (days >= 30) return 50;
@@ -479,8 +495,12 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
   const [showMore, setShowMore] = useState(false);
   const today = new Date().toISOString().split("T")[0]
 
-  const days = startDate && endDate
-    ? Math.ceil((new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24))
+ const days: number =
+  startDate && endDate
+    ? Math.ceil(
+        (new Date(endDate).getTime() - new Date(startDate).getTime()) /
+          (1000 * 60 * 60 * 24)
+      )
     : 0
 
   let discountPercent = 0
@@ -493,8 +513,10 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
 
   const subtotal = car.pricePerDay * days
   const discountAmount = Math.round(subtotal * (discountPercent / 100))
-  const actualDriverDays = driverAvailability === "full" ? days : driverDays
-  const driverTotal = needDriver ? actualDriverDays * driverHours * 45 : 0
+  const actualDriverDays: number =
+  driverAvailability === "full" ? days : driverDays
+  const driverTotal: number =
+  needDriver ? actualDriverDays * driverHours * 45 : 0
   const taxRate = 0.085
   const preTax = subtotal - discountAmount + driverTotal
   const tax = Math.round(preTax * taxRate)
@@ -911,4 +933,4 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
       <Contact />
     </div>
   )
-}
+} 

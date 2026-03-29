@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Banner from "@/components/ui/Banner";
 import ArticleCard, { Article } from "@/components/ui/ArticleCard";
 
@@ -10,95 +11,71 @@ const categories: BlogCategory[] = [
   "All", "Exotic Cars", "Luxury Villas", "Events", "Lifestyle & Travel", "News & Updates",
 ];
 
-const articles: Article[] = [
-  {
-    id: 1,
-    category: "Exotic Cars",
-    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80",
-    title: "The 5 Most Iconic Exotic Cars to Drive in 2025",
-    excerpt: "From Lamborghinis to McLarens — discover the supercars that dominate the luxury scene this year.",
-    date: "Dec 15, 2024",
-    readTime: "15 min read",
-    slug: "iconic-exotic-cars-2025",
-  },
-  {
-    id: 2,
-    category: "Events",
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
-    title: "Design Dreams: Inside LA's Most Stunning Modern Villas",
-    excerpt: "A look into architectural masterpieces, celebrity residences, and breathtaking dreamscapes.",
-    date: "Dec 15, 2024",
-    readTime: "15 min read",
-    slug: "la-modern-villa-design",
-  },
-  {
-    id: 3,
-    category: "Events",
-    image: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?w=800&q=80",
-    title: "Hollywood Nights: The Rise of Private Party Culture in LA",
-    excerpt: "Tap into the secret ropes and explore why LA has exclusive social gatherings of the season.",
-    date: "Dec 15, 2024",
-    readTime: "15 min read",
-    slug: "hollywood-private-parties",
-  },
-  {
-    id: 4,
-    category: "Exotic Cars",
-    image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=800&q=80",
-    title: "Supercar Showdown: Ferrari vs Lamborghini in 2025",
-    excerpt: "From scenic drives in exotic cars to fine dining under city lights — which icon wins the crown?",
-    date: "Dec 15, 2024",
-    readTime: "15 min read",
-    slug: "ferrari-vs-lamborghini-2025",
-  },
-  {
-    id: 5,
-    category: "Lifestyle & Travel",
-    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80",
-    title: "How to Plan the Perfect Luxury Weekend in Los Angeles",
-    excerpt: "From sunset cruises to VIP dinners — here's exactly how to spend 48 hours in peak luxury.",
-    date: "Dec 15, 2024",
-    readTime: "15 min read",
-    slug: "luxury-weekend-la",
-  },
-  {
-    id: 6,
-    category: "Events",
-    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80",
-    title: "Inside LA's Most Exclusive Nightclubs",
-    excerpt: "Experience the top venues redefining Los Angeles nightlife from Delilah's Art Deco vibes to Parisian elegance.",
-    date: "Dec 15, 2024",
-    readTime: "15 min read",
-    slug: "la-exclusive-nightclubs",
-  },
-];
-
-const INITIAL_COUNT = 6;
+const FEATURED_LIMIT = 3;
+const PAGE_SIZE = 6;
 
 export default function BlogPage() {
+  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<BlogCategory>("All");
   const [search, setSearch] = useState("");
-  const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
+  const [featuredArticles, setFeaturedArticles] = useState<Article[]>([]);
+  const [allArticles, setAllArticles] = useState<Article[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const filtered = articles.filter((a) => {
-    const matchCategory = activeCategory === "All" || a.category === activeCategory;
-    const matchSearch =
-      a.title.toLowerCase().includes(search.toLowerCase()) ||
-      a.excerpt.toLowerCase().includes(search.toLowerCase());
-    return matchCategory && matchSearch;
-  });
+  /* ---- Fetch featured articles (latest 3) ---- */
+  useEffect(() => {
+    fetch(`/api/blog?limit=${FEATURED_LIMIT}&featured=1`)
+      .then((r) => (r.ok ? r.json() : { posts: [] }))
+      .then((data) => {
+        setFeaturedArticles(
+          (data.posts || []).map((p: any) => mapPost(p))
+        );
+      })
+      .catch(() => {});
+  }, []);
 
-  const visible = filtered.slice(0, visibleCount);
-  const hasMore = visibleCount < filtered.length;
+  /* ---- Fetch articles with filters ---- */
+  useEffect(() => {
+    setLoading(true);
+    const params = new URLSearchParams();
+    params.set("page", String(page));
+    params.set("limit", String(PAGE_SIZE));
+    if (activeCategory !== "All") params.set("category", activeCategory);
+    if (search) params.set("search", search);
+
+    fetch(`/api/blog?${params.toString()}`)
+      .then((r) => (r.ok ? r.json() : { posts: [], total: 0 }))
+      .then((data) => {
+        const mapped = (data.posts || []).map((p: any) => mapPost(p));
+        if (page === 1) {
+          setAllArticles(mapped);
+        } else {
+          setAllArticles((prev) => [...prev, ...mapped]);
+        }
+        setHasMore(page < (data.pages || 1));
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [activeCategory, search, page]);
 
   const handleCategoryChange = (cat: BlogCategory) => {
     setActiveCategory(cat);
-    setVisibleCount(INITIAL_COUNT);
+    setPage(1);
+  };
+
+  const handleSearch = (val: string) => {
+    setSearch(val);
+    setPage(1);
+  };
+
+  const navigateToPost = (article: Article) => {
+    router.push(`/blog/${article.slug}`);
   };
 
   return (
     <div className="w-full">
-
       {/* Banner */}
       <Banner
         heading="Blogs"
@@ -108,12 +85,11 @@ export default function BlogPage() {
         overlay="bg-bold/55"
         searchBar={{
           placeholder: "Search articles...",
-          onSearch: (val) => setSearch(val),
+          onSearch: handleSearch,
         }}
       />
       <div className="bg-[#f7f7f8]">
-        
-      
+
       {/* Category filters */}
       <div className="w-full relative top-32">
         <div className="w-full mx-auto bg-white py-4 flex flex-wrap gap-2 justify-center">
@@ -133,82 +109,71 @@ export default function BlogPage() {
         </div>
       </div>
 
-      {/* Articles grid */}
-      <section className="w-full py-14 sm:px-16 lg:px-20 px-10 mt-40">
-        <div className="">
-
+      {/* Featured Articles */}
+      {featuredArticles.length > 0 && (
+        <section className="w-full py-14 sm:px-16 lg:px-20 px-10 mt-40">
           <h2 className="text-3xl font-bold text-mist-900 text-center tracking-tight mb-10">
             Featured Articles
           </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {featuredArticles.map((article) => (
+              <ArticleCard
+                key={article.id}
+                article={article}
+                onReadMore={navigateToPost}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
-          {filtered.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-mist-400 text-sm">No articles found. Try a different search or category.</p>
+      {/* All Articles */}
+      <section className={`w-full py-14 sm:px-16 lg:px-20 px-10 ${featuredArticles.length === 0 ? "mt-40" : ""}`}>
+        <h2 className="text-3xl font-bold text-mist-900 text-center tracking-tight mb-10">
+          All Articles
+        </h2>
+
+        {loading && allArticles.length === 0 ? (
+          <div className="text-center py-20">
+            <div className="w-8 h-8 border-2 border-mist-300 border-t-mist-900 rounded-full animate-spin mx-auto" />
+          </div>
+        ) : allArticles.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-mist-400 text-sm">No articles found. Try a different search or category.</p>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {allArticles.map((article) => (
+                <ArticleCard
+                  key={article.id}
+                  article={article}
+                  onReadMore={navigateToPost}
+                />
+              ))}
             </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {visible.map((article) => (
-                  <ArticleCard
-                    key={article.id}
-                    article={article}
-                    onReadMore={(a) => console.log("Navigate to:", a.slug)}
-                  />
-                ))}
+
+            {hasMore && (
+              <div className="flex justify-center mt-10">
+                <button
+                  onClick={() => setPage((p) => p + 1)}
+                  disabled={loading}
+                  className="bg-mist-900 text-white text-[13px] font-semibold px-8 py-3 rounded-full hover:bg-mist-700 transition-colors duration-200 disabled:opacity-50"
+                >
+                  {loading ? "Loading..." : "Load More"}
+                </button>
               </div>
-            </>
-          )}
+            )}
+          </>
+        )}
 
-        </div>
-      </section>
-      <section className="w-full py-14 sm:px-16 lg:px-20 px-10">
-        <div className="">
-
-          <h2 className="text-3xl font-bold text-mist-900 text-center tracking-tight mb-10">
-            All Articles
-          </h2>
-
-          {filtered.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-mist-400 text-sm">No articles found. Try a different search or category.</p>
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {visible.map((article) => (
-                  <ArticleCard
-                    key={article.id}
-                    article={article}
-                    onReadMore={(a) => console.log("Navigate to:", a.slug)}
-                  />
-                ))}
-              </div>
-
-              {/* Load More */}
-              {hasMore && (
-                <div className="flex justify-center mt-10">
-                  <button
-                    onClick={() => setVisibleCount((prev) => prev + INITIAL_COUNT)}
-                    className="bg-mist-900 text-white text-[13px] font-semibold px-8 py-3 rounded-full hover:bg-mist-700 transition-colors duration-200"
-                  >
-                    Load More
-                  </button>
-                </div>
-              )}
-            </>
-          )}
-
-        </div>
       </section>
 
-        
       </div>
 
       {/* CTA Banner */}
       <div className="w-full bg-white sm:px-16 lg:px-20 px-10 py-20">
-        <div className="overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6 ">
-
-          {/* Left text */}
+        <div className="overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex flex-col gap-3 max-w-md">
             <h3 className="text-4xl font-bold text-mist-900 leading-snug">
               Ready for Your Next Luxury Experience?
@@ -216,12 +181,10 @@ export default function BlogPage() {
             <p className="text-base text-mist-400 leading-relaxed">
               Explore our exclusive collection of luxury cars, villas, and nightlife experiences — tailored just for you.
             </p>
-            <button className="w-fit mt-2 bg-mist-900 text-white text-base px-6 py-2.5 rounded-xl hover:bg-mist-700 transition-colors duration-200">
+            <button onClick={() => router.push("/booking")} className="w-fit mt-2 bg-mist-900 text-white text-base px-6 py-2.5 rounded-xl hover:bg-mist-700 transition-colors duration-200">
               Reserve Now
             </button>
           </div>
-
-          {/* Right image */}
           <div className="w-full sm:w-md h-72 rounded-2xl overflow-hidden flex-shrink-0">
             <img
               src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80"
@@ -229,10 +192,25 @@ export default function BlogPage() {
               className="w-full h-full object-cover"
             />
           </div>
-
         </div>
       </div>
-
     </div>
   );
+}
+
+/* ---- Map API post to Article type ---- */
+function mapPost(p: any): Article {
+  const readTime = p.content
+    ? `${Math.max(1, Math.ceil(p.content.split(/\s+/).length / 200))} min read`
+    : "5 min read";
+  return {
+    id: p.id,
+    category: p.category || "News & Updates",
+    image: p.coverImage || "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80",
+    title: p.title,
+    excerpt: p.excerpt || "",
+    date: new Date(p.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+    readTime,
+    slug: p.slug,
+  };
 }

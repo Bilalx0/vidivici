@@ -156,6 +156,16 @@ function ReservationContent() {
   /* ---- Villa-specific state ---- */
   const [guestCount, setGuestCount] = useState(Number(searchParams.get("guests")) || 1)
 
+  /* ---- Customer info state ---- */
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [driverLicenseUrl, setDriverLicenseUrl] = useState("")
+  const [insuranceUrl, setInsuranceUrl] = useState("")
+  const [uploadingLicense, setUploadingLicense] = useState(false)
+  const [uploadingInsurance, setUploadingInsurance] = useState(false)
+
   /* ---- Pay step state ---- */
   const [cardName, setCardName] = useState("")
   const [cardNumber, setCardNumber] = useState("")
@@ -291,6 +301,11 @@ function ReservationContent() {
   /* ---- Profile pre-fill ---- */
   useEffect(() => {
     if (session?.user) {
+      const nameParts = (session.user.name || "").split(" ")
+      if (!firstName) setFirstName(nameParts[0] || "")
+      if (!lastName) setLastName(nameParts.slice(1).join(" ") || "")
+      if (!email) setEmail(session.user.email || "")
+
       fetch("/api/account/profile")
         .then((r) => (r.ok ? r.json() : null))
         .then((profile) => {
@@ -298,12 +313,43 @@ function ReservationContent() {
             if (profile.address && !billingAddress) setBillingAddress(profile.address)
             if (profile.country && country === "United States") setCountry(profile.country)
             if (profile.zipCode && !zipCode) setZipCode(profile.zipCode)
+            if (profile.phone && !phone) setPhone(profile.phone)
+            if (profile.driverLicense && !driverLicenseUrl) setDriverLicenseUrl(profile.driverLicense)
+            if (profile.insurance && !insuranceUrl) setInsuranceUrl(profile.insurance)
           }
         })
         .catch(() => {})
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session])
+
+  /* ---- File upload helper ---- */
+  const handleDocUpload = async (file: File, type: "license" | "insurance") => {
+    const setter = type === "license" ? setDriverLicenseUrl : setInsuranceUrl
+    const setLoading = type === "license" ? setUploadingLicense : setUploadingInsurance
+    setLoading(true)
+    try {
+      const fd = new FormData()
+      fd.append("files", file)
+      const res = await fetch("/api/upload", { method: "POST", body: fd })
+      if (!res.ok) throw new Error()
+      const data = await res.json()
+      const url = data.urls?.[0]
+      if (url) {
+        setter(url)
+        // Save to profile
+        fetch("/api/account/profile", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ [type === "license" ? "driverLicense" : "insurance"]: url }),
+        }).catch(() => {})
+      }
+    } catch {
+      alert("Upload failed. Please try again.")
+    } finally {
+      setLoading(false)
+    }
+  }
 
   /* ---- Computed values ---- */
   const days = useMemo(() => {
@@ -407,17 +453,19 @@ function ReservationContent() {
         {/* Tabs */}
         <div className="flex gap-0 mb-8 border border-mist-200 rounded-xl overflow-hidden max-w-sm mx-auto">
           <button
-            onClick={() => { setMode("car"); setStep(1) }}
+            onClick={() => { if (step >= 2) return; setMode("car"); setStep(1) }}
+            disabled={step >= 2 && mode !== "car"}
             className={`flex-1 py-2.5 text-center text-sm font-medium transition-colors ${
-              mode === "car" ? "bg-mist-900 text-white" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
+              mode === "car" ? "bg-mist-900 text-white" : step >= 2 ? "text-mist-300 bg-mist-50 cursor-not-allowed" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
             }`}
           >
             Car
           </button>
           <button
-            onClick={() => { setMode("villa"); setStep(1) }}
+            onClick={() => { if (step >= 2) return; setMode("villa"); setStep(1) }}
+            disabled={step >= 2 && mode !== "villa"}
             className={`flex-1 py-2.5 text-center text-sm font-medium transition-colors ${
-              mode === "villa" ? "bg-mist-900 text-white" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
+              mode === "villa" ? "bg-mist-900 text-white" : step >= 2 ? "text-mist-300 bg-mist-50 cursor-not-allowed" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
             }`}
           >
             Villa
@@ -490,6 +538,19 @@ function ReservationContent() {
                   setStep(2)
                 }}
                 canProceed={!!canProceed}
+                firstName={firstName}
+                setFirstName={setFirstName}
+                lastName={lastName}
+                setLastName={setLastName}
+                email={email}
+                setEmail={setEmail}
+                phone={phone}
+                setPhone={setPhone}
+                driverLicenseUrl={driverLicenseUrl}
+                insuranceUrl={insuranceUrl}
+                uploadingLicense={uploadingLicense}
+                uploadingInsurance={uploadingInsurance}
+                onDocUpload={handleDocUpload}
               />
             )}
 
@@ -593,6 +654,10 @@ function CarSelectStep({
   needDriver, setNeedDriver, driverHours, setDriverHours,
   driverAvailability, setDriverAvailability, driverDays, setDriverDays,
   days, today, onNext, canProceed,
+  firstName, setFirstName, lastName, setLastName,
+  email, setEmail, phone, setPhone,
+  driverLicenseUrl, insuranceUrl,
+  uploadingLicense, uploadingInsurance, onDocUpload,
 }: {
   brands: BrandOption[]
   selectedBrandSlug: string
@@ -621,6 +686,13 @@ function CarSelectStep({
   today: string
   onNext: () => void
   canProceed: boolean
+  firstName: string; setFirstName: (v: string) => void
+  lastName: string; setLastName: (v: string) => void
+  email: string; setEmail: (v: string) => void
+  phone: string; setPhone: (v: string) => void
+  driverLicenseUrl: string; insuranceUrl: string
+  uploadingLicense: boolean; uploadingInsurance: boolean
+  onDocUpload: (file: File, type: "license" | "insurance") => void
 }) {
   return (
     <div className="space-y-8">
@@ -751,6 +823,77 @@ function CarSelectStep({
             )}
           </div>
         )}
+      </div>
+
+      {/* Customer Info */}
+      <div>
+        <h2 className="text-lg font-semibold text-mist-900 mb-4">Customer Info</h2>
+        <div className="space-y-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs text-mist-500 block mb-1.5">First Name <span className="text-red-400">*</span></label>
+              <input type="text" placeholder="Enter first name" value={firstName} onChange={(e) => setFirstName(e.target.value)}
+                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+            </div>
+            <div>
+              <label className="text-xs text-mist-500 block mb-1.5">Last Name</label>
+              <input type="text" placeholder="Enter last name" value={lastName} onChange={(e) => setLastName(e.target.value)}
+                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs text-mist-500 block mb-1.5">Email Address</label>
+              <input type="email" placeholder="Enter email address" value={email} onChange={(e) => setEmail(e.target.value)}
+                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+            </div>
+            <div>
+              <label className="text-xs text-mist-500 block mb-1.5">Phone Number</label>
+              <input type="tel" placeholder="Enter phone number" value={phone} onChange={(e) => setPhone(e.target.value)}
+                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs text-mist-500 block mb-1.5">Drivers License</label>
+              {driverLicenseUrl ? (
+                <div className="relative border border-mist-200 rounded-xl overflow-hidden h-24">
+                  <img src={driverLicenseUrl} alt="Driver License" className="w-full h-full object-cover" />
+                  <button type="button" onClick={() => (document.getElementById("license-upload") as HTMLInputElement)?.click()}
+                    className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-medium">
+                    Change
+                  </button>
+                </div>
+              ) : (
+                <button type="button" onClick={() => (document.getElementById("license-upload") as HTMLInputElement)?.click()}
+                  className="w-full flex items-center gap-2 border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-400 hover:bg-mist-50 transition-colors text-left">
+                  {uploadingLicense ? "Uploading..." : "Choose File"} <span className="text-xs text-mist-300">No file chosen</span>
+                </button>
+              )}
+              <input id="license-upload" type="file" accept="image/*" className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) onDocUpload(f, "license") }} />
+            </div>
+            <div>
+              <label className="text-xs text-mist-500 block mb-1.5">Insurance</label>
+              {insuranceUrl ? (
+                <div className="relative border border-mist-200 rounded-xl overflow-hidden h-24">
+                  <img src={insuranceUrl} alt="Insurance" className="w-full h-full object-cover" />
+                  <button type="button" onClick={() => (document.getElementById("insurance-upload") as HTMLInputElement)?.click()}
+                    className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-medium">
+                    Change
+                  </button>
+                </div>
+              ) : (
+                <button type="button" onClick={() => (document.getElementById("insurance-upload") as HTMLInputElement)?.click()}
+                  className="w-full flex items-center gap-2 border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-400 hover:bg-mist-50 transition-colors text-left">
+                  {uploadingInsurance ? "Uploading..." : "Choose File"} <span className="text-xs text-mist-300">No file chosen</span>
+                </button>
+              )}
+              <input id="insurance-upload" type="file" accept="image/*" className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) onDocUpload(f, "insurance") }} />
+            </div>
+          </div>
+        </div>
       </div>
 
       <button onClick={onNext} disabled={!canProceed}

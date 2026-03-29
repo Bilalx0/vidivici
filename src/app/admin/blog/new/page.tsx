@@ -8,7 +8,7 @@ function NewBlogPostForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const editId = searchParams.get("edit")
-  const [form, setForm] = useState({ title: "", slug: "", content: "", excerpt: "", published: false, coverImage: "" })
+  const [form, setForm] = useState({ title: "", slug: "", content: "", excerpt: "", published: false, coverImage: "", category: "News & Updates" })
   const [submitting, setSubmitting] = useState(false)
   const [loadingPost, setLoadingPost] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -31,6 +31,7 @@ function NewBlogPostForm() {
             excerpt: post.excerpt || "",
             published: post.published || false,
             coverImage: post.coverImage || "",
+            category: post.category || "News & Updates",
           })
         })
         .catch(() => {
@@ -77,6 +78,7 @@ function NewBlogPostForm() {
         excerpt: form.excerpt,
         published: form.published,
         coverImage,
+        category: form.category,
       }
 
       const url = editId ? `/api/blog/${editId}` : "/api/blog"
@@ -126,6 +128,17 @@ function NewBlogPostForm() {
           <label className="text-xs text-mist-400 block mb-1">Excerpt</label>
           <textarea rows={2} value={form.excerpt} onChange={(e) => setForm({ ...form, excerpt: e.target.value })}
             className="w-full bg-[#111] border border-[#2a2a2a] text-white text-sm px-4 py-3 rounded focus:border-[#dbb241] focus:outline-none resize-none" />
+        </div>
+        <div>
+          <label className="text-xs text-mist-400 block mb-1">Category</label>
+          <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
+            className="w-full bg-[#111] border border-[#2a2a2a] text-white text-sm px-4 py-3 rounded focus:border-[#dbb241] focus:outline-none">
+            <option>Exotic Cars</option>
+            <option>Luxury Villas</option>
+            <option>Events</option>
+            <option>Lifestyle & Travel</option>
+            <option>News & Updates</option>
+          </select>
         </div>
         <div>
           <label className="text-xs text-mist-400 block mb-1">Content</label>

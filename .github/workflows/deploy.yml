@@ -52,8 +52,9 @@ jobs:
             # If the init migration failed mid-way (types already exist),
             # mark it as applied so migrate deploy can proceed cleanly.
             npx prisma migrate resolve --applied "20260328195055_init" 2>/dev/null || true
-            # Apply the villa tables migration (safe to resolve if tables were pre-created)
-            npx prisma migrate deploy || (npx prisma migrate resolve --applied "20260329000001_add_villas" 2>/dev/null && npx prisma migrate deploy)
+            npx prisma migrate resolve --applied "20260329000001_add_villas" 2>/dev/null || true
+            npx prisma migrate resolve --applied "20260329120000_add_user_docs_blog_category" 2>/dev/null || true
+            npx prisma migrate deploy
 
             echo "======================================"
             echo " [4/6] Generating Prisma client"

@@ -24,6 +24,8 @@ model User {
   city          String?
   state         String?
   zipCode       String?
+  driverLicense String?
+  insurance     String?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   bookings      Booking[]
@@ -153,8 +155,9 @@ model BlogPost {
   content    String   @db.Text
   excerpt    String?
   coverImage String?
+  category   String   @default("News & Updates")
   published  Boolean  @default(false)
-  author     String   @default("Falcon Car Rental")
+  author     String   @default("Vidi Vici")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }

@@ -5,18 +5,28 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
-    const limit = parseInt(searchParams.get('limit') || '4')
+    const limit = parseInt(searchParams.get('limit') || '12')
     const published = searchParams.get('published')
+    const category = searchParams.get('category')
+    const search = searchParams.get('search')
+    const featured = searchParams.get('featured')
 
     const where: any = {}
     if (published !== 'all') where.published = true
+    if (category && category !== 'All') where.category = category
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: 'insensitive' } },
+        { excerpt: { contains: search, mode: 'insensitive' } },
+      ]
+    }
 
     const [posts, total] = await Promise.all([
       prisma.blogPost.findMany({
         where,
         skip: (page - 1) * limit,
         take: limit,
-        orderBy: { createdAt: 'desc' },
+        orderBy: featured === '1' ? { createdAt: 'desc' } : { createdAt: 'desc' },
       }),
       prisma.blogPost.count({ where }),
     ])

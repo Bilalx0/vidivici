@@ -268,3 +268,54 @@ model WeddingInquiry {
   isRead         Boolean  @default(false)
   createdAt      DateTime @default(now())
 }
+
+model Event {
+  id               String         @id @default(cuid())
+  name             String
+  slug             String         @unique
+  description      String?        @db.Text
+  shortDescription String?
+  location         String         @default("Los Angeles")
+  address          String?
+  category         String         @default("Nightlife")
+  venueName        String?
+  capacity         Int            @default(200)
+  priceRange       String?
+  dressCode        String?
+  highlights       String?        @db.Text
+  experience       String?        @db.Text
+  isAvailable      Boolean        @default(true)
+  isFeatured       Boolean        @default(false)
+  images           EventImage[]
+  bookings         EventBooking[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model EventImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  isPrimary Boolean  @default(false)
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId   String
+  createdAt DateTime @default(now())
+}
+
+model EventBooking {
+  id              String   @id @default(cuid())
+  event           Event    @relation(fields: [eventId], references: [id])
+  eventId         String
+  firstName       String
+  lastName        String?
+  email           String
+  phone           String?
+  clubVenue       String?
+  bookingDate     DateTime
+  guestsTotal     String?
+  budget          String?
+  addOns          String?
+  specialRequests String?  @db.Text
+  isRead          Boolean  @default(false)
+  createdAt       DateTime @default(now())
+}

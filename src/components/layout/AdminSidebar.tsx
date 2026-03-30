@@ -3,12 +3,13 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import { LayoutDashboard, Car, FolderOpen, Tag, CalendarDays, FileText, Settings, ArrowLeft, Menu, Users, Home } from "lucide-react"
+import { LayoutDashboard, Car, FolderOpen, Tag, CalendarDays, FileText, Settings, ArrowLeft, Menu, Users, Home, PartyPopper } from "lucide-react"
 
 const navItems = [
   { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
   { label: "Cars", href: "/admin/cars", icon: Car },
   { label: "Villas", href: "/admin/villas", icon: Home },
+  { label: "Events", href: "/admin/events", icon: PartyPopper },
   { label: "Categories", href: "/admin/categories", icon: FolderOpen },
   { label: "Brands", href: "/admin/brands", icon: Tag },
   { label: "Bookings", href: "/admin/bookings", icon: CalendarDays },

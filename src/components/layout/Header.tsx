@@ -57,11 +57,11 @@ const NAV_ITEMS = [
   },
   {
     label: "Events",
-    href: "#",
+    href: "/events",
     sub: [
-      { label: "Corporate", href: "#" },
+      { label: "Browse All Events", href: "/events" },
+      { label: "Ballroom", href: "/events/ballroom" },
       { label: "Weddings", href: "/wedding-villas" },
-      { label: "Private Parties", href: "#" },
     ],
   },
   { label: "About", href: "/about", sub: [] },

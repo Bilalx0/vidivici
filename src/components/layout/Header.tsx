@@ -60,6 +60,7 @@ const NAV_ITEMS = [
     href: "/events",
     sub: [
       { label: "Browse All Events", href: "/events" },
+      { label: "Ballroom", href: "/events/ballroom" },
       { label: "Weddings", href: "/wedding-villas" },
     ],
   },

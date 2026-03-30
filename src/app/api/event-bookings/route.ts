@@ -6,13 +6,13 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { eventId, firstName, lastName, email, phone, clubVenue, bookingDate, guestsTotal, budget, addOns, specialRequests } = body
 
-    if (!firstName || !email || !bookingDate || !eventId) {
-      return NextResponse.json({ error: 'First name, email, booking date and event are required' }, { status: 400 })
+    if (!firstName || !email || !bookingDate) {
+      return NextResponse.json({ error: 'First name, email and booking date are required' }, { status: 400 })
     }
 
     const booking = await prisma.eventBooking.create({
       data: {
-        eventId,
+        eventId: eventId || null,
         firstName,
         lastName: lastName || null,
         email,

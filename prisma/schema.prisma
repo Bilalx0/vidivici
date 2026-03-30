@@ -304,8 +304,8 @@ model EventImage {
 
 model EventBooking {
   id              String   @id @default(cuid())
-  event           Event    @relation(fields: [eventId], references: [id])
-  eventId         String
+  event           Event?   @relation(fields: [eventId], references: [id])
+  eventId         String?
   firstName       String
   lastName        String?
   email           String

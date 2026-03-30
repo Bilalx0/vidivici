@@ -7,11 +7,11 @@ import {
   ChevronRight,
   MapPin,
   Share2,
-  Bookmark,
   Phone,
   Mail,
   Clock,
-  ArrowUpRight,
+  Star,
+  Heart
 } from "lucide-react"
 import WhyChooseUs from "@/components/home/WhyChooseUs"
 import Reviews from "@/components/home/Reviews"
@@ -59,6 +59,230 @@ const BUDGET_OPTIONS = [
 ]
 
 const ADD_ONS = ["Chauffeur / Party Bus", "Security / Bodyguard"]
+
+export function VenueBookingForm() {
+  const [form, setForm] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    clubVenue: "Delilah Los Angeles",
+    bookingDate: "",
+    guestsTotal: "",
+    budget: "",
+    addOns: [] as string[],
+    specialRequests: "",
+  });
+
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const toggleAddOn = (addon: string) => {
+    setForm((f) => ({
+      ...f,
+      addOns: f.addOns.includes(addon)
+        ? f.addOns.filter((a) => a !== addon)
+        : [...f.addOns, addon],
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.fullName || !form.email || !form.bookingDate) return;
+    setSubmitting(true);
+
+    setTimeout(() => {
+      setSubmitting(false);
+      setSubmitted(true);
+    }, 1500);
+  };
+
+  // Reusable input class (matches ContactForm exactly)
+  const inputClass = "w-full border border-mist-300 rounded-xl px-4 py-3 text-sm text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white";
+
+  return (
+    <section className="w-full bg-white py-12 sm:px-16 lg:px-20 px-6 " id="booking-form">
+     
+      <div className="border border-mist-200 rounded-3xl overflow-hidden gap-8 sm:p-8 px-4 py-6 flex flex-col md:flex-row shadow-sm">
+
+        {/* Left Panel - Info */}
+        <div className="bg-mist-100 px-4 sm:px-8 py-8 md:w-1/3 flex-shrink-0 flex flex-col gap-8 relative overflow-hidden rounded-2xl">
+           <img
+              src="/Vector 7.png"
+              alt=""
+              aria-hidden="true"
+              className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none  rotate-180"
+            />
+          
+          <div className="relative z-10">
+            <h3 className="text-xl md:text-2xl font-bold text-mist-900 leading-snug mb-3">
+              Have questions or want to book your luxury experience?
+            </h3>
+            <p className="text-sm text-mist-600 leading-relaxed">
+              Our team is here to assist you with cars, villas, and VIP events in Los Angeles.
+            </p>
+          </div>
+
+          <div className="border-t border-mist-300"></div>
+
+          <div className="relative z-10 flex flex-col gap-6">
+            <ContactInfo icon={<Phone size={16} />} label="Phone" value="(310) 555-0991" />
+            <ContactInfo icon={<Mail size={16} />} label="Email" value="admin@vidivicitrental.com" />
+            <ContactInfo icon={<MapPin size={16} />} label="Address" value="851 S Grand Ave, Los Angeles CA 90017" />
+            <ContactInfo icon={<Clock size={16} />} label="Working Hours" value="Mon–Sun: 8 AM – 8 PM" />
+          </div>
+        </div>
+
+        {/* Right Panel - Form */}
+        <div className="flex-1">
+          {submitted ? (
+            <div className="h-full flex flex-col items-center justify-center text-center py-12">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-mist-900 mb-2">Request Submitted!</h3>
+              <p className="text-mist-500">Our VIP concierge will contact you within 24 hours.</p>
+            </div>
+          ) : (
+            <>
+              <h2 className="text-3xl md:text-4xl font-bold text-mist-900 mb-8 tracking-tight">
+                VIP Venue Booking
+              </h2>
+
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <Field label="Full Name">
+                    <input
+                      type="text"
+                      placeholder="Enter your full name"
+                      value={form.fullName}
+                      onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+                      className={inputClass}
+                      required
+                    />
+                  </Field>
+                  <Field label="Email Address">
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      className={inputClass}
+                      required
+                    />
+                  </Field>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <Field label="Selected Venue">
+                    <input
+                      type="text"
+                      value={form.clubVenue}
+                      readOnly
+                      className={`${inputClass} bg-mist-50 cursor-not-allowed`}
+                    />
+                  </Field>
+                  <Field label="Booking Date">
+                    <input
+                      type="date"
+                      value={form.bookingDate}
+                      onChange={(e) => setForm({ ...form, bookingDate: e.target.value })}
+                      className={inputClass}
+                      required
+                    />
+                  </Field>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <Field label="Guests (Total)">
+                    <input
+                      type="text"
+                      placeholder="e.g. 50 guests"
+                      value={form.guestsTotal}
+                      onChange={(e) => setForm({ ...form, guestsTotal: e.target.value })}
+                      className={inputClass}
+                    />
+                  </Field>
+                  <Field label="Budget Range">
+                    <select
+                      value={form.budget}
+                      onChange={(e) => setForm({ ...form, budget: e.target.value })}
+                      className={`${inputClass} appearance-none cursor-pointer`}
+                    >
+                      <option value="">Select range</option>
+                      {BUDGET_OPTIONS.map((b) => <option key={b} value={b}>{b}</option>)}
+                    </select>
+                  </Field>
+                </div>
+
+                <Field label="Add-Ons">
+                  <div className="flex flex-wrap gap-3 mt-1">
+                    {ADD_ONS.map((addon) => (
+                      <button
+                        key={addon}
+                        type="button"
+                        onClick={() => toggleAddOn(addon)}
+                        className={`px-4 py-2 rounded-full text-xs font-semibold border transition-all ${form.addOns.includes(addon)
+                            ? "bg-mist-900 text-white border-mist-900"
+                            : "bg-white text-mist-600 border-mist-200 hover:border-mist-400"
+                          }`}
+                      >
+                        {addon}
+                      </button>
+                    ))}
+                  </div>
+                </Field>
+
+                <Field label="Special Requests">
+                  <textarea
+                    placeholder="Catering needs, AV requirements, etc..."
+                    value={form.specialRequests}
+                    onChange={(e) => setForm({ ...form, specialRequests: e.target.value })}
+                    rows={4}
+                    className={`${inputClass} resize-none`}
+                  />
+                </Field>
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full bg-mist-900 text-white font-medium py-4 rounded-xl hover:bg-mist-800 transition-colors disabled:opacity-50 mt-2"
+                >
+                  {submitting ? "Processing..." : "Submit Booking Request"}
+                </button>
+              </form>
+            </>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">{label}</label>
+      {children}
+    </div>
+  );
+}
+
+function ContactInfo({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+  return (
+    <div className="flex items-start gap-4">
+      <div className="w-8 h-8 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+        {icon}
+      </div>
+      <div>
+        <p className="text-sm font-bold text-mist-900">{label}</p>
+        <p className="text-sm text-mist-600 leading-relaxed">{value}</p>
+      </div>
+    </div>
+  );
+}
+
 
 export default function EventDetailClient({ event, relatedEvents }: { event: EventDetail; relatedEvents: RelatedEvent[] }) {
   const [currentImage, setCurrentImage] = useState(0)
@@ -127,324 +351,398 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
   return (
     <div className="bg-white">
       {/* Breadcrumb */}
-      <div className="max-w-7xl mx-auto px-4 pt-6 pb-2">
+      <div className="px-6 sm:px-16 lg:px-20 py-12">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs text-mist-400">
+          <div className="flex items-center gap-2 text-base text-mist-500">
             <Link href="/" className="hover:text-mist-700">Los Angeles</Link>
             <span>&gt;</span>
             <Link href="/events" className="hover:text-mist-700">Events</Link>
             <span>&gt;</span>
-            <span className="text-mist-700">{event.name}</span>
+            <span className="text-mist-700 font-medium">{event.name}</span>
           </div>
-          <div className="flex items-center gap-3">
-            <button className="flex items-center gap-1.5 text-xs text-mist-500 hover:text-mist-700 transition-colors">
-              <Share2 size={14} /> Share
+          <div className="flex items-center gap-5">
+            <button className="flex items-center gap-1.5 text-base text-mist-500 hover:text-mist-700 transition-colors">
+              <Share2 size={16} /> Share
             </button>
-            <button className="flex items-center gap-1.5 text-xs text-mist-500 hover:text-mist-700 transition-colors">
-              <Bookmark size={14} /> Save
+            <button className="flex items-center gap-1.5 text-base text-mist-500 hover:text-mist-700 transition-colors">
+              <Heart size={16} /> Save
             </button>
           </div>
         </div>
       </div>
 
       {/* Hero Image with Event Title */}
-      <div className="max-w-7xl mx-auto px-4 mb-10">
-        <div className="relative rounded-2xl overflow-hidden">
+      <div className="px-6 sm:px-16 lg:px-20 mb-14">
+        <div className="relative rounded-[2rem] overflow-hidden h-[450px] lg:h-[550px]">
           <img
             src={images[currentImage].url}
             alt={images[currentImage].alt || event.name}
-            className="w-full h-[400px] lg:h-[500px] object-cover"
+            className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-          <div className="absolute bottom-6 left-6 right-6">
-            <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">{event.name}</h1>
+          
+          {/* Darker gradient at bottom for text legibility */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          
+          <div className="absolute bottom-12 left-10 right-10">
+            <h1 className="text-4xl lg:text-5xl font-semibold text-white mb-3 tracking-tight">
+              {event.name}
+            </h1>
             {event.shortDescription && (
-              <p className="text-sm text-white/80 max-w-xl">{event.shortDescription}</p>
+              <p className="text-base lg:text-lg text-white/90 mb-8 max-w-xl leading-snug">
+                {event.shortDescription}
+              </p>
             )}
+            
+            <button 
+               className="bg-white text-black px-10 py-3.5 rounded-xl text-sm font-bold hover:bg-gray-100 transition-all shadow-lg"
+               onClick={() => document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              Reserve Now
+            </button>
           </div>
+
+          {/* Navigation Arrows */}
           {images.length > 1 && (
-            <>
-              <button onClick={prevImage} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
-                <ChevronLeft size={20} />
+            <div className="absolute top-1/2 -translate-y-1/2 w-full px-6 flex justify-between pointer-events-none">
+              <button 
+                onClick={prevImage} 
+                className="w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center transition-all pointer-events-auto text-white"
+              >
+                <ChevronLeft size={24} />
               </button>
-              <button onClick={nextImage} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
-                <ChevronRight size={20} />
+              <button 
+                onClick={nextImage} 
+                className="w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center transition-all pointer-events-auto text-white"
+              >
+                <ChevronRight size={24} />
               </button>
-            </>
+            </div>
           )}
-          <button className="absolute bottom-6 right-6 bg-mist-900 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-mist-700 transition-colors">
-            Reserve Now
-          </button>
         </div>
       </div>
 
-      {/* Why Choose Section */}
-      {highlightsList.length > 0 && (
-        <section className="bg-white py-14 px-4">
-          <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-2xl font-bold text-mist-900 mb-2">Why Choose {event.name}?</h2>
-            {event.shortDescription && (
-              <p className="text-sm text-mist-500 mb-10 max-w-xl mx-auto">{event.shortDescription}</p>
-            )}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {highlightsList.map((highlight, i) => {
-                const parts = highlight.split(":")
-                const title = parts[0]?.trim()
-                const desc = parts[1]?.trim() || ""
-                return (
-                  <div key={i} className="bg-mist-50 rounded-2xl p-6 text-left">
-                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center mb-3 shadow-sm">
-                      <svg className="w-5 h-5 text-mist-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <h3 className="text-sm font-bold text-mist-900 mb-1">{title}</h3>
-                    {desc && <p className="text-xs text-mist-500 leading-relaxed">{desc}</p>}
-                  </div>
-                )
-              })}
+    {/* Why Choose Section */}
+{highlightsList.length > 0 && (
+  <section className="px-6 sm:px-16 lg:px-20 py-16 text-center">
+    {/* Header */}
+    <h2 className="text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-4">
+      Why Choose {event.name}?
+    </h2>
+    <p className="text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed">
+      {event.shortDescription || "Experience the perfect blend of luxury, entertainment, and world-class service in one unforgettable event."}
+    </p>
+
+    {/* Feature Cards Grid */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {highlightsList.map((highlight, i) => {
+        const parts = highlight.split(":");
+        const title = parts[0]?.trim();
+        const desc = parts[1]?.trim() || "";
+
+        return (
+          <div
+            key={i}
+            className="bg-[#f5f5f5] p-8 rounded-2xl text-left flex flex-col h-full"
+          >
+            {/* Icon Container */}
+            <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mb-6">
+              {/* Using a generic Star or Check icon to match the aesthetic */}
+              <Star size={24} className="text-gray-600" />
             </div>
+
+            {/* Content */}
+            <h3 className="text-xl font-bold text-[#1a1a1a] mb-3">
+              {title}
+            </h3>
+            {desc && (
+              <p className="text-gray-600 text-sm leading-relaxed">
+                {desc}
+              </p>
+            )}
           </div>
-        </section>
-      )}
+        );
+      })}
+    </div>
+  </section>
+)}
 
       {/* The Experience Section */}
-      {event.experience && (
-        <section className="bg-mist-50 py-14 px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-              <div>
-                {images.length > 1 && (
-                  <div className="grid grid-cols-2 gap-3">
-                    {images.slice(0, 4).map((img, i) => (
-                      <img key={i} src={img.url} alt={img.alt || event.name} className="w-full h-48 object-cover rounded-xl" />
-                    ))}
-                  </div>
-                )}
-                {images.length <= 1 && (
-                  <img src={images[0].url} alt={event.name} className="w-full h-80 object-cover rounded-xl" />
-                )}
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-mist-900 mb-4">The {event.name} Experience</h2>
-                <div className="space-y-3 text-sm text-mist-600 leading-relaxed">
-                  {event.experience.split("\n").filter(Boolean).map((para, i) => (
-                    <p key={i}>{para}</p>
-                  ))}
-                </div>
-                {event.dressCode && (
-                  <div className="mt-6 p-4 bg-white rounded-xl border border-mist-100">
-                    <h3 className="text-sm font-bold text-mist-900 mb-1">Dress Code</h3>
-                    <p className="text-xs text-mist-500">{event.dressCode}</p>
-                  </div>
-                )}
-                <button
-                  onClick={() => document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" })}
-                  className="mt-6 bg-mist-900 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-mist-700 transition-colors"
-                >
-                  Reserve Now
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
+{event.experience && (
+  <section className="px-6 sm:px-16 lg:px-20 py-16 flex flex-col lg:flex-row items-center gap-12 bg-white">
+    
+    {/* Left Side: Bento Image Grid */}
+    <div className="w-full lg:w-1/2 flex gap-4">
+      {/* Main Large Image */}
+      <div className="w-2/3 h-[450px] lg:h-[500px]">
+        <img
+          src={images[0]?.url || "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1000"}
+          alt={event.name}
+          className="w-full h-full object-cover rounded-[2rem]"
+        />
+      </div>
+
+      {/* Secondary Vertical Stack */}
+      <div className="w-1/3 flex flex-col gap-4">
+        <div className="h-3/5">
+          <img
+            src={images[1]?.url || "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=600"}
+            alt="Interior Details"
+            className="w-full h-full object-cover rounded-[2rem]"
+          />
+        </div>
+        <div className="h-2/5">
+          <img
+            src={images[2]?.url || "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=600"}
+            alt="Atmosphere"
+            className="w-full h-full object-cover rounded-[2rem]"
+          />
+        </div>
+      </div>
+    </div>
+
+    {/* Right Side: Content */}
+    <div className="w-full lg:w-1/2">
+      <h2 className="text-4xl lg:text-5xl font-bold text-[#1a1a1a] leading-tight mb-4">
+        Experience the <br /> {event.name}
+      </h2>
+
+      <h3 className="text-lg font-semibold text-gray-500 mb-6">
+        Modern luxury meets classic elegance
+      </h3>
+
+      <div className="text-gray-600 leading-relaxed mb-8 max-w-xl space-y-4">
+        {event.experience.split("\n").filter(Boolean).map((para, i) => (
+          <p key={i}>{para}</p>
+        ))}
+      </div>
+
+      {event.dressCode && (
+        <div className="mb-8 p-6 bg-[#f5f5f5] rounded-2xl border border-gray-100">
+          <h4 className="text-sm font-bold text-[#1a1a1a] uppercase tracking-wider mb-2">Dress Code</h4>
+          <p className="text-sm text-gray-600">{event.dressCode}</p>
+        </div>
       )}
 
-      {/* VIP Club Booking Request Form */}
-      <section className="bg-mist-50 py-16 px-4" id="booking-form">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 bg-white rounded-3xl overflow-hidden shadow-sm">
-            {/* Left: Contact Info */}
-            <div className="lg:col-span-2 bg-mist-900 text-white p-8 flex flex-col justify-center space-y-8">
-              <div>
-                <h3 className="text-xl font-bold mb-2">Have questions or want to book your luxury experience?</h3>
-                <p className="text-sm text-white/70 leading-relaxed">
-                  Our team is here to assist you with villas, cars, and VIP events across Los Angeles.
+      <button 
+        onClick={() => document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" })}
+        className="bg-[#1a1a1a] text-white px-10 py-4 rounded-xl font-bold hover:bg-black transition-colors shadow-lg"
+      >
+        Reserve Now
+      </button>
+    </div>
+
+  </section>
+)}
+
+<section className="px-6 sm:px-16 lg:px-20 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          {/* Column 1 */}
+          <div className="flex flex-col gap-6">
+            <div className="h-[350px]">
+              <img
+                src="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?q=80&w=800"
+                alt="Delilah Atmosphere"
+                className="w-full h-full object-cover rounded-[2rem]"
+              />
+            </div>
+            <div className="bg-[#f5f5f5] p-10 rounded-[2rem] flex-grow">
+              <h3 className="text-xl font-bold text-[#1a1a1a] mb-4">Dress for the Occasion</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                Delilah's attire is upscale casual chic. Collared shirts are recommended.
+                No athletic apparel, shorts, swimwear, flip-flops, or slides. Arrive stylish
+                and ready to enjoy an elegant night out.
+              </p>
+            </div>
+          </div>
+
+          {/* Column 2 */}
+          <div className="flex flex-col gap-6">
+            <div className="bg-[#f5f5f5] p-10 rounded-[2rem]">
+              <h3 className="text-xl font-bold text-[#1a1a1a] mb-4">Culinary Excellence</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                Indulge in upscale American cuisine crafted to perfection. Signature dishes
+                and curated cocktails elevate your night, complementing live performances
+                and the sophisticated ambiance. Every bite and sip is designed to enhance
+                your Delilah experience.
+              </p>
+            </div>
+            <div className="h-[400px]">
+              <img
+                src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800"
+                alt="Delilah Bar"
+                className="w-full h-full object-cover rounded-[2rem]"
+              />
+            </div>
+          </div>
+
+          {/* Column 3 */}
+          <div className="flex flex-col gap-6">
+            <div className="h-[350px]">
+              <img
+                src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800"
+                alt="Live Entertainment"
+                className="w-full h-full object-cover rounded-[2rem]"
+              />
+            </div>
+            <div className="bg-[#f5f5f5] p-10 rounded-[2rem] flex-grow">
+              <h3 className="text-xl font-bold text-[#1a1a1a] mb-4">Live Entertainment & Performances</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                Enjoy live performers, DJs, and surprise acts throughout the evening.
+                After dinner, lounge-style bottle service brings a VIP touch to your night.
+                Every visit to Delilah promises a seamless blend of luxury, excitement,
+                and entertainment.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+      <section className="py-16 px-6 sm:px-12 lg:px-20 bg-white">
+        <div className="">
+
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-mist-900 mb-3">
+              Elevate Your Night
+            </h2>
+            <p className="text-base text-mist-600 leading-relaxed">
+              Make your Vidi Vici experience even more extraordinary with our exclusive VIP services.
+            </p>
+          </div>
+
+          {/* 2x2 Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
+
+            {/* Mixologist */}
+            <div className="flex items-center gap-4 bg-mist-100 rounded-2xl p-4">
+              <img
+                src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300&q=80"
+                alt="Mixologist"
+                className="w-48 h-48 object-cover rounded-lg flex-shrink-0"
+              />
+              <div className="pt-1">
+                <h3 className="text-base font-bold text-mist-900 mb-1">Chauffeur Services or Party Bus</h3>
+                <p className="text-base text-mist-500 font-normal leading-relaxed">
+                  Professional bartenders to craft signature drinks for your guests.
                 </p>
-              </div>
-              <div className="space-y-5">
-                <div className="flex items-start gap-3">
-                  <Phone size={18} className="text-white/60 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-sm">Phone</p>
-                    <p className="text-sm text-white/70">(310) 555-0991</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Mail size={18} className="text-white/60 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-sm">Email</p>
-                    <p className="text-sm text-white/70">admin@vidivicirental.com</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <MapPin size={18} className="text-white/60 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-sm">Address</p>
-                    <p className="text-sm text-white/70">8687 Melrose Ave, Los Angeles CA 90069, United States</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Clock size={18} className="text-white/60 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-sm">Working Hours</p>
-                    <p className="text-sm text-white/70">Mon-Sun: 8 AM – 8 PM</p>
-                  </div>
-                </div>
               </div>
             </div>
 
-            {/* Right: Form */}
-            <div className="lg:col-span-3 p-8">
-              {submitted ? (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-bold text-mist-900 mb-2">Booking Request Submitted!</h3>
-                  <p className="text-sm text-mist-500">Our team will get back to you within 24 hours.</p>
-                </div>
-              ) : (
-                <>
-                  <h2 className="text-2xl font-bold text-mist-900 mb-6">VIP Club Booking Request</h2>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-xs font-medium text-mist-500 block mb-1.5">Full Name</label>
-                        <input type="text" placeholder="Enter your full name" value={bookingForm.firstName}
-                          onChange={(e) => setBookingForm({ ...bookingForm, firstName: e.target.value })}
-                          className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
-                      </div>
-                      <div>
-                        <label className="text-xs font-medium text-mist-500 block mb-1.5">Last Name</label>
-                        <input type="text" placeholder="Enter your last name" value={bookingForm.lastName}
-                          onChange={(e) => setBookingForm({ ...bookingForm, lastName: e.target.value })}
-                          className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-xs font-medium text-mist-500 block mb-1.5">Email Address</label>
-                        <input type="email" placeholder="Enter your email address" value={bookingForm.email}
-                          onChange={(e) => setBookingForm({ ...bookingForm, email: e.target.value })}
-                          className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
-                      </div>
-                      <div>
-                        <label className="text-xs font-medium text-mist-500 block mb-1.5">Phone</label>
-                        <input type="tel" placeholder="Enter your phone number" value={bookingForm.phone}
-                          onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
-                          className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-xs font-medium text-mist-500 block mb-1.5">Select Club / Event</label>
-                        <select value={bookingForm.clubVenue}
-                          onChange={(e) => setBookingForm({ ...bookingForm, clubVenue: e.target.value })}
-                          className="w-full appearance-none border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 bg-white focus:border-mist-400 focus:outline-none">
-                          <option value={event.name}>{event.name}</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="text-xs font-medium text-mist-500 block mb-1.5">Booking Date</label>
-                        <input type="date" value={bookingForm.bookingDate}
-                          onChange={(e) => setBookingForm({ ...bookingForm, bookingDate: e.target.value })}
-                          className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 focus:border-mist-400 focus:outline-none" />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-xs font-medium text-mist-500 block mb-1.5">Guests (Total &amp; Ratio)</label>
-                        <input type="text" placeholder="e.g. 8 guests – 4M / 2F" value={bookingForm.guestsTotal}
-                          onChange={(e) => setBookingForm({ ...bookingForm, guestsTotal: e.target.value })}
-                          className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
-                      </div>
-                      <div>
-                        <label className="text-xs font-medium text-mist-500 block mb-1.5">Budget</label>
-                        <select value={bookingForm.budget}
-                          onChange={(e) => setBookingForm({ ...bookingForm, budget: e.target.value })}
-                          className="w-full appearance-none border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 bg-white focus:border-mist-400 focus:outline-none">
-                          <option value="">Select your budget range</option>
-                          {BUDGET_OPTIONS.map((b) => <option key={b} value={b}>{b}</option>)}
-                        </select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-medium text-mist-500 block mb-1.5">Add-Ons</label>
-                      <div className="flex flex-wrap gap-3">
-                        {ADD_ONS.map((addon) => (
-                          <label key={addon} className="flex items-center gap-2 cursor-pointer">
-                            <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${
-                              bookingForm.addOns.includes(addon) ? "border-blue-600" : "border-mist-300"
-                            }`}>
-                              {bookingForm.addOns.includes(addon) && <div className="w-2 h-2 rounded-full bg-blue-600" />}
-                            </div>
-                            <span className="text-sm text-mist-600">{addon}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-medium text-mist-500 block mb-1.5">Special Requests / Notes</label>
-                      <textarea placeholder="e.g. Birthday celebration, bottle preferences, etc." value={bookingForm.specialRequests}
-                        onChange={(e) => setBookingForm({ ...bookingForm, specialRequests: e.target.value })} rows={3}
-                        className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none resize-none" />
-                    </div>
-
-                    <button onClick={handleBookingSubmit}
-                      disabled={submitting || !bookingForm.firstName || !bookingForm.email || !bookingForm.bookingDate}
-                      className="w-full bg-mist-900 text-white py-3 rounded-xl font-semibold text-sm hover:bg-mist-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
-                      {submitting ? "Submitting..." : "Submit Booking Request"}
-                    </button>
-                  </div>
-                </>
-              )}
+            {/* Valet Parking */}
+            <div className="flex items-center gap-4 bg-mist-100 rounded-2xl p-4">
+              <img
+                src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=300&q=80"
+                alt="Valet Parking"
+                className="w-48 h-48 object-cover rounded-lg flex-shrink-0"
+              />
+              <div className="pt-1">
+                <h3 className="text-base font-bold text-mist-900 mb-1">Security & Bodyguards</h3>
+                <p className="text-base text-mist-500 font-normal leading-relaxed">
+                  Hassle-free parking management for you and your guests.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Related Events */}
-      {relatedEvents.length > 0 && (
-        <section className="bg-white py-14 px-4">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-2xl font-bold text-mist-900 mb-6">Elevate Your Night</h2>
-            <p className="text-sm text-mist-500 mb-8">Make your Vidi Vici experience even more extraordinary with our other exclusive venues.</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {relatedEvents.map((re) => (
-                <Link key={re.id} href={`/events/${re.slug}`} className="group block">
-                  <div className="relative rounded-2xl overflow-hidden h-64">
-                    {re.image ? (
-                      <img src={re.image} alt={re.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                    ) : (
-                      <div className="w-full h-full bg-mist-100 flex items-center justify-center text-mist-400 text-sm">No Image</div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <h3 className="text-lg font-bold text-white mb-1">{re.name}</h3>
-                      {re.shortDescription && (
-                        <p className="text-xs text-white/80 line-clamp-2">{re.shortDescription}</p>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              ))}
+      <Reviews />
+
+      <section className="py-16 px-6 sm:px-16 lg:px-20 bg-white">
+        <div className="">
+          <div className="relative bg-mist-100 rounded-3xl px-8 py-16 text-center overflow-hidden">
+            <img
+              src="/Vector 7.png"
+              alt=""
+              aria-hidden="true"
+              className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none  rotate-180"
+            />
+
+            {/* Right side vector decoration */}
+            <img
+              src="/Vector 7.png"
+              alt=""
+              aria-hidden="true"
+              className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180"
+            />
+
+
+            {/* Content */}
+            <h2 className="text-3xl sm:text-4xl font-bold text-mist-900 leading-tight mb-4">
+              Reserve Your<br /> Unforgettable Night
+            </h2>
+            <p className="text-sm text-mist-600 max-w-sm mx-auto leading-relaxed mb-8">
+              Secure your table, VIP services, or private experience today and make your evening truly extraordinary.
+            </p>
+            <button className="bg-mist-900 text-white text-sm font-semibold px-7 py-3.5 rounded-xl hover:bg-mist-700 transition-colors">
+              Reserve Now
+            </button>
+
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 sm:px-16 lg:px-20 py-16">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl lg:text-5xl font-bold text-[#1a1a1a] mb-6">Gallery</h2>
+          <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Explore the vibrant atmosphere, elegant décor, and unforgettable
+            performances that make Delilah Los Angeles a must-visit nightlife destination.
+          </p>
+        </div>
+
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[600px] lg:h-[700px]">
+
+          {/* Left Column: Full Height */}
+          <div className="h-full">
+            <img
+              src="https://images.unsplash.com/photo-1551024506-0bccd828d307?q=80&w=800"
+              alt="Bar interior"
+              className="w-full h-full object-cover rounded-[2rem]"
+            />
+          </div>
+
+          {/* Middle Column: Two Stacked Images */}
+          <div className="flex flex-col gap-6 h-full">
+            <div className="h-1/2">
+              <img
+                src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800"
+                alt="Lounge seating"
+                className="w-full h-full object-cover rounded-[2rem]"
+              />
+            </div>
+            <div className="h-1/2">
+              <img
+                src="https://images.unsplash.com/photo-1485872299829-c673f5194813?q=80&w=800"
+                alt="Elegant lighting"
+                className="w-full h-full object-cover rounded-[2rem]"
+              />
             </div>
           </div>
-        </section>
-      )}
 
-      {/* Reusable sections */}
-      <WhyChooseUs />
-      <Reviews />
+          {/* Right Column: Full Height */}
+          <div className="h-full">
+            <img
+              src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800"
+              alt="Atmospheric dining"
+              className="w-full h-full object-cover rounded-[2rem]"
+            />
+          </div>
+
+        </div>
+      </section>
       <FAQ />
+
+      <VenueBookingForm />
+
+
+
+
+
+     
     </div>
   )
 }

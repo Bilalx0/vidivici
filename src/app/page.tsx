@@ -4,6 +4,7 @@ import Rentals from "@/components/home/Rentals"
 import FAQSection from "@/components/home/FAQ"
 import CarBrowse from "@/components/home/CarBrowse"
 import Villa from "@/components/home/Villa"
+import Events from "@/components/home/Events"
 import WhyChooseUs from "@/components/home/WhyChooseUs"
 import Reviews from "@/components/home/Reviews"
 import LuxuryVideo from "@/components/home/LuxuryVideo"
@@ -17,6 +18,7 @@ export default function Home() {
       <Rentals />
       <CarBrowse />
       <Villa />
+      <Events/>
       <WhyChooseUs />
       <Reviews/>
       <LuxuryVideo/>

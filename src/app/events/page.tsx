@@ -7,13 +7,12 @@ import Banner from "@/components/ui/Banner"
 import WhyChooseUs from "@/components/home/WhyChooseUs"
 import Reviews from "@/components/home/Reviews"
 import FAQ from "@/components/home/FAQ"
+import Events from "@/components/home/Events"
 import {
   Heart,
   ArrowUpRight,
-  SlidersHorizontal,
-  Users,
-  MapPin,
 } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface EventFromAPI {
   id: string
@@ -62,31 +61,60 @@ function EventCard({ event }: { event: EventFromAPI }) {
   const image = event.images?.[0]?.url
 
   return (
-    <div className="relative flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer">
-      <div className="relative h-56 overflow-hidden">
+    <div className="relative flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 w-xs flex-shrink-0 group cursor-pointer">
+      
+      {/* Image with padding */}
+      <div className="relative h-56 overflow-hidden p-3">
         {image ? (
-          <img src={image} alt={event.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <img 
+            src={image} 
+            alt={event.name} 
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl" 
+          />
         ) : (
-          <div className="w-full h-full bg-mist-100 flex items-center justify-center text-mist-400 text-sm">No Image</div>
+          <div className="w-full h-full bg-mist-100 flex items-center justify-center text-mist-400 text-sm rounded-2xl">No Image</div>
         )}
+        
+        {/* Updated favorite button - positioned inside padding, dark bg */}
         <button
           onClick={(e) => { e.stopPropagation(); e.preventDefault(); setFav((p) => !p) }}
-          className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${
-            fav ? "bg-red-500 text-white" : "bg-white/75 text-mist-500 hover:bg-white hover:text-red-400"
+          className={`absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${
+            fav 
+              ? "bg-mist-700 text-red-500" 
+              : "bg-mist-700 text-mist-100 hover:bg-white hover:text-red-400"
           }`}
         >
           <Heart size={13} fill={fav ? "currentColor" : "none"} strokeWidth={2} />
         </button>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
       </div>
-      <div className="flex flex-col gap-2 px-4 pt-3.5 pb-4">
-        <h3 className="text-[15px] font-semibold text-mist-900 leading-snug">{event.name}</h3>
+
+      {/* Body - increased padding */}
+      <div className="flex flex-col gap-2 px-8 pt-3.5 pb-4">
+        
+        {/* Venue tag */}
+        <p className="text-xs text-mist-400 font-medium tracking-wide uppercase truncate">
+          {event.location || "Venue TBA"}
+        </p>
+        
+        {/* Title - larger size */}
+        <h3 className="text-lg sm:text-xl font-semibold text-mist-900 leading-snug -mt-0.5">
+          {event.name}
+        </h3>
+        
+        {/* Description */}
         {event.shortDescription && (
-          <p className="text-[11px] text-mist-400 leading-relaxed line-clamp-2">{event.shortDescription}</p>
+          <p className="text-sm text-mist-600 leading-relaxed line-clamp-2">
+            {event.shortDescription}
+          </p>
         )}
-        <div className="h-px bg-mist-100 mt-1" />
+
+        <div className="h-px bg-mist-100 mt-0.5" />
+
         <div className="flex items-center justify-between mt-0.5">
-          <Link href={`/events/${event.slug}`} className="flex items-center gap-1 text-[11px] font-semibold text-mist-500 hover:text-mist-900 transition-colors">
+          <Link 
+            href={`/events/${event.slug}`} 
+            className="flex items-center gap-1 text-sm text-mist-500 hover:text-mist-900 transition-colors"
+          >
             View Details <ArrowUpRight size={11} strokeWidth={2.5} />
           </Link>
         </div>
@@ -94,7 +122,6 @@ function EventCard({ event }: { event: EventFromAPI }) {
     </div>
   )
 }
-
 /* ================================================================== */
 /*  Main Content                                                        */
 /* ================================================================== */
@@ -104,6 +131,7 @@ function EventsContent() {
   const [events, setEvents] = useState<EventFromAPI[]>([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [hovered, setHovered] = useState(null);
 
   const sort = searchParams.get("sort") || "newest"
   const activeCategory = searchParams.get("category") || ""
@@ -147,6 +175,36 @@ function EventsContent() {
     router.push(`/events?${params.toString()}`)
   }
 
+const categories = [
+    {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        </svg>
+      ),
+      title: "Fine Dining & Lounges",
+      description: "Indulge in upscale cuisine and live entertainment in chic, intimate settings."
+    },
+    {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        </svg>
+      ),
+      title: "Elite Nightclubs",
+      description: "Step into the city's most exclusive clubs with VIP access and curated experiences."
+    },
+    {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        </svg>
+      ),
+      title: "Private Events & Parties",
+      description: "Tailored arrangements for private gatherings, influencer parties, or corporate events."
+    }
+  ];
+
   return (
     <div>
       {/* Hero Banner */}
@@ -167,85 +225,235 @@ function EventsContent() {
         }}
       />
 
-      {/* Luxury Nights Section */}
-      <section className="bg-white py-16 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-mist-900 mb-3">Luxury Nights, Seamless Experiences</h2>
-          <p className="text-sm text-mist-500 max-w-2xl mx-auto mb-10">
-            At Vidi Vici Nightlife, every evening is extraordinary. From Beverly Hills to the Sunset Strip,
-            our team ensures seamless entry to LA&apos;s top-tier restaurants, lounges, and entertainment venues.
+      <section className="w-full ">
+        <div className="px-10 sm:px-16 lg:px-20 py-16">
+          <div className="flex flex-col lg:flex-row items-center gap-10">
+            {/* Left: Text Content */}
+            <div className="flex-1 max-w-xl">
+              <h2 className="text-3xl sm:text-4xl font-bold text-mist-900 leading-tight mb-5">
+
+                Luxury Nights, Seamless Experiences
+              </h2>
+
+              <p className="text-mist-500 text-sm sm:text-base leading-relaxed mb-4">
+                At Vidi Vici Nightlife, every evening is extraordinary. From Beverly Hills to the Sunset Strip, our team ensures seamless entry to LA’s top-tier restaurants, lounges, and entertainment venues.
+              </p>
+              <p className="text-mist-500 text-sm sm:text-base leading-relaxed mb-4">
+                Whether you’re planning a private celebration, corporate outing, or high-profile gathering, we handle every detail — from luxury arrivals to effortless access to the city’s most exclusive locations.
+              </p>
+              <p className="text-mist-500 text-sm sm:text-base leading-relaxed mb-8">
+                Experience the glamour, sophistication, and exclusivity of Los Angeles nightlife like never before.
+              </p>
+
+
+            </div>
+
+            {/* Right: Car Image */}
+            <div className="flex-1 w-full flex justify-center lg:justify-end">
+              <img
+                src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80"
+                alt="Luxury sports car"
+                className="w-full max-w-lg rounded-xl object-contain drop-shadow-2xl"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+       <section className="px-10 sm:px-16 lg:px-20 py-16 bg-mist-100">
+              <img
+        src="/Vector 7.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none  rotate-180"
+      />
+
+      {/* Right side vector decoration */}
+      <img
+        src="/Vector 7.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180"
+      />
+
+      <div className="">
+        
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            Explore Our Nightlife
+            <br />
+            Categories
+          </h2>
+          <p className="text-gray-600 text-lg">
+            Find the perfect experience to match your style and occasion.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-            {NIGHTLIFE_CATEGORIES.map((cat) => (
-              <div key={cat.title} className="bg-mist-50 rounded-2xl p-6">
-                <h3 className="text-sm font-bold text-mist-900 mb-2">{cat.title}</h3>
-                <p className="text-xs text-mist-500 leading-relaxed">{cat.description}</p>
-              </div>
-            ))}
-          </div>
         </div>
-      </section>
 
-      {/* Events Grid Section */}
-      <section className="bg-mist-50 py-14 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-mist-900 mb-2">Exclusive Nightlife &amp; VIP Experiences</h2>
-            <p className="text-sm text-mist-500">Discover Los Angeles&apos; most sought-after destinations for unforgettable nights.</p>
-          </div>
-
-          {/* Category Filter Tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.value}
-                onClick={() => handleCategoryChange(cat.value)}
-                className={`px-4 py-2 rounded-full text-xs font-medium transition-colors ${
-                  activeCategory === cat.value
-                    ? "bg-mist-900 text-white"
-                    : "bg-white text-mist-600 hover:bg-mist-100 border border-mist-200"
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex justify-end mb-6">
-            <select
-              value={sort}
-              onChange={(e) => handleSortChange(e.target.value)}
-              className="bg-white border border-mist-200 text-mist-700 text-sm px-3 py-2 rounded-lg focus:border-mist-400 focus:outline-none"
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {categories.map((category, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300"
             >
-              <option value="newest">Sort by: Newest</option>
-              <option value="name-asc">Name: A to Z</option>
-              <option value="name-desc">Name: Z to A</option>
-            </select>
+              {/* Icon */}
+              <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 mb-6">
+                {category.icon}
+              </div>
+
+              {/* Content */}
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                {category.title}
+              </h3>
+              <p className="text-gray-500 leading-relaxed">
+                {category.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+      <section className="py-16 px-6 sm:px-12 lg:px-20 bg-white">
+        <div className="">
+
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-mist-900 mb-3">
+              Elevate Your Night
+            </h2>
+            <p className="text-sm text-mist-400 max-w-sm mx-auto leading-relaxed">
+              Make your Vidi Vici experience even more extraordinary with our exclusive VIP services.
+            </p>
           </div>
 
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="bg-white rounded-2xl h-80 animate-pulse" />
-              ))}
+          {/* 2x2 Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
+
+            {/* Mixologist */}
+            <div className="flex items-center gap-4 bg-mist-100 rounded-2xl p-4">
+              <img
+                src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300&q=80"
+                alt="Mixologist"
+                className="w-48 h-48 object-cover rounded-lg flex-shrink-0"
+              />
+              <div className="pt-1">
+                <h3 className="text-base font-bold text-mist-900 mb-1">Chauffeur Services or Party Bus</h3>
+                <p className="text-base text-mist-500 font-normal leading-relaxed">
+                  Professional bartenders to craft signature drinks for your guests.
+                </p>
+              </div>
             </div>
-          ) : events.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-mist-400 text-lg mb-2">No events found</p>
-              <p className="text-mist-300 text-sm">Try adjusting your search or filters</p>
+
+            {/* Valet Parking */}
+            <div className="flex items-center gap-4 bg-mist-100 rounded-2xl p-4">
+              <img
+                src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=300&q=80"
+                alt="Valet Parking"
+                className="w-48 h-48 object-cover rounded-lg flex-shrink-0"
+              />
+              <div className="pt-1">
+                <h3 className="text-base font-bold text-mist-900 mb-1">Security & Bodyguards</h3>
+                <p className="text-base text-mist-500 font-normal leading-relaxed">
+                  Hassle-free parking management for you and your guests.
+                </p>
+              </div>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-              {events.map((event) => <EventCard key={event.id} event={event} />)}
-            </div>
-          )}
+          </div>
         </div>
       </section>
+     <section className="py-16">
+  {/* Header */}
+  <div className="text-center px-10 sm:px-16 lg:px-20">
+    <h2 className="text-3xl sm:text-4xl font-bold text-mist-900 mb-3">
+      Exclusive Nightlife & VIP Experiences
+    </h2>
+    <p className="text-base text-mist-600 leading-relaxed">
+      Make your Vidi Vici experience even more extraordinary with our exclusive VIP services.
+    </p>
+  </div>
+
+  {/* Inline Carousel with Real Data */}
+  <div className="relative mt-8">
+    {/* Left Arrow */}
+    <button
+      onClick={() => {
+        const el = document.getElementById('events-carousel');
+        if (el) el.scrollBy({ left: -290, behavior: 'smooth' });
+      }}
+      className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all"
+    >
+      <ChevronLeft size={16} strokeWidth={2.5} className="text-mist-700" />
+    </button>
+
+    {/* Right Arrow */}
+    <button
+      onClick={() => {
+        const el = document.getElementById('events-carousel');
+        if (el) el.scrollBy({ left: 290, behavior: 'smooth' });
+      }}
+      className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all"
+    >
+      <ChevronRight size={16} strokeWidth={2.5} className="text-mist-700" />
+    </button>
+
+    {/* Carousel Track */}
+    <div
+      id="events-carousel"
+      className="flex gap-5 px-6 md:px-12 overflow-x-auto pb-2 scroll-smooth"
+      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+    >
+      {loading ? (
+        // Loading skeletons
+        Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="w-[270px] flex-shrink-0 h-80 bg-mist-100 rounded-3xl animate-pulse" />
+        ))
+      ) : events.length === 0 ? (
+        <div className="w-full text-center py-12 text-mist-500">No events found</div>
+      ) : (
+        events.map((event) => (
+          <EventCard key={event.id} event={event} />
+        ))
+      )}
+      <div className="w-6 shrink-0" />
+    </div>
+  </div>
+</section>
 
       {/* Reuse existing sections */}
       <WhyChooseUs />
       <Reviews />
       <FAQ />
+
+          <div className="relative w-full bg-[#eeeeed] py-16 px-6 text-center mt-16">
+               <img
+        src="/Vector 7.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none  rotate-180"
+      />
+
+      {/* Right side vector decoration */}
+      <img
+        src="/Vector 7.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180"
+      />
+
+        <div className="relative z-10 max-w-md mx-auto flex flex-col items-center gap-8">
+
+          <h2 className="text-5xl font-bold text-mist-900 tracking-tight">
+            Make Your LA Night Unforgettable
+          </h2>
+          <p className="text-base text-mist-500 leading-relaxed">
+            Book your next unforgettable LA experience with Vidi Vici — where every night is tailored to perfection.
+          </p>
+          <button className="mt-2 bg-mist-800 text-white text-base px-7 py-3 rounded-xl hover:bg-mist-700 transition-colors duration-200">
+            Reserve Now
+          </button>
+        </div>
+
+      </div>
     </div>
   )
 }

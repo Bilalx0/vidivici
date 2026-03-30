@@ -20,6 +20,7 @@ import {
   Clock,
   Calendar,
 } from "lucide-react"
+import { ChevronRight, RotateCcw, X } from "lucide-react"
 
 interface VillaFromAPI {
   id: string
@@ -35,6 +36,242 @@ interface VillaFromAPI {
 
 const ADD_ONS = ["Valet Parking", "Security", "Mixologist", "Drivers"]
 const EVENT_TYPES = ["Wedding", "Cocktail Party", "Corporate Event", "Birthday Party", "Private Celebration", "Other"]
+
+const LOCATION_TAGS = ["Beverly Hills", "Malibu", "Hollywood Hills", "Los Angeles", "Miami"]
+const SQFT_OPTIONS = [
+  { label: "Any", value: "" },
+  { label: "5,000+ sq.ft", value: "5000" },
+  { label: "9,000+ sq.ft", value: "9000" },
+  { label: "15,000+ sq.ft", value: "15000" },
+]
+const BEDROOM_OPTIONS = [
+  { label: "Any", value: "" },
+  { label: "3+", value: "3" },
+  { label: "5+", value: "5" },
+  { label: "7+", value: "7" },
+  { label: "10+", value: "10" },
+]
+const GUEST_OPTIONS = [
+  { label: "Any", value: "" },
+  { label: "6+", value: "6" },
+  { label: "10+", value: "10" },
+  { label: "15+", value: "15" },
+  { label: "20+", value: "20" },
+]
+
+
+function WeddingVillaFilters({ onHide }: { onHide?: () => void }) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const [selectedLocation, setSelectedLocation] = useState(searchParams.get("location") || "")
+  const [minBedrooms, setMinBedrooms] = useState(searchParams.get("minBedrooms") || "")
+  const [minGuests, setMinGuests] = useState(searchParams.get("minGuests") || "")
+  const [minSqft, setMinSqft] = useState(searchParams.get("minSqft") || "")
+  const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "")
+  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "")
+
+  const applyFilters = () => {
+    const params = new URLSearchParams()
+    if (selectedLocation) params.set("location", selectedLocation)
+    if (minBedrooms) params.set("minBedrooms", minBedrooms)
+    if (minGuests) params.set("minGuests", minGuests)
+    if (minSqft) params.set("minSqft", minSqft)
+    if (minPrice) params.set("minPrice", minPrice)
+    if (maxPrice) params.set("maxPrice", maxPrice)
+    params.set("page", "1")
+    router.push(`/wedding-villas?${params.toString()}`)
+  }
+
+  const clearAll = () => {
+    setSelectedLocation("")
+    setMinBedrooms("")
+    setMinGuests("")
+    setMinSqft("")
+    setMinPrice("")
+    setMaxPrice("")
+    router.push("/wedding-villas")
+  }
+
+  return (
+    <div className="bg-white p-2 sm:p-0 space-y-6 w-full">
+
+   
+
+      {/* Location — fix: use value= not defaultValue= */}
+      <div className="space-y-3">
+        <label className="text-sm font-medium text-mist-500 block">Location</label>
+        <select
+          value={selectedLocation}
+          onChange={(e) => setSelectedLocation(e.target.value)}
+          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm px-3 py-2.5 rounded-md focus:border-mist-300 focus:outline-none appearance-none"
+        >
+          <option value="">Search location</option>
+          {LOCATION_TAGS.map((loc) => (
+            <option key={loc} value={loc}>{loc}</option>
+          ))}
+        </select>
+        {selectedLocation && (
+          <div className="flex flex-wrap gap-2">
+            <span className="flex items-center gap-1 text-xs bg-mist-100 text-mist-600 px-3 py-1.5 rounded-full">
+              {selectedLocation}
+              <button onClick={() => setSelectedLocation("")} className="hover:text-mist-900">
+                <X size={10} />
+              </button>
+            </span>
+          </div>
+        )}
+      </div>
+
+      <div className="h-px bg-neutral-100" />
+
+      {/* Bedrooms */}
+      <div className="space-y-3">
+        <label className="text-sm font-medium text-mist-500 block">Bedrooms</label>
+        <select
+          value={minBedrooms}
+          onChange={(e) => setMinBedrooms(e.target.value)}
+          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm px-3 py-2.5 rounded-md focus:border-mist-300 focus:outline-none appearance-none"
+        >
+          {BEDROOM_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+        {minBedrooms && (
+          <div className="flex flex-wrap gap-2">
+            <span className="flex items-center gap-1 text-xs bg-mist-100 text-mist-600 px-3 py-1.5 rounded-full">
+              {BEDROOM_OPTIONS.find(o => o.value === minBedrooms)?.label}
+              <button onClick={() => setMinBedrooms("")} className="hover:text-mist-900">
+                <X size={10} />
+              </button>
+            </span>
+          </div>
+        )}
+      </div>
+
+      <div className="h-px bg-neutral-100" />
+
+      {/* Square Footage — fix: use value= not defaultValue= */}
+      <div className="space-y-3">
+        <label className="text-sm font-medium text-mist-500 block">Square</label>
+        <select
+          value={minSqft}
+          onChange={(e) => setMinSqft(e.target.value)}
+          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm px-3 py-2.5 rounded-md focus:border-mist-300 focus:outline-none appearance-none"
+        >
+          <option value="">Select square footage</option>
+          {SQFT_OPTIONS.filter(o => o.value !== "").map((opt) => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+        {minSqft && (
+          <div className="flex flex-wrap gap-2">
+            <span className="flex items-center gap-1 text-xs bg-mist-100 text-mist-600 px-3 py-1.5 rounded-full">
+              {SQFT_OPTIONS.find(o => o.value === minSqft)?.label}
+              <button onClick={() => setMinSqft("")} className="hover:text-mist-900">
+                <X size={10} />
+              </button>
+            </span>
+          </div>
+        )}
+      </div>
+
+      <div className="h-px bg-neutral-100" />
+
+      {/* Guests */}
+      <div className="space-y-3">
+        <label className="text-sm font-medium text-mist-500 block">Guests</label>
+        <select
+          value={minGuests}
+          onChange={(e) => setMinGuests(e.target.value)}
+          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm px-3 py-2.5 rounded-md focus:border-mist-300 focus:outline-none appearance-none"
+        >
+          {GUEST_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+        {minGuests && (
+          <div className="flex flex-wrap gap-2">
+            <span className="flex items-center gap-1 text-xs bg-mist-100 text-mist-600 px-3 py-1.5 rounded-full">
+              {GUEST_OPTIONS.find(o => o.value === minGuests)?.label}
+              <button onClick={() => setMinGuests("")} className="hover:text-mist-900">
+                <X size={10} />
+              </button>
+            </span>
+          </div>
+        )}
+      </div>
+
+      <div className="h-px bg-neutral-100" />
+
+      {/* Price Range */}
+      <div className="space-y-3">
+        <label className="text-sm font-medium text-mist-500 block">Price Range</label>
+        <input
+          type="range"
+          min={0}
+          max={10000}
+          value={maxPrice || 0}
+          onChange={(e) => setMaxPrice(e.target.value)}
+          className="w-full accent-neutral-500 h-1"
+        />
+        <div className="flex items-center gap-2">
+          <div className="flex-1">
+            <p className="text-[10px] text-mist-400 mb-1">Minimum</p>
+            <div className="flex items-center bg-neutral-100 border border-mist-200 rounded-md px-3 py-2 gap-1">
+              <span className="text-xs text-mist-400">$</span>
+              <input
+                type="number"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+                className="w-full text-sm text-mist-700 focus:outline-none"
+                placeholder="0"
+              />
+            </div>
+          </div>
+          <span className="text-mist-300 mt-4">–</span>
+          <div className="flex-1">
+            <p className="text-[10px] text-mist-400 mb-1">Maximum</p>
+            <div className="flex items-center bg-neutral-100 border border-mist-200 rounded-md px-3 py-2 gap-1">
+              <span className="text-xs text-mist-400">$</span>
+              <input
+                type="number"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                className="w-full text-sm text-mist-700 focus:outline-none"
+                placeholder="10000"
+              />
+            </div>
+          </div>
+          <button
+            onClick={applyFilters}
+            className="mt-4 w-9 h-9 flex-shrink-0 bg-mist-200 hover:bg-mist-200 rounded-md flex items-center justify-center transition-colors"
+          >
+            <ChevronRight size={16} className="text-mist-600" />
+          </button>
+        </div>
+      </div>
+
+      {/* Apply + Reset */}
+      <div className="space-y-2 pt-2">
+        <button
+          onClick={applyFilters}
+          className="w-full bg-mist-900 text-white py-3 rounded-lg text-sm hover:bg-mist-800 transition-colors"
+        >
+          Apply
+        </button>
+        <button
+          onClick={clearAll}
+          className="w-full bg-white border border-mist-200 text-mist-700 py-3 rounded-lg text-sm hover:bg-mist-50 transition-colors flex items-center justify-center gap-2"
+        >
+          <RotateCcw size={14} />
+          Reset
+        </button>
+      </div>
+
+    </div>
+  )
+}
 
 /* ================================================================== */
 /*  Wedding Booking Inquiry Form                                       */
@@ -391,49 +628,59 @@ function WeddingVillasContent() {
       />
 
       {/* Luxury Wedding Venues Section */}
-      <section className="bg-white py-16 sm:px-16 lg:px-20 px-6">
-        <div className="">
-          <h2 className="text-4xl font-bold text-mist-900 text-center my-20">
-            Luxury Wedding Venues Los Angeles
-          </h2>
+<section className="bg-white py-16 sm:px-16 lg:px-20 px-6">
+  <div className="">
+    <h2 className="text-4xl font-bold text-mist-900 text-center my-20">
+      Luxury Wedding Venues Los Angeles
+    </h2>
 
-          <div className="flex justify-between items-center mb-6">
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-4 py-2 border border-mist-200 rounded-xl text-sm text-mist-600 hover:bg-mist-50 transition-colors"
-            >
-              <SlidersHorizontal size={14} />
-              {showFilters ? "Hide Filter" : "Show Filter"}
-            </button>
-            <select
-              value={sort}
-              onChange={(e) => handleSortChange(e.target.value)}
-              className="bg-neutral-100 border border-mist-200 text-mist-600 text-sm px-3 py-2 rounded-lg focus:border-mist-400 focus:outline-none"
-            >
-              <option value="popular">Sort by: Most Popular</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-            </select>
+    <div className="flex justify-between items-center mb-6">
+      <button
+        onClick={() => setShowFilters(!showFilters)}
+        className="flex items-center gap-2 px-4 py-2 border border-mist-200 rounded-xl text-sm text-mist-600 hover:bg-mist-50 transition-colors"
+      >
+        <SlidersHorizontal size={14} />
+        {showFilters ? "Hide Filter" : "Show Filter"}
+      </button>
+      <select
+        value={sort}
+        onChange={(e) => handleSortChange(e.target.value)}
+        className="bg-neutral-100 border border-mist-200 text-mist-600 text-sm px-3 py-2 rounded-lg focus:border-mist-400 focus:outline-none"
+      >
+        <option value="popular">Sort by: Most Popular</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+      </select>
+    </div>
+
+    <div className="flex flex-col lg:flex-row gap-8">
+      {/* Sidebar Filters - Fixed: proper conditional visibility */}
+      <aside className={`lg:w-72 flex-shrink-0 ${showFilters ? "block" : "hidden"}`}>
+        <WeddingVillaFilters onHide={() => setShowFilters(false)} />
+      </aside>
+
+      {/* Villas Grid - Dynamic columns based on filter visibility */}
+      <div className="flex-1">
+        {loading ? (
+          <div className={`grid gap-6 ${showFilters ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"}`}>
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="bg-mist-100 rounded-2xl h-80 animate-pulse" />
+            ))}
           </div>
-
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-mist-100 rounded-2xl h-80 animate-pulse" />
-              ))}
-            </div>
-          ) : villas.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-mist-400 text-lg mb-2">No wedding venues found</p>
-              <p className="text-mist-300 text-sm">Try adjusting your search</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-              {villas.map((villa) => <WeddingVillaCard key={villa.id} villa={villa} />)}
-            </div>
-          )}
-        </div>
-      </section>
+        ) : villas.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-mist-400 text-lg mb-2">No wedding venues found</p>
+            <p className="text-mist-300 text-sm">Try adjusting your search</p>
+          </div>
+        ) : (
+          <div className={`grid gap-6 ${showFilters ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"}`}>
+            {villas.map((villa) => <WeddingVillaCard key={villa.id} villa={villa} />)}
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
 
       <section className="py-16 px-6 sm:px-12 lg:px-20 bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 ">

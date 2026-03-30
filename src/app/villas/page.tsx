@@ -131,71 +131,74 @@ function VillasContent() {
       />
 
       <section className="bg-white py-16 sm:px-16 lg:px-20 px-6">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Mobile filter toggle */}
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="lg:hidden flex items-center gap-2 px-4 py-2.5 border border-mist-200 rounded-xl text-sm font-medium text-mist-700 w-fit"
-          >
-            <SlidersHorizontal size={16} /> {showFilters ? "Hide Filters" : "Show Filters"}
-          </button>
+        <div className="">
+          <h2 className="text-4xl font-bold text-mist-900 text-center my-20">
+           Luxury Villa Rentals
+          </h2>
 
-          {/* Sidebar Filters */}
+          <div className="flex justify-between items-center mb-6">
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2 px-4 py-2 border border-mist-200 rounded-xl text-sm text-mist-600 hover:bg-mist-50 transition-colors"
+            >
+              <SlidersHorizontal size={14} />
+              {showFilters ? "Hide Filter" : "Show Filter"}
+            </button>
+            <select
+              value={sort}
+              onChange={(e) => handleSortChange(e.target.value)}
+              className="bg-neutral-100 border border-mist-200 text-mist-600 text-sm px-3 py-2 rounded-lg focus:border-mist-400 focus:outline-none"
+            >
+              <option value="newest">Sort by: Newest</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+            </select>
+          </div>
 
-          <aside className={`lg:w-72 flex-shrink-0 ${showFilters ? "block" : "hidden lg:block"}`}>
-            <VillaFilters onHide={() => setShowFilters(false)} />
-          </aside>
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Sidebar Filters - Fixed: proper conditional visibility */}
+            <aside className={`lg:w-72 flex-shrink-0 ${showFilters ? "block" : "hidden"}`}>
+              <VillaFilters onHide={() => setShowFilters(false)} />
+            </aside>
 
-          {/* Villas Grid */}
-          <div className="flex-1">
-            <div className="flex justify-between items-center mb-6">
-              <p className="text-sm text-mist-500">{total} villas available</p>
-              <select
-                value={sort}
-                onChange={(e) => handleSortChange(e.target.value)}
-                className="bg-white border border-mist-200 text-mist-700 text-sm px-3 py-2 rounded-lg focus:border-mist-400 focus:outline-none"
-              >
-                <option value="newest">Sort by: Newest</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-              </select>
+            {/* Villas Grid - Dynamic columns based on filter visibility */}
+            <div className="flex-1">
+              {loading ? (
+                <div className={`grid gap-6 ${showFilters ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"}`}>
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="bg-mist-100 rounded-2xl h-80 animate-pulse" />
+                  ))}
+                </div>
+              ) : villas.length === 0 ? (
+                <div className="text-center py-20">
+                  <p className="text-mist-400 text-lg mb-2">No villas found</p>
+                  <p className="text-mist-300 text-sm">Try adjusting your filters or search</p>
+                </div>
+              ) : (
+                <div className={`grid gap-6 ${showFilters ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"}`}>
+                  {villas.map((villa) => (
+                    <VillaListCard key={villa.id} villa={villa} />
+                  ))}
+                </div>
+              )}
+
+              {pages > 1 && (
+                <div className="flex justify-center gap-2 mt-10">
+                  {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
+                    <button
+                      key={p}
+                      onClick={() => goToPage(p)}
+                      className={`w-10 h-10 rounded-lg font-semibold text-sm transition-colors ${p === currentPage
+                        ? "bg-mist-900 text-white"
+                        : "bg-mist-100 text-mist-500 hover:bg-mist-200"
+                        }`}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-
-            {loading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {[...Array(6)].map((_, i) => (
-                  <div key={i} className="bg-mist-100 rounded-2xl h-80 animate-pulse" />
-                ))}
-              </div>
-            ) : villas.length === 0 ? (
-              <div className="text-center py-20">
-                <p className="text-mist-400 text-lg mb-2">No villas found</p>
-                <p className="text-mist-300 text-sm">Try adjusting your filters or search</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-6">
-                {villas.map((villa) => (
-                  <VillaListCard key={villa.id} villa={villa} />
-                ))}
-              </div>
-            )}
-
-            {pages > 1 && (
-              <div className="flex justify-center gap-2 mt-10">
-                {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
-                  <button
-                    key={p}
-                    onClick={() => goToPage(p)}
-                    className={`w-10 h-10 rounded-lg font-semibold text-sm transition-colors ${p === currentPage
-                      ? "bg-mist-900 text-white"
-                      : "bg-mist-100 text-mist-500 hover:bg-mist-200"
-                      }`}
-                  >
-                    {p}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </section>
@@ -233,31 +236,31 @@ function VillasContent() {
 
           {/* Right — 2x2 mosaic */}
           <div className="flex-1 grid grid-cols-3 grid-rows-2 gap-3 w-full">
-  {/* Top left — spans 2 cols */}
-  <img
-    src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80"
-    alt="Living room"
-    className="col-span-2 row-span-1 w-full h-52 object-cover rounded-2xl"
-  />
-  {/* Top right */}
-  <img
-    src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
-    alt="Dining area"
-    className="col-span-1 row-span-1 w-full h-52 object-cover rounded-2xl"
-  />
-  {/* Bottom left — small */}
-  <img
-    src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
-    alt="Staircase"
-    className="col-span-1 row-span-1 w-full h-52 object-cover rounded-2xl"
-  />
-  {/* Bottom right — spans 2 cols */}
-  <img
-    src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80"
-    alt="Interior"
-    className="col-span-2 row-span-1 w-full h-52 object-cover rounded-2xl"
-  />
-</div>
+            {/* Top left — spans 2 cols */}
+            <img
+              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80"
+              alt="Living room"
+              className="col-span-2 row-span-1 w-full h-52 object-cover rounded-2xl"
+            />
+            {/* Top right */}
+            <img
+              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
+              alt="Dining area"
+              className="col-span-1 row-span-1 w-full h-52 object-cover rounded-2xl"
+            />
+            {/* Bottom left — small */}
+            <img
+              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
+              alt="Staircase"
+              className="col-span-1 row-span-1 w-full h-52 object-cover rounded-2xl"
+            />
+            {/* Bottom right — spans 2 cols */}
+            <img
+              src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80"
+              alt="Interior"
+              className="col-span-2 row-span-1 w-full h-52 object-cover rounded-2xl"
+            />
+          </div>
 
         </div>
       </section>
@@ -304,15 +307,6 @@ function VillaFilters({ onHide }: { onHide?: () => void }) {
 
   return (
     <div className="bg-white p-2 sm:p-0 space-y-6 w-full">
-
-      {/* Header — fix: calls onHide, not clearAll */}
-      <button
-        onClick={onHide}
-        className="flex items-center gap-2 text-sm text-mist-600 hover:text-mist-900 transition-colors"
-      >
-        <X size={16} />
-        Hide Filter
-      </button>
 
       {/* Location — fix: use value= not defaultValue= */}
       <div className="space-y-3">

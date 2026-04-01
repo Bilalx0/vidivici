@@ -7,7 +7,7 @@ const features = [
       "Drive the latest high-end cars and experience ultimate comfort and style.",
   },
   {
-    title: "Transparent & Hassle-Free",
+    title: "Hassle-Free",
     description:
       "No hidden fees, clear pricing, and easy reservations for all services.",
   },
@@ -26,53 +26,55 @@ const features = [
 export default function WhyChooseUs({ bg = "#f0f0ee" }: { bg?: string }) {
   return (
     <section
-      className="w-full px-6 sm:px-16 lg:px-20 py-20 relative overflow-visible"
+      /* Increased vertical padding to 2xl:py-64 to account for the massive 7k height */
+      className="w-full px-6 sm:px-16 lg:px-20 2xl:px-40 py-20 2xl:py-64 relative overflow-visible"
       style={{ backgroundColor: bg }}
     >
-
-        <img
-        src="/Vector 7.png"
-        alt=""
-        aria-hidden="true"
-        className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none  rotate-180"
-      />
-
-      {/* Right side vector decoration */}
+      {/* Background Vectors - Scaled up for 2xl */}
       <img
         src="/Vector 7.png"
         alt=""
         aria-hidden="true"
-        className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180"
+        className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none rotate-180 opacity-50 2xl:opacity-100"
       />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-32 items-start">
+
+      <img
+        src="/Vector 7.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180 opacity-50 2xl:opacity-100"
+      />
+
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-32 items-start 2xl:max-w-[2200px] 2xl:mx-auto">
 
         {/* Left: Heading + CTA */}
-        <div className="flex flex-col h-full gap-8">
+        <div className="flex flex-col h-full gap-8 2xl:gap-16">
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold text-mist-900 leading-tight tracking-tight">
+            <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-mist-900 leading-tight tracking-tight">
               Why Choose Vidi Vici?
             </h2>
-            <p className="mt-4 text-md text-mist-600 leading-relaxed">
+            <p className="mt-4 2xl:mt-10 text-md 2xl:text-3xl text-mist-500 leading-relaxed 2xl:max-w-xl">
               Experience the ultimate in luxury, convenience, and personalized
               service in Los Angeles.
             </p>
           </div>
-          <button className="w-fit bg-mist-900 text-white text-md font-medium px-6 py-3 rounded-xl hover:bg-mist-700 transition-colors duration-200">
+          <button className="w-fit bg-mist-900 text-white text-md 2xl:text-2xl font-normal px-6 py-3 2xl:px-12 2xl:py-6 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200">
             Reserve Now
           </button>
         </div>
 
         {/* Right: 2x2 Feature Grid */}
-        <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-10 md:gap-x-44 md:pl-10 pt-14 sm:pt-0">
+        <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-10 md:gap-x-44 2xl:gap-x-64 2xl:gap-y-32 md:pl-10 2xl:pl-24 pt-14 sm:pt-0">
           {features.map((f) => (
-            <div key={f.title} className="flex flex-col gap-3">
-              <div className="w-9 h-9 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                <CircleCheckBig size={18} strokeWidth={2} className="text-mist-700" />
+            <div key={f.title} className="flex flex-col gap-3 2xl:gap-8">
+              {/* Scaled Icon Container */}
+              <div className="w-9 h-9 2xl:w-20 2xl:h-20 bg-white rounded-xl 2xl:rounded-3xl flex items-center justify-center shadow-sm">
+                <CircleCheckBig strokeWidth={2} className="text-mist-700 w-[18px] h-[18px] 2xl:w-10 2xl:h-10" />
               </div>
-              <h3 className=" text-2xl sm:text-3xl font-bold text-mist-900 leading-snug">
+              <h3 className="text-lg sm:text-xl 2xl:text-3xl font-bold text-mist-900 leading-snug">
                 {f.title}
               </h3>
-              <p className="text-md text-mist-600 leading-relaxed">
+              <p className="text-md 2xl:text-2xl text-mist-500 leading-relaxed 2xl:max-w-md">
                 {f.description}
               </p>
             </div>

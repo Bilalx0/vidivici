@@ -99,7 +99,7 @@ return (
     <Banner
       heading="Exotic Car Rentals"
       description="Browse our collection of exotic and luxury vehicles available for rent"
-      height="h-96"
+      height="h-96 2xl:h-[520px]"
       searchBar={{
         placeholder: "Search cars by name, brand...",
         onSearch: (value: string) => {
@@ -113,17 +113,17 @@ return (
     />
 
     {/* Cars Content */}
-    <section className="bg-white py-16 sm:px-16 lg:px-20 px-6">
-      <div className="">
-        <h2 className="text-4xl font-bold text-mist-900 text-center my-20">
+    <section className="bg-white py-16 2xl:py-32 px-6 sm:px-16 lg:px-20 2xl:px-32">
+      <div className="max-w-[1840px] mx-auto">
+        <h2 className="text-4xl 2xl:text-7xl font-bold text-mist-900 text-center my-20 2xl:my-32">
           Exotic Car Rentals
         </h2>
 
         {/* Filter toggle + Sort - MOVED HERE to match villas layout */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-6 2xl:mb-10 gap-4">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-4 py-2 border border-mist-200 rounded-xl text-sm text-mist-600 hover:bg-mist-50 transition-colors"
+            className="flex items-center gap-2 px-4 2xl:px-6 py-2 2xl:py-3 border border-mist-200 rounded-xl 2xl:rounded-2xl text-sm 2xl:text-lg text-mist-600 hover:bg-mist-50 transition-colors whitespace-nowrap"
           >
             <SlidersHorizontal size={14} />
             {showFilters ? "Hide Filter" : "Show Filter"}
@@ -131,7 +131,7 @@ return (
           <select
             value={sort}
             onChange={(e) => handleSortChange(e.target.value)}
-            className="bg-neutral-100 border border-mist-200 text-mist-600 text-sm px-3 py-2 rounded-lg focus:border-mist-400 focus:outline-none"
+            className="bg-neutral-100 border border-mist-200 text-mist-600 text-sm 2xl:text-lg px-3 2xl:px-5 py-2 2xl:py-3 rounded-lg 2xl:rounded-xl focus:border-mist-400 focus:outline-none"
           >
             <option value="newest">Sort by: Newest</option>
             <option value="price-asc">Price: Low to High</option>
@@ -139,9 +139,9 @@ return (
           </select>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-8 2xl:gap-12">
           {/* Sidebar - FIXED: removed lg:block, added onHide prop */}
-          <aside className={`lg:w-72 flex-shrink-0 ${showFilters ? "block" : "hidden"}`}>
+          <aside className={`lg:w-72 2xl:w-96 flex-shrink-0 ${showFilters ? "block" : "hidden"}`}>
             <Suspense fallback={<div className="h-96 bg-mist-100 rounded-xl animate-pulse" />}>
               <CarFilters onHide={() => setShowFilters(false)} />
             </Suspense>
@@ -150,7 +150,7 @@ return (
           {/* Cars Grid - FIXED: dynamic columns based on filter visibility */}
           <div className="flex-1">
             {loading ? (
-              <div className={`grid gap-6 ${showFilters ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"}`}>
+              <div className={`grid gap-6 2xl:gap-10 ${showFilters ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"}`}>
                 {[...Array(6)].map((_, i) => (
                   <div key={i} className="bg-mist-100 rounded-2xl h-80 animate-pulse" />
                 ))}
@@ -161,7 +161,7 @@ return (
                 <p className="text-mist-300 text-sm">Try adjusting your filters or search</p>
               </div>
             ) : (
-              <div className={`grid gap-6 ${showFilters ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"}`}>
+              <div className={`grid gap-6 2xl:gap-10 ${showFilters ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"}`}>
                 {cars.map((car) => (
                   <CarCard
                     key={car.id}
@@ -185,12 +185,12 @@ return (
 
             {/* Pagination */}
             {pages > 1 && (
-              <div className="flex justify-center gap-2 mt-10">
+              <div className="flex justify-center gap-2 2xl:gap-4 mt-10 2xl:mt-16">
                 {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
                   <button
                     key={p}
                     onClick={() => goToPage(p)}
-                    className={`w-10 h-10 rounded-lg font-semibold text-sm transition-colors ${
+                    className={`w-10 2xl:w-12 h-10 2xl:h-12 rounded-lg 2xl:rounded-xl font-semibold text-sm 2xl:text-lg transition-colors ${
                       p === currentPage
                         ? "bg-mist-900 text-white"
                         : "bg-mist-100 text-mist-500 hover:bg-mist-200"

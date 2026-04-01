@@ -176,15 +176,15 @@ const ADD_ONS = ["Chauffeur / Party Bus", "Security / Bodyguard"]
 
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
-  <div className="bg-[#f5f5f5] p-8 rounded-xl flex flex-col items-start gap-4 transition-all hover:shadow-md">
-    <div className="bg-[#e5e5e5] p-3 rounded-lg text-gray-600">
+  <div className="bg-[#f5f5f5] p-8 2xl:p-12 rounded-xl 2xl:rounded-2xl flex flex-col items-start gap-4 2xl:gap-6 transition-all hover:shadow-md">
+    <div className="bg-[#e5e5e5] p-3 2xl:p-4 rounded-lg 2xl:rounded-xl text-gray-600">
       <Icon size={24} />
     </div>
     <div>
-      <h3 className="text-xl font-bold text-gray-900 mb-2 leading-tight">
+      <h3 className="text-xl 2xl:text-3xl font-bold text-gray-900 mb-2 2xl:mb-4 leading-tight">
         {title}
       </h3>
-      <p className="text-gray-600 leading-relaxed text-[15px]">
+      <p className="text-gray-600 leading-relaxed text-[15px] 2xl:text-2xl">
         {description}
       </p>
     </div>
@@ -192,11 +192,11 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
 );
 
 const AmenityBadge = ({ icon: Icon, text }) => (
-  <div className="flex items-center gap-4 bg-[#f5f5f5] p-5 rounded-xl hover:bg-[#efefef] transition-colors cursor-default">
-    <div className="bg-[#e5e5e5] p-2.5 rounded-lg text-gray-500 shrink-0">
+  <div className="flex items-center gap-4 2xl:gap-6 bg-[#f5f5f5] p-5 2xl:p-8 rounded-xl 2xl:rounded-2xl hover:bg-[#efefef] transition-colors cursor-default">
+    <div className="bg-[#e5e5e5] p-2.5 2xl:p-4 rounded-lg 2xl:rounded-xl text-gray-500 shrink-0">
       <Icon size={22} />
     </div>
-    <span className="text-[17px] font-semibold text-[#333] leading-tight">
+    <span className="text-[17px] 2xl:text-2xl font-semibold text-[#333] leading-tight">
       {text}
     </span>
   </div>
@@ -245,12 +245,12 @@ export function VenueBookingForm() {
   const inputClass = "w-full border border-mist-300 rounded-xl px-4 py-3 text-sm text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white";
 
   return (
-    <section className="w-full bg-white py-12 sm:px-16 lg:px-20 px-6 " id="booking-form">
+    <section className="w-full bg-white py-12 2xl:py-24 sm:px-16 lg:px-20 2xl:px-32 px-6 " id="booking-form">
      
-      <div className="border border-mist-200 rounded-3xl overflow-hidden gap-8 sm:p-8 px-4 py-6 flex flex-col md:flex-row shadow-sm">
+      <div className="border border-mist-200 rounded-3xl 2xl:rounded-[40px] overflow-hidden gap-8 2xl:gap-14 sm:p-8 2xl:sm:p-14 px-4 py-6 2xl:px-8 2xl:py-10 flex flex-col md:flex-row shadow-sm">
 
         {/* Left Panel - Info */}
-        <div className="bg-mist-100 px-4 sm:px-8 py-8 md:w-1/3 flex-shrink-0 flex flex-col gap-8 relative overflow-hidden rounded-2xl">
+        <div className="bg-mist-100 px-4 sm:px-8 2xl:sm:px-12 py-8 2xl:py-12 md:w-1/3 flex-shrink-0 flex flex-col gap-8 2xl:gap-12 relative overflow-hidden rounded-2xl 2xl:rounded-3xl">
            <img
               src="/Vector 7.png"
               alt=""
@@ -259,10 +259,10 @@ export function VenueBookingForm() {
             />
           
           <div className="relative z-10">
-            <h3 className="text-xl md:text-2xl font-bold text-mist-900 leading-snug mb-3">
+            <h3 className="text-xl md:text-2xl 2xl:text-4xl font-bold text-mist-900 leading-snug mb-3 2xl:mb-5">
               Have questions or want to book your luxury experience?
             </h3>
-            <p className="text-sm text-mist-600 leading-relaxed">
+            <p className="text-sm 2xl:text-xl text-mist-600 leading-relaxed">
               Our team is here to assist you with cars, villas, and VIP events in Los Angeles.
             </p>
           </div>
@@ -291,11 +291,11 @@ export function VenueBookingForm() {
             </div>
           ) : (
             <>
-              <h2 className="text-3xl md:text-4xl font-bold text-mist-900 mb-8 tracking-tight">
+              <h2 className="text-3xl md:text-4xl 2xl:text-6xl font-bold text-mist-900 mb-8 2xl:mb-12 tracking-tight">
                 VIP Venue Booking
               </h2>
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6 2xl:gap-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <Field label="Full Name">
                     <input
@@ -368,7 +368,7 @@ export function VenueBookingForm() {
                         key={addon}
                         type="button"
                         onClick={() => toggleAddOn(addon)}
-                        className={`px-4 py-2 rounded-full text-xs font-semibold border transition-all ${form.addOns.includes(addon)
+                        className={`px-4 2xl:px-6 py-2 2xl:py-3 rounded-full text-xs 2xl:text-base font-semibold border transition-all ${form.addOns.includes(addon)
                             ? "bg-mist-900 text-white border-mist-900"
                             : "bg-white text-mist-600 border-mist-200 hover:border-mist-400"
                           }`}
@@ -392,7 +392,7 @@ export function VenueBookingForm() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full bg-mist-900 text-white font-medium py-4 rounded-xl hover:bg-mist-800 transition-colors disabled:opacity-50 mt-2"
+                  className="w-full bg-mist-900 text-white font-medium py-4 2xl:py-6 rounded-xl 2xl:rounded-2xl hover:bg-mist-800 transition-colors disabled:opacity-50 mt-2 text-base 2xl:text-2xl"
                 >
                   {submitting ? "Processing..." : "Submit Booking Request"}
                 </button>
@@ -407,8 +407,8 @@ export function VenueBookingForm() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-2">
-      <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">{label}</label>
+    <div className="flex flex-col gap-2 2xl:gap-4">
+      <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">{label}</label>
       {children}
     </div>
   );
@@ -416,13 +416,13 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function ContactInfo({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-start gap-4">
-      <div className="w-8 h-8 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+    <div className="flex items-start gap-4 2xl:gap-6">
+      <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
         {icon}
       </div>
       <div>
-        <p className="text-sm font-bold text-mist-900">{label}</p>
-        <p className="text-sm text-mist-600 leading-relaxed">{value}</p>
+        <p className="text-sm 2xl:text-xl font-bold text-mist-900">{label}</p>
+        <p className="text-sm 2xl:text-lg text-mist-600 leading-relaxed">{value}</p>
       </div>
     </div>
   );
@@ -441,26 +441,26 @@ function EventTypesCarousel() {
   }
 
   return (
-    <section className="bg-white py-14 px-4">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl font-bold text-mist-900 text-center mb-10">Perfect for Every Prestigious Event</h2>
+    <section className="bg-white py-14 2xl:py-24 px-6 sm:px-16 lg:px-20 2xl:px-32">
+      <div className="max-w-[1840px] mx-auto">
+        <h2 className="text-2xl 2xl:text-6xl font-bold text-mist-900 text-center mb-10 2xl:mb-16">Perfect for Every Prestigious Event</h2>
         <div className="relative">
-          <button onClick={() => scroll("left")} className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white border border-mist-200 rounded-full flex items-center justify-center shadow-sm hover:bg-mist-50 transition-colors">
+          <button onClick={() => scroll("left")} className="absolute -left-4 2xl:-left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 2xl:w-12 2xl:h-12 bg-white border border-mist-200 rounded-full flex items-center justify-center shadow-sm hover:bg-mist-50 transition-colors">
             <ChevronLeft size={18} />
           </button>
-          <div ref={scrollRef} className="flex gap-5 overflow-x-auto scrollbar-hide scroll-smooth pb-2" style={{ scrollbarWidth: "none" }}>
+          <div ref={scrollRef} className="flex gap-5 2xl:gap-10 overflow-x-auto scrollbar-hide scroll-smooth pb-2" style={{ scrollbarWidth: "none" }}>
             {EVENT_TYPES.map((et) => (
-              <div key={et.title} className="flex-shrink-0 w-[280px] relative rounded-2xl overflow-hidden group cursor-pointer h-56">
+              <div key={et.title} className="flex-shrink-0 w-[280px] 2xl:w-[420px] relative rounded-2xl 2xl:rounded-3xl overflow-hidden group cursor-pointer h-56 2xl:h-[360px]">
                 <img src={et.image} alt={et.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="text-sm font-bold text-white mb-0.5">{et.title}</h3>
-                  <p className="text-[11px] text-white/70 line-clamp-2">{et.desc}</p>
+                  <h3 className="text-sm 2xl:text-2xl font-bold text-white mb-0.5 2xl:mb-2">{et.title}</h3>
+                  <p className="text-[11px] 2xl:text-lg text-white/70 line-clamp-2">{et.desc}</p>
                 </div>
               </div>
             ))}
           </div>
-          <button onClick={() => scroll("right")} className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white border border-mist-200 rounded-full flex items-center justify-center shadow-sm hover:bg-mist-50 transition-colors">
+          <button onClick={() => scroll("right")} className="absolute -right-4 2xl:-right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 2xl:w-12 2xl:h-12 bg-white border border-mist-200 rounded-full flex items-center justify-center shadow-sm hover:bg-mist-50 transition-colors">
             <ChevronRight size={18} />
           </button>
         </div>
@@ -486,9 +486,9 @@ export default function BallroomPage() {
   return (
     <div className="bg-white">
       {/* Breadcrumb Section */}
-      <div className="px-6 sm:px-16 lg:px-20 py-8">
+      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-8 2xl:py-12">
         <div className="flex items-center justify-between">
-          <nav className="flex items-center gap-2 text-sm text-gray-500">
+          <nav className="flex items-center gap-2 text-sm 2xl:text-xl text-gray-500">
             <Link href="/" className="hover:text-black transition-colors">Los Angeles</Link>
             <ChevronRight size={14} className="text-gray-400" />
             <Link href="/events" className="hover:text-black transition-colors">Event</Link>
@@ -497,10 +497,10 @@ export default function BallroomPage() {
           </nav>
 
           <div className="flex items-center gap-6">
-            <button className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-black transition-colors">
+            <button className="flex items-center gap-2 text-sm 2xl:text-xl font-medium text-gray-600 hover:text-black transition-colors">
               <Share2 size={18} /> Share
             </button>
-            <button className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-black transition-colors">
+            <button className="flex items-center gap-2 text-sm 2xl:text-xl font-medium text-gray-600 hover:text-black transition-colors">
               <Heart size={18} /> Save
             </button>
           </div>
@@ -508,8 +508,8 @@ export default function BallroomPage() {
       </div>
 
       {/* Hero Section */}
-      <div className="px-6 sm:px-16 lg:px-20 mb-16">
-        <div className="relative rounded-[2.5rem] overflow-hidden h-[500px] lg:h-[600px] shadow-2xl">
+      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 mb-16 2xl:mb-24">
+        <div className="relative rounded-[2.5rem] 2xl:rounded-[48px] overflow-hidden h-[500px] lg:h-[600px] 2xl:h-[760px] shadow-2xl">
           {/* Main Hero Image */}
           <img
             src={HERO_IMAGE}
@@ -521,17 +521,17 @@ export default function BallroomPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
           {/* Hero Content */}
-          <div className="absolute bottom-12 left-12 right-12">
-            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight">
+          <div className="absolute bottom-12 2xl:bottom-20 left-12 2xl:left-20 right-12 2xl:right-20">
+            <h1 className="text-5xl lg:text-6xl 2xl:text-8xl font-bold text-white mb-4 2xl:mb-6 tracking-tight">
               Delilah Los Angeles
             </h1>
-            <p className="text-lg lg:text-xl text-white/90 mb-10 max-w-2xl leading-relaxed">
+            <p className="text-lg lg:text-xl 2xl:text-3xl text-white/90 mb-10 2xl:mb-14 max-w-2xl 2xl:max-w-5xl leading-relaxed">
               Roaring &apos;20s vibes with American cuisine &<br /> Art Deco elegance
             </p>
 
             <button
               onClick={() => { }}
-              className="bg-white text-black px-10 py-4 rounded-xl text-base font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl"
+              className="bg-white text-black px-10 2xl:px-14 py-4 2xl:py-6 rounded-xl 2xl:rounded-2xl text-base 2xl:text-2xl font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl"
             >
               Reserve Now
             </button>
@@ -540,7 +540,7 @@ export default function BallroomPage() {
       </div>
 
       {/* A Landmark Born / History Section */}
-      <section className="px-6 sm:px-16 lg:px-20 py-20 flex flex-col lg:flex-row items-center gap-16 bg-[#f9f9f9]">
+      <section className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-20 2xl:py-32 flex flex-col lg:flex-row items-center gap-16 2xl:gap-24 bg-[#f9f9f9]">
     
         {/* Left Side: Vertical Image Stack */}
         <div className="w-full lg:w-1/2 flex flex-col gap-6">
@@ -562,11 +562,11 @@ export default function BallroomPage() {
 
         {/* Right Side: Historical Content */}
         <div className="w-full lg:w-1/2">
-          <h2 className="text-4xl lg:text-5xl font-bold text-[#1a1a1a] leading-tight mb-8">
+          <h2 className="text-4xl lg:text-5xl 2xl:text-7xl font-bold text-[#1a1a1a] leading-tight mb-8 2xl:mb-12">
             A Landmark Born <br /> in 1914 — Reborn <br /> for Today
           </h2>
 
-          <div className="space-y-6 text-gray-600 leading-relaxed max-w-xl">
+          <div className="space-y-6 2xl:space-y-8 text-gray-600 2xl:text-2xl leading-relaxed max-w-xl 2xl:max-w-4xl">
             <p>
               Originally constructed in <span className="font-bold text-[#1a1a1a]">1914</span>, the Trinity Building was
               celebrated as an architectural masterpiece in Downtown Los Angeles. Hidden within its walls was a
@@ -594,19 +594,19 @@ export default function BallroomPage() {
         </div>
       </section>
 
-     <section className="max-w-7xl mx-auto px-6 py-20 bg-white font-sans">
+    <section className="max-w-[1840px] mx-auto px-6 sm:px-16 lg:px-20 2xl:px-32 py-20 2xl:py-32 bg-white font-sans">
       {/* Header Section */}
-      <div className="text-center mb-16 max-w-2xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a1a] mb-6">
+      <div className="text-center mb-16 2xl:mb-24 max-w-2xl 2xl:max-w-5xl mx-auto">
+        <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-[#1a1a1a] mb-6 2xl:mb-8">
           Why Choose the Trinity Ballroom
         </h2>
-        <p className="text-lg text-gray-500 leading-relaxed">
+        <p className="text-lg 2xl:text-2xl text-gray-500 leading-relaxed">
           A rare blend of heritage, elegance, and scale—crafted for extraordinary events.
         </p>
       </div>
 
       {/* Features Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 2xl:gap-10">
         {features.map((feature, index) => (
           <FeatureCard 
             key={index}
@@ -618,10 +618,10 @@ export default function BallroomPage() {
       </div>
     </section>
 
-        <section className="py-20 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+        <section className="py-20 2xl:py-32 bg-white overflow-hidden">
+      <div className="max-w-[1840px] mx-auto px-6 sm:px-16 lg:px-20 2xl:px-32">
         {/* Header */}
-        <h2 className="text-4xl md:text-5xl font-bold text-center text-[#1a1a1a] mb-12">
+        <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-center text-[#1a1a1a] mb-12 2xl:mb-20">
           Perfect for Every Prestigious Event
         </h2>
 
@@ -629,14 +629,14 @@ export default function BallroomPage() {
           {/* Navigation Buttons */}
           <button 
             onClick={prevSlide}
-            className="absolute left-[-20px] top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-50 transition-colors border border-gray-100"
+            className="absolute left-[-20px] 2xl:left-[-24px] top-1/2 -translate-y-1/2 z-10 bg-white p-3 2xl:p-4 rounded-full shadow-lg hover:bg-gray-50 transition-colors border border-gray-100"
           >
             <ChevronLeft size={24} />
           </button>
           
           <button 
             onClick={nextSlide}
-            className="absolute right-[-20px] top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-50 transition-colors border border-gray-100"
+            className="absolute right-[-20px] 2xl:right-[-24px] top-1/2 -translate-y-1/2 z-10 bg-white p-3 2xl:p-4 rounded-full shadow-lg hover:bg-gray-50 transition-colors border border-gray-100"
           >
             <ChevronRight size={24} />
           </button>
@@ -649,7 +649,7 @@ export default function BallroomPage() {
             >
               {events.map((event, index) => (
                 <div key={index} className="min-w-full md:min-w-[33.333%] px-3">
-                  <div className="relative h-[450px] rounded-2xl overflow-hidden group cursor-pointer">
+                  <div className="relative h-[450px] 2xl:h-[560px] rounded-2xl 2xl:rounded-3xl overflow-hidden group cursor-pointer">
                     {/* Image */}
                     <img 
                       src={event.image} 
@@ -661,11 +661,11 @@ export default function BallroomPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                     
                     {/* Content */}
-                    <div className="absolute bottom-0 p-8 text-white">
-                      <h3 className="text-xl font-bold mb-2">
+                    <div className="absolute bottom-0 p-8 2xl:p-12 text-white">
+                      <h3 className="text-xl 2xl:text-3xl font-bold mb-2 2xl:mb-4">
                         {event.title}
                       </h3>
-                      <p className="text-sm text-gray-200 leading-relaxed">
+                      <p className="text-sm 2xl:text-2xl text-gray-200 leading-relaxed">
                         {event.description}
                       </p>
                     </div>
@@ -691,13 +691,13 @@ export default function BallroomPage() {
       </div>
     </section>
 
-    <section className="max-w-7xl mx-auto px-6 py-20 bg-white">
+    <section className="max-w-[1840px] mx-auto px-6 sm:px-16 lg:px-20 2xl:px-32 py-20 2xl:py-32 bg-white">
       {/* Header */}
       <div className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a1a] mb-4">
+        <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">
           Venue Features & Amenities
         </h2>
-        <p className="text-gray-500 max-w-xl mx-auto leading-relaxed">
+        <p className="text-gray-500 text-base 2xl:text-2xl max-w-xl 2xl:max-w-5xl mx-auto leading-relaxed">
           Designed to honor its historic roots while supporting world-class modern events.
         </p>
       </div>
@@ -714,9 +714,9 @@ export default function BallroomPage() {
       </div>
     </section>
     <Reviews />
-    <section className="py-16 px-6 sm:px-16 lg:px-20 bg-white">
+    <section className="py-16 2xl:py-24 px-6 sm:px-16 lg:px-20 2xl:px-32 bg-white">
         <div className="">
-          <div className="relative bg-mist-100 rounded-3xl px-8 py-16 text-center overflow-hidden">
+          <div className="relative bg-mist-100 rounded-3xl 2xl:rounded-[40px] px-8 2xl:px-16 py-16 2xl:py-24 text-center overflow-hidden">
             <img
               src="/Vector 7.png"
               alt=""
@@ -734,35 +734,35 @@ export default function BallroomPage() {
 
 
             {/* Content */}
-            <h2 className="text-3xl sm:text-4xl font-bold text-mist-900 leading-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl 2xl:text-7xl font-bold text-mist-900 leading-tight mb-4 2xl:mb-8">
               Host Your Event at the <br /> Trinity Ballroom
             </h2>
-            <p className="text-sm text-mist-600 max-w-sm mx-auto leading-relaxed mb-8">
+            <p className="text-sm 2xl:text-2xl text-mist-600 max-w-sm 2xl:max-w-3xl mx-auto leading-relaxed mb-8 2xl:mb-12">
               Secure your table, VIP services, or private experience today and make your evening truly extraordinary.
             </p>
-            <button className="bg-mist-900 text-white text-sm font-semibold px-7 py-3.5 rounded-xl hover:bg-mist-700 transition-colors">
+            <button className="bg-mist-900 text-white text-sm 2xl:text-2xl font-semibold px-7 2xl:px-12 py-3.5 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors">
               Request a Quote
             </button>
 
           </div>
         </div>
       </section>
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="py-20 2xl:py-32 bg-white">
+      <div className="max-w-[1840px] mx-auto px-6 sm:px-16 lg:px-20 2xl:px-32">
         
         {/* Simple Header */}
         <div className="mb-16">
-          <h2 className="text-4xl md:text-5xl text-center font-bold text-mist-900">
+          <h2 className="text-4xl md:text-5xl 2xl:text-7xl text-center font-bold text-mist-900">
             Gallery
           </h2>
-          <p className="text-gray-500 max-w-md mx-auto text-center leading-relaxed mt-5">
+          <p className="text-gray-500 text-base 2xl:text-2xl max-w-md 2xl:max-w-4xl mx-auto text-center leading-relaxed mt-5 2xl:mt-8">
           Designed to honor its historic roots while supporting world-class modern events.
         </p>
         </div>
 
 
         {/* The Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-5 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-5 lg:gap-6 2xl:gap-10">
           {images.map((image, index) => (
             <div 
               key={index} 

@@ -1,12 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-
-type Category = {
-  name: string;
-  slug: string;
-};
+import { useState } from "react";
+import Image from "next/image";
 
 const carMakes = [
   { name: "Rolls-Royce", logo: "/carlogo1.png" },
@@ -32,90 +27,101 @@ const carTypes = [
   { name: "Electric", logo: "/type6.png" },
 ];
 
-function CarLogo({ car, selected, onClick }: { car: { name: string; logo: string }; selected: boolean; onClick: (name: string) => void }) {
+function BrowseCard({ 
+  item, 
+  isType, 
+  onClick 
+}: { 
+  item: { name: string; logo: string }; 
+  isType: boolean; 
+  onClick: (name: string) => void 
+}) {
   return (
     <button
-      onClick={() => onClick(car.name)}
-      className="flex flex-col items-center justify-center gap-3
-      py-8 px-14 my-3 rounded-2xl border shrink-0
-      transition-all duration-200 border-mist-200 bg-white
-      hover:border-mist-400 hover:scale-105"
+      onClick={() => onClick(item.name)}
+      className="flex flex-col items-center justify-center gap-4 2xl:gap-10
+      py-8 px-12 2xl:py-20 2xl:px-32 my-4 rounded-3xl border shrink-0
+      transition-all duration-300 border-gray-200 bg-white
+      hover:border-black hover:scale-105 group shadow-sm hover:shadow-xl"
     >
-      <img
-        src={car.logo}
-        alt={car.name}
-        className="w-16 h-16 object-contain mistscale hover:mistscale-0 transition"
-      />
-
-      <span className="text-xs text-mist-600">{car.name}</span>
+      <div className={`relative transition-transform duration-500 group-hover:scale-110
+        ${isType 
+          ? "w-20 h-10 sm:w-28 sm:h-14 2xl:w-64 2xl:h-32" 
+          : "w-14 h-14 sm:w-20 sm:h-20 2xl:w-40 2xl:h-40"
+        }`}
+      >
+        <Image
+          src={item.logo}
+          alt={item.name}
+          fill
+          className="object-contain filter grayscale group-hover:grayscale-0 transition-all"
+        />
+      </div>
+      
+      <span className="text-[10px] sm:text-xs 2xl:text-2xl font-bold uppercase tracking-[0.2em] text-gray-400 group-hover:text-black">
+        {item.name}
+      </span>
     </button>
   );
 }
 
-function CategoryCard({ category, onClick }: { category: { slug: string; name: string }; onClick: (slug: string) => void }) {
-    return (
-        <button
-            onClick={() => onClick(category.slug)}
-            className="flex flex-col items-center justify-center gap-3
-        py-8 px-14 my-3 rounded-2xl border shrink-0
-        transition-all duration-200 border-mist-200 bg-white hover:border-mist-400 hover:scale-105"
-        >
-            <span className="text-lg font-semibold text-mist-700">{category.name}</span>
-        </button>
-    );
-}
-
 export default function CarBrowseSection() {
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("make");
+  const isType = activeTab === "type";
+  const data = isType ? carTypes : carMakes;
 
-  const data = activeTab === "make" ? carMakes : carTypes;
+  const marqueeItems = [...data, ...data, ...data, ...data];
 
   return (
-    <section className="w-full bg-[#f5f5f5] py-16 overflow-hidden">
-      <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-20 mb-10 flex justify-center">
-        <div className="flex bg-mist-100 rounded-xl p-1 shadow-sm">
+    <section className="w-full bg-[#fcfcfc] py-16 sm:py-24 2xl:py-48 overflow-hidden">
+      
+      {/* Buttons Container - Now two separate independent buttons */}
+      <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto px-6 mb-16 2xl:mb-32 flex flex-row items-center justify-center gap-4 2xl:gap-12">
+        
+        {/* Button: Browse by Make */}
+        <button
+          onClick={() => setActiveTab("make")}
+          className={`px-8 py-3 2xl:px-16 2xl:py-6 text-xs sm:text-sm 2xl:text-xl font-semibold uppercase tracking-widest rounded-xl 2xl:rounded-2xl border-2 transition-all duration-300 ${
+            !isType
+              ? "bg-black border-black text-white shadow-2xl scale-105"
+              : "bg-white border-gray-200 text-gray-400 hover:border-black hover:text-black"
+          }`}
+        >
+          Browse by Make
+        </button>
 
-          <button
-            onClick={() => setActiveTab("make")}
-            className={`px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-              activeTab === "make"
-                ? "bg-mist-900 text-white shadow"
-                : "text-mist-600 hover:text-black"
-            }`}
-          >
-            Browse by Make
-          </button>
+        {/* Button: Browse by Type */}
+        <button
+          onClick={() => setActiveTab("type")}
+          className={`px-8 py-3 2xl:px-16 2xl:py-6 text-xs sm:text-sm 2xl:text-xl font-semibold uppercase tracking-widest rounded-xl 2xl:rounded-2xl border-2 transition-all duration-300 ${
+            isType
+              ? "bg-black border-black text-white shadow-2xl scale-105"
+              : "bg-white border-gray-200 text-gray-400 hover:border-black hover:text-black"
+          }`}
+        >
+          Browse by Type
+        </button>
 
-          <button
-            onClick={() => setActiveTab("type")}
-            className={`px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-              activeTab === "type"
-                ? "bg-black text-white shadow"
-                : "text-mist-600 hover:text-black"
-            }`}
-          >
-            Browse by Type
-          </button>
-
-        </div>
       </div>
 
-      <div className="mx-auto">
+      {/* Marquee Wrapper */}
+      <div className="relative w-full">
+        {/* Luxury Fades */}
+        <div className="absolute inset-y-0 left-0 w-32 2xl:w-80 bg-gradient-to-r from-[#fcfcfc] to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-32 2xl:w-80 bg-gradient-to-l from-[#fcfcfc] to-transparent z-10 pointer-events-none" />
 
         <div className="marquee">
-          <div className="marquee-track">
-            {[...data, ...data].map((car, i) => (
-              <CarLogo
-                key={i}
-                car={car}
-                selected={selectedItem === car.name}
-                onClick={setSelectedItem}
+          <div className={`marquee-track ${isType ? 'speed-type' : 'speed-make'}`}>
+            {marqueeItems.map((item, i) => (
+              <BrowseCard
+                key={`${activeTab}-${i}`}
+                item={item}
+                isType={isType}
+                onClick={(name) => console.log(name)}
               />
             ))}
           </div>
         </div>
-
       </div>
 
       <style jsx>{`
@@ -126,18 +132,27 @@ export default function CarBrowseSection() {
 
         .marquee-track {
           display: flex;
-          gap: 16px;
+          gap: 24px;
           width: max-content;
-          animation: scroll 25s linear infinite;
+        }
+
+        .speed-make {
+          animation: scroll 45s linear infinite;
+        }
+
+        .speed-type {
+          animation: scroll 28s linear infinite;
+        }
+
+        @media (min-width: 1900px) {
+          .marquee-track {
+            gap: 64px;
+          }
         }
 
         @keyframes scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-25%); } 
         }
 
         .marquee:hover .marquee-track {

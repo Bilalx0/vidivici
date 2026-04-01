@@ -159,19 +159,19 @@ export default function PersonalInfoPage() {
     <div className="overflow-hidden">
 
       {/* ── Heading ─────────────────────────────────────────── */}
-      <div className="px-6 sm:px-8 py-14 border-b-2 border-mist-300 font-medium flex items-center justify-between">
-        <h1 className="text-4xl font-bold text-mist-900">Personal Information</h1>
+      <div className="px-6 sm:px-8 py-14 2xl:py-20 border-b-2 border-mist-300 font-medium flex items-center justify-between">
+        <h1 className="text-4xl 2xl:text-6xl font-bold text-mist-900">Personal Information</h1>
       </div>
 
       {/* Avatar — sits between header and card */}
-      <div className="flex justify-start px-7 sm:px-10 lg:px-24">
-        <div className="relative -mb-20 mt-8 z-10">
-          <div className="w-28 h-28 rounded-full border-4 border-white shadow-md overflow-hidden bg-mist-200 flex items-center justify-center">
+      <div className="flex justify-start px-7 sm:px-10 lg:px-24 2xl:px-40">
+        <div className="relative -mb-20 2xl:-mb-32 mt-8 z-10">
+          <div className="w-28 2xl:w-40 h-28 2xl:h-40 rounded-full border-4 2xl:border-6 border-white shadow-md overflow-hidden bg-mist-200 flex items-center justify-center">
             {form.image ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={form.image} alt="Profile" className="w-full h-full object-cover" />
             ) : (
-              <span className="text-3xl font-bold text-mist-400">{initials}</span>
+              <span className="text-3xl 2xl:text-5xl font-bold text-mist-400">{initials}</span>
             )}
           </div>
 
@@ -181,12 +181,12 @@ export default function PersonalInfoPage() {
               type="button"
               onClick={() => fileRef.current?.click()}
               disabled={uploading}
-              className="absolute -top-1 -right-1 w-8 h-8 bg-blue-500 hover:bg-blue-600 rounded-full flex items-center justify-center shadow-md transition disabled:opacity-50"
+              className="absolute -top-1 -right-1 w-8 2xl:w-10 h-8 2xl:h-10 bg-blue-500 hover:bg-blue-600 rounded-full flex items-center justify-center shadow-md transition disabled:opacity-50"
             >
               {uploading ? (
                 <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
               ) : (
-                <Camera size={14} className="text-white" />
+                <Camera size={14} className="text-white 2xl:w-5 2xl:h-5" />
               )}
             </button>
           )}
@@ -196,34 +196,34 @@ export default function PersonalInfoPage() {
       </div>
 
       {/* Card */}
-      <div className="mx-7 sm:mx-10 lg:mx-16 my-10 rounded-2xl bg-white shadow-xl pt-20 pb-10 px-6 sm:px-8 relative">
+      <div className="mx-7 sm:mx-10 lg:mx-16 2xl:mx-32 my-10 2xl:my-16 rounded-2xl 2xl:rounded-3xl bg-white shadow-xl pt-20 2xl:pt-32 pb-10 2xl:pb-16 px-6 sm:px-8 2xl:px-12 relative">
 
         {/* Edit pencil — top right of card */}
-        <div className="absolute top-5 right-6">
+        <div className="absolute top-5 2xl:top-8 right-6 2xl:right-10">
           {!editing ? (
             <button
               type="button"
               onClick={() => setEditing(true)}
-              className="w-9 h-9 rounded-lg border border-mist-200 flex items-center justify-center text-mist-500 hover:border-mist-400 hover:text-mist-800 transition"
+              className="w-9 2xl:w-11 h-9 2xl:h-11 rounded-lg 2xl:rounded-xl border border-mist-200 flex items-center justify-center text-mist-500 hover:border-mist-400 hover:text-mist-800 transition"
             >
-              <Pencil size={15} />
+              <Pencil size={15} className="2xl:w-5 2xl:h-5" />
             </button>
           ) : (
             <button
               type="button"
-              className="w-9 h-9 rounded-lg border border-mist-200 flex items-center justify-center text-mist-500 hover:border-mist-400 hover:text-mist-800 transition"
+              className="w-9 2xl:w-11 h-9 2xl:h-11 rounded-lg 2xl:rounded-xl border border-mist-200 flex items-center justify-center text-mist-500 hover:border-mist-400 hover:text-mist-800 transition"
               onClick={() => { setEditing(false); fetchProfile() }}
             >
-              <Pencil size={15} />
+              <Pencil size={15} className="2xl:w-5 2xl:h-5" />
             </button>
           )}
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="space-y-4">
+          <div className="space-y-4 2xl:space-y-6">
 
             {/* Row 1: Name / Email / Phone */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 2xl:gap-6">
               <div>
                 <input
                   type="text"

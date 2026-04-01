@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { ChevronLeft, ChevronRight, BedDouble, Users, Bath, Maximize2, MapPin, Plane, ChefHat, Shield, CreditCard, Sparkles, Percent, Bed } from "lucide-react"
+import { ChevronLeft, ChevronRight, BedDouble, Users, Bath, Maximize2, MapPin, Plane, ChefHat, Shield, CreditCard, Sparkles, Percent, Bed, Tag, } from "lucide-react"
 import { parseAmenity, AMENITY_ICONS } from "@/lib/amenity-icons"
 import WhyChooseUs from "@/components/home/WhyChooseUs"
 import Reviews from "@/components/home/Reviews"
@@ -48,10 +48,19 @@ interface RelatedVilla {
 const TABS = ["Stay", "Event", "Production"] as const
 type TabType = (typeof TABS)[number]
 
+const VILLA_ADDONS = [
+  { name: "Private chef", icon: "/addon1.png" },
+  { name: "Security Service", icon: "/addon2.png" },
+  { name: "Drivers", icon: "/addon3.png" },
+  { name: "Airport Transfer (Luxury SUV)", icon: "/addon4.png" },
+  { name: "Mixologist", icon: "/addon5.png" },
+]
+
 export default function VillaDetailClient({ villa, relatedVillas }: { villa: Villa; relatedVillas: RelatedVilla[] }) {
   const router = useRouter()
   const [currentImage, setCurrentImage] = useState(0)
   const [activeTab, setActiveTab] = useState<TabType>("Stay")
+  const [showMobileBooking, setShowMobileBooking] = useState(false)
   const [checkIn, setCheckIn] = useState("")
   const [checkOut, setCheckOut] = useState("")
   const [guestCount, setGuestCount] = useState(1)
@@ -115,13 +124,13 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
   }
 
   return (
-    <div className="bg-white">
-      <div className=" px-6 sm:px-16 lg:px-20 py-16">
+    <div className="bg-white mt-10 2xl:mt-24 pb-24 lg:pb-0">
+      <div className=" px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-24">
 
 
         {/* Breadcrumb */}
-        <div className="mb-10">
-          <div className="flex items-center gap-2 text-xs sm:text-base text-mist-400">
+        <div className="mb-10 2xl:mb-16">
+          <div className="flex items-center gap-2 2xl:gap-4 text-xs sm:text-base 2xl:text-xl text-mist-400">
             <Link href="/" className="hover:text-mist-700">Home</Link>
             <span>{">"}</span>
             <Link href="/villas" className="hover:text-mist-700">Villas</Link>
@@ -130,9 +139,9 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
           </div>
         </div>
 
-        <div className="pb-16">
+        <div className="pb-16 2xl:pb-24">
           {/* CRITICAL FIX: items-start prevents flex children from stretching */}
-          <div className="flex flex-col lg:flex-row gap-10 items-start">
+          <div className="flex flex-col lg:flex-row gap-10 2xl:gap-16 items-start">
             {/* Left Column */}
             <div className="flex-1 min-w-0">
               {/* Gallery */}
@@ -141,14 +150,14 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                 <img
                   src={images[currentImage].url}
                   alt={images[currentImage].alt || villa.name}
-                  className="w-full h-[340px] lg:h-[420px] object-cover"
+                  className="w-full h-[340px] lg:h-[420px] 2xl:h-[600px] object-cover"
                 />
                 {images.length > 1 && (
                   <>
-                    <button onClick={prevImage} className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-sm">
+                    <button onClick={prevImage} className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 2xl:w-12 2xl:h-12 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-sm">
                       <ChevronLeft size={18} className="text-mist-700" />
                     </button>
-                    <button onClick={nextImage} className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-sm">
+                    <button onClick={nextImage} className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 2xl:w-12 2xl:h-12 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-sm">
                       <ChevronRight size={18} className="text-mist-700" />
                     </button>
                   </>
@@ -163,7 +172,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                       <button
                         key={i}
                         onClick={() => setCurrentImage(i)}
-                        className={`flex-shrink-0 w-[118px] h-[80px] rounded-xl overflow-hidden transition-all ${i === currentImage ? "ring-2 ring-mist-800" : "opacity-70 hover:opacity-100"
+                        className={`flex-shrink-0 w-[118px] h-[80px] 2xl:w-[160px] 2xl:h-[110px] rounded-xl overflow-hidden transition-all ${i === currentImage ? "ring-2 ring-mist-800" : "opacity-70 hover:opacity-100"
                           }`}
                       >
                         <img src={img.url} alt={img.alt || ""} className="w-full h-full object-cover" />
@@ -181,12 +190,12 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
               )}
 
               {/* Info Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 2xl:gap-5 mb-8 2xl:mb-12">
                 {/* Left card */}
-                <div className=" bg-mist-100 rounded-xl p-4 space-y-2.5">
+                <div className=" bg-mist-100 rounded-xl p-4 2xl:p-6 space-y-2.5 2xl:space-y-4">
                   <div className="flex items-center gap-2.5">
                     <CreditCard size={30} className="text-mist-400 bg-white p-2 rounded-md flex-shrink-0" />
-                    <p className="text-sm text-mist-500">
+                    <p className="text-sm 2xl:text-lg text-mist-500">
                       <span className="font-semibold">Security Deposit:</span>
                       ${villa.securityDeposit.toLocaleString()}
 
@@ -194,72 +203,91 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                   </div>
                   <div className="flex items-center gap-2.5">
                     <Percent size={30} className="text-mist-400 bg-white p-2 rounded-md flex-shrink-0" />
-                    <p className="text-sm text-mist-500">
+                    <p className="text-sm 2xl:text-lg text-mist-500">
                       <span className="font-semibold">Tax:</span> 14%
                     </p>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <Sparkles size={30} className="text-mist-400 bg-white p-2 rounded-md flex-shrink-0" />
-                    <p className="text-sm text-mist-500">
+                    <p className="text-sm 2xl:text-lg text-mist-500">
                       <span className="font-semibold">Cleaning Fee:</span> ${villa.cleaningFee ?? "950"}
                     </p>
                   </div>
                 </div>
 
                 {/* Right card */}
-                <div className=" bg-mist-100 rounded-xl p-4 space-y-2.5">
+                <div className=" bg-mist-100 rounded-xl p-4 2xl:p-6 space-y-2.5 2xl:space-y-4 relative pl-12 2xl:pl-14">
+                  <div className="absolute left-3 top-1/2 -translate-y-1/2 w-7 h-7 2xl:w-9 2xl:h-9 bg-white rounded-md flex items-center justify-center">
+                    <Tag size={14} className="text-mist-400" />
+                  </div>
                   <div className="flex items-start gap-2">
                     <span className="text-mist-400 mt-0.5">•</span>
-                    <p className="text-sm text-mist-500">
+                    <p className="text-sm 2xl:text-lg text-mist-500">
                       <span className="font-semibold">Rental Duration:</span> 24 hours
                     </p>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-mist-400 mt-0.5">•</span>
-                    <p className="text-sm text-mist-500">
+                    <p className="text-sm 2xl:text-lg text-mist-500">
                       <span className="font-semibold">Extra Hour:</span> 20% of the daily rate
                     </p>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-mist-400 mt-0.5">•</span>
-                    <p className="text-sm text-mist-500">
+                    <p className="text-sm 2xl:text-lg text-mist-500">
                       <span className="font-semibold">5 Extra Hours:</span> Charged as an extra night
                     </p>
                   </div>
                 </div>
               </div>
 
+              {/* Mobile Tabs */}
+              <div className="lg:hidden flex gap-2 justify-between mb-6">
+                {TABS.map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`w-full py-2 rounded-md text-sm transition-all ${activeTab === tab
+                      ? "bg-neutral-500 text-white"
+                      : "text-mist-500 hover:text-mist-700 bg-neutral-200 hover:bg-neutral-200"
+                      }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+
               {/* Specs Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-                <div className="bg-mist-100 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 2xl:gap-5 mb-8 2xl:mb-12">
+                <div className="bg-mist-100 rounded-xl p-4 2xl:p-6 flex flex-col sm:flex-row items-center gap-4">
                   <BedDouble size={30} className="text-mist-400 bg-neutral-200 rounded-full p-1.5" />
                   <div>
-                    <p className="text-sm font-bold text-mist-900 mt-1">Bedrooms</p>
-                    <p className="text-sm text-mist-500">{villa.bedrooms}</p>
+                    <p className="text-sm 2xl:text-lg font-bold text-mist-900 mt-1">Bedrooms</p>
+                    <p className="text-sm 2xl:text-lg text-mist-500">{villa.bedrooms}</p>
                   </div>
 
                 </div>
-                <div className="bg-mist-100 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-4">
+                <div className="bg-mist-100 rounded-xl p-4 2xl:p-6 flex flex-col sm:flex-row items-center gap-4">
                   <Users size={30} className="text-mist-400 bg-neutral-200 rounded-full p-1.5" />
                   <div>
-                    <p className="text-sm font-bold text-mist-900 mt-1">Guests</p>
-                    <p className="text-sm text-mist-500">{villa.guests}</p>
+                    <p className="text-sm 2xl:text-lg font-bold text-mist-900 mt-1">Guests</p>
+                    <p className="text-sm 2xl:text-lg text-mist-500">{villa.guests}</p>
                   </div>
 
                 </div>
-                <div className="bg-mist-100 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-4">
+                <div className="bg-mist-100 rounded-xl p-4 2xl:p-6 flex flex-col sm:flex-row items-center gap-4">
                   <Maximize2 size={30} className="text-mist-400 bg-neutral-200 rounded-full p-1.5" />
                   <div>
-                    <p className="text-sm font-bold text-mist-900 mt-1">Sq.ft</p>
-                    <p className="text-sm text-mist-500">{villa.sqft?.toLocaleString()}</p>
+                    <p className="text-sm 2xl:text-lg font-bold text-mist-900 mt-1">Sq.ft</p>
+                    <p className="text-sm 2xl:text-lg text-mist-500">{villa.sqft?.toLocaleString()}</p>
                   </div>
 
                 </div>
-                <div className="bg-mist-100 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-4">
+                <div className="bg-mist-100 rounded-xl p-4 2xl:p-6 flex flex-col sm:flex-row items-center gap-4">
                   <Bath size={30} className="text-mist-400 bg-neutral-200 rounded-full p-1.5" />
                   <div>
-                    <p className="text-sm font-bold text-mist-900 mt-1">Bathrooms</p>
-                    <p className="text-sm text-mist-500">{villa.bathrooms}</p>
+                    <p className="text-sm 2xl:text-lg font-bold text-mist-900 mt-1">Bathrooms</p>
+                    <p className="text-sm 2xl:text-lg text-mist-500">{villa.bathrooms}</p>
                   </div>
 
                 </div>
@@ -270,16 +298,16 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
               <div className="pt-6 border-t border-mist-200">
 
                 {/* Title + Description */}
-                <h2 className="text-xl font-bold text-mist-900 mb-3">Rent a {villa.name}</h2>
+                <h2 className="text-xl 2xl:text-3xl font-bold text-mist-900 mb-3 2xl:mb-5">Rent a {villa.name}</h2>
 
                 {villa.description && (
                   <div className="mb-5">
-                    <p className={`text-sm text-mist-600 leading-relaxed ${!showFullDesc ? "line-clamp-4" : ""}`}>
+                    <p className={`text-sm 2xl:text-lg text-mist-600 leading-relaxed ${!showFullDesc ? "line-clamp-4" : ""}`}>
                       {villa.description}
                     </p>
                     <button
                       onClick={() => setShowFullDesc(!showFullDesc)}
-                      className="flex items-center gap-1 text-sm font-semibold text-mist-900 underline underline-offset-2 mt-2 hover:text-mist-600 transition-colors"
+                      className="flex items-center gap-1 text-sm 2xl:text-lg font-semibold text-mist-900 underline underline-offset-2 mt-2 hover:text-mist-600 transition-colors"
                     >
                       {showFullDesc ? "Show less" : "Show more"}
                       <ChevronRight size={14} />
@@ -290,15 +318,15 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                 {/* What this place offers */}
                 {amenitiesList.length > 0 && (
                   <div className="py-6 border-t border-mist-200">
-                    <h2 className="text-xl font-bold text-mist-900 mb-4">What this place offers</h2>
+                    <h2 className="text-xl 2xl:text-3xl font-bold text-mist-900 mb-4 2xl:mb-6">What this place offers</h2>
 
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                    <div className="grid grid-cols-2 gap-x-8 2xl:gap-x-12 gap-y-4 2xl:gap-y-6">
                       {amenitiesList.slice(0, showAllAmenities ? amenitiesList.length : 10).map((amenity, i) => {
                         const IconComp = AMENITY_ICONS[amenity.iconKey]?.icon || BedDouble
                         return (
                           <div key={i} className="flex items-center gap-3">
                             <IconComp size={20} className="text-mist-500 flex-shrink-0" />
-                            <span className="text-sm text-mist-700">{amenity.name}</span>
+                            <span className="text-sm 2xl:text-lg text-mist-700">{amenity.name}</span>
                           </div>
                         )
                       })}
@@ -307,7 +335,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                     {amenitiesList.length > 10 && !showAllAmenities && (
                       <button
                         onClick={() => setShowAllAmenities(true)}
-                        className="border border-mist-300 rounded-lg px-5 py-2.5 text-sm font-semibold text-mist-800 hover:bg-mist-50 transition-colors"
+                        className="border border-mist-300 rounded-lg px-5 py-2.5 text-sm 2xl:text-lg font-semibold text-mist-800 hover:bg-mist-50 transition-colors"
                       >
                         Show all {amenitiesList.length} amenities
                       </button>
@@ -319,8 +347,8 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
 
               {/* Best For */}
               <div className="py-6 border-t border-mist-200">
-                <h2 className="text-xl font-bold text-mist-900 mb-4">Best For</h2>
-                <div className="grid grid-cols-2 gap-x-8 gap-y-3">
+                <h2 className="text-xl 2xl:text-3xl font-bold text-mist-900 mb-4 2xl:mb-6">Best For</h2>
+                <div className="grid grid-cols-2 gap-x-8 2xl:gap-x-12 gap-y-3 2xl:gap-y-5">
                   {[
                     "Weddings",
                     "Luxury stays",
@@ -339,25 +367,23 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                           <path d="M2 6l3 3 5-5" stroke="#9CA3AF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </span>
-                      <span className="text-sm text-mist-700">{item}</span>
+                      <span className="text-sm 2xl:text-lg text-mist-700">{item}</span>
                     </div>
                   ))}
                 </div>
               </div>
               {/* Best For */}
-              <div className="py-6 border-t border-mist-200">
-                <h2 className="text-xl font-bold text-mist-900 mb-4">Add-Ons</h2>
-                <div className="grid grid-cols-2 gap-x-8 gap-y-3">
-                  {[
-                    "Private chef",
-                    "Security Service",
-                    "Mixologist",
-                    "Airport Transfer (Luxury SUV)",
-                    "Wellness retreats",
-                  ].map((item) => (
-                    <div key={item} className="flex items-center gap-2.5">
-                      <BedDouble size={20} className="text-mist-500 flex-shrink-0" />
-                      <span className="text-sm text-mist-700">{item}</span>
+              <div className="py-6 2xl:py-10 border-t border-mist-200">
+                <h2 className="text-xl 2xl:text-3xl font-bold text-mist-900 mb-4 2xl:mb-6">Add-Ons</h2>
+                <div className="grid grid-cols-2 gap-x-8 2xl:gap-x-12 gap-y-3 2xl:gap-y-5">
+                  {VILLA_ADDONS.map((item) => (
+                    <div key={item.name} className="flex items-center gap-2.5">
+                      <img
+                        src={item.icon}
+                        alt=""
+                        className="w-5 h-5 2xl:w-6 2xl:h-6 object-contain shrink-0"
+                      />
+                      <span className="text-sm 2xl:text-lg text-mist-700">{item.name}</span>
                     </div>
                   ))}
                 </div>
@@ -368,27 +394,27 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
 
             {/* Right Column — Booking Sidebar */}
             {/* CRITICAL FIX: The sticky wrapper is OUTSIDE the conditional forms */}
-            <div className="lg:w-[380px] flex-shrink-0 lg:self-start">
-              <div className="lg:sticky lg:top-[80px]">
+            <div className="hidden lg:block lg:w-[380px] 2xl:w-[500px] flex-shrink-0 lg:self-start ">
+              <div>
                 {/* Header - Always visible */}
-                <div className="mb-8">
-                  <h1 className="text-3xl font-semibold text-mist-900 mb-2">{villa.name}</h1>
+                <div className="mb-8 2xl:mb-12">
+                  <h1 className="text-3xl 2xl:text-5xl font-semibold text-mist-900 mb-2 2xl:mb-4">{villa.name}</h1>
                   {villa.address && (
-                    <div className="flex items-center gap-1.5 text-sm text-mist-500 mb-4">
+                    <div className="flex items-center gap-1.5 text-sm 2xl:text-lg text-mist-500 mb-4 2xl:mb-6">
                       <MapPin size={14} /> {villa.address}
                     </div>
                   )}
                   {villa.shortDescription && (
-                    <p className="text-mist-600 text-base leading-relaxed mb-4">{villa.shortDescription}</p>
+                    <p className="text-mist-600 text-base 2xl:text-xl leading-relaxed mb-4 2xl:mb-6">{villa.shortDescription}</p>
                   )}
 
                   {/* Tabs */}
-                  <div className="flex gap-2 justify-between my-6">
+                  <div className="flex gap-2 2xl:gap-3 justify-between my-6 2xl:my-8">
                     {TABS.map((tab) => (
                       <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
-                        className={`w-full py-2 rounded-md text-sm transition-all ${activeTab === tab
+                        className={`w-full py-2 2xl:py-3 rounded-md text-sm 2xl:text-lg transition-all ${activeTab === tab
                           ? "bg-neutral-500 text-white"
                           : "text-mist-500 hover:text-mist-700 bg-neutral-200 hover:bg-neutral-200"
                           }`}
@@ -401,14 +427,14 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
 
                 {/* FORMS CONTAINER - Only ONE form rendered at a time */}
                 {activeTab === "Stay" && (
-                  <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-5 shadow-lg">
-                    <div className="flex items-baseline gap-2 mb-6">
-                      <span className="text-3xl font-bold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
+                  <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg lg:sticky lg:top-24 lg:h-fit">
+                    <div className="flex items-baseline gap-2 mb-6 2xl:mb-8">
+                      <span className="text-3xl 2xl:text-5xl font-bold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
                       {/* <span className="text-sm text-mist-400 line-through">${villa.originalPrice?.toLocaleString()} </span> */}
-                      <span className="text-sm text-mist-400">USD / night</span>
+                      <span className="text-sm 2xl:text-lg text-mist-400">USD / night</span>
                     </div>
                     {/* Date + Time Rows - UPDATED with focus/blur behavior like car form */}
-                    <div className="space-y-3 border-t border-mist-300 pt-6">
+                    <div className="space-y-3 2xl:space-y-4 border-t border-mist-300 pt-6 2xl:pt-8">
                       {/* Check-in date + time */}
                       <div className="grid grid-cols-2 gap-3">
                         <div className="relative">
@@ -467,7 +493,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                     <select
                       value={guestCount}
                       onChange={(e) => setGuestCount(Number(e.target.value))}
-                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400"
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 2xl:px-5 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400"
                     >
                       <option value="" disabled>Number of Guests</option>
                       {Array.from({ length: villa.guests }, (_, i) => (
@@ -479,37 +505,39 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
 
                     {/* Add-Ons */}
                     <div className="space-y-3">
-                      <p className="text-[15px] font-bold text-mist-900">
-                        Add-Ons <span className="font-normal italic text-mist-500 text-sm">(optional)</span>
+                      <p className="text-[15px] 2xl:text-xl font-bold text-mist-900">
+                        Add-Ons <span className="font-normal italic text-mist-500 text-sm 2xl:text-base">(optional)</span>
                       </p>
 
                       {/* Airport Transfer */}
-                      <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+                      <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 2xl:px-5 py-3 2xl:py-4 cursor-pointer hover:border-mist-400 transition">
                         <div className="flex items-center gap-2.5">
                           <input
                             type="radio"
                             checked={airportTransfer}
-                            onChange={(e) => setAirportTransfer(e.target.checked)}
+                            onClick={() => setAirportTransfer((prev) => !prev)}
+                            onChange={() => { }}
                             className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
                           />
-                          <span className="text-sm text-mist-700">Airport Transfer (Luxury SUV)</span>
+                          <span className="text-sm 2xl:text-lg text-mist-700">Airport Transfer (Luxury SUV)</span>
                         </div>
-                        <span className="text-sm font-bold text-mist-900">$500</span>
+                        <span className="text-sm 2xl:text-lg font-bold text-mist-900">$500</span>
                       </label>
 
                       {/* Private Chef */}
-                      <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+                      <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 2xl:px-5 py-3 2xl:py-4 cursor-pointer hover:border-mist-400 transition">
                         <div className="flex items-center gap-2.5">
                           <input
                             type="radio"
                             checked={privateChef}
-                            onChange={(e) => setPrivateChef(e.target.checked)}
+                            onClick={() => setPrivateChef((prev) => !prev)}
+                            onChange={() => { }}
                             className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
                           />
-                          <span className="text-sm text-mist-700">Private Chef</span>
+                          <span className="text-sm 2xl:text-lg text-mist-700">Private Chef</span>
                         </div>
                         <div className="flex items-center gap-1.5">
-                          <span className="text-sm font-bold text-mist-900">Price TBD</span>
+                          <span className="text-sm 2xl:text-lg font-bold text-mist-900">Price TBD</span>
                           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="8" cy="8" r="7.5" stroke="#9CA3AF" />
                             <text x="8" y="12" textAnchor="middle" fontSize="10" fill="#9CA3AF" fontFamily="serif" fontStyle="italic">i</text>
@@ -518,18 +546,19 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                       </label>
 
                       {/* Security Service */}
-                      <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+                      <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 2xl:px-5 py-3 2xl:py-4 cursor-pointer hover:border-mist-400 transition">
                         <div className="flex items-center gap-2.5">
                           <input
                             type="radio"
                             checked={securityService}
-                            onChange={(e) => setSecurityService(e.target.checked)}
+                            onClick={() => setSecurityService((prev) => !prev)}
+                            onChange={() => { }}
                             className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
                           />
-                          <span className="text-sm text-mist-700">Security Service</span>
+                          <span className="text-sm 2xl:text-lg text-mist-700">Security Service</span>
                         </div>
                         <div className="flex items-center gap-1.5">
-                          <span className="text-sm font-bold text-mist-900">Price TBD</span>
+                          <span className="text-sm 2xl:text-lg font-bold text-mist-900">Price TBD</span>
                           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="8" cy="8" r="7.5" stroke="#9CA3AF" />
                             <text x="8" y="12" textAnchor="middle" fontSize="10" fill="#9CA3AF" fontFamily="serif" fontStyle="italic">i</text>
@@ -553,7 +582,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                         });
                         router.push(`/booking?${params.toString()}`);
                       }}
-                      className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide"
+                      className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 2xl:py-5 rounded-md font-semibold text-sm 2xl:text-lg tracking-wide"
                     >
                       Next
                     </button>
@@ -561,12 +590,12 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                 )}
 
                 {activeTab === "Event" && (
-                  <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-5 shadow-lg">
+                  <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg lg:sticky lg:top-24 lg:h-fit">
 
-                    <div className="flex items-baseline gap-2 mb-6">
-                      <span className="text-3xl font-bold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
+                    <div className="flex items-baseline gap-2 mb-6 2xl:mb-8">
+                      <span className="text-3xl 2xl:text-5xl font-bold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
                       {/* <span className="text-sm text-mist-400 line-through">${villa.originalPrice?.toLocaleString()} </span> */}
-                      <span className="text-sm text-mist-400">USD / night</span>
+                      <span className="text-sm 2xl:text-lg text-mist-400">USD / night</span>
                     </div>
 
 
@@ -689,7 +718,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                     {/* Request Quote Button */}
                     <button
                       onClick={() => router.push(`/booking?type=event&villa=${villa.slug}`)}
-                      className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide"
+                      className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 2xl:py-5 rounded-md font-semibold text-sm 2xl:text-lg tracking-wide"
                     >
                       Request Quote
                     </button>
@@ -697,11 +726,11 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                 )}
 
                 {activeTab === "Production" && (
-                  <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-5 shadow-lg">
-                    <div className="flex items-baseline gap-2 mb-6">
-                      <span className="text-3xl font-bold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
+                  <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg lg:sticky lg:top-24 lg:h-fit">
+                    <div className="flex items-baseline gap-2 mb-6 2xl:mb-8">
+                      <span className="text-3xl 2xl:text-5xl font-bold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
                       {/* <span className="text-sm text-mist-400 line-through">${villa.originalPrice?.toLocaleString()} </span> */}
-                      <span className="text-sm text-mist-400">USD / night</span>
+                      <span className="text-sm 2xl:text-lg text-mist-400">USD / night</span>
                     </div>
 
 
@@ -806,7 +835,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                     {/* Request Quote Button */}
                     <button
                       onClick={() => router.push(`/booking?type=production&villa=${villa.slug}`)}
-                      className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide"
+                      className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 2xl:py-5 rounded-md font-semibold text-sm 2xl:text-lg tracking-wide"
                     >
                       Request Quote
                     </button>
@@ -819,8 +848,8 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
           {/* Related Villas */}
           {relatedVillas.length > 0 && (
             <div className="mt-16">
-              <h2 className="text-2xl font-bold text-mist-900 mb-6">More Luxury Villas</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <h2 className="text-2xl 2xl:text-4xl font-bold text-mist-900 mb-6 2xl:mb-10">More Luxury Villas</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 2xl:gap-10">
                 {relatedVillas.map((rv) => (
                   <Link href={`/villas/${rv.slug}`} key={rv.id} className="group">
                     <div className="relative flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer">
@@ -854,6 +883,209 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
           )}
         </div>
       </div>
+
+      {/* Mobile Sticky Bottom Bar */}
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-mist-200 px-3 sm:px-4 py-2.5 sm:py-3">
+        <div className="flex items-center justify-between gap-2 sm:gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-xl sm:text-2xl font-semibold text-mist-900 leading-none">
+              ${villa.pricePerNight.toLocaleString()}
+            </p>
+            <p className="text-xs sm:text-sm text-mist-500 leading-tight">USD / night</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowMobileBooking(true)}
+            className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm sm:text-base px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl whitespace-nowrap"
+          >
+            Select Dates
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Full-Screen Booking Popup */}
+      {showMobileBooking && (
+        <div className="lg:hidden fixed inset-0 z-50 bg-white overflow-y-auto">
+          <div className="sticky top-0 bg-white border-b border-mist-200 px-4 py-3 flex items-center justify-between">
+            <h3 className="text-xl font-semibold text-mist-900">Book {villa.name}</h3>
+            <button
+              type="button"
+              onClick={() => setShowMobileBooking(false)}
+              className="text-mist-600 text-2xl leading-none"
+              aria-label="Close booking form"
+            >
+              ×
+            </button>
+          </div>
+
+          <div className="px-4 py-4 space-y-4">
+            <div className="flex gap-2 justify-between">
+              {TABS.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`w-full py-2 rounded-md text-sm transition-all ${activeTab === tab
+                    ? "bg-neutral-500 text-white"
+                    : "text-mist-500 hover:text-mist-700 bg-neutral-200 hover:bg-neutral-200"
+                    }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            {activeTab === "Stay" && (
+              <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-5 shadow-lg">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-bold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
+                  <span className="text-sm text-mist-400">USD / night</span>
+                </div>
+
+                <div className="space-y-3 border-t border-mist-300 pt-6">
+                  <div className="grid grid-cols-2 gap-3">
+                    <input
+                      type={checkIn ? "date" : "text"}
+                      onFocus={(e) => (e.target.type = "date")}
+                      onBlur={(e) => !checkIn && (e.target.type = "text")}
+                      value={checkIn}
+                      onChange={(e) => setCheckIn(e.target.value)}
+                      placeholder="Start date*"
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                    />
+                    <input
+                      type={checkIn ? "time" : "text"}
+                      onFocus={(e) => (e.target.type = "time")}
+                      onBlur={(e) => !checkIn && (e.target.type = "text")}
+                      value={checkIn}
+                      onChange={(e) => setCheckIn(e.target.value)}
+                      placeholder="Time*"
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <input
+                      type={checkOut ? "date" : "text"}
+                      onFocus={(e) => (e.target.type = "date")}
+                      onBlur={(e) => !checkOut && (e.target.type = "text")}
+                      min={checkIn}
+                      value={checkOut}
+                      onChange={(e) => setCheckOut(e.target.value)}
+                      placeholder="End date*"
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                    />
+                    <input
+                      type={checkOut ? "time" : "text"}
+                      onFocus={(e) => (e.target.type = "time")}
+                      onBlur={(e) => !checkOut && (e.target.type = "text")}
+                      value={checkOut}
+                      onChange={(e) => setCheckOut(e.target.value)}
+                      placeholder="Time*"
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                    />
+                  </div>
+                </div>
+
+                <select
+                  value={guestCount}
+                  onChange={(e) => setGuestCount(Number(e.target.value))}
+                  className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400"
+                >
+                  <option value="" disabled>Number of Guests</option>
+                  {Array.from({ length: villa.guests }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>
+                      {i + 1} Guest{i > 0 ? "s" : ""}
+                    </option>
+                  ))}
+                </select>
+
+                <button
+                  onClick={() => {
+                    const params = new URLSearchParams({
+                      type: "villa",
+                      villa: villa.slug,
+                      ...(checkIn && { checkIn }),
+                      ...(checkOut && { checkOut }),
+                      ...(guestCount > 1 && { guests: String(guestCount) }),
+                    });
+                    router.push(`/booking?${params.toString()}`);
+                  }}
+                  className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+
+            {activeTab === "Event" && (
+              <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-4 shadow-lg">
+                <div className="grid grid-cols-2 gap-3 border-t border-mist-300 pt-6">
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    value={eventForm.firstName}
+                    onChange={(e) => setEventForm({ ...eventForm, firstName: e.target.value })}
+                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={eventForm.lastName}
+                    onChange={(e) => setEventForm({ ...eventForm, lastName: e.target.value })}
+                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm"
+                  />
+                </div>
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  value={eventForm.email}
+                  onChange={(e) => setEventForm({ ...eventForm, email: e.target.value })}
+                  className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm"
+                />
+                <button
+                  onClick={() => router.push(`/booking?type=event&villa=${villa.slug}`)}
+                  className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide"
+                >
+                  Request Quote
+                </button>
+              </div>
+            )}
+
+            {activeTab === "Production" && (
+              <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-4 shadow-lg">
+                <div className="grid grid-cols-2 gap-3 border-t border-mist-300 pt-6">
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    value={productionForm.firstName}
+                    onChange={(e) => setProductionForm({ ...productionForm, firstName: e.target.value })}
+                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={productionForm.lastName}
+                    onChange={(e) => setProductionForm({ ...productionForm, lastName: e.target.value })}
+                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm"
+                  />
+                </div>
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  value={productionForm.email}
+                  onChange={(e) => setProductionForm({ ...productionForm, email: e.target.value })}
+                  className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm"
+                />
+                <button
+                  onClick={() => router.push(`/booking?type=production&villa=${villa.slug}`)}
+                  className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide"
+                >
+                  Request Quote
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Bottom Sections */}
       <WhyChooseUs />

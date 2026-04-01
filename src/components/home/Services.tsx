@@ -33,28 +33,28 @@ const ArrowIcon = () => (
 
 export default function LuxuryServices() {
   return (
-    <section className="bg-[#f0f0ee] w-full py-16 sm:px-16 lg:px-20 px-6">
-      <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
+    <section className="bg-[#f0f0ee] w-full py-16 2xl:py-24 sm:px-16 lg:px-20 px-6 2xl:px-32">
+      <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16 2xl:gap-24 2xl:max-w-[1840px] 2xl:mx-auto">
 
         {/* Left — heading + subtitle */}
-        <div className="w-full lg:w-64 shrink-0 lg:pt-6 text-center lg:text-left">
-          <h2 className="sm:text-4xl text-3xl font-bold leading-tight text-mist-900 mb-5 mx-auto lg:mx-0">
+        <div className="w-full lg:w-64 2xl:w-96 shrink-0 lg:pt-6 2xl:pt-8 text-center lg:text-left">
+          <h2 className="sm:text-4xl text-3xl 2xl:text-6xl font-bold leading-tight text-mist-900 mb-5 2xl:mb-7 mx-auto lg:mx-0">
             Our Luxury Services
           </h2>
-          <p className="text-sm text-mist-600 leading-relaxed font-normal max-w-xs mx-auto lg:mx-0">
+          <p className="text-sm 2xl:text-xl text-mist-500 leading-relaxed font-normal max-w-xs mx-auto lg:mx-0">
             Exotic cars, premium villas, and unforgettable nightlife – all curated for your ultimate comfort and style.
           </p>
         </div>
 
         {/* Right — cards grid */}
-        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 2xl:gap-7">
           {services.map((service) => (
             <div
               key={service.title}
               className="group bg-white rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               {/* Image */}
-              <div className="h-48 overflow-hidden">
+              <div className="h-48 2xl:h-72 overflow-hidden">
                 <img
                   src={service.image}
                   alt={service.title}
@@ -63,21 +63,21 @@ export default function LuxuryServices() {
               </div>
 
               {/* Body */}
-              <div className="p-5 flex flex-col flex-1">
-                <h3 className="text-base font-semibold text-mist-900 mb-2">
+              <div className="p-5 2xl:p-7 flex flex-col flex-1">
+                <h3 className="text-base 2xl:text-2xl font-semibold text-mist-900 mb-2 2xl:mb-3">
                   {service.title}
                 </h3>
-                <p className="text-sm text-mist-600 leading-relaxed font-normal flex-1">
+                <p className="text-sm 2xl:text-xl text-mist-500 leading-relaxed font-normal flex-1">
                   {service.description}
                 </p>
 
                 {/* Footer */}
-                <div className="mt-5 flex items-center justify-end">
-                  <button className="flex items-center gap-2 text-sm group-hover:bg-mist-100 py-1 pr-2 pl-4 rounded-full text-mist-800 font-medium cursor-pointer transition-all duration-300">
+                <div className="mt-5 2xl:mt-7 flex items-center justify-end">
+                  <button className="flex items-center gap-2 text-sm 2xl:text-lg group-hover:bg-mist-100 py-1 pr-2 pl-4 rounded-full text-mist-800 font-normal cursor-pointer transition-all duration-300">
                     <span className="opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-mist-800">
                       View Details
                     </span>
-                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-mist-900 text-white">
+                    <span className="flex items-center justify-center w-8 h-8 2xl:w-11 2xl:h-11 rounded-full bg-mist-900 text-white">
                       <ArrowIcon />
                     </span>
                   </button>

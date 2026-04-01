@@ -91,13 +91,13 @@ export default function BlogPage() {
       <div className="bg-[#f7f7f8]">
 
       {/* Category filters */}
-      <div className="w-full relative top-32">
-        <div className="w-full mx-auto bg-white py-4 flex flex-wrap gap-2 justify-center">
+      <div className="w-full ">
+        <div className="w-full mx-auto bg-white py-4 2xl:py-6 flex flex-wrap gap-2 justify-center">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => handleCategoryChange(cat)}
-              className={`px-4 py-2 rounded-lg text-[12.5px] font-semibold transition-all duration-200 ${
+              className={`px-4 2xl:px-6 py-2 2xl:py-3 rounded-lg 2xl:rounded-xl text-[12.5px] 2xl:text-xl transition-all duration-200 ${
                 activeCategory === cat
                   ? "bg-mist-900 text-white"
                   : "bg-mist-100 border border-mist-100 text-mist-600 hover:border-mist-400"
@@ -111,11 +111,11 @@ export default function BlogPage() {
 
       {/* Featured Articles */}
       {featuredArticles.length > 0 && (
-        <section className="w-full py-14 sm:px-16 lg:px-20 px-6 mt-40">
-          <h2 className="text-3xl font-bold text-mist-900 text-center tracking-tight mb-10">
+        <section className="w-full py-14 2xl:py-28 sm:px-16 lg:px-20 px-6 2xl:px-40">
+          <h2 className="text-3xl 2xl:text-6xl font-bold text-mist-900 text-center tracking-tight mb-10 2xl:mb-16">
             Featured Articles
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 2xl:gap-10 2xl:max-w-[1800px] 2xl:mx-auto">
             {featuredArticles.map((article) => (
               <ArticleCard
                 key={article.id}
@@ -128,8 +128,8 @@ export default function BlogPage() {
       )}
 
       {/* All Articles */}
-      <section className={`w-full py-14 sm:px-16 lg:px-20 px-6 ${featuredArticles.length === 0 ? "mt-40" : ""}`}>
-        <h2 className="text-3xl font-bold text-mist-900 text-center tracking-tight mb-10">
+      <section className={`w-full py-14 2xl:py-28 sm:px-16 lg:px-20 px-6 2xl:px-40`}>
+        <h2 className="text-3xl 2xl:text-6xl font-bold text-mist-900 text-center tracking-tight mb-10 2xl:mb-16">
           All Articles
         </h2>
 
@@ -139,11 +139,11 @@ export default function BlogPage() {
           </div>
         ) : allArticles.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-mist-400 text-sm">No articles found. Try a different search or category.</p>
+            <p className="text-mist-500 text-sm 2xl:text-xl">No articles found. Try a different search or category.</p>
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 2xl:gap-10 2xl:max-w-[1800px] 2xl:mx-auto">
               {allArticles.map((article) => (
                 <ArticleCard
                   key={article.id}
@@ -154,11 +154,11 @@ export default function BlogPage() {
             </div>
 
             {hasMore && (
-              <div className="flex justify-center mt-10">
+              <div className="flex justify-center mt-10 2xl:mt-20">
                 <button
                   onClick={() => setPage((p) => p + 1)}
                   disabled={loading}
-                  className="bg-mist-900 text-white text-[13px] font-semibold px-8 py-3 rounded-full hover:bg-mist-700 transition-colors duration-200 disabled:opacity-50"
+                  className="bg-mist-900 text-white text-[13px] 2xl:text-lg font-semibold px-8 2xl:px-12 py-3 2xl:py-4 rounded-full 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200 disabled:opacity-50"
                 >
                   {loading ? "Loading..." : "Load More"}
                 </button>
@@ -172,20 +172,20 @@ export default function BlogPage() {
       </div>
 
       {/* CTA Banner */}
-      <div className="w-full bg-white sm:px-16 lg:px-20 px-6 py-20">
-        <div className="overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex flex-col gap-3 max-w-md">
-            <h3 className="text-4xl font-bold text-mist-900 leading-snug">
+      <div className="w-full bg-white sm:px-16 lg:px-20 px-6 py-20 2xl:py-40 2xl:px-40">
+        <div className="overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6 2xl:gap-12 2xl:max-w-[1800px] 2xl:mx-auto">
+          <div className="flex flex-col gap-3 2xl:gap-6 max-w-md 2xl:max-w-xl">
+            <h3 className="text-4xl 2xl:text-6xl font-bold text-mist-900 leading-snug">
               Ready for Your Next Luxury Experience?
             </h3>
-            <p className="text-base text-mist-400 leading-relaxed">
+            <p className="text-base 2xl:text-2xl text-mist-500 leading-relaxed">
               Explore our exclusive collection of luxury cars, villas, and nightlife experiences — tailored just for you.
             </p>
-            <button onClick={() => router.push("/booking")} className="w-fit mt-2 bg-mist-900 text-white text-base px-6 py-2.5 rounded-xl hover:bg-mist-700 transition-colors duration-200">
+            <button onClick={() => router.push("/booking")} className="w-fit mt-2 bg-mist-900 text-white text-base 2xl:text-xl px-6 2xl:px-10 py-2.5 2xl:py-4 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200">
               Reserve Now
             </button>
           </div>
-          <div className="w-full sm:w-md h-72 rounded-2xl overflow-hidden flex-shrink-0">
+          <div className="w-full sm:w-md 2xl:w-4xl h-72 2xl:h-96 rounded-2xl 2xl:rounded-3xl overflow-hidden flex-shrink-0">
             <img
               src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80"
               alt="Luxury villa"

@@ -376,7 +376,7 @@
 
 //         </div>
 //       </div>
-//       <div className="px-10 sm:px-16 lg:px-20 pt-16 flex items-center justify-between">
+//       <div className="px-6 sm:px-16 lg:px-20 pt-16 flex items-center justify-between">
 //         <h2 className="text-xl sm:text-3xl font-bold text-mist-900">
 //           You may also like
 //         </h2>
@@ -487,10 +487,11 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
   const [startTime, setStartTime] = useState("")
   const [endDate, setEndDate] = useState("")
   const [endTime, setEndTime] = useState("")
-  const [needDriver, setNeedDriver] = useState(true)
+  const [needDriver, setNeedDriver] = useState<boolean | null>(null)
   const [driverHours, setDriverHours] = useState(8)
   const [driverAvailability, setDriverAvailability] = useState<"full" | "select">("select")
   const [driverDays, setDriverDays] = useState(1)
+  const [showMobileBooking, setShowMobileBooking] = useState(false)
   const [discountsOpen, setDiscountsOpen] = useState(true);
   const [showMore, setShowMore] = useState(false);
   const today = new Date().toISOString().split("T")[0]
@@ -544,13 +545,13 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
   const fieldBox = "w-full px-5 py-4 bg-white border border-gray-200 rounded-lg text-gray-400 text-lg transition-all";
 
   return (
-    <div className="bg-white min-h-screen">
-      <div className="px-6 sm:px-16 lg:px-20 py-16">
+    <div className="bg-white min-h-screen mt-10 2xl:mt-24 pb-24 lg:pb-0">
+      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-24">
 
 
         {/* Breadcrumb */}
-        <div className=" flex flex-col sm:flex-row justify-between items-center pb-10">
-          <div className="flex items-center gap-2 text-sm sm:text-base text-mist-400">
+        <div className=" flex flex-col sm:flex-row justify-between items-center pb-10 2xl:pb-16">
+          <div className="flex items-center gap-2 2xl:gap-4 text-sm sm:text-base 2xl:text-xl text-mist-400">
             <Link href="/" className="hover:text-mist-700">Los Angeles</Link>
             <span>{">"}</span>
             <Link href={`/cars?brand=${car.brandSlug}`} className="hover:text-mist-700">{car.brandName}</Link>
@@ -558,85 +559,86 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
             <Link href={`/cars?category=${car.categorySlug}`} className="hover:text-mist-700">{car.categoryName}</Link>
           </div>
           {/* Share / Save */}
-          <div className="flex justify-end gap-3">
-            <button className="flex items-center gap-1.5 text-sm text-mist-500 hover:text-mist-800">
+          <div className="flex justify-end gap-3 2xl:gap-5">
+            <button className="flex items-center gap-1.5 text-sm 2xl:text-lg text-mist-500 hover:text-mist-800">
               <Share2 size={14} /> Share
             </button>
-            <button className="flex items-center gap-1.5 text-sm text-mist-500 hover:text-mist-800">
+            <button className="flex items-center gap-1.5 text-sm 2xl:text-lg text-mist-500 hover:text-mist-800">
               <Bookmark size={14} /> Save
             </button>
           </div>
         </div>
 
-        <div className="pb-16">
+        <div className="pb-16 2xl:pb-24">
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-            {/* LEFT COLUMN — 3/5 */}
-            <div className="lg:col-span-3 space-y-8">
+          <div className="flex flex-col lg:flex-row gap-10 2xl:gap-16 items-start">
+            {/* Left Column */}
+            <div className="flex-1 min-w-0 space-y-8 2xl:space-y-12">
               {/* Gallery */}
               <CarGallery images={car.images} />
 
-              {/* ── Quick Info — two mist boxes side by side ── */}
-              <div className="grid grid-cols-2 gap-3">
-                {/* Left box */}
-                <div className="bg-mist-50 border border-mist-100 rounded-xl px-4 py-3 space-y-1.5">
-                  <div className="flex items-start gap-2 text-xs text-mist-500">
-                    <Shield size={12} className="mt-0.5 flex-shrink-0 text-mist-400" />
-                    <span>
-                      <span className="font-medium text-mist-700">Security Deposit:</span>{" "}
-                      ${securityDeposit.toLocaleString()} fully refundable
-                    </span>
+              {/* Info Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 2xl:gap-5 mb-8 2xl:mb-12">
+                {/* Left card */}
+                <div className="bg-mist-100 rounded-xl p-4 2xl:p-6 space-y-2.5 2xl:space-y-4">
+                  <div className="flex items-center gap-2.5">
+                    <Shield size={30} className="text-mist-400 bg-white p-2 rounded-md flex-shrink-0" />
+                    <p className="text-sm 2xl:text-lg text-mist-500">
+                      <span className="font-semibold">Security Deposit:</span> ${securityDeposit.toLocaleString()} fully refundable
+                    </p>
                   </div>
-                  <div className="flex items-start gap-2 text-xs text-mist-500">
-                    <DollarSign size={12} className="mt-0.5 flex-shrink-0 text-mist-400" />
-                    <span>
-                      <span className="font-medium text-mist-700">Tax:</span> 8.5%
-                    </span>
+                  <div className="flex items-center gap-2.5">
+                    <DollarSign size={30} className="text-mist-400 bg-white p-2 rounded-md flex-shrink-0" />
+                    <p className="text-sm 2xl:text-lg text-mist-500">
+                      <span className="font-semibold">Tax:</span> 8.5%
+                    </p>
                   </div>
                 </div>
 
-                {/* Right box */}
-                <div className="bg-mist-50 border border-mist-100 rounded-xl px-4 py-3 space-y-1.5">
-                  <div className="flex items-start gap-2 text-xs text-mist-500">
-                    <Clock size={12} className="mt-0.5 flex-shrink-0 text-mist-400" />
-                    <span>
-                      <span className="font-medium text-mist-700">Rental Duration:</span>{" "}
-                      {car.minRentalDays}+ days min
-                    </span>
+                {/* Right card */}
+                <div className="bg-mist-100 rounded-xl p-4 2xl:p-6 space-y-2.5 2xl:space-y-4 relative pl-12 2xl:pl-14">
+                  <div className="absolute left-3 top-1/2 -translate-y-1/2 w-7 h-7 2xl:w-9 2xl:h-9 bg-white rounded-md flex items-center justify-center">
+                    <Tag size={14} className="text-mist-400" />
                   </div>
-                  <div className="flex items-start gap-2 text-xs text-mist-500">
-                    <AlertCircle size={12} className="mt-0.5 flex-shrink-0 text-mist-400" />
-                    <span>
-                      <span className="font-medium text-mist-700">Extra Hours:</span>{" "}
-                      25% of the daily rate
-                    </span>
+                  <div className="flex items-start gap-2">
+                    <span className="text-mist-400 mt-0.5">•</span>
+                    <p className="text-sm 2xl:text-lg text-mist-500">
+                      <span className="font-semibold">Rental Duration:</span> {car.minRentalDays}+ days min
+                    </p>
                   </div>
-                  <div className="flex items-start gap-2 text-xs text-mist-500">
-                    <Route size={12} className="mt-0.5 flex-shrink-0 text-mist-400" />
-                    <span>
-                      <span className="font-medium text-mist-700">Extra Miles:</span>{" "}
-                      Charged at an extra day
-                    </span>
+                  <div className="flex items-start gap-2">
+                    <span className="text-mist-400 mt-0.5">•</span>
+                    <p className="text-sm 2xl:text-lg text-mist-500">
+                      <span className="font-semibold">Extra Hour:</span> 25% of the daily rate
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-mist-400 mt-0.5">•</span>
+                    <p className="text-sm 2xl:text-lg text-mist-500">
+                      <span className="font-semibold">Extra Miles:</span> Charged at an extra day
+                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* ── Specs Grid — icons + label + value ── */}
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+              {/* Specs Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 2xl:gap-5 mb-8 2xl:mb-12">
                 {[
                   { label: "Seats", value: car.seats, icon: Users },
-                  { label: "0-60 mph", value: car.acceleration, icon: Zap },
-                  { label: "Engine", value: car.horsepower, icon: Gauge },
-                  { label: "Top Speed", value: car.topSpeed, icon: Activity },
+                  { label: "0-60 mph", value: car.acceleration || "-", icon: Zap },
+                  { label: "Engine", value: car.horsepower ? `${car.horsepower} hp` : "-", icon: Gauge },
+                  { label: "Top Speed", value: car.topSpeed || "-", icon: Activity },
                   { label: "Transmission", value: car.transmission, icon: Settings2 },
                   { label: "Fuel", value: car.fuelType, icon: Fuel },
-                  { label: "Year", value: car.year, icon: Calendar },
+                  { label: "Year", value: car.year || "-", icon: Calendar },
                   { label: "Miles/Day", value: `${car.milesIncluded}`, icon: Route },
                 ].map(({ label, value, icon: Icon }) => (
-                  <div key={label} className="bg-mist-50 border border-mist-100 rounded-xl p-3">
-                    <Icon size={14} className="text-mist-400 mb-1" />
-                    <p className="text-[10px] text-mist-400 leading-tight">{label}</p>
-                    <p className="text-sm font-semibold text-mist-800 mt-0.5">{value}</p>
+                  <div key={label} className="bg-mist-100 rounded-xl p-4 2xl:p-6 flex flex-col sm:flex-row items-center gap-4">
+                    <Icon size={30} className="text-mist-400 bg-neutral-200 rounded-full p-1.5" />
+                    <div>
+                      <p className="text-sm 2xl:text-lg font-bold text-mist-900 mt-1">{label}</p>
+                      <p className="text-sm 2xl:text-lg text-mist-500">{value}</p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -653,7 +655,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                     <div className="w-6 h-6 rounded-md bg-blue-50 flex items-center justify-center">
                       <Tag size={13} className="text-blue-500" />
                     </div>
-                    <span className="text-base font-bold text-mist-900">Long-Term Rental Discounts</span>
+                    <span className="text-base 2xl:text-xl font-bold text-mist-900">Long-Term Rental Discounts</span>
                   </div>
                   {discountsOpen
                     ? <ChevronUp size={16} className="text-mist-400" />
@@ -667,24 +669,24 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                       <table className="w-full text-sm">
                         <thead>
                           <tr>
-                            <th className="text-left px-4 py-3 font-medium text-mist-500 text-xs">Duration</th>
-                            <th className="text-left px-4 py-3 font-medium text-mist-500 text-xs">Discount</th>
-                            <th className="text-left px-4 py-3 font-medium text-mist-500 text-xs">Mileage</th>
+                            <th className="text-left px-4 2xl:px-6 py-3 2xl:py-4 font-medium text-mist-500 text-xs 2xl:text-base">Duration</th>
+                            <th className="text-left px-4 2xl:px-6 py-3 2xl:py-4 font-medium text-mist-500 text-xs 2xl:text-base">Discount</th>
+                            <th className="text-left px-4 2xl:px-6 py-3 2xl:py-4 font-medium text-mist-500 text-xs 2xl:text-base">Mileage</th>
                           </tr>
                         </thead>
                         <tbody>
                           {discountTiers.map((tier, i) => (
                             <tr key={i} className="border-t border-blue-100 bg-white/60">
-                              <td className="px-4 py-2.5 text-mist-600 text-sm">{tier.duration}</td>
-                              <td className="px-4 py-2.5 font-semibold text-mist-800 text-sm">{tier.discount}</td>
-                              <td className="px-4 py-2.5 text-mist-500 text-sm">{tier.miles}</td>
+                              <td className="px-4 2xl:px-6 py-2.5 2xl:py-4 text-mist-600 text-sm 2xl:text-lg">{tier.duration}</td>
+                              <td className="px-4 2xl:px-6 py-2.5 2xl:py-4 font-semibold text-mist-800 text-sm 2xl:text-lg">{tier.discount}</td>
+                              <td className="px-4 2xl:px-6 py-2.5 2xl:py-4 text-mist-500 text-sm 2xl:text-lg">{tier.miles}</td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
                     </div>
 
-                    <p className="text-xs text-mist-400 mt-2 flex items-center gap-1.5">
+                    <p className="text-xs 2xl:text-lg text-mist-400 mt-2 flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-mist-300 inline-block flex-shrink-0" />
                       Vehicle Swap Option: Available with 30-day notice
                     </p>
@@ -700,7 +702,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                     onClick={() => setShowMore(!showMore)}
                     className="w-full flex items-center justify-between mb-2"
                   >
-                    <h2 className="text-base font-bold text-mist-900 text-left">
+                    <h2 className="text-base 2xl:text-xl font-bold text-mist-900 text-left">
                       Rent a {car.name} in {car.location}
                     </h2>
                     <ChevronDown
@@ -709,14 +711,14 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                     />
                   </button>
 
-                  <p className={`text-sm text-mist-500 leading-relaxed ${showMore ? "" : "line-clamp-3"}`}>
+                  <p className={`text-sm 2xl:text-lg text-mist-500 leading-relaxed ${showMore ? "" : "line-clamp-3"}`}>
                     {car.description}
                   </p>
 
                   <button
                     type="button"
                     onClick={() => setShowMore(!showMore)}
-                    className="mt-1 text-sm text-mist-700 font-medium hover:text-mist-900"
+                    className="mt-1 text-sm 2xl:text-lg text-mist-700 font-medium hover:text-mist-900"
                   >
                     {showMore ? "Show less ›" : "Show more ›"}
                   </button>
@@ -724,30 +726,30 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
               )}
 
 
-              {/* RIGHT COLUMN — Booking Form 2/5 */}
+              {/* RIGHT COLUMN — Booking Form */}
 
             </div>
-            <div className="lg:w-[430px] flex-shrink-0 lg:self-start">
-              <div className="lg:sticky lg:top-0">
+            <div className="hidden lg:block lg:w-[380px] 2xl:w-[500px] flex-shrink-0 lg:self-start">
+              <div>
                 {/* Header - Always visible */}
-                <div className="mb-8">
-                  <h1 className="text-3xl font-semibold text-mist-900 mb-2">{car.name}</h1>
+                <div className="mb-8 2xl:mb-12">
+                  <h1 className="text-3xl 2xl:text-5xl font-semibold text-mist-900 mb-2 2xl:mb-4">{car.name}</h1>
                   {car.shortDescription && (
-                    <p className="text-mist-600 text-base leading-relaxed mb-4">{car.shortDescription}</p>
+                    <p className="text-mist-600 text-base 2xl:text-xl leading-relaxed mb-4 2xl:mb-6">{car.shortDescription}</p>
                   )}
                   
                 </div>
 
                 {/* Form Container */}
-                <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-5 shadow-lg">
-                  <div className="flex items-baseline gap-2 mb-6">
-                    <span className="text-3xl font-bold text-mist-900">
+                <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg lg:sticky lg:top-24 lg:h-fit">
+                  <div className="flex items-baseline gap-2 mb-6 2xl:mb-8">
+                    <span className="text-3xl 2xl:text-5xl font-bold text-mist-900">
                       ${car.pricePerDay.toLocaleString()}
                     </span>
-                    <span className="text-sm text-mist-400">USD / day</span>
+                    <span className="text-sm 2xl:text-lg text-mist-400">USD / day</span>
                   </div>
                   {/* Date + Time Rows */}
-                  <div className="space-y-3 border-t border-mist-300 pt-6">
+                  <div className="space-y-3 2xl:space-y-4 border-t border-mist-300 pt-6 2xl:pt-8">
                     {/* Start date + time */}
                     <div className="grid grid-cols-2 gap-3">
                       <div className="relative">
@@ -759,7 +761,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                           value={startDate}
                           onChange={(e) => setStartDate(e.target.value)}
                           placeholder="Start date*"
-                          className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                          className="w-full bg-white border border-mist-300 rounded-md px-3 2xl:px-5 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
                         />
                       </div>
                       <div className="relative">
@@ -770,7 +772,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                           value={startTime}
                           onChange={(e) => setStartTime(e.target.value)}
                           placeholder="Time*"
-                          className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                          className="w-full bg-white border border-mist-300 rounded-md px-3 2xl:px-5 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
                         />
                       </div>
                     </div>
@@ -786,7 +788,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                           value={endDate}
                           onChange={(e) => setEndDate(e.target.value)}
                           placeholder="End date*"
-                          className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                          className="w-full bg-white border border-mist-300 rounded-md px-3 2xl:px-5 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
                         />
                       </div>
                       <div className="relative">
@@ -797,29 +799,43 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                           value={endTime}
                           onChange={(e) => setEndTime(e.target.value)}
                           placeholder="Time*"
-                          className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                          className="w-full bg-white border border-mist-300 rounded-md px-3 2xl:px-5 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Need a Driver */}
-                  <div className="space-y-3">
-                    <p className="text-[15px] font-bold text-mist-500">
+                  <div className="space-y-3 2xl:space-y-4">
+                    <p className="text-[15px] 2xl:text-xl font-bold text-mist-500">
                       Need a Driver? 
                     </p>
 
-                    <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+                    <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 2xl:px-5 py-3 2xl:py-4 cursor-pointer hover:border-mist-400 transition">
                       <div className="flex items-center gap-2.5">
                         <input
                           type="radio"
-                          checked={needDriver}
-                          onChange={(e) => setNeedDriver(e.target.checked)}
+                          name="needDriver"
+                          checked={needDriver === true}
+                          onChange={() => setNeedDriver(true)}
                           className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
                         />
-                        <span className="text-sm text-mist-700">Yes, I will need a driver</span>
+                        <span className="text-sm 2xl:text-lg text-mist-700">Yes, I will need a driver</span>
                       </div>
-                      <span className="text-sm font-bold text-mist-900">$45/hr</span>
+                      <span className="text-sm 2xl:text-lg font-bold text-mist-900">$45/hr</span>
+                    </label>
+
+                    <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 2xl:px-5 py-3 2xl:py-4 cursor-pointer hover:border-mist-400 transition">
+                      <div className="flex items-center gap-2.5">
+                        <input
+                          type="radio"
+                          name="needDriver"
+                          checked={needDriver === false}
+                          onChange={() => setNeedDriver(false)}
+                          className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
+                        />
+                        <span className="text-sm 2xl:text-lg text-mist-700">No, I do not need a driver</span>
+                      </div>
                     </label>
                   </div>
 
@@ -827,7 +843,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                     <div className="space-y-4">
                       {/* Driver Hours Slider */}
                       <div className="space-y-2">
-                        <p className="text-xs text-mist-500">Driver Hours per Day</p>
+                        <p className="text-xs 2xl:text-base text-mist-500">Driver Hours per Day</p>
                         <input
                           type="range"
                           min={1}
@@ -836,7 +852,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                           onChange={(e) => setDriverHours(Number(e.target.value))}
                           className="w-full accent-mist-500"
                         />
-                        <div className="flex justify-between text-[10px] text-mist-400">
+                        <div className="flex justify-between text-[10px] 2xl:text-base text-mist-400">
                           <span>0 hr</span>
                           <span className="font-medium text-mist-600">{driverHours} hr</span>
                           <span>16 hr</span>
@@ -845,7 +861,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
 
                       {/* Driver Availability */}
                       <div className="space-y-2">
-                        <p className="text-sm font-medium text-mist-700">Driver Availability:</p>
+                        <p className="text-sm 2xl:text-lg font-medium text-mist-700">Driver Availability:</p>
 
                         <label className="flex items-center gap-3 border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
                           <input
@@ -855,7 +871,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                             onChange={() => setDriverAvailability("full")}
                             className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
                           />
-                          <span className="text-sm text-mist-700">Full Rental</span>
+                          <span className="text-sm 2xl:text-lg text-mist-700">Full Rental</span>
                         </label>
 
                         <label className="flex items-center gap-3 border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
@@ -866,7 +882,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                             onChange={() => setDriverAvailability("select")}
                             className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
                           />
-                          <span className="text-sm text-mist-700">Select Days</span>
+                          <span className="text-sm 2xl:text-lg text-mist-700">Select Days</span>
                         </label>
                       </div>
 
@@ -880,7 +896,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                           >
                             <Minus size={14} />
                           </button>
-                          <span className="text-sm font-medium text-mist-900">{driverDays} days</span>
+                          <span className="text-sm 2xl:text-lg font-medium text-mist-900">{driverDays} days</span>
                           <button
                             type="button"
                             onClick={() => setDriverDays(Math.min(days || 365, driverDays + 1))}
@@ -898,39 +914,39 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                     <>
                       <button
                         onClick={handleNext}
-                        className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide"
+                        className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 2xl:py-5 rounded-md font-semibold text-sm 2xl:text-lg tracking-wide"
                       >
                         Next
                       </button>
 
                       {/* Price breakdown */}
-                      <div className="space-y-3 pt-4 border-t border-mist-200">
-                        <div className="flex justify-between text-mist-500 text-sm">
+                      <div className="space-y-3 2xl:space-y-4 pt-4 2xl:pt-6 border-t border-mist-200">
+                        <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
                           <span>Car Total · ${car.pricePerDay} × {days}d</span>
                           <span className="text-mist-900 font-medium">${subtotal.toLocaleString()}</span>
                         </div>
                         {discountPercent > 0 && (
-                          <div className="flex justify-between text-green-600 text-sm">
+                          <div className="flex justify-between text-green-600 text-sm 2xl:text-lg">
                             <span>Discount · {days} days – {discountPercent}%</span>
                             <span>-${discountAmount.toLocaleString()}</span>
                           </div>
                         )}
                         {driverTotal > 0 && (
-                          <div className="flex justify-between text-mist-500 text-sm">
+                          <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
                             <span>Driver Total · {driverHours}hr × $45 × {actualDriverDays}d</span>
                             <span className="text-mist-900 font-medium">${driverTotal.toLocaleString()}</span>
                           </div>
                         )}
-                        <div className="flex justify-between text-mist-500 text-sm">
+                        <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
                           <span>Tax · 8.5%</span>
                           <span className="text-mist-900 font-medium">${tax.toLocaleString()}</span>
                         </div>
-                        <div className="flex justify-between text-mist-500 text-sm">
+                        <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
                           <span>Security Deposit · Fully refundable</span>
                           <span className="text-mist-900 font-medium">${securityDeposit.toLocaleString()}</span>
                         </div>
                         <hr className="border-mist-200" />
-                        <div className="flex justify-between font-bold text-mist-900 text-base pt-1">
+                        <div className="flex justify-between font-bold text-mist-900 text-base 2xl:text-xl pt-1">
                           <span>Total Charges</span>
                           <span>${total.toLocaleString()}</span>
                         </div>
@@ -938,13 +954,13 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                     </>
                   ) : (
                     <div className="text-center py-4 border border-mist-200 rounded-md">
-                      <p className="text-mist-400 text-sm">Select dates to see pricing</p>
+                      <p className="text-mist-400 text-sm 2xl:text-lg">Select dates to see pricing</p>
                     </div>
                   )}
                 </div>
 
                 {/* Pickup location */}
-                <div className="mt-4 border border-mist-300 rounded-md px-3 py-2.5 bg-white flex items-center gap-2 text-sm text-mist-500">
+                <div className="mt-4 2xl:mt-6 border border-mist-300 rounded-md px-3 2xl:px-5 py-2.5 2xl:py-4 bg-white flex items-center gap-2 text-sm 2xl:text-lg text-mist-500">
                   <MapPin size={14} className="text-mist-400 flex-shrink-0" />
                   <span>Pickup: {car.location}</span>
                 </div>
@@ -952,8 +968,270 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
             </div>
           </div>
         </div>
-        <div className="px-10 sm:px-16 lg:px-20 pt-16 flex items-center justify-between">
-          <h2 className="text-xl sm:text-3xl font-bold text-mist-900">
+      </div>
+
+      {/* Mobile Sticky Bottom Bar */}
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-mist-200 px-3 sm:px-4 py-2.5 sm:py-3">
+        <div className="flex items-center justify-between gap-2 sm:gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-xl sm:text-2xl font-semibold text-mist-900 leading-none">
+              ${car.pricePerDay.toLocaleString()}
+            </p>
+            <p className="text-xs sm:text-sm text-mist-500 leading-tight">
+              <span className="line-through">${originalDayRate.toLocaleString()}</span>/day
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowMobileBooking(true)}
+            className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm sm:text-base px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl whitespace-nowrap"
+          >
+            Select Dates
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Full-Screen Booking Popup */}
+      {showMobileBooking && (
+        <div className="lg:hidden fixed inset-0 z-50 bg-white overflow-y-auto">
+          <div className="sticky top-0 bg-white border-b border-mist-200 px-4 py-3 flex items-center justify-between">
+            <h3 className="text-xl font-semibold text-mist-900">Select Dates</h3>
+            <button
+              type="button"
+              onClick={() => setShowMobileBooking(false)}
+              className="text-mist-600 text-2xl leading-none"
+              aria-label="Close booking form"
+            >
+              ×
+            </button>
+          </div>
+
+          <div className="px-4 py-4 space-y-4">
+            <div>
+              <h1 className="text-2xl font-semibold text-mist-900 mb-2">{car.name}</h1>
+              {car.shortDescription && (
+                <p className="text-mist-600 text-base leading-relaxed mb-4">{car.shortDescription}</p>
+              )}
+            </div>
+
+            <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-5 shadow-lg">
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="text-3xl font-bold text-mist-900">
+                  ${car.pricePerDay.toLocaleString()}
+                </span>
+                <span className="text-sm text-mist-400">USD / day</span>
+              </div>
+
+              <div className="space-y-3 border-t border-mist-300 pt-6">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="relative">
+                    <input
+                      type={startDate ? "date" : "text"}
+                      onFocus={(e) => (e.target.type = "date")}
+                      onBlur={(e) => !startDate && (e.target.type = "text")}
+                      min={today}
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      placeholder="Start date*"
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                    />
+                  </div>
+                  <div className="relative">
+                    <input
+                      type={startTime ? "time" : "text"}
+                      onFocus={(e) => (e.target.type = "time")}
+                      onBlur={(e) => !startTime && (e.target.type = "text")}
+                      value={startTime}
+                      onChange={(e) => setStartTime(e.target.value)}
+                      placeholder="Time*"
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="relative">
+                    <input
+                      type={endDate ? "date" : "text"}
+                      onFocus={(e) => (e.target.type = "date")}
+                      onBlur={(e) => !endDate && (e.target.type = "text")}
+                      min={startDate || today}
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      placeholder="End date*"
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                    />
+                  </div>
+                  <div className="relative">
+                    <input
+                      type={endTime ? "time" : "text"}
+                      onFocus={(e) => (e.target.type = "time")}
+                      onBlur={(e) => !endTime && (e.target.type = "text")}
+                      value={endTime}
+                      onChange={(e) => setEndTime(e.target.value)}
+                      placeholder="Time*"
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <p className="text-[15px] font-bold text-mist-500">Need a Driver?</p>
+
+                <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+                  <div className="flex items-center gap-2.5">
+                    <input
+                      type="radio"
+                      name="needDriverMobile"
+                      checked={needDriver === true}
+                      onChange={() => setNeedDriver(true)}
+                      className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
+                    />
+                    <span className="text-sm text-mist-700">Yes, I will need a driver</span>
+                  </div>
+                  <span className="text-sm font-bold text-mist-900">$45/hr</span>
+                </label>
+
+                <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+                  <div className="flex items-center gap-2.5">
+                    <input
+                      type="radio"
+                      name="needDriverMobile"
+                      checked={needDriver === false}
+                      onChange={() => setNeedDriver(false)}
+                      className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
+                    />
+                    <span className="text-sm text-mist-700">No, I do not need a driver</span>
+                  </div>
+                </label>
+              </div>
+
+              {needDriver && (
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <p className="text-xs text-mist-500">Driver Hours per Day</p>
+                    <input
+                      type="range"
+                      min={1}
+                      max={16}
+                      value={driverHours}
+                      onChange={(e) => setDriverHours(Number(e.target.value))}
+                      className="w-full accent-mist-500"
+                    />
+                    <div className="flex justify-between text-[10px] text-mist-400">
+                      <span>0 hr</span>
+                      <span className="font-medium text-mist-600">{driverHours} hr</span>
+                      <span>16 hr</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-mist-700">Driver Availability:</p>
+
+                    <label className="flex items-center gap-3 border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+                      <input
+                        type="radio"
+                        name="driverAvailMobile"
+                        checked={driverAvailability === "full"}
+                        onChange={() => setDriverAvailability("full")}
+                        className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
+                      />
+                      <span className="text-sm text-mist-700">Full Rental</span>
+                    </label>
+
+                    <label className="flex items-center gap-3 border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+                      <input
+                        type="radio"
+                        name="driverAvailMobile"
+                        checked={driverAvailability === "select"}
+                        onChange={() => setDriverAvailability("select")}
+                        className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
+                      />
+                      <span className="text-sm text-mist-700">Select Days</span>
+                    </label>
+                  </div>
+
+                  {driverAvailability === "select" && (
+                    <div className="flex items-center justify-between border border-mist-300 rounded-md px-3 py-2.5">
+                      <button
+                        type="button"
+                        onClick={() => setDriverDays(Math.max(1, driverDays - 1))}
+                        className="w-8 h-8 rounded-md border border-mist-200 flex items-center justify-center text-mist-500 hover:bg-mist-50 transition-colors"
+                      >
+                        <Minus size={14} />
+                      </button>
+                      <span className="text-sm font-medium text-mist-900">{driverDays} days</span>
+                      <button
+                        type="button"
+                        onClick={() => setDriverDays(Math.min(days || 365, driverDays + 1))}
+                        className="w-8 h-8 rounded-md border border-mist-200 flex items-center justify-center text-mist-500 hover:bg-mist-50 transition-colors"
+                      >
+                        <Plus size={14} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {days > 0 ? (
+                <>
+                  <button
+                    onClick={handleNext}
+                    className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide"
+                  >
+                    Next
+                  </button>
+
+                  <div className="space-y-3 pt-4 border-t border-mist-200">
+                    <div className="flex justify-between text-mist-500 text-sm">
+                      <span>Car Total · ${car.pricePerDay} × {days}d</span>
+                      <span className="text-mist-900 font-medium">${subtotal.toLocaleString()}</span>
+                    </div>
+                    {discountPercent > 0 && (
+                      <div className="flex justify-between text-green-600 text-sm">
+                        <span>Discount · {days} days – {discountPercent}%</span>
+                        <span>-${discountAmount.toLocaleString()}</span>
+                      </div>
+                    )}
+                    {driverTotal > 0 && (
+                      <div className="flex justify-between text-mist-500 text-sm">
+                        <span>Driver Total · {driverHours}hr × $45 × {actualDriverDays}d</span>
+                        <span className="text-mist-900 font-medium">${driverTotal.toLocaleString()}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between text-mist-500 text-sm">
+                      <span>Tax · 8.5%</span>
+                      <span className="text-mist-900 font-medium">${tax.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-mist-500 text-sm">
+                      <span>Security Deposit · Fully refundable</span>
+                      <span className="text-mist-900 font-medium">${securityDeposit.toLocaleString()}</span>
+                    </div>
+                    <hr className="border-mist-200" />
+                    <div className="flex justify-between font-bold text-mist-900 text-base pt-1">
+                      <span>Total Charges</span>
+                      <span>${total.toLocaleString()}</span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-4 border border-mist-200 rounded-md">
+                  <p className="text-mist-400 text-sm">Select dates to see pricing</p>
+                </div>
+              )}
+            </div>
+
+            <div className="border border-mist-300 rounded-md px-3 py-2.5 bg-white flex items-center gap-2 text-sm text-mist-500">
+              <MapPin size={14} className="text-mist-400 flex-shrink-0" />
+              <span>Pickup: {car.location}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 pt-16 2xl:pt-24 flex items-center justify-between gap-4">
+          <h2 className="text-2xl sm:text-4xl 2xl:text-5xl font-bold text-mist-900 tracking-tight">
             You may also like
           </h2>
           <a
@@ -966,7 +1244,6 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
             </svg>
           </a>
         </div>
-      </div>
       <Rentals showHeader={false} />
       <WhyChooseUs />
       <Reviews />

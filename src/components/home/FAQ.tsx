@@ -40,49 +40,54 @@ export default function FAQ() {
   const [openId, setOpenId] = useState(1);
 
   return (
-    <section className="w-full bg-white py-16 sm:px-24 lg:px-32 px-10">
-      <div className="">
+    /* Increased horizontal and vertical padding for 2xl */
+    <section className="w-full bg-white py-16 2xl:pb-48 2xl:pt-96 sm:px-24 lg:px-32 px-10 2xl:px-72">
+      <div className="2xl:max-w-[1400px] 2xl:mx-auto">
 
-        {/* Header */}
-        <h2 className="text-3xl font-bold text-mist-900 text-center tracking-tight mb-10 mt-20">
+        {/* Header - Scaled to 7xl for 2xl screens */}
+        <h2 className="text-3xl 2xl:text-7xl font-bold text-mist-900 text-center tracking-tight mb-10 2xl:mb-24 mt-20 2xl:mt-0">
           Frequently Asked Questions
         </h2>
 
-        {/* Accordion */}
-        <div className="flex flex-col gap-3">
+        {/* Accordion Container - Larger gap for 2xl */}
+        <div className="flex flex-col gap-3 2xl:gap-8">
           {faqs.map((faq) => {
             const isOpen = openId === faq.id;
             return (
               <div
                 key={faq.id}
-                className="border border-mist-200 rounded-2xl overflow-hidden transition-all duration-200"
+                className="border border-mist-200 rounded-2xl 2xl:rounded-3xl overflow-hidden transition-all duration-200"
               >
-                {/* Question row */}
+                {/* Question row - Increased padding and text size */}
                 <button
                   onClick={() => setOpenId(isOpen ? null : faq.id)}
-                  className="w-full flex items-center justify-between px-5 py-4 text-left"
+                  className="w-full flex items-center justify-between px-5 py-4 2xl:px-12 2xl:py-6 text-left"
                 >
-                  <span className="text-base font-medium text-mist-900 pr-4 leading-snug">
+                  <span className="text-base 2xl:text-2xl font-normal text-mist-900 pr-4 leading-snug">
                     {faq.question}
                   </span>
                   <span
-                    className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200 ${
+                    className={`flex-shrink-0 w-8 h-8 2xl:w-10 2xl:h-10 rounded-lg 2xl:rounded-xl flex items-center justify-center transition-colors duration-200 ${
                       isOpen
                         ? "bg-mist-900 text-white"
                         : "bg-mist-100 text-mist-600 hover:bg-mist-200"
                     }`}
                   >
-                    {isOpen ? <Minus size={14} strokeWidth={2.5} /> : <Plus size={14} strokeWidth={2.5} />}
+                    {isOpen ? 
+                      <Minus className="w-3.5 h-3.5 2xl:w-5 2xl:h-5" strokeWidth={2.5} /> : 
+                      <Plus className="w-3.5 h-3.5 2xl:w-5 2xl:h-5" strokeWidth={2.5} />
+                    }
                   </span>
                 </button>
 
-                {/* Answer */}
+                {/* Answer Area - Increased max-height for 2xl text volume */}
                 <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-48 opacity-100" : "max-h-0 opacity-0"
-                    }`}
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    isOpen ? "max-h-48 2xl:max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+                  }`}
                 >
-                  <div className="bg-mist-50 border-t border-mist-100 px-5 py-4">
-                    <p className="text-sm text-mist-500 leading-relaxed">
+                  <div className="bg-mist-50 border-t border-mist-100 px-5 py-4 2xl:px-12 2xl:py-10">
+                    <p className="text-sm 2xl:text-2xl text-mist-500 leading-relaxed 2xl:max-w-4xl">
                       {faq.answer}
                     </p>
                   </div>

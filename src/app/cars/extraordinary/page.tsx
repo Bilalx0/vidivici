@@ -14,7 +14,7 @@ export default function DriveExtraordinaryPage() {
       <Banner
         heading="Drive the Extraordinary"
         description="Experience our curated collection of exotic and luxury cars for unforgettable moments in Los Angeles."
-        height="h-80"
+        height="h-80 2xl:h-[500px]"
       />
 
       <CarBrowse />

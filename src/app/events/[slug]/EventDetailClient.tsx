@@ -97,15 +97,15 @@ export function VenueBookingForm() {
   };
 
   // Reusable input class (matches ContactForm exactly)
-  const inputClass = "w-full border border-mist-300 rounded-xl px-4 py-3 text-sm text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white";
+  const inputClass = "w-full border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-xl text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white";
 
   return (
-    <section className="w-full bg-white py-12 sm:px-16 lg:px-20 px-6 " id="booking-form">
+    <section className="w-full bg-white py-12 2xl:py-24 sm:px-16 lg:px-20 2xl:px-32 px-6 " id="booking-form">
      
-      <div className="border border-mist-200 rounded-3xl overflow-hidden gap-8 sm:p-8 px-4 py-6 flex flex-col md:flex-row shadow-sm">
+      <div className="border border-mist-200 rounded-3xl 2xl:rounded-[40px] overflow-hidden gap-8 2xl:gap-16 sm:p-8 2xl:sm:p-16 px-4 py-6 2xl:px-8 2xl:py-12 flex flex-col md:flex-row shadow-sm">
 
         {/* Left Panel - Info */}
-        <div className="bg-mist-100 px-4 sm:px-8 py-8 md:w-1/3 flex-shrink-0 flex flex-col gap-8 relative overflow-hidden rounded-2xl">
+        <div className="bg-mist-100 px-4 sm:px-8 2xl:sm:px-12 py-8 2xl:py-12 md:w-1/3 flex-shrink-0 flex flex-col gap-8 2xl:gap-12 relative overflow-hidden rounded-2xl 2xl:rounded-3xl">
            <img
               src="/Vector 7.png"
               alt=""
@@ -114,10 +114,10 @@ export function VenueBookingForm() {
             />
           
           <div className="relative z-10">
-            <h3 className="text-xl md:text-2xl font-bold text-mist-900 leading-snug mb-3">
+            <h3 className="text-xl md:text-2xl 2xl:text-4xl font-bold text-mist-900 leading-snug mb-3 2xl:mb-5">
               Have questions or want to book your luxury experience?
             </h3>
-            <p className="text-sm text-mist-600 leading-relaxed">
+            <p className="text-sm 2xl:text-xl text-mist-600 leading-relaxed">
               Our team is here to assist you with cars, villas, and VIP events in Los Angeles.
             </p>
           </div>
@@ -135,22 +135,22 @@ export function VenueBookingForm() {
         {/* Right Panel - Form */}
         <div className="flex-1">
           {submitted ? (
-            <div className="h-full flex flex-col items-center justify-center text-center py-12">
+            <div className="h-full flex flex-col items-center justify-center text-center py-12 2xl:py-20">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                 <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-mist-900 mb-2">Request Submitted!</h3>
-              <p className="text-mist-500">Our VIP concierge will contact you within 24 hours.</p>
+              <h3 className="text-2xl 2xl:text-4xl font-bold text-mist-900 mb-2">Request Submitted!</h3>
+              <p className="text-mist-500 2xl:text-2xl">Our VIP concierge will contact you within 24 hours.</p>
             </div>
           ) : (
             <>
-              <h2 className="text-3xl md:text-4xl font-bold text-mist-900 mb-8 tracking-tight">
+              <h2 className="text-3xl md:text-4xl 2xl:text-6xl font-bold text-mist-900 mb-8 2xl:mb-12 tracking-tight">
                 VIP Venue Booking
               </h2>
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6 2xl:gap-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <Field label="Full Name">
                     <input
@@ -223,7 +223,7 @@ export function VenueBookingForm() {
                         key={addon}
                         type="button"
                         onClick={() => toggleAddOn(addon)}
-                        className={`px-4 py-2 rounded-full text-xs font-semibold border transition-all ${form.addOns.includes(addon)
+                        className={`px-4 2xl:px-6 py-2 2xl:py-3 rounded-full text-xs 2xl:text-base font-semibold border transition-all ${form.addOns.includes(addon)
                             ? "bg-mist-900 text-white border-mist-900"
                             : "bg-white text-mist-600 border-mist-200 hover:border-mist-400"
                           }`}
@@ -247,7 +247,7 @@ export function VenueBookingForm() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full bg-mist-900 text-white font-medium py-4 rounded-xl hover:bg-mist-800 transition-colors disabled:opacity-50 mt-2"
+                  className="w-full bg-mist-900 text-white font-medium py-4 2xl:py-6 rounded-xl 2xl:rounded-2xl hover:bg-mist-800 transition-colors disabled:opacity-50 mt-2 text-base 2xl:text-2xl"
                 >
                   {submitting ? "Processing..." : "Submit Booking Request"}
                 </button>
@@ -262,8 +262,8 @@ export function VenueBookingForm() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-2">
-      <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">{label}</label>
+    <div className="flex flex-col gap-2 2xl:gap-4">
+      <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">{label}</label>
       {children}
     </div>
   );
@@ -271,13 +271,13 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function ContactInfo({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-start gap-4">
-      <div className="w-8 h-8 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+    <div className="flex items-start gap-4 2xl:gap-6">
+      <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
         {icon}
       </div>
       <div>
-        <p className="text-sm font-bold text-mist-900">{label}</p>
-        <p className="text-sm text-mist-600 leading-relaxed">{value}</p>
+        <p className="text-sm 2xl:text-xl font-bold text-mist-900">{label}</p>
+        <p className="text-sm 2xl:text-lg text-mist-600 leading-relaxed">{value}</p>
       </div>
     </div>
   );
@@ -351,9 +351,9 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
   return (
     <div className="bg-white">
       {/* Breadcrumb */}
-      <div className="px-6 sm:px-16 lg:px-20 py-12">
+      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-12 2xl:py-16">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-base text-mist-500">
+          <div className="flex items-center gap-2 text-base 2xl:text-xl text-mist-500">
             <Link href="/" className="hover:text-mist-700">Los Angeles</Link>
             <span>&gt;</span>
             <Link href="/events" className="hover:text-mist-700">Events</Link>
@@ -361,10 +361,10 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
             <span className="text-mist-700 font-medium">{event.name}</span>
           </div>
           <div className="flex items-center gap-5">
-            <button className="flex items-center gap-1.5 text-base text-mist-500 hover:text-mist-700 transition-colors">
+            <button className="flex items-center gap-1.5 text-base 2xl:text-xl text-mist-500 hover:text-mist-700 transition-colors">
               <Share2 size={16} /> Share
             </button>
-            <button className="flex items-center gap-1.5 text-base text-mist-500 hover:text-mist-700 transition-colors">
+            <button className="flex items-center gap-1.5 text-base 2xl:text-xl text-mist-500 hover:text-mist-700 transition-colors">
               <Heart size={16} /> Save
             </button>
           </div>
@@ -372,8 +372,8 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
       </div>
 
       {/* Hero Image with Event Title */}
-      <div className="px-6 sm:px-16 lg:px-20 mb-14">
-        <div className="relative rounded-[2rem] overflow-hidden h-[450px] lg:h-[550px]">
+      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 mb-14 2xl:mb-24">
+        <div className="relative rounded-[2rem] 2xl:rounded-[48px] overflow-hidden h-[450px] lg:h-[550px] 2xl:h-[760px]">
           <img
             src={images[currentImage].url}
             alt={images[currentImage].alt || event.name}
@@ -383,18 +383,18 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
           {/* Darker gradient at bottom for text legibility */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           
-          <div className="absolute bottom-12 left-10 right-10">
-            <h1 className="text-4xl lg:text-5xl font-semibold text-white mb-3 tracking-tight">
+          <div className="absolute bottom-12 2xl:bottom-20 left-10 2xl:left-20 right-10 2xl:right-20">
+            <h1 className="text-4xl lg:text-5xl 2xl:text-7xl font-semibold text-white mb-3 2xl:mb-5 tracking-tight">
               {event.name}
             </h1>
             {event.shortDescription && (
-              <p className="text-base lg:text-lg text-white/90 mb-8 max-w-xl leading-snug">
+              <p className="text-base lg:text-lg 2xl:text-3xl text-white/90 mb-8 2xl:mb-12 max-w-xl 2xl:max-w-5xl leading-snug">
                 {event.shortDescription}
               </p>
             )}
             
             <button 
-               className="bg-white text-black px-10 py-3.5 rounded-xl text-sm font-bold hover:bg-gray-100 transition-all shadow-lg"
+               className="bg-white text-black px-10 2xl:px-14 py-3.5 2xl:py-6 rounded-xl 2xl:rounded-2xl text-sm 2xl:text-2xl font-bold hover:bg-gray-100 transition-all shadow-lg"
                onClick={() => document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" })}
             >
               Reserve Now
@@ -406,13 +406,13 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
             <div className="absolute top-1/2 -translate-y-1/2 w-full px-6 flex justify-between pointer-events-none">
               <button 
                 onClick={prevImage} 
-                className="w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center transition-all pointer-events-auto text-white"
+                className="w-12 h-12 2xl:w-14 2xl:h-14 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center transition-all pointer-events-auto text-white"
               >
                 <ChevronLeft size={24} />
               </button>
               <button 
                 onClick={nextImage} 
-                className="w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center transition-all pointer-events-auto text-white"
+                className="w-12 h-12 2xl:w-14 2xl:h-14 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center transition-all pointer-events-auto text-white"
               >
                 <ChevronRight size={24} />
               </button>
@@ -423,17 +423,17 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
 
     {/* Why Choose Section */}
 {highlightsList.length > 0 && (
-  <section className="px-6 sm:px-16 lg:px-20 py-16 text-center">
+  <section className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-28 text-center">
     {/* Header */}
-    <h2 className="text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-4">
+    <h2 className="text-3xl lg:text-4xl 2xl:text-7xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">
       Why Choose {event.name}?
     </h2>
-    <p className="text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed">
+    <p className="text-gray-600 text-base 2xl:text-2xl max-w-2xl 2xl:max-w-5xl mx-auto mb-12 2xl:mb-20 leading-relaxed">
       {event.shortDescription || "Experience the perfect blend of luxury, entertainment, and world-class service in one unforgettable event."}
     </p>
 
     {/* Feature Cards Grid */}
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 2xl:gap-10">
       {highlightsList.map((highlight, i) => {
         const parts = highlight.split(":");
         const title = parts[0]?.trim();
@@ -442,7 +442,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
         return (
           <div
             key={i}
-            className="bg-[#f5f5f5] p-8 rounded-2xl text-left flex flex-col h-full"
+            className="bg-[#f5f5f5] p-8 2xl:p-12 rounded-2xl 2xl:rounded-3xl text-left flex flex-col h-full"
           >
             {/* Icon Container */}
             <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mb-6">
@@ -451,11 +451,11 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
             </div>
 
             {/* Content */}
-            <h3 className="text-xl font-bold text-[#1a1a1a] mb-3">
+              <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-3 2xl:mb-5">
               {title}
             </h3>
             {desc && (
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-600 text-sm 2xl:text-2xl leading-relaxed">
                 {desc}
               </p>
             )}
@@ -468,7 +468,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
 
       {/* The Experience Section */}
 {event.experience && (
-  <section className="px-6 sm:px-16 lg:px-20 py-16 flex flex-col lg:flex-row items-center gap-12 bg-white">
+  <section className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-28 flex flex-col lg:flex-row items-center gap-12 2xl:gap-20 bg-white">
     
     {/* Left Side: Bento Image Grid */}
     <div className="w-full lg:w-1/2 flex gap-4">
@@ -502,30 +502,30 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
 
     {/* Right Side: Content */}
     <div className="w-full lg:w-1/2">
-      <h2 className="text-4xl lg:text-5xl font-bold text-[#1a1a1a] leading-tight mb-4">
+      <h2 className="text-4xl lg:text-5xl 2xl:text-7xl font-bold text-[#1a1a1a] leading-tight mb-4 2xl:mb-6">
         Experience the <br /> {event.name}
       </h2>
 
-      <h3 className="text-lg font-semibold text-gray-500 mb-6">
+      <h3 className="text-lg 2xl:text-3xl font-semibold text-gray-500 mb-6 2xl:mb-8">
         Modern luxury meets classic elegance
       </h3>
 
-      <div className="text-gray-600 leading-relaxed mb-8 max-w-xl space-y-4">
+      <div className="text-gray-600 2xl:text-2xl leading-relaxed mb-8 2xl:mb-10 max-w-xl 2xl:max-w-4xl space-y-4 2xl:space-y-6">
         {event.experience.split("\n").filter(Boolean).map((para, i) => (
           <p key={i}>{para}</p>
         ))}
       </div>
 
       {event.dressCode && (
-        <div className="mb-8 p-6 bg-[#f5f5f5] rounded-2xl border border-gray-100">
-          <h4 className="text-sm font-bold text-[#1a1a1a] uppercase tracking-wider mb-2">Dress Code</h4>
-          <p className="text-sm text-gray-600">{event.dressCode}</p>
+        <div className="mb-8 p-6 2xl:p-10 bg-[#f5f5f5] rounded-2xl 2xl:rounded-3xl border border-gray-100">
+          <h4 className="text-sm 2xl:text-xl font-bold text-[#1a1a1a] uppercase tracking-wider mb-2">Dress Code</h4>
+          <p className="text-sm 2xl:text-2xl text-gray-600">{event.dressCode}</p>
         </div>
       )}
 
       <button 
         onClick={() => document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" })}
-        className="bg-[#1a1a1a] text-white px-10 py-4 rounded-xl font-bold hover:bg-black transition-colors shadow-lg"
+        className="bg-[#1a1a1a] text-white px-10 2xl:px-14 py-4 2xl:py-6 rounded-xl 2xl:rounded-2xl font-bold 2xl:text-2xl hover:bg-black transition-colors shadow-lg"
       >
         Reserve Now
       </button>
@@ -534,9 +534,8 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
   </section>
 )}
 
-<section className="px-6 sm:px-16 lg:px-20 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
+<section className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-28">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 2xl:gap-10 max-w-[1840px] mx-auto">
           {/* Column 1 */}
           <div className="flex flex-col gap-6">
             <div className="h-[350px]">
@@ -546,9 +545,9 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
                 className="w-full h-full object-cover rounded-[2rem]"
               />
             </div>
-            <div className="bg-[#f5f5f5] p-10 rounded-[2rem] flex-grow">
-              <h3 className="text-xl font-bold text-[#1a1a1a] mb-4">Dress for the Occasion</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">
+            <div className="bg-[#f5f5f5] p-10 2xl:p-14 rounded-[2rem] 2xl:rounded-[2.5rem] flex-grow">
+              <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">Dress for the Occasion</h3>
+              <p className="text-gray-500 text-sm 2xl:text-xl leading-relaxed">
                 Delilah's attire is upscale casual chic. Collared shirts are recommended.
                 No athletic apparel, shorts, swimwear, flip-flops, or slides. Arrive stylish
                 and ready to enjoy an elegant night out.
@@ -558,9 +557,9 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
 
           {/* Column 2 */}
           <div className="flex flex-col gap-6">
-            <div className="bg-[#f5f5f5] p-10 rounded-[2rem]">
-              <h3 className="text-xl font-bold text-[#1a1a1a] mb-4">Culinary Excellence</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">
+            <div className="bg-[#f5f5f5] p-10 2xl:p-14 rounded-[2rem] 2xl:rounded-[2.5rem]">
+              <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">Culinary Excellence</h3>
+              <p className="text-gray-500 text-sm 2xl:text-xl leading-relaxed">
                 Indulge in upscale American cuisine crafted to perfection. Signature dishes
                 and curated cocktails elevate your night, complementing live performances
                 and the sophisticated ambiance. Every bite and sip is designed to enhance
@@ -585,9 +584,9 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
                 className="w-full h-full object-cover rounded-[2rem]"
               />
             </div>
-            <div className="bg-[#f5f5f5] p-10 rounded-[2rem] flex-grow">
-              <h3 className="text-xl font-bold text-[#1a1a1a] mb-4">Live Entertainment & Performances</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">
+            <div className="bg-[#f5f5f5] p-10 2xl:p-14 rounded-[2rem] 2xl:rounded-[2.5rem] flex-grow">
+              <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">Live Entertainment & Performances</h3>
+              <p className="text-gray-500 text-sm 2xl:text-xl leading-relaxed">
                 Enjoy live performers, DJs, and surprise acts throughout the evening.
                 After dinner, lounge-style bottle service brings a VIP touch to your night.
                 Every visit to Delilah promises a seamless blend of luxury, excitement,
@@ -598,47 +597,47 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
 
         </div>
       </section>
-      <section className="py-16 px-6 sm:px-12 lg:px-20 bg-white">
+      <section className="py-16 2xl:py-28 px-6 sm:px-12 lg:px-20 2xl:px-32 bg-white">
         <div className="">
 
           {/* Header */}
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-mist-900 mb-3">
+            <h2 className="text-3xl sm:text-4xl 2xl:text-7xl font-bold text-mist-900 mb-3 2xl:mb-6">
               Elevate Your Night
             </h2>
-            <p className="text-base text-mist-600 leading-relaxed">
+            <p className="text-base 2xl:text-2xl text-mist-600 leading-relaxed">
               Make your Vidi Vici experience even more extraordinary with our exclusive VIP services.
             </p>
           </div>
 
           {/* 2x2 Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 2xl:gap-y-8 gap-x-6 2xl:gap-x-10">
 
             {/* Mixologist */}
-            <div className="flex items-center gap-4 bg-mist-100 rounded-2xl p-4">
+            <div className="flex items-center gap-4 2xl:gap-8 bg-mist-100 rounded-2xl 2xl:rounded-[40px] p-4 2xl:p-8">
               <img
                 src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300&q=80"
                 alt="Mixologist"
-                className="w-48 h-48 object-cover rounded-lg flex-shrink-0"
+                className="w-48 2xl:w-72 h-48 2xl:h-72 object-cover rounded-lg 2xl:rounded-2xl flex-shrink-0"
               />
               <div className="pt-1">
-                <h3 className="text-base font-bold text-mist-900 mb-1">Chauffeur Services or Party Bus</h3>
-                <p className="text-base text-mist-500 font-normal leading-relaxed">
+                <h3 className="text-base 2xl:text-2xl font-bold text-mist-900 mb-1 2xl:mb-3">Chauffeur Services or Party Bus</h3>
+                <p className="text-base 2xl:text-xl text-mist-500 font-normal leading-relaxed">
                   Professional bartenders to craft signature drinks for your guests.
                 </p>
               </div>
             </div>
 
             {/* Valet Parking */}
-            <div className="flex items-center gap-4 bg-mist-100 rounded-2xl p-4">
+            <div className="flex items-center gap-4 2xl:gap-8 bg-mist-100 rounded-2xl 2xl:rounded-[40px] p-4 2xl:p-8">
               <img
                 src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=300&q=80"
                 alt="Valet Parking"
-                className="w-48 h-48 object-cover rounded-lg flex-shrink-0"
+                className="w-48 2xl:w-72 h-48 2xl:h-72 object-cover rounded-lg 2xl:rounded-2xl flex-shrink-0"
               />
               <div className="pt-1">
-                <h3 className="text-base font-bold text-mist-900 mb-1">Security & Bodyguards</h3>
-                <p className="text-base text-mist-500 font-normal leading-relaxed">
+                <h3 className="text-base 2xl:text-2xl font-bold text-mist-900 mb-1 2xl:mb-3">Security & Bodyguards</h3>
+                <p className="text-base 2xl:text-xl text-mist-500 font-normal leading-relaxed">
                   Hassle-free parking management for you and your guests.
                 </p>
               </div>
@@ -649,9 +648,9 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
 
       <Reviews />
 
-      <section className="py-16 px-6 sm:px-16 lg:px-20 bg-white">
+      <section className="py-16 2xl:py-24 px-6 sm:px-16 lg:px-20 2xl:px-32 bg-white">
         <div className="">
-          <div className="relative bg-mist-100 rounded-3xl px-8 py-16 text-center overflow-hidden">
+          <div className="relative bg-mist-100 rounded-3xl 2xl:rounded-[40px] px-8 2xl:px-16 py-16 2xl:py-24 text-center overflow-hidden">
             <img
               src="/Vector 7.png"
               alt=""
@@ -669,13 +668,13 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
 
 
             {/* Content */}
-            <h2 className="text-3xl sm:text-4xl font-bold text-mist-900 leading-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl 2xl:text-7xl font-bold text-mist-900 leading-tight mb-4 2xl:mb-8">
               Reserve Your<br /> Unforgettable Night
             </h2>
-            <p className="text-sm text-mist-600 max-w-sm mx-auto leading-relaxed mb-8">
+            <p className="text-sm 2xl:text-2xl text-mist-600 max-w-sm 2xl:max-w-3xl mx-auto leading-relaxed mb-8 2xl:mb-12">
               Secure your table, VIP services, or private experience today and make your evening truly extraordinary.
             </p>
-            <button className="bg-mist-900 text-white text-sm font-semibold px-7 py-3.5 rounded-xl hover:bg-mist-700 transition-colors">
+            <button className="bg-mist-900 text-white text-sm 2xl:text-2xl font-semibold px-7 2xl:px-12 py-3.5 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors">
               Reserve Now
             </button>
 
@@ -683,18 +682,19 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
         </div>
       </section>
 
-      <section className="px-6 sm:px-16 lg:px-20 py-16">
+      <section className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-28">
+        <div className="max-w-[1840px] mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-[#1a1a1a] mb-6">Gallery</h2>
-          <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        <div className="text-center mb-16 2xl:mb-24">
+          <h2 className="text-4xl lg:text-5xl 2xl:text-7xl font-bold text-[#1a1a1a] mb-6 2xl:mb-8">Gallery</h2>
+          <p className="text-gray-600 text-base 2xl:text-2xl max-w-3xl 2xl:max-w-6xl mx-auto leading-relaxed">
             Explore the vibrant atmosphere, elegant décor, and unforgettable
             performances that make Delilah Los Angeles a must-visit nightlife destination.
           </p>
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[600px] lg:h-[700px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 2xl:gap-10 h-[600px] lg:h-[700px] 2xl:h-[860px]">
 
           {/* Left Column: Full Height */}
           <div className="h-full">
@@ -732,6 +732,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
             />
           </div>
 
+        </div>
         </div>
       </section>
       <FAQ />

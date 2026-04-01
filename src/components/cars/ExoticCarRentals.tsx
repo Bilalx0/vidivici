@@ -48,21 +48,21 @@ export default function ExoticCarRentals({
   }, [limit, category])
 
   return (
-    <section className="bg-white py-16 px-4">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-mist-900 text-center mb-2">{title}</h2>
-        <p className="text-mist-500 text-center mb-10 max-w-2xl mx-auto">{description}</p>
+    <section className="bg-white py-16 2xl:py-28 px-6 sm:px-16 lg:px-20 2xl:px-32">
+      <div className="max-w-[1840px] mx-auto">
+        <h2 className="text-3xl md:text-4xl 2xl:text-6xl font-bold text-mist-900 text-center mb-2 2xl:mb-4">{title}</h2>
+        <p className="text-mist-500 text-center text-sm sm:text-base 2xl:text-2xl mb-10 2xl:mb-16 max-w-2xl 2xl:max-w-5xl mx-auto">{description}</p>
 
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 2xl:gap-12">
             {[...Array(limit)].map((_, i) => (
               <div key={i} className="bg-mist-100 rounded-2xl h-80 animate-pulse" />
             ))}
           </div>
         ) : cars.length === 0 ? (
-          <p className="text-center text-mist-400 py-12">No vehicles available at this time.</p>
+          <p className="text-center text-mist-400 py-12 2xl:py-20 text-base 2xl:text-2xl">No vehicles available at this time.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 2xl:gap-12">
             {cars.map((car) => (
               <CarCard
                 key={car.id}
@@ -84,10 +84,10 @@ export default function ExoticCarRentals({
           </div>
         )}
 
-        <div className="text-center mt-8">
+        <div className="text-center mt-8 2xl:mt-14">
           <a
             href="/cars"
-            className="inline-block px-8 py-3 bg-mist-900 text-white rounded-lg text-sm font-semibold hover:bg-mist-800 transition"
+            className="inline-block px-8 2xl:px-12 py-3 2xl:py-5 bg-mist-900 text-white rounded-lg 2xl:rounded-xl text-sm 2xl:text-xl font-semibold hover:bg-mist-800 transition"
           >
             View All Cars
           </a>

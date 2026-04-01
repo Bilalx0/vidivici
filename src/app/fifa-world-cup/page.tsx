@@ -77,26 +77,26 @@ function EventSlider() {
   if (events.length === 0) return null
 
   return (
-    <section className="bg-white py-14 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-mist-900">FIFA World Cup 2026 Events</h2>
-          <Link href="/events" className="flex items-center gap-1 text-sm font-semibold text-mist-500 hover:text-mist-900 transition-colors">
-            View all <ArrowUpRight size={14} />
+    <section className="bg-white py-14 2xl:py-21 px-4 2xl:px-8">
+      <div className="max-w-7xl 2xl:max-w-[1840px] mx-auto">
+        <div className="flex items-center justify-between mb-6 2xl:mb-12">
+          <h2 className="text-2xl 2xl:text-6xl font-bold text-mist-900">FIFA World Cup 2026 Events</h2>
+          <Link href="/events" className="flex items-center gap-1 text-sm 2xl:text-2xl font-semibold text-mist-500 hover:text-mist-900 transition-colors">
+            View all <ArrowUpRight size={15} />
           </Link>
         </div>
         <div className="relative">
           {canLeft && (
-            <button onClick={() => scroll("left")} className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 bg-white border border-mist-200 rounded-full flex items-center justify-center shadow-sm hover:bg-mist-50">
+            <button onClick={() => scroll("left")} className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 2xl:w-12 2xl:h-12 bg-white border border-mist-200 rounded-full flex items-center justify-center shadow-sm hover:bg-mist-50">
               <ChevronLeft size={16} />
             </button>
           )}
-          <div ref={scrollRef} className="flex gap-5 overflow-x-auto scrollbar-hide scroll-smooth pb-2" style={{ scrollbarWidth: "none" }}>
+          <div ref={scrollRef} className="flex gap-5 2xl:gap-10 overflow-x-auto scrollbar-hide scroll-smooth pb-2" style={{ scrollbarWidth: "none" }}>
             {events.map((event) => {
               const img = event.images?.[0]?.url
               return (
-                <div key={event.id} className="flex-shrink-0 w-[270px] bg-white rounded-2xl overflow-hidden border border-mist-100 group">
-                  <div className="relative h-44 overflow-hidden">
+                <div key={event.id} className="flex-shrink-0 w-[270px] 2xl:w-[320px] bg-white rounded-2xl overflow-hidden border border-mist-100 group">
+                  <div className="relative h-44 2xl:h-52 overflow-hidden">
                     {img ? (
                       <img src={img} alt={event.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                     ) : (
@@ -104,10 +104,10 @@ function EventSlider() {
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                   </div>
-                  <div className="p-4">
-                    <h3 className="text-sm font-semibold text-mist-900 mb-1 truncate">{event.name}</h3>
-                    {event.shortDescription && <p className="text-[11px] text-mist-400 line-clamp-2 mb-2">{event.shortDescription}</p>}
-                    <Link href={`/events/${event.slug}`} className="flex items-center gap-1 text-[11px] font-semibold text-mist-500 hover:text-mist-900 transition-colors">
+                  <div className="p-4 2xl:p-6">
+                    <h3 className="text-sm 2xl:text-xl font-semibold text-mist-900 mb-1 truncate">{event.name}</h3>
+                    {event.shortDescription && <p className="text-[11px] 2xl:text-lg text-mist-400 line-clamp-2 mb-2">{event.shortDescription}</p>}
+                    <Link href={`/events/${event.slug}`} className="flex items-center gap-1 text-[11px] 2xl:text-lg font-semibold text-mist-500 hover:text-mist-900 transition-colors">
                       View Details <ArrowUpRight size={11} />
                     </Link>
                   </div>
@@ -116,7 +116,7 @@ function EventSlider() {
             })}
           </div>
           {canRight && (
-            <button onClick={() => scroll("right")} className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 bg-white border border-mist-200 rounded-full flex items-center justify-center shadow-sm hover:bg-mist-50">
+            <button onClick={() => scroll("right")} className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 2xl:w-12 2xl:h-12 bg-white border border-mist-200 rounded-full flex items-center justify-center shadow-sm hover:bg-mist-50">
               <ChevronRight size={16} />
             </button>
           )}
@@ -143,14 +143,14 @@ const GALLERY_IMAGES = [
 
 function GalleryBentoGrid() {
   return (
-    <section className="bg-white py-14 px-4">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold text-mist-900 text-center mb-10">Gallery</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 auto-rows-[180px] sm:auto-rows-[200px] md:auto-rows-[220px] gap-3">
+    <section className="bg-white py-14 2xl:py-21 px-4 2xl:px-8">
+      <div className="max-w-5xl 2xl:max-w-[1840px] mx-auto">
+        <h2 className="text-3xl 2xl:text-6xl font-bold text-mist-900 text-center mb-10 2xl:mb-20">Gallery</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 auto-rows-[180px] sm:auto-rows-[200px] md:auto-rows-[220px] 2xl:auto-rows-[280px] gap-3 2xl:gap-6">
           {GALLERY_IMAGES.map((img, i) => (
             <div
               key={i}
-              className={`relative overflow-hidden rounded-2xl group ${img.className}`}
+              className={`relative overflow-hidden rounded-2xl 2xl:rounded-3xl group ${img.className}`}
             >
               <img
                 src={img.src}
@@ -215,8 +215,8 @@ function BigImageSlider() {
   };
 
   return (
-    <section className="py-16 overflow-hidden bg-white">
-      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-10 lg:px-20">
+    <section className="py-16 2xl:py-32 overflow-hidden bg-white">
+      <div className="relative px-6 2xl:px-12 sm:px-16 2xl:sm:px-32 lg:px-20 2xl:lg:px-40">
         
         {/* Main Viewport */}
         <div className="relative overflow-visible">
@@ -234,7 +234,7 @@ function BigImageSlider() {
                   i === current ? "scale-100 opacity-100" : "scale-95 backdrop-opacity-80 opacity-70"
                 }`}
               >
-                <div className="relative h-[400px] lg:h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl">
+                <div className="relative h-[400px] 2xl:h-[600px] lg:h-[550px] 2xl:lg:h-[800px] rounded-[2.5rem] 2xl:rounded-[40px] overflow-hidden shadow-2xl">
                   <img
                     src={slide.image}
                     alt={slide.title}
@@ -245,17 +245,17 @@ function BigImageSlider() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                   
                   {/* Content Overlay */}
-                  <div className="absolute bottom-12 left-12 right-12">
-                    <h3 className="text-3xl lg:text-5xl font-bold text-white mb-4 tracking-tight leading-tight max-w-2xl">
+                  <div className="absolute bottom-12 2xl:bottom-20 left-12 2xl:left-20 right-12 2xl:right-20">
+                    <h3 className="text-3xl 2xl:text-7xl lg:text-5xl 2xl:lg:text-7xl font-bold text-white mb-4 tracking-tight leading-tight max-w-2xl">
                       {slide.title}
                     </h3>
-                    <p className="text-lg lg:text-xl text-white/90 max-w-xl font-medium">
+                    <p className="text-lg 2xl:text-2xl lg:text-xl 2xl:lg:text-2xl text-white/90 max-w-xl font-medium">
                       {slide.subtitle}
                     </p>
                   </div>
 
                   {/* Image/FIFA Badge Branding */}
-                  <div className="absolute bottom-12 right-12 w-20 h-20 flex items-center justify-center">
+                  <div className="absolute bottom-12 2xl:bottom-20 right-12 2xl:right-20 w-20 h-20 flex items-center justify-center">
                      <img 
                        src="/fifa-logo.png" 
                        alt="FIFA 2026" 
@@ -284,7 +284,7 @@ function BigImageSlider() {
         </div>
 
         {/* Progress Indicators (Optional - hidden in your target image) */}
-        <div className="mt-10 flex justify-center gap-3">
+        <div className="mt-10 2xl:mt-20 flex justify-center gap-3 2xl:gap-6">
           {HERO_SLIDES.map((_, i) => (
             <button
               key={i}
@@ -319,12 +319,12 @@ function FifaContent() {
       />
 
       {/* VIP Journey Section */}
-      <section className="bg-white py-16 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      <section className="bg-white py-16 2xl:py-32 px-4 2xl:px-8">
+        <div className="max-w-6xl 2xl:max-w-[1840px] mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 2xl:gap-20 items-center">
             <div>
-              <h2 className="text-2xl lg:text-3xl font-bold text-mist-900 mb-4">Your VIP World Cup Journey Starts Here</h2>
-              <div className="space-y-3 text-sm text-mist-600 leading-relaxed">
+              <h2 className="text-2xl 2xl:text-4xl lg:text-3xl font-bold text-mist-900 mb-4 2xl:mb-6">Your VIP World Cup Journey Starts Here</h2>
+              <div className="space-y-3 2xl:space-y-4 text-sm 2xl:text-2xl text-mist-500 leading-relaxed">
                 <p>
                   Experience the FIFA World Cup 2026 in Los Angeles like never before.
                   Taking place at the world-class <strong>Los Angeles Stadium</strong>, the
@@ -335,17 +335,17 @@ function FifaContent() {
                   nightlife and tailored city experiences, our dedicated team
                   ensures every moment is curated to perfection.
                 </p>
-                <p className="font-medium text-mist-900">
+                <p className="font-normal text-mist-900">
                   Enjoy a seamless, personalized, and truly unforgettable
                   World Cup journey with Vidi Vici.
                 </p>
               </div>
             </div>
-            <div className="rounded-2xl overflow-hidden">
+            <div className="rounded-2xl 2xl:rounded-3xl overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=700&q=80"
                 alt="SoFi Stadium"
-                className="w-full h-[320px] object-cover"
+                className="w-full h-[320px] 2xl:h-[400px] object-cover"
               />
             </div>
           </div>
@@ -356,34 +356,34 @@ function FifaContent() {
 
       {/* Match Fixtures */}
     {/* FIFA World Cup Fixtures Section */}
-      <section className="px-6 sm:px-16 lg:px-20 py-20 bg-white">
+      <section className="px-6 2xl:px-12 sm:px-16 2xl:sm:px-32 lg:px-20 2xl:lg:px-40 py-20 2xl:py-40 bg-white">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl lg:text-5xl font-bold text-[#1a1a1a] mb-2">
+          <h2 className="text-4xl 2xl:text-7xl lg:text-5xl 2xl:lg:text-7xl font-bold text-[#1a1a1a] mb-2">
             FIFA World Cup 2026™ Fixtures
           </h2>
-          <p className="text-xl text-gray-600 font-medium">in Los Angeles</p>
+          <p className="text-xl 2xl:text-3xl text-gray-600 font-medium">in Los Angeles</p>
         </div>
 
         {/* Table Container */}
-        <div className=" bg-mist-200 rounded-[2.5rem] shadow-sm border border-gray-100">
+        <div className=" bg-mist-200 rounded-[2.5rem] 2xl:rounded-3xl shadow-sm border border-gray-100">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
                 <tr className="text-left border-b border-mist-300">
-                  <th className="px-6 py-5 text-base font-bold text-[#1a1a1a] border-r border-mist-300">Date</th>
-                  <th className="px-6 py-5 text-base font-bold text-[#1a1a1a] border-r border-mist-300">Match No.</th>
-                  <th className="px-6 py-5 text-base font-bold text-[#1a1a1a] border-r border-mist-300">Stage</th>
-                  <th className="px-6 py-5 text-base font-bold text-[#1a1a1a] ">Stadium</th>
+                  <th className="px-6 2xl:px-12 py-5 2xl:py-10 text-base 2xl:text-2xl font-bold text-[#1a1a1a] border-r border-mist-300">Date</th>
+                  <th className="px-6 2xl:px-12 py-5 2xl:py-10 text-base 2xl:text-2xl font-bold text-[#1a1a1a] border-r border-mist-300">Match No.</th>
+                  <th className="px-6 2xl:px-12 py-5 2xl:py-10 text-base 2xl:text-2xl font-bold text-[#1a1a1a] border-r border-mist-300">Stage</th>
+                  <th className="px-6 2xl:px-12 py-5 2xl:py-10 text-base 2xl:text-2xl font-bold text-[#1a1a1a] ">Stadium</th>
                 </tr>
               </thead>
               <tbody>
                 {FIXTURES.map((f, i) => (
                   <tr key={i} className="border-b border-mist-300 last:border-0 hover:bg-gray-100/50 transition-colors">
-                    <td className="px-6 py-5 text-sm font-medium text-gray-700 border-r border-mist-300">{f.date}</td>
-                    <td className="px-6 py-5 text-sm text-gray-500 border-r border-mist-300">{f.matchNo}</td>
-                    <td className="px-6 py-5 text-sm text-gray-600 italic lg:not-italic border-r border-mist-300">{f.stage}</td>
-                    <td className="px-6 py-5 text-sm text-gray-500">{f.stadium}</td>
+                    <td className="px-6 2xl:px-12 py-5 2xl:py-10 text-sm 2xl:text-lg font-medium text-gray-700 border-r border-mist-300">{f.date}</td>
+                    <td className="px-6 2xl:px-12 py-5 2xl:py-10 text-sm 2xl:text-lg text-gray-500 border-r border-mist-300">{f.matchNo}</td>
+                    <td className="px-6 2xl:px-12 py-5 2xl:py-10 text-sm 2xl:text-lg text-gray-600 italic lg:not-italic border-r border-mist-300">{f.stage}</td>
+                    <td className="px-6 2xl:px-12 py-5 2xl:py-10 text-sm 2xl:text-lg text-gray-500">{f.stadium}</td>
                   </tr>
                 ))}
               </tbody>

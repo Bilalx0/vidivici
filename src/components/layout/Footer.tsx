@@ -4,9 +4,41 @@ import { useState } from "react";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import Image from "next/image";
 
+// --- CUSTOM SVG COMPONENTS ---
+
 const TikTokIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+  <svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor">
     <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z" />
+  </svg>
+);
+
+const VisaIcon = () => (
+  <svg width="38" height="12" viewBox="0 0 38 12" fill="none">
+    <text x="0" y="10" fontFamily="Arial" fontSize="11" fontWeight="bold" fontStyle="italic" fill="#1A1F71">VISA</text>
+  </svg>
+);
+
+const PayPalIcon = () => (
+  <svg width="40" height="12" viewBox="0 0 60 16">
+    <text x="0" y="12" fontFamily="Arial" fontSize="11" fontWeight="bold" fontStyle="italic" fill="#003087">Pay</text>
+    <text x="22" y="12" fontFamily="Arial" fontSize="11" fontWeight="bold" fontStyle="italic" fill="#009CDE">Pal</text>
+  </svg>
+);
+
+const GooglePayIcon = () => (
+  <svg width="40" height="12" viewBox="0 0 60 16">
+    <text x="0" y="12" fontFamily="Arial" fontSize="10" fontWeight="700" fill="#5f6368">G</text>
+    <text x="10" y="12" fontFamily="Arial" fontSize="10" fontWeight="700" fill="#4285F4">P</text>
+    <text x="18" y="12" fontFamily="Arial" fontSize="10" fontWeight="700" fill="#EA4335">a</text>
+    <text x="26" y="12" fontFamily="Arial" fontSize="10" fontWeight="700" fill="#FBBC05">y</text>
+  </svg>
+);
+
+const MasterCardIcon = () => (
+  <svg width="30" height="18" viewBox="0 0 30 18">
+    <circle cx="10" cy="9" r="8" fill="#EB001B" />
+    <circle cx="20" cy="9" r="8" fill="#F79E1B" fillOpacity="0.9" />
+    <path d="M15 3.2a8 8 0 0 1 0 11.6A8 8 0 0 1 15 3.2z" fill="#FF5F00" />
   </svg>
 );
 
@@ -15,56 +47,44 @@ export default function Footer() {
 
   return (
     <footer className="relative w-full bg-[#1a1a1a] text-white overflow-hidden">
-
-      {/* Left vector */}
+      
+      {/* Decorative Vectors - Pinned for 2XL Visibility */}
       <img
         src="/Vector 6.png"
         alt=""
         aria-hidden="true"
-        className="absolute left-0 top-60 h-[45%] sm:h-[70%] w-auto object-contain object-left pointer-events-none select-none"
+        className="absolute left-0 top-40 2xl:top-60 h-[45%] sm:h-[70%] 2xl:h-[85%] w-auto object-contain object-left pointer-events-none select-none opacity-30 2xl:opacity-40"
       />
-
-      {/* Right vector */}
       <img
         src="/Vector 6.png"
         alt=""
         aria-hidden="true"
-        className="absolute right-0 -top-20 h-[45%] sm:h-[70%] w-auto object-contain object-right pointer-events-none select-none rotate-180"
+        className="absolute right-0 -top-20 2xl:-top-40 h-[45%] sm:h-[70%] 2xl:h-[85%] w-auto object-contain object-right pointer-events-none select-none rotate-180 opacity-30 2xl:opacity-40"
       />
 
-      <div className="max-w-6xl mx-auto px-8 pt-14 pb-8">
-
-        {/* Top section */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 pb-10 border-b border-white/10">
-
-          {/* Logo */}
-          <div className="flex items-center gap-6 flex-shrink-0">
-
+      <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto px-8 2xl:px-20 pt-14 2xl:pt-40 pb-8 2xl:pb-20 relative z-10">
+        
+        {/* Top Branding Section */}
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 2xl:gap-20 pb-10 2xl:pb-24 border-b border-white/10">
+          <div className="flex items-center gap-6 2xl:gap-12 flex-shrink-0">
             <div className="flex-shrink-0">
-              <Image src="/Logo.png" alt="Vidi Vici Logo" width={80} height={80} />
+              <Image src="/Logo.png" alt="Vidi Vici Logo" width={80} height={80} className="2xl:w-32 2xl:h-32" />
             </div>
-
             <div>
-              <p className="text-xl sm:text-3xl font-black tracking-wide leading-tight">
-                Vidi Vici
-              </p>
-              <p className="text-xs sm:text-base tracking-[0.5rem] sm:tracking-[0.75rem] text-[#EDEDED] uppercase mt-1">
-                Rental
-              </p>
+              <p className="text-xl sm:text-3xl 2xl:text-6xl font-normal tracking-wide leading-tight">Vidi Vici</p>
+              <p className="text-xs sm:text-base 2xl:text-2xl tracking-[0.5rem] 2xl:tracking-[1.5rem] text-[#EDEDED] uppercase mt-1">Rental</p>
             </div>
           </div>
 
-          {/* Tagline */}
-          <p className="text-[13px] text-white/50 leading-relaxed max-w-sm lg:text-right">
+          <p className="text-[13px] 2xl:text-2xl text-mist-500 leading-relaxed max-w-sm 2xl:max-w-2xl lg:text-right">
             Experience the pinnacle of luxury and adventure with our exclusive
             fleet of exotic cars, premium villas, and world-class events —
             crafted for unforgettable moments.
           </p>
         </div>
 
-        {/* Links */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 py-12 border-b border-white/10">
-
+        {/* Links Navigation Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 2xl:gap-16 py-12 2xl:py-32 border-b border-white/10">
           <FooterCol
             title="Company"
             links={[
@@ -82,86 +102,81 @@ export default function Footer() {
             links={[
               { label: "Cars", href: "/cars" },
               { label: "Insurance Replacement", href: "/cars/insurance" },
-              { label: "Drive the Extraordinary", href: "/cars/drive-the-extraordinary" },
-              { label: "Long-Term Car Rental", href: "/cars/long-term" },
+              { label: "Drive the Extraordinary", href: "/cars/extraordinary" },
+              { label: "Long-Term Car Rental", href: "/cars/longterm" },
               { label: "Experience", href: "/cars/experience" },
-              "Villas",
-              "Events",
-              "Luxury Airport Transfer",
-              "Wedding Car Rental",
-              "Corporate Car Rental",
+              "Villas", "Events", "Airport Transfer", "Wedding Car Rental",
             ]}
           />
 
           <FooterCol
             title="By Brand"
-            links={[
-              "Ferrari", "Lamborghini", "Rolls Royce",
-              "Bentley", "Porsche", "Tesla", "Audi",
-              "Cadillac", "McLaren", "Range Rover",
-              "BMW", "Aston Martin", "Mercedes", "Corvette",
-            ]}
+            links={["Ferrari", "Lamborghini", "Rolls Royce", "Bentley", "Porsche", "Tesla", "Audi", "McLaren", "Range Rover", "Mercedes"]}
           />
 
           <FooterCol
             title="By Type"
-            links={[
-              "Supercar", "SUV", "Convertible",
-              "Chauffeur", "Ultra-Luxury", "EV",
-              "Coupe | Sports", "Sedan | 4-Door",
-            ]}
+            links={["Supercar", "SUV", "Convertible", "Chauffeur", "Ultra-Luxury", "EV", "Coupe | Sports", "Sedan | 4-Door"]}
           />
 
-          {/* Newsletter */}
-          <div className="col-span-2 sm:col-span-3 lg:col-span-2 flex flex-col gap-4">
-
-            <p className="text-[12px] font-bold text-white/80 uppercase tracking-wide">
-              Subscribe for VIP updates & exclusive offers
-            </p>
-
-            <div className="flex items-center bg-white/10 border border-white/20 rounded-lg px-2 py-1.5 focus-within:border-white/40 transition-colors">
-
+          {/* Newsletter & Socials */}
+          <div className="col-span-2 sm:col-span-3 lg:col-span-2 flex flex-col gap-4 2xl:gap-8">
+            <p className="text-[12px] 2xl:text-xl font-normal text-white/80 uppercase tracking-wide">Subscribe for VIP updates & offers</p>
+            
+            <div className="flex items-center bg-white/10 border border-white/20 rounded-lg 2xl:rounded-2xl px-2 2xl:px-4 py-1.5 2xl:py-4 focus-within:border-white/40 transition-colors">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 min-w-0 bg-transparent border-none outline-none text-white placeholder-white/40 text-[12px] px-3 py-1.5"
+                className="flex-1 min-w-0 bg-transparent border-none outline-none text-white placeholder-white/40 text-[12px] 2xl:text-xl px-3"
               />
-
-              <button className="bg-white text-gray-900 text-[12px] font-bold px-5 py-2 rounded-md hover:bg-gray-100 transition-colors flex-shrink-0">
+              <button className="bg-white text-gray-900 text-[12px] 2xl:text-xl font-normal px-5 2xl:px-10 py-2 2xl:py-4 rounded-md 2xl:rounded-xl hover:bg-gray-100 transition-colors flex-shrink-0">
                 Subscribe
               </button>
-
             </div>
 
-            {/* Social icons */}
-            <div className="flex items-center gap-3 mt-1">
+            <div className="flex items-center gap-3 2xl:gap-6 mt-1">
               {[Facebook, Instagram, Youtube].map((Icon, i) => (
-                <button
-                  key={i}
-                  className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white transition-all duration-200"
-                >
-                  <Icon size={16} />
+                <button key={i} className="w-9 h-9 2xl:w-16 2xl:h-16 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white transition-all">
+                  <Icon size={16} className="2xl:w-8 2xl:h-8" />
                 </button>
               ))}
-              <button className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white">
-                <TikTokIcon />
+              <button className="w-9 h-9 2xl:w-16 2xl:h-16 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white">
+                <div className="w-4 h-4 2xl:w-8 2xl:h-8"><TikTokIcon /></div>
               </button>
             </div>
-
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6">
+        {/* Bottom Bar: Copyright, Legal, and Payments */}
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 pt-8 2xl:pt-16">
+          
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 2xl:gap-10">
+            <p className="text-[12px] 2xl:text-xl text-white/40 text-center sm:text-left">
+              ©2026 <span className="font-normal text-white/60">Vidi Vici.</span> All rights reserved.
+            </p>
+            <div className="flex items-center gap-1 text-[11px] 2xl:text-xl text-white/30 italic">
+              <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+              <span className="mx-1">·</span>
+              <a href="/terms" className="hover:text-white transition-colors">Terms</a>
+              <span className="mx-1">·</span>
+              <a href="/sitemap" className="hover:text-white transition-colors">Sitemap</a>
+            </div>
+          </div>
 
-          <p className="text-[12px] text-white/40 text-center sm:text-left">
-            ©2026 <span className="font-bold text-white/60">Vidi Vici.</span> All rights reserved.
-          </p>
+          {/* Payment Row - Scaled for 2XL */}
+          <div className="flex items-center gap-2 2xl:gap-6 scale-100 2xl:scale-150 origin-right">
+            <div className="bg-white rounded px-2 py-1 flex items-center justify-center h-7"><VisaIcon /></div>
+            <div className="bg-white rounded px-2 py-1 flex items-center justify-center h-7"><PayPalIcon /></div>
+            <div className="bg-[#5A31F4] rounded px-2 py-1 flex items-center justify-center h-7">
+              <span className="text-white text-[9px] font-bold tracking-tight">shop</span>
+            </div>
+            <div className="bg-white rounded px-2 py-1 flex items-center justify-center h-7"><GooglePayIcon /></div>
+            <div className="bg-[#252525] rounded px-2 py-1 flex items-center justify-center h-7"><MasterCardIcon /></div>
+          </div>
 
         </div>
-
       </div>
     </footer>
   );
@@ -169,19 +184,15 @@ export default function Footer() {
 
 function FooterCol({ title, links }) {
   return (
-    <div className="flex flex-col gap-3">
-      <p className="text-[12px] font-bold text-white/80 uppercase tracking-wide">{title}</p>
-      <ul className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3 2xl:gap-8">
+      <p className="text-[12px] 2xl:text-xl font-normal text-white/80 uppercase tracking-wide">{title}</p>
+      <ul className="flex flex-col gap-2 2xl:gap-5">
         {links.map((link) => {
           const label = typeof link === "string" ? link : link.label;
           const href = typeof link === "string" ? "#" : link.href;
-
           return (
             <li key={label}>
-              <a
-                href={href}
-                className="text-[12px] text-[#EDEDED]/70 hover:text-[#EDEDED] transition-colors duration-150 leading-snug"
-              >
+              <a href={href} className="text-[12px] 2xl:text-lg text-[#EDEDED]/70 hover:text-[#EDEDED] transition-colors duration-150 leading-snug">
                 {label}
               </a>
             </li>

@@ -376,7 +376,7 @@
 
 //         </div>
 //       </div>
-//       <div className="px-10 sm:px-16 lg:px-20 pt-16 flex items-center justify-between">
+//       <div className="px-6 sm:px-16 lg:px-20 pt-16 flex items-center justify-between">
 //         <h2 className="text-xl sm:text-3xl font-bold text-mist-900">
 //           You may also like
 //         </h2>
@@ -577,7 +577,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
               <CarGallery images={car.images} />
 
               {/* ── Quick Info — two mist boxes side by side ── */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* Left box */}
                 <div className="bg-mist-50 border border-mist-100 rounded-xl px-4 py-3 space-y-1.5">
                   <div className="flex items-start gap-2 text-xs text-mist-500">
@@ -952,8 +952,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
             </div>
           </div>
         </div>
-        <div className="px-10 sm:px-16 lg:px-20 pt-16 flex items-center justify-between">
-          <h2 className="text-xl sm:text-3xl font-bold text-mist-900">
+      </div>
+        <div className="px-6 sm:px-16 lg:px-20 pt-16 flex items-center justify-between gap-4">
+          <h2 className="text-2xl sm:text-4xl font-bold text-mist-900 tracking-tight">
             You may also like
           </h2>
           <a
@@ -966,7 +967,6 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
             </svg>
           </a>
         </div>
-      </div>
       <Rentals showHeader={false} />
       <WhyChooseUs />
       <Reviews />

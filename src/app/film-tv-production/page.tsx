@@ -90,52 +90,52 @@ function VillaListCard({ villa }: { villa: VillaFromAPI }) {
   const formatSqft = (sqft: number) => (sqft >= 1000 ? `${(sqft / 1000).toFixed(1)}k` : sqft.toString())
 
   return (
-    <div className="relative flex flex-col bg-white rounded-2xl overflow-hidden shadow-xl border border-mist-200 hover:shadow-md transition-all duration-300 group cursor-pointer">
-      <div className="relative h-56 overflow-hidden p-3">
+    <div className="relative flex flex-col bg-white rounded-2xl 2xl:rounded-3xl overflow-hidden shadow-xl border border-mist-200 hover:shadow-md transition-all duration-300 group cursor-pointer">
+      <div className="relative h-56 2xl:h-[350px] overflow-hidden p-3 2xl:p-5">
         {image ? (
-          <img src={image} alt={villa.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl" />
+          <img src={image} alt={villa.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]" />
         ) : (
-          <div className="w-full h-full bg-mist-100 flex items-center justify-center text-mist-400 text-sm rounded-2xl">No Image</div>
+          <div className="w-full h-full bg-mist-100 flex items-center justify-center text-mist-400 text-sm 2xl:text-lg rounded-2xl 2xl:rounded-[30px]">No Image</div>
         )}
         <button
           onClick={(e) => { e.stopPropagation(); e.preventDefault(); setFav((p) => !p) }}
-          className={`absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${fav ? "bg-mist-700 text-red-500" : "bg-mist-700 text-mist-100 hover:bg-white hover:text-red-400"}`}
+          className={`absolute top-5 right-5 2xl:top-8 2xl:right-8 w-8 h-8 2xl:w-14 2xl:h-14 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${fav ? "bg-mist-700 text-red-500" : "bg-mist-700 text-mist-100 hover:bg-white hover:text-red-400"}`}
         >
           <Heart size={13} fill={fav ? "currentColor" : "none"} strokeWidth={2} />
         </button>
       </div>
-      <div className="flex flex-col gap-2 px-6 pt-3.5 pb-4">
-        <p className="text-xs text-mist-400 font-medium tracking-wide uppercase truncate">
+      <div className="flex flex-col gap-2 2xl:gap-5 px-6 2xl:px-10 pt-3.5 2xl:pt-6 pb-4 2xl:pb-8">
+        <p className="text-xs 2xl:text-lg text-mist-400 font-medium tracking-wide uppercase truncate">
           Production House | {villa.location}
         </p>
-        <h3 className="text-lg sm:text-xl font-semibold text-mist-900 leading-snug -mt-0.5">{villa.name}</h3>
-        <div className="flex items-center justify-between py-3">
+        <h3 className="text-lg sm:text-xl 2xl:text-4xl font-semibold text-mist-900 leading-snug -mt-0.5">{villa.name}</h3>
+        <div className="flex items-center justify-between py-3 2xl:py-4">
           <div className="flex flex-col items-center gap-0.5">
             <div className="text-mist-600"><BedDouble size={12} /></div>
-            <span className="text-xs text-mist-900 font-semibold">Bedrooms</span>
-            <span className="text-[10px] text-mist-600">{villa.bedrooms}</span>
+            <span className="text-xs 2xl:text-xl text-mist-900 font-semibold">Bedrooms</span>
+            <span className="text-[10px] 2xl:text-base text-mist-600">{villa.bedrooms}</span>
           </div>
           <div className="w-px h-8 bg-mist-100" />
           <div className="flex flex-col items-center gap-0.5">
             <div className="text-mist-600"><Users size={12} /></div>
-            <span className="text-xs text-mist-900 font-semibold">Guests</span>
-            <span className="text-[10px] text-mist-600">{villa.guests}</span>
+            <span className="text-xs 2xl:text-xl text-mist-900 font-semibold">Guests</span>
+            <span className="text-[10px] 2xl:text-base text-mist-600">{villa.guests}</span>
           </div>
           <div className="w-px h-8 bg-mist-100" />
           <div className="flex flex-col items-center gap-0.5">
             <div className="text-mist-600"><Maximize2 size={12} /></div>
-            <span className="text-xs text-mist-900 font-semibold">Sq.ft</span>
-            <span className="text-[10px] text-mist-600">{formatSqft(villa.sqft)}</span>
+            <span className="text-xs 2xl:text-xl text-mist-900 font-semibold">Sq.ft</span>
+            <span className="text-[10px] 2xl:text-base text-mist-600">{formatSqft(villa.sqft)}</span>
           </div>
         </div>
         <div className="h-px bg-mist-100 mt-0.5" />
         <div className="flex items-center justify-between mt-0.5">
-          <Link href={`/villas/${villa.slug}`} className="flex items-center gap-1 text-sm text-mist-500 hover:text-mist-900 transition-colors">
+          <Link href={`/villas/${villa.slug}`} className="flex items-center gap-1 2xl:gap-3 text-sm 2xl:text-2xl text-mist-500 hover:text-mist-900 transition-colors">
             View Details <ArrowUpRight size={11} strokeWidth={2.5} />
           </Link>
           <div className="flex flex-col items-end">
-            <span className="text-base font-semibold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
-            <span className="text-[10px] text-mist-400">/night</span>
+            <span className="text-base 2xl:text-3xl font-semibold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
+            <span className="text-[10px] 2xl:text-lg text-mist-400">/night</span>
           </div>
         </div>
       </div>
@@ -180,22 +180,22 @@ function FilmFilters({ onHide }: { onHide?: () => void }) {
   }
 
   return (
-    <div className="bg-white p-2 sm:p-0 space-y-6 w-full">
-      <button onClick={onHide} className="flex items-center gap-2 text-sm text-mist-600 hover:text-mist-900 transition-colors">
+    <div className="bg-white p-2 sm:p-0 2xl:p-4 space-y-6 2xl:space-y-8 w-full">
+      <button onClick={onHide} className="flex items-center gap-2 text-sm 2xl:text-lg text-mist-600 hover:text-mist-900 transition-colors">
         <X size={16} /> Hide Filter
       </button>
 
       {/* Location */}
       <div className="space-y-3">
-        <label className="text-sm font-medium text-mist-500 block">Location</label>
+        <label className="text-sm 2xl:text-xl font-medium text-mist-500 block">Location</label>
         <select value={selectedLocation} onChange={(e) => setSelectedLocation(e.target.value)}
-          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm px-3 py-2.5 rounded-md focus:border-mist-300 focus:outline-none appearance-none">
+          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm 2xl:text-lg px-3 py-2.5 2xl:px-6 2xl:py-4 rounded-md 2xl:rounded-xl focus:border-mist-300 focus:outline-none appearance-none">
           <option value="">Search location</option>
           {LOCATION_TAGS.map((loc) => <option key={loc} value={loc}>{loc}</option>)}
         </select>
         {selectedLocation && (
           <div className="flex flex-wrap gap-2">
-            <span className="flex items-center gap-1 text-xs bg-mist-100 text-mist-600 px-3 py-1.5 rounded-full">
+            <span className="flex items-center gap-1 text-xs 2xl:text-base bg-mist-100 text-mist-600 px-3 py-1.5 2xl:px-6 2xl:py-3 rounded-full">
               {selectedLocation}
               <button onClick={() => setSelectedLocation("")} className="hover:text-mist-900"><X size={10} /></button>
             </span>
@@ -207,14 +207,14 @@ function FilmFilters({ onHide }: { onHide?: () => void }) {
 
       {/* Bedrooms */}
       <div className="space-y-3">
-        <label className="text-sm font-medium text-mist-500 block">Bedrooms</label>
+        <label className="text-sm 2xl:text-xl font-medium text-mist-500 block">Bedrooms</label>
         <select value={minBedrooms} onChange={(e) => setMinBedrooms(e.target.value)}
-          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm px-3 py-2.5 rounded-md focus:border-mist-300 focus:outline-none appearance-none">
+          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm 2xl:text-lg px-3 py-2.5 2xl:px-6 2xl:py-4 rounded-md 2xl:rounded-xl focus:border-mist-300 focus:outline-none appearance-none">
           {BEDROOM_OPTIONS.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
         </select>
         {minBedrooms && (
           <div className="flex flex-wrap gap-2">
-            <span className="flex items-center gap-1 text-xs bg-mist-100 text-mist-600 px-3 py-1.5 rounded-full">
+            <span className="flex items-center gap-1 text-xs 2xl:text-base bg-mist-100 text-mist-600 px-3 py-1.5 2xl:px-6 2xl:py-3 rounded-full">
               {BEDROOM_OPTIONS.find(o => o.value === minBedrooms)?.label}
               <button onClick={() => setMinBedrooms("")} className="hover:text-mist-900"><X size={10} /></button>
             </span>
@@ -226,15 +226,15 @@ function FilmFilters({ onHide }: { onHide?: () => void }) {
 
       {/* Square Footage */}
       <div className="space-y-3">
-        <label className="text-sm font-medium text-mist-500 block">Square</label>
+        <label className="text-sm 2xl:text-xl font-medium text-mist-500 block">Square</label>
         <select value={minSqft} onChange={(e) => setMinSqft(e.target.value)}
-          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm px-3 py-2.5 rounded-md focus:border-mist-300 focus:outline-none appearance-none">
+          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm 2xl:text-lg px-3 py-2.5 2xl:px-6 2xl:py-4 rounded-md 2xl:rounded-xl focus:border-mist-300 focus:outline-none appearance-none">
           <option value="">Select square footage</option>
           {SQFT_OPTIONS.filter(o => o.value !== "").map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
         </select>
         {minSqft && (
           <div className="flex flex-wrap gap-2">
-            <span className="flex items-center gap-1 text-xs bg-mist-100 text-mist-600 px-3 py-1.5 rounded-full">
+            <span className="flex items-center gap-1 text-xs 2xl:text-base bg-mist-100 text-mist-600 px-3 py-1.5 2xl:px-6 2xl:py-3 rounded-full">
               {SQFT_OPTIONS.find(o => o.value === minSqft)?.label}
               <button onClick={() => setMinSqft("")} className="hover:text-mist-900"><X size={10} /></button>
             </span>
@@ -246,14 +246,14 @@ function FilmFilters({ onHide }: { onHide?: () => void }) {
 
       {/* Guests */}
       <div className="space-y-3">
-        <label className="text-sm font-medium text-mist-500 block">Guests</label>
+        <label className="text-sm 2xl:text-xl font-medium text-mist-500 block">Guests</label>
         <select value={minGuests} onChange={(e) => setMinGuests(e.target.value)}
-          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm px-3 py-2.5 rounded-md focus:border-mist-300 focus:outline-none appearance-none">
+          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm 2xl:text-lg px-3 py-2.5 2xl:px-6 2xl:py-4 rounded-md 2xl:rounded-xl focus:border-mist-300 focus:outline-none appearance-none">
           {GUEST_OPTIONS.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
         </select>
         {minGuests && (
           <div className="flex flex-wrap gap-2">
-            <span className="flex items-center gap-1 text-xs bg-mist-100 text-mist-600 px-3 py-1.5 rounded-full">
+            <span className="flex items-center gap-1 text-xs 2xl:text-base bg-mist-100 text-mist-600 px-3 py-1.5 2xl:px-6 2xl:py-3 rounded-full">
               {GUEST_OPTIONS.find(o => o.value === minGuests)?.label}
               <button onClick={() => setMinGuests("")} className="hover:text-mist-900"><X size={10} /></button>
             </span>
@@ -265,25 +265,25 @@ function FilmFilters({ onHide }: { onHide?: () => void }) {
 
       {/* Price Range */}
       <div className="space-y-3">
-        <label className="text-sm font-medium text-mist-500 block">Price Range</label>
+        <label className="text-sm 2xl:text-xl font-medium text-mist-500 block">Price Range</label>
         <input type="range" min={0} max={10000} value={maxPrice || 0} onChange={(e) => setMaxPrice(e.target.value)} className="w-full accent-neutral-500 h-1" />
         <div className="flex items-center gap-2">
           <div className="flex-1">
-            <p className="text-[10px] text-mist-400 mb-1">Minimum</p>
-            <div className="flex items-center bg-neutral-100 border border-mist-200 rounded-md px-3 py-2 gap-1">
+            <p className="text-[10px] 2xl:text-sm text-mist-400 mb-1">Minimum</p>
+            <div className="flex items-center bg-neutral-100 border border-mist-200 rounded-md 2xl:rounded-xl px-3 py-2 2xl:px-5 2xl:py-3 gap-1">
               <span className="text-xs text-mist-400">$</span>
-              <input type="number" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} className="w-full text-sm text-mist-700 focus:outline-none" placeholder="0" />
+              <input type="number" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} className="w-full text-sm 2xl:text-lg text-mist-700 focus:outline-none" placeholder="0" />
             </div>
           </div>
           <span className="text-mist-300 mt-4">–</span>
           <div className="flex-1">
-            <p className="text-[10px] text-mist-400 mb-1">Maximum</p>
-            <div className="flex items-center bg-neutral-100 border border-mist-200 rounded-md px-3 py-2 gap-1">
+            <p className="text-[10px] 2xl:text-sm text-mist-400 mb-1">Maximum</p>
+            <div className="flex items-center bg-neutral-100 border border-mist-200 rounded-md 2xl:rounded-xl px-3 py-2 2xl:px-5 2xl:py-3 gap-1">
               <span className="text-xs text-mist-400">$</span>
-              <input type="number" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} className="w-full text-sm text-mist-700 focus:outline-none" placeholder="10000" />
+              <input type="number" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} className="w-full text-sm 2xl:text-lg text-mist-700 focus:outline-none" placeholder="10000" />
             </div>
           </div>
-          <button onClick={applyFilters} className="mt-4 w-9 h-9 flex-shrink-0 bg-mist-200 hover:bg-mist-200 rounded-md flex items-center justify-center transition-colors">
+          <button onClick={applyFilters} className="mt-4 w-9 h-9 2xl:w-12 2xl:h-12 flex-shrink-0 bg-mist-200 hover:bg-mist-200 rounded-md 2xl:rounded-xl flex items-center justify-center transition-colors">
             <ChevronRight size={16} className="text-mist-600" />
           </button>
         </div>
@@ -291,8 +291,8 @@ function FilmFilters({ onHide }: { onHide?: () => void }) {
 
       {/* Apply + Reset */}
       <div className="space-y-2 pt-2">
-        <button onClick={applyFilters} className="w-full bg-mist-900 text-white py-3 rounded-lg text-sm hover:bg-mist-800 transition-colors">Apply</button>
-        <button onClick={clearAll} className="w-full bg-white border border-mist-200 text-mist-700 py-3 rounded-lg text-sm hover:bg-mist-50 transition-colors flex items-center justify-center gap-2">
+        <button onClick={applyFilters} className="w-full bg-mist-900 text-white py-3 2xl:py-5 rounded-lg 2xl:rounded-xl text-sm 2xl:text-lg hover:bg-mist-800 transition-colors">Apply</button>
+        <button onClick={clearAll} className="w-full bg-white border border-mist-200 text-mist-700 py-3 2xl:py-5 rounded-lg 2xl:rounded-xl text-sm 2xl:text-lg hover:bg-mist-50 transition-colors flex items-center justify-center gap-2">
           <RotateCcw size={14} /> Reset
         </button>
       </div>
@@ -360,21 +360,21 @@ function ProductionInquiryForm() {
   }
 
   return (
-    <section className="w-full bg-white py-12 sm:px-16 lg:px-20 px-6" id="inquiry">
+    <section className="w-full bg-white py-12 2xl:py-24 sm:px-16 lg:px-20 2xl:px-32 px-6" id="inquiry">
       <div>
-        <div className="border border-mist-200 rounded-3xl overflow-hidden gap-8 sm:p-8 px-4 py-6 flex flex-col md:flex-row shadow-sm">
+        <div className="border border-mist-200 rounded-3xl 2xl:rounded-[40px] overflow-hidden gap-8 2xl:gap-14 sm:p-8 2xl:sm:p-16 px-4 py-6 2xl:px-8 2xl:py-12 flex flex-col md:flex-row shadow-sm">
 
           {/* Left Panel — Contact Info */}
-          <div className="bg-mist-100 p-8 md:w-1/3 flex-shrink-0 flex flex-col gap-8 relative overflow-hidden rounded-2xl">
+          <div className="bg-mist-100 p-8 2xl:p-14 md:w-1/3 flex-shrink-0 flex flex-col gap-8 2xl:gap-12 relative overflow-hidden rounded-2xl 2xl:rounded-3xl">
             <div className="absolute inset-0 opacity-5 pointer-events-none">
               <div className="absolute bottom-0 right-0 w-64 h-64 bg-gradient-to-br from-mist-400 to-transparent rounded-full blur-3xl" />
             </div>
 
             <div className="relative z-10">
-              <h3 className="text-xl md:text-2xl font-bold text-mist-900 leading-snug mb-3">
+              <h3 className="text-xl md:text-2xl 2xl:text-4xl font-bold text-mist-900 leading-snug mb-3 2xl:mb-5">
                 Have questions or ready to book your shoot location?
               </h3>
-              <p className="text-sm text-mist-600 leading-relaxed">
+              <p className="text-sm 2xl:text-xl text-mist-600 leading-relaxed">
                 Our team is here to assist you with film, TV, and commercial production rentals in Los Angeles.
               </p>
             </div>
@@ -423,42 +423,42 @@ function ProductionInquiryForm() {
 
           {/* Right Panel — Form */}
           <div className="flex-1">
-            <h2 className="text-3xl md:text-4xl font-bold text-mist-900 mb-8 tracking-tight">
+            <h2 className="text-3xl md:text-4xl 2xl:text-6xl font-bold text-mist-900 mb-8 2xl:mb-12 tracking-tight">
               Film &amp; TV Production House Inquiry
             </h2>
 
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 2xl:gap-10">
               {/* Name */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">Full Name</label>
+                  <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">Full Name</label>
                   <input type="text" placeholder="Enter your full name" value={form.firstName}
                     onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-                    className="w-full border border-mist-300 rounded-xl px-4 py-3 text-sm text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
+                    className="w-full border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-xl text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">Last Name</label>
+                  <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">Last Name</label>
                   <input type="text" placeholder="Enter your last name" value={form.lastName}
                     onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-                    className="w-full border border-mist-300 rounded-xl px-4 py-3 text-sm text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
+                    className="w-full border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-xl text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
                 </div>
               </div>
 
               {/* Email & Phone */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">Email Address</label>
+                  <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">Email Address</label>
                   <input type="email" placeholder="Enter your email address" value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full border border-mist-300 rounded-xl px-4 py-3 text-sm text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
+                    className="w-full border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-xl text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">Phone</label>
+                  <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">Phone</label>
                   <div className="flex items-center border border-mist-300 rounded-xl overflow-hidden focus-within:border-mist-400 transition-colors duration-200 bg-white">
-                    <span className="px-4 py-3 text-lg border-r border-mist-300 bg-mist-50 flex items-center gap-2 text-mist-600 flex-shrink-0">🇺🇸</span>
+                    <span className="px-4 py-3 2xl:px-8 2xl:py-6 text-lg border-r border-mist-300 bg-mist-50 flex items-center gap-2 text-mist-600 flex-shrink-0">🇺🇸</span>
                     <input type="tel" placeholder="Enter your phone number" value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      className="flex-1 px-4 py-3 text-sm text-mist-900 placeholder-mist-400 outline-none bg-white" />
+                      className="flex-1 px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-xl text-mist-900 placeholder-mist-400 outline-none bg-white" />
                   </div>
                 </div>
               </div>
@@ -466,40 +466,40 @@ function ProductionInquiryForm() {
               {/* Project Type & Shoot Dates */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">Project Type</label>
+                  <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">Project Type</label>
                   <select value={form.projectType} onChange={(e) => setForm({ ...form, projectType: e.target.value })}
-                    className="w-full appearance-none border border-mist-300 rounded-xl px-4 py-3 text-sm text-mist-900 bg-white focus:outline-none focus:border-mist-400 transition-colors duration-200 cursor-pointer">
+                    className="w-full appearance-none border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-xl text-mist-900 bg-white focus:outline-none focus:border-mist-400 transition-colors duration-200 cursor-pointer">
                     <option value="">Project Type</option>
                     {PROJECT_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
                   </select>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">Shoot Dates</label>
+                  <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">Shoot Dates</label>
                   <input type="date" value={form.shootDates}
                     onChange={(e) => setForm({ ...form, shootDates: e.target.value })}
-                    className="w-full border border-mist-300 rounded-xl px-4 py-3 text-sm text-mist-900 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
+                    className="w-full border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-xl text-mist-900 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
                 </div>
               </div>
 
               {/* Crew Size */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">Crew Size</label>
+                <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">Crew Size</label>
                 <input type="number" placeholder="e.g. 25" value={form.crewSize}
                   onChange={(e) => setForm({ ...form, crewSize: e.target.value })}
-                  className="w-full border border-mist-300 rounded-xl px-4 py-3 text-sm text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
+                  className="w-full border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-xl text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
               </div>
 
               {/* Special Requests */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">Special Requests / Notes</label>
+                <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">Special Requests / Notes</label>
                 <textarea placeholder="Tell us more about your project..." value={form.specialRequests}
                   onChange={(e) => setForm({ ...form, specialRequests: e.target.value })} rows={5}
-                  className="w-full border border-mist-300 rounded-xl px-4 py-3 text-sm text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white resize-none" />
+                  className="w-full border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-xl text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white resize-none" />
               </div>
 
               {/* Submit */}
               <button onClick={handleSubmit} disabled={submitting}
-                className="w-full bg-mist-900 text-white cursor-pointer font-semibold py-4 rounded-xl hover:bg-mist-800 transition-colors duration-200 mt-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                className="w-full bg-mist-900 text-white cursor-pointer font-semibold py-4 2xl:py-6 rounded-xl 2xl:rounded-2xl hover:bg-mist-800 transition-colors duration-200 mt-2 disabled:opacity-40 disabled:cursor-not-allowed text-base 2xl:text-2xl">
                 {submitting ? "Sending..." : "Send"}
               </button>
             </div>
@@ -587,7 +587,7 @@ function FilmTVContent() {
       <Banner
         heading="Film & TV Production House Rentals in Los Angeles"
         description="Discover exclusive villas and estates available for film, TV, and commercial shoots."
-        height="h-96"
+        height="h-96 2xl:h-[520px]"
         image="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1400&q=80"
         searchBar={{
           placeholder: "Search by location or villa name...",
@@ -603,17 +603,17 @@ function FilmTVContent() {
 
       {/* Listing Section */}
       {/* Listing Section - UPDATED to match villas page */}
-      <section className="bg-white py-16 sm:px-16 lg:px-20 px-6">
-        <div className="">
-          <h2 className="text-4xl font-bold text-mist-900 text-center my-20">
+      <section className="bg-white py-16 2xl:py-32 sm:px-16 lg:px-20 2xl:px-32 px-6">
+        <div className="max-w-[1840px] mx-auto">
+          <h2 className="text-4xl 2xl:text-7xl font-bold text-mist-900 text-center my-20 2xl:my-32">
             Film & TV Production House Rentals
           </h2>
 
           {/* Filter toggle + Sort - MOVED HERE to match villas layout */}
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-6 2xl:mb-10">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-4 py-2 border border-mist-200 rounded-xl text-sm text-mist-600 hover:bg-mist-50 transition-colors"
+              className="flex items-center gap-2 px-4 2xl:px-8 py-2 2xl:py-4 border border-mist-200 rounded-xl 2xl:rounded-2xl text-sm 2xl:text-xl text-mist-600 hover:bg-mist-50 transition-colors"
             >
               <SlidersHorizontal size={14} />
               {showFilters ? "Hide Filter" : "Show Filter"}
@@ -621,7 +621,7 @@ function FilmTVContent() {
             <select
               value={sort}
               onChange={(e) => handleSortChange(e.target.value)}
-              className="bg-neutral-100 border border-mist-200 text-mist-600 text-sm px-3 py-2 rounded-lg focus:border-mist-400 focus:outline-none"
+              className="bg-neutral-100 border border-mist-200 text-mist-600 text-sm 2xl:text-xl px-3 2xl:px-6 py-2 2xl:py-4 rounded-lg 2xl:rounded-xl focus:border-mist-400 focus:outline-none"
             >
               <option value="newest">Sort by: Newest</option>
               <option value="price-asc">Price: Low to High</option>
@@ -629,39 +629,39 @@ function FilmTVContent() {
             </select>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex flex-col lg:flex-row gap-8 2xl:gap-14">
             {/* Sidebar Filters - FIXED: removed lg:block */}
-            <aside className={`lg:w-72 flex-shrink-0 ${showFilters ? "block" : "hidden"}`}>
+            <aside className={`lg:w-72 2xl:w-96 flex-shrink-0 ${showFilters ? "block" : "hidden"}`}>
               <FilmFilters onHide={() => setShowFilters(false)} />
             </aside>
 
             {/* Villa Grid - FIXED: dynamic columns */}
             <div className="flex-1">
               {loading ? (
-                <div className={`grid gap-6 ${showFilters ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"}`}>
+                <div className={`grid gap-6 2xl:gap-12 ${showFilters ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"}`}>
                   {[...Array(6)].map((_, i) => (
                     <div key={i} className="bg-mist-100 rounded-2xl h-80 animate-pulse" />
                   ))}
                 </div>
               ) : villas.length === 0 ? (
-                <div className="text-center py-20">
-                  <p className="text-mist-400 text-lg mb-2">No properties found</p>
-                  <p className="text-mist-300 text-sm">Try adjusting your filters or search</p>
+                <div className="text-center py-20 2xl:py-28">
+                  <p className="text-mist-400 text-lg 2xl:text-3xl mb-2">No properties found</p>
+                  <p className="text-mist-300 text-sm 2xl:text-xl">Try adjusting your filters or search</p>
                 </div>
               ) : (
-                <div className={`grid gap-6 ${showFilters ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"}`}>
+                <div className={`grid gap-6 2xl:gap-12 ${showFilters ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3"}`}>
                   {villas.map((villa) => <VillaListCard key={villa.id} villa={villa} />)}
                 </div>
               )}
 
               {/* Pagination */}
               {pages > 1 && (
-                <div className="flex justify-center gap-2 mt-10">
+                <div className="flex justify-center gap-2 2xl:gap-4 mt-10 2xl:mt-16">
                   {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
                     <button
                       key={p}
                       onClick={() => goToPage(p)}
-                      className={`w-10 h-10 rounded-lg font-semibold text-sm transition-colors ${p === currentPage
+                      className={`w-10 h-10 2xl:w-12 2xl:h-12 rounded-lg 2xl:rounded-xl font-semibold text-sm 2xl:text-lg transition-colors ${p === currentPage
                           ? "bg-mist-900 text-white"
                           : "bg-mist-100 text-mist-500 hover:bg-mist-200"
                         }`}
@@ -677,13 +677,13 @@ function FilmTVContent() {
       </section>
 
       {/* About Our Film & TV Houses */}
-      <section className="py-16 px-6 sm:px-12 lg:px-20 bg-white">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="py-16 2xl:py-28 px-6 sm:px-12 lg:px-20 2xl:px-32 bg-white">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 2xl:gap-20 items-center max-w-[1840px] mx-auto">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-mist-900 leading-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl 2xl:text-7xl font-bold text-mist-900 leading-tight mb-4 2xl:mb-8">
               About Our Film &amp; TV Houses
             </h2>
-            <p className="text-base text-mist-500 leading-relaxed mb-7">
+            <p className="text-base 2xl:text-2xl text-mist-500 leading-relaxed mb-7 2xl:mb-10">
               Our portfolio of production-ready properties offers a diverse
               range of aesthetics — from sleek modern architecture to
               timeless estates. Each space is designed to accommodate
@@ -697,7 +697,7 @@ function FilmTVContent() {
                       <path d="M2 6l3 3 5-5" stroke="gray" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </span>
-                  <span className="text-base text-mist-600 leading-relaxed">{item}</span>
+                  <span className="text-base 2xl:text-2xl text-mist-600 leading-relaxed">{item}</span>
                 </li>
               ))}
             </ul>
@@ -723,9 +723,9 @@ function FilmTVContent() {
       {/* Testimonials */}
       <Reviews />
 
-        <section className="py-16 px-6 sm:px-16 lg:px-20 bg-white">
-        <div className="">
-          <div className="relative bg-mist-100 rounded-3xl px-8 py-16 text-center overflow-hidden">
+        <section className="py-16 2xl:py-24 px-6 sm:px-16 lg:px-20 2xl:px-32 bg-white">
+        <div className="max-w-[1840px] mx-auto">
+          <div className="relative bg-mist-100 rounded-3xl 2xl:rounded-[40px] px-8 2xl:px-16 py-16 2xl:py-24 text-center overflow-hidden">
             <img
               src="/Vector 7.png"
               alt=""
@@ -743,13 +743,13 @@ function FilmTVContent() {
 
 
             {/* Content */}
-            <h2 className="text-3xl sm:text-4xl font-bold text-mist-900 leading-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl 2xl:text-7xl font-bold text-mist-900 leading-tight mb-4 2xl:mb-8">
              Ready to book your next <br/> shoot location?
             </h2>
-            <p className="text-sm text-mist-400 max-w-sm mx-auto leading-relaxed mb-8">
+            <p className="text-sm 2xl:text-xl text-mist-400 max-w-sm 2xl:max-w-3xl mx-auto leading-relaxed mb-8 2xl:mb-12">
               Tell us about your celebration and let our team help you create an unforgettable experience.
             </p>
-            <button className="bg-mist-900 text-white text-sm font-semibold px-7 py-3.5 rounded-xl hover:bg-mist-700 transition-colors">
+            <button className="bg-mist-900 text-white text-sm 2xl:text-2xl font-semibold px-7 2xl:px-12 py-3.5 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors">
               Request a Quote
             </button>
 

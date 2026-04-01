@@ -32,7 +32,7 @@ jobs:
         run: |
           ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'DEPLOY'
             set -e
-            APP_DIR="/var/www/vidivici"
+            APP_DIR="/var/www/falcon-car-rental"
             cd "$APP_DIR"
 
             echo "======================================"
@@ -66,7 +66,7 @@ jobs:
             echo "======================================"
             echo " [6/6] Restarting app (zero downtime)"
             echo "======================================"
-            pm2 restart vidivici --update-env
+            pm2 restart falcon-car-rental --update-env
             pm2 save
 
             echo ""

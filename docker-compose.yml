@@ -4,11 +4,11 @@ services:
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
-    container_name: vidivici_postgres
+    container_name: falcon_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: vidivici_db
-      POSTGRES_USER: vidivici_user
+      POSTGRES_DB: falcon_car_rental
+      POSTGRES_USER: falcon_user
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -16,27 +16,27 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - vidivici_network
+      - falcon_network
 
   # Redis for Session Storage (Optional)
   redis:
     image: redis:7-alpine
-    container_name: vidivici_redis
+    container_name: falcon_redis
     restart: unless-stopped
     volumes:
       - redis_data:/data
     ports:
       - "6379:6379"
     networks:
-      - vidivici_network
+      - falcon_network
 
   # Your Next.js App (for production)
   app:
     build: .
-    container_name: vidivici_app
+    container_name: falcon_app
     restart: unless-stopped
     environment:
-      DATABASE_URL: postgresql://vidivici_user:${POSTGRES_PASSWORD}@postgres:5432/vidivici_db
+      DATABASE_URL: postgresql://falcon_user:${POSTGRES_PASSWORD}@postgres:5432/falcon_car_rental
       NEXTAUTH_URL: https://yourdomain.com
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
     depends_on:
@@ -45,12 +45,12 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - vidivici_network
+      - falcon_network
 
 volumes:
   postgres_data:
   redis_data:
 
 networks:
-  vidivici_network:
+  falcon_network:
     driver: bridge

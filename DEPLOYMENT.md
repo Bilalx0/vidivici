@@ -1,4 +1,4 @@
-# VIDIVICI — Deployment Guide
+# Falcon Car Rental — Deployment Guide
 
 ## Part 1 — Local Development (Fix for 500 Errors)
 
@@ -8,9 +8,9 @@ The API routes were returning 500 because:
 2. The existing `.env` pointed to PostgreSQL on port `5433` with user `postgres` — both wrong
 
 ### What Was Fixed
-- Updated `.env` with `DATABASE_URL` pointing to local PostgreSQL on port **5432** using `vidivici_user`
+- Updated `.env` with `DATABASE_URL` pointing to local PostgreSQL on port **5432** using `falcon_user`
 - Set a real `AUTH_SECRET` for NextAuth v5
-- Created the `vidivici_user` PostgreSQL role and `vidivici_db` database
+- Created the `falcon_user` PostgreSQL role and `falcon_car_rental` database
 - Applied the Prisma migration to create all tables
 
 ### Local Quick-Start (after a fresh clone)
@@ -20,9 +20,9 @@ The API routes were returning 500 because:
 npm install
 
 # 2. Set up PostgreSQL database (run once)
-sudo -u postgres psql -c "CREATE USER vidivici_user WITH PASSWORD 'vidivici_local_dev_2026';"
-sudo -u postgres psql -c "CREATE DATABASE vidivici_db OWNER vidivici_user;"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE vidivici_db TO vidivici_user;"
+sudo -u postgres psql -c "CREATE USER falcon_user WITH PASSWORD 'falcon_local_dev_2026';"
+sudo -u postgres psql -c "CREATE DATABASE falcon_car_rental OWNER falcon_user;"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE falcon_car_rental TO falcon_user;"
 
 # 3. Apply migrations
 npx prisma migrate deploy
@@ -39,7 +39,7 @@ npm run dev
 
 ### Local .env (already configured)
 ```env
-DATABASE_URL="postgresql://vidivici_user:vidivici_local_dev_2026@localhost:5432/vidivici_db"
+DATABASE_URL="postgresql://falcon_user:falcon_local_dev_2026@localhost:5432/falcon_car_rental"
 AUTH_SECRET="<your-secret>"
 NEXTAUTH_URL="http://localhost:3000"
 UPLOAD_DIR="./public/uploads"
@@ -47,7 +47,7 @@ UPLOAD_DIR="./public/uploads"
 
 ### Admin Login (after seeding)
 - URL: `http://localhost:3000/admin/dashboard`
-- Email: `admin@vidivici.com`
+- Email: `admin@falconcarrental.com`
 - Password: `admin123`
 
 > **Change the admin password immediately after first login.**
@@ -130,9 +130,9 @@ sudo apt install -y git
 sudo -u postgres psql
 
 # Inside psql — run these commands:
-CREATE USER vidivici_user WITH PASSWORD 'CHOOSE_A_STRONG_PASSWORD_HERE';
-CREATE DATABASE vidivici_db OWNER vidivici_user;
-GRANT ALL PRIVILEGES ON DATABASE vidivici_db TO vidivici_user;
+CREATE USER falcon_user WITH PASSWORD 'CHOOSE_A_STRONG_PASSWORD_HERE';
+CREATE DATABASE falcon_car_rental OWNER falcon_user;
+GRANT ALL PRIVILEGES ON DATABASE falcon_car_rental TO falcon_user;
 \q
 ```
 
@@ -145,8 +145,8 @@ GRANT ALL PRIVILEGES ON DATABASE vidivici_db TO vidivici_user;
 ```bash
 # Clone your repository
 cd /home/deploy
-git clone https://github.com/Asad-noob69/vidivici.git vidivici
-cd vidivici
+git clone https://github.com/Asad-noob69/vidivici.git falcon-car-rental
+cd falcon-car-rental
 
 # Install dependencies
 npm install
@@ -159,7 +159,7 @@ Paste this into the `.env` file (replace ALL placeholder values):
 
 ```env
 # Database
-DATABASE_URL="postgresql://vidivici_user:STRONG_PASSWORD@localhost:5432/vidivici_db"
+DATABASE_URL="postgresql://falcon_user:STRONG_PASSWORD@localhost:5432/falcon_car_rental"
 
 # NextAuth — generate secret with: openssl rand -base64 32
 AUTH_SECRET="GENERATE_WITH_OPENSSL_RAND_BASE64_32"
@@ -191,7 +191,7 @@ npm start
 
 ```bash
 # Start the app with PM2
-pm2 start npm --name "vidivici" -- start
+pm2 start npm --name "falcon-car-rental" -- start
 
 # Save PM2 config so it restarts after server reboots
 pm2 save
@@ -202,9 +202,9 @@ pm2 startup
 Useful PM2 commands:
 ```bash
 pm2 status                          # check if app is running
-pm2 logs vidivici          # view live logs
-pm2 restart vidivici       # restart app
-pm2 stop vidivici          # stop app
+pm2 logs falcon-car-rental          # view live logs
+pm2 restart falcon-car-rental       # restart app
+pm2 stop falcon-car-rental          # stop app
 ```
 
 ---
@@ -213,7 +213,7 @@ pm2 stop vidivici          # stop app
 
 ```bash
 # Create Nginx config for your site
-sudo nano /etc/nginx/sites-available/vidivici
+sudo nano /etc/nginx/sites-available/falcon-car-rental
 ```
 
 Paste this config (replace `yourdomain.com` with your actual domain):
@@ -242,7 +242,7 @@ server {
 
 ```bash
 # Enable the site
-sudo ln -s /etc/nginx/sites-available/vidivici /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/falcon-car-rental /etc/nginx/sites-enabled/
 
 # Remove default Nginx site
 sudo rm -f /etc/nginx/sites-enabled/default
@@ -293,7 +293,7 @@ curl -X POST https://yourdomain.com/api/admin/seed
 ```
 
 Then log in at `https://yourdomain.com/admin/dashboard` with:
-- Email: `admin@vidivici.com`
+- Email: `admin@falconcarrental.com`
 - Password: `admin123`
 
 **Change the password immediately from the Settings page.**
@@ -304,8 +304,8 @@ Then log in at `https://yourdomain.com/admin/dashboard` with:
 
 ```bash
 # Create uploads directory for car images
-mkdir -p /home/deploy/vidivici/public/uploads
-chmod 755 /home/deploy/vidivici/public/uploads
+mkdir -p /home/deploy/falcon-car-rental/public/uploads
+chmod 755 /home/deploy/falcon-car-rental/public/uploads
 ```
 
 ---
@@ -318,7 +318,7 @@ Whenever you push new code to GitHub:
 # SSH into VPS
 ssh deploy@YOUR_VPS_IP
 
-cd ~/vidivici
+cd ~/falcon-car-rental
 
 # Pull latest code
 git pull
@@ -333,7 +333,7 @@ npx prisma migrate deploy
 npm run build
 
 # Restart the app (zero downtime)
-pm2 restart vidivici
+pm2 restart falcon-car-rental
 ```
 
 ---
@@ -354,9 +354,9 @@ sudo ufw status
 
 | Problem | Check |
 |---------|-------|
-| 500 errors on API routes | `pm2 logs vidivici` — usually a missing env var or DB connection |
+| 500 errors on API routes | `pm2 logs falcon-car-rental` — usually a missing env var or DB connection |
 | Site not loading | `sudo nginx -t` and `sudo systemctl status nginx` |
-| App crashed | `pm2 status` then `pm2 restart vidivici` |
+| App crashed | `pm2 status` then `pm2 restart falcon-car-rental` |
 | DB migrations failed | Check `DATABASE_URL` in `.env` matches your PostgreSQL credentials |
 | Images not uploading | Check `public/uploads` directory exists and is writable |
 
@@ -366,7 +366,7 @@ sudo ufw status
 
 - [ ] Change `AUTH_SECRET` to a freshly generated value (`openssl rand -base64 32`)
 - [ ] Change admin password from `admin123`
-- [ ] Set a strong PostgreSQL password (not `vidivici_local_dev_2026`)
+- [ ] Set a strong PostgreSQL password (not `falcon_local_dev_2026`)
 - [ ] Enable UFW firewall
 - [ ] Enable HTTPS with Certbot
 - [ ] Ensure `.env` is in `.gitignore` (it is already)

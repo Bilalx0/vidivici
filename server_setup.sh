@@ -4,8 +4,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 SERVER_IP="66.29.143.99"
-DB_PASS="VidiViciPr0d2026X9"
-APP_DIR="/var/www/vidivici"
+DB_PASS="FalconPr0d2026X9"
+APP_DIR="/var/www/falcon-car-rental"
 REPO_URL="https://github.com/Asad-noob69/vidivici.git"
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -60,16 +60,16 @@ sleep 3
 log "PostgreSQL started"
 
 step "[7/16] Create DB user & database"
-sudo -u postgres psql -c "CREATE USER vidivici_user WITH PASSWORD '${DB_PASS}';" 2>/dev/null \
-  && log "DB user vidivici_user created" \
+sudo -u postgres psql -c "CREATE USER falcon_user WITH PASSWORD '${DB_PASS}';" 2>/dev/null \
+  && log "DB user falcon_user created" \
   || warn "User may already exist — continuing"
 
-sudo -u postgres psql -c "CREATE DATABASE vidivici_db OWNER vidivici_user;" 2>/dev/null \
-  && log "Database vidivici_db created" \
+sudo -u postgres psql -c "CREATE DATABASE falcon_car_rental OWNER falcon_user;" 2>/dev/null \
+  && log "Database falcon_car_rental created" \
   || warn "DB may already exist — continuing"
 
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE vidivici_db TO vidivici_user;" 2>/dev/null
-log "PostgreSQL ready: vidivici_db @ localhost:5432"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE falcon_car_rental TO falcon_user;" 2>/dev/null
+log "PostgreSQL ready: falcon_car_rental @ localhost:5432"
 
 step "[8/16] Clone repository"
 mkdir -p /var/www
@@ -86,7 +86,7 @@ log "npm packages installed"
 step "[10/16] Write .env"
 AUTH_SECRET=$(openssl rand -base64 32)
 cat > "$APP_DIR/.env" << ENVEOF
-DATABASE_URL="postgresql://vidivici_user:${DB_PASS}@localhost:5432/vidivici_db"
+DATABASE_URL="postgresql://falcon_user:${DB_PASS}@localhost:5432/falcon_car_rental"
 AUTH_SECRET="${AUTH_SECRET}"
 NEXTAUTH_URL="http://${SERVER_IP}"
 NEXT_PUBLIC_APP_URL="http://${SERVER_IP}"
@@ -113,8 +113,8 @@ log "Next.js build complete"
 
 step "[14/16] Start with PM2"
 cd "$APP_DIR"
-pm2 delete "vidivici" 2>/dev/null || true
-NODE_ENV=production pm2 start npm --name "vidivici" -- start
+pm2 delete "falcon-car-rental" 2>/dev/null || true
+NODE_ENV=production pm2 start npm --name "falcon-car-rental" -- start
 pm2 save
 # Set up PM2 to auto-start on server reboot
 pm2 startup systemd -u root --hp /root 2>&1 | tail -5
@@ -123,7 +123,7 @@ systemctl enable pm2-root 2>/dev/null || true
 log "PM2 process started and registered for auto-start"
 
 step "[15/16] Configure Nginx reverse proxy"
-cat > /etc/nginx/sites-available/vidivici << 'NGINXEOF'
+cat > /etc/nginx/sites-available/falcon-car-rental << 'NGINXEOF'
 server {
     listen 80 default_server;
     server_name _;
@@ -146,7 +146,7 @@ server {
 NGINXEOF
 
 rm -f /etc/nginx/sites-enabled/default
-ln -sf /etc/nginx/sites-available/vidivici /etc/nginx/sites-enabled/
+ln -sf /etc/nginx/sites-available/falcon-car-rental /etc/nginx/sites-enabled/
 nginx -t
 systemctl restart nginx
 systemctl enable nginx
@@ -188,23 +188,23 @@ fi
 
 echo ""
 echo -e "${GREEN}╔══════════════════════════════════════════════════════╗"
-echo "║         ✅  VIDIVICI — LIVE!               ║"
+echo "║         ✅  FALCON CAR RENTAL — LIVE!               ║"
 echo "╠══════════════════════════════════════════════════════╣"
 echo "║                                                      ║"
 echo "║  🌐 Site:    http://${SERVER_IP}               ║"
 echo "║  🔒 Admin:   http://${SERVER_IP}/admin/dashboard    ║"
-echo "║  📧 Email:   admin@vidivici.com               ║"
+echo "║  📧 Email:   admin@falconcarrental.com               ║"
 echo "║  🔑 Pass:    admin123  ← CHANGE THIS FIRST!          ║"
 echo "║                                                      ║"
 echo "╠══════════════════════════════════════════════════════╣"
-echo "║  🗄  DB User:  vidivici_user                           ║"
+echo "║  🗄  DB User:  falcon_user                           ║"
 echo "║  🗄  DB Pass:  ${DB_PASS}               ║"
-echo "║  🗄  DB Name:  vidivici_db                     ║"
+echo "║  🗄  DB Name:  falcon_car_rental                     ║"
 echo "╠══════════════════════════════════════════════════════╣"
 echo "║  USEFUL COMMANDS                                     ║"
 echo "║  pm2 status               # check app               ║"
-echo "║  pm2 logs vidivici  # live logs            ║"
-echo "║  pm2 restart vidivici  # restart           ║"
+echo "║  pm2 logs falcon-car-rental  # live logs            ║"
+echo "║  pm2 restart falcon-car-rental  # restart           ║"
 echo "║  systemctl status nginx   # nginx status            ║"
 echo "╠══════════════════════════════════════════════════════╣"
 echo "║  NGROK (free HTTPS tunnel):                          ║"

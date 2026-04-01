@@ -16,6 +16,7 @@ import {
   Clock,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   Building2,
   Users,
   Sparkles,
@@ -159,6 +160,9 @@ const EVENT_TYPES = [
   { title: "Galas, Award Nights & Charity Events", desc: "An iconic stage for high-profile charity events and award ceremonies.", image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=600&q=80" },
   { title: "Private Parties & Celebrations", desc: "Perfect for birthdays, anniversaries, and exclusive private events.", image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&q=80" },
   { title: "Film & Production Shoots", desc: "A cinematic backdrop for film, TV, and music productions.", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80" },
+  { title: "Galas, Award Nights & Charity Events", desc: "An iconic stage for high-profile charity events and award ceremonies.", image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=600&q=80" },
+  { title: "Private Parties & Celebrations", desc: "Perfect for birthdays, anniversaries, and exclusive private events.", image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&q=80" },
+  { title: "Film & Production Shoots", desc: "A cinematic backdrop for film, TV, and music productions.", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80" },
 ]
 
 const GALLERY_IMAGES = [
@@ -173,6 +177,7 @@ const GALLERY_IMAGES = [
 
 const BUDGET_OPTIONS = ["Under $5,000", "$5,000 - $15,000", "$15,000 - $30,000", "$30,000 - $50,000", "$50,000+"]
 const ADD_ONS = ["Chauffeur / Party Bus", "Security / Bodyguard"]
+const VENUE_OPTIONS = ["Trinity Ballroom", "Delilah Los Angeles", "The Majestic Downtown"]
 
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
@@ -210,7 +215,7 @@ export function VenueBookingForm() {
     fullName: "",
     email: "",
     phone: "",
-    clubVenue: "Delilah Los Angeles",
+    clubVenue: "Trinity Ballroom",
     bookingDate: "",
     guestsTotal: "",
     budget: "",
@@ -321,12 +326,18 @@ export function VenueBookingForm() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <Field label="Selected Venue">
-                    <input
-                      type="text"
-                      value={form.clubVenue}
-                      readOnly
-                      className={`${inputClass} bg-mist-50 cursor-not-allowed`}
-                    />
+                    <div className="relative">
+                      <select
+                        value={form.clubVenue}
+                        onChange={(e) => setForm({ ...form, clubVenue: e.target.value })}
+                        className={`${inputClass} appearance-none cursor-pointer pr-12`}
+                      >
+                        {VENUE_OPTIONS.map((venue) => (
+                          <option key={venue} value={venue}>{venue}</option>
+                        ))}
+                      </select>
+                      <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-mist-500" />
+                    </div>
                   </Field>
                   <Field label="Booking Date">
                     <input
@@ -350,14 +361,17 @@ export function VenueBookingForm() {
                     />
                   </Field>
                   <Field label="Budget Range">
-                    <select
-                      value={form.budget}
-                      onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                      className={`${inputClass} appearance-none cursor-pointer`}
-                    >
-                      <option value="">Select range</option>
-                      {BUDGET_OPTIONS.map((b) => <option key={b} value={b}>{b}</option>)}
-                    </select>
+                    <div className="relative">
+                      <select
+                        value={form.budget}
+                        onChange={(e) => setForm({ ...form, budget: e.target.value })}
+                        className={`${inputClass} appearance-none cursor-pointer pr-12`}
+                      >
+                        <option value="">Select range</option>
+                        {BUDGET_OPTIONS.map((b) => <option key={b} value={b}>{b}</option>)}
+                      </select>
+                      <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-mist-500" />
+                    </div>
                   </Field>
                 </div>
 
@@ -619,7 +633,7 @@ export default function BallroomPage() {
     </section>
 
         <section className="py-20 2xl:py-32 bg-white overflow-hidden">
-      <div className="max-w-[1840px] mx-auto px-6 sm:px-16 lg:px-20 2xl:px-32">
+      <div className="px-6 ">
         {/* Header */}
         <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-center text-[#1a1a1a] mb-12 2xl:mb-20">
           Perfect for Every Prestigious Event

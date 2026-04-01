@@ -40,14 +40,14 @@ function BrowseCard({
     <button
       onClick={() => onClick(item.name)}
       className="flex flex-col items-center justify-center gap-4 2xl:gap-10
-      py-8 px-12 2xl:py-20 2xl:px-32 my-4 rounded-3xl border shrink-0
+      py-7 px-10 2xl:py-16 2xl:px-28 my-4 rounded-2xl border shrink-0
       transition-all duration-300 border-gray-200 bg-white
       hover:border-black hover:scale-105 group shadow-sm hover:shadow-xl"
     >
       <div className={`relative transition-transform duration-500 group-hover:scale-110
         ${isType 
-          ? "w-20 h-10 sm:w-28 sm:h-14 2xl:w-64 2xl:h-32" 
-          : "w-14 h-14 sm:w-20 sm:h-20 2xl:w-40 2xl:h-40"
+          ? "w-18 h-9 sm:w-24 sm:h-12 2xl:w-56 2xl:h-28" 
+          : "w-12 h-12 sm:w-18 sm:h-18 2xl:w-36 2xl:h-36"
         }`}
       >
         <Image
@@ -81,7 +81,7 @@ export default function CarBrowseSection() {
         {/* Button: Browse by Make */}
         <button
           onClick={() => setActiveTab("make")}
-          className={`px-8 py-3 2xl:px-16 2xl:py-6 text-xs sm:text-sm 2xl:text-xl font-semibold uppercase tracking-widest rounded-xl 2xl:rounded-2xl border-2 transition-all duration-300 ${
+          className={`px-7 py-2.5 2xl:px-14 2xl:py-5 text-xs sm:text-sm 2xl:text-lg font-semibold uppercase tracking-widest rounded-xl 2xl:rounded-2xl border-2 transition-all duration-300 ${
             !isType
               ? "bg-black border-black text-white shadow-2xl scale-105"
               : "bg-white border-gray-200 text-gray-400 hover:border-black hover:text-black"
@@ -93,7 +93,7 @@ export default function CarBrowseSection() {
         {/* Button: Browse by Type */}
         <button
           onClick={() => setActiveTab("type")}
-          className={`px-8 py-3 2xl:px-16 2xl:py-6 text-xs sm:text-sm 2xl:text-xl font-semibold uppercase tracking-widest rounded-xl 2xl:rounded-2xl border-2 transition-all duration-300 ${
+          className={`px-7 py-2.5 2xl:px-14 2xl:py-5 text-xs sm:text-sm 2xl:text-lg font-semibold uppercase tracking-widest rounded-xl 2xl:rounded-2xl border-2 transition-all duration-300 ${
             isType
               ? "bg-black border-black text-white shadow-2xl scale-105"
               : "bg-white border-gray-200 text-gray-400 hover:border-black hover:text-black"

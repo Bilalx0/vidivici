@@ -65,8 +65,7 @@ const NAV_ITEMS = [
   },
   {
     label: "About", href: "/about", sub: [{ label: "FAQs", href: "/faqs" },
-    { label: "Blogs", href: "/blogs" },
-    { label: "Become a Partner", href: "/partner" },]
+    { label: "Blogs", href: "/blogs" },]
   },
   { label: "Contact", href: "/contact", sub: [] },
 ];
@@ -245,16 +244,7 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
 
           {/* RIGHT ACTIONS */}
           <div className="hidden sm:flex items-center justify-end gap-2.5 2xl:gap-6 flex-1">
-            <button
-              onClick={() => setSearchOpen(true)}
-              className={`flex items-center justify-center w-9 h-9 2xl:w-16 2xl:h-16 rounded-full border transition-all
-                ${isLightMode
-                  ? "border-mist-200 text-mist-600 hover:bg-mist-100"
-                  : "border-white/20 text-white/70 hover:bg-white/5 hover:border-white/50"}`}
-            >
-              <SearchIcon />
-            </button>
-
+            
             <button className={`hidden md:block px-4 py-2 2xl:px-8 2xl:py-4 text-[13px] 2xl:text-[18px] border rounded-lg 2xl:rounded-xl transition
               ${isLightMode
                 ? "text-mist-700 border-mist-200 hover:bg-mist-100"

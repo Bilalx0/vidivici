@@ -1,22 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import Services from "@/components/home/Services";
 import Banner from "@/components/ui/Banner";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
-import ExoticCarRentals from "@/components/home/Rentals";
-import Villa from "@/components/home/Villa";
 import LuxuryVideo from "@/components/home/LuxuryVideo";
-import AboutReviews from "@/components/ui/AboutReviews";
+import ExclusiveCollection from "@/components/home/ExclusiveCollection";
 import FAQ from "@/components/home/FAQ";
 import Reviews from "@/components/home/Reviews";
 
 
 
 export default function AboutPage() {
-
-  const [activeTab, setActiveTab] = useState<"All" | "Cars" | "Villas" | "Events">("All");
-
   return (
     <div className="w-full">
 
@@ -73,6 +67,7 @@ export default function AboutPage() {
       </section>
       <Services />
       <WhyChooseUs bg="white" />
+      <ExclusiveCollection />
       <LuxuryVideo />
       <div className="pb-16 2xl:pb-32 pt-32 2xl:pt-64">
       <Reviews />

@@ -16,6 +16,7 @@ import {
   ArrowUpRight,
   ChevronRight,
   ChevronLeft,
+  ChevronDown,
   RotateCcw,
   X,
   Phone,
@@ -467,11 +468,14 @@ function ProductionInquiryForm() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2">
                   <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">Project Type</label>
-                  <select value={form.projectType} onChange={(e) => setForm({ ...form, projectType: e.target.value })}
-                    className="w-full appearance-none border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-xl text-mist-900 bg-white focus:outline-none focus:border-mist-400 transition-colors duration-200 cursor-pointer">
-                    <option value="">Project Type</option>
-                    {PROJECT_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
-                  </select>
+                  <div className="relative">
+                    <select value={form.projectType} onChange={(e) => setForm({ ...form, projectType: e.target.value })}
+                      className="w-full appearance-none border border-mist-300 rounded-xl px-4 py-3 pr-12 2xl:px-8 2xl:pr-16 2xl:py-6 text-sm 2xl:text-xl text-mist-900 bg-white focus:outline-none focus:border-mist-400 transition-colors duration-200 cursor-pointer">
+                      <option value="">Project Type</option>
+                      {PROJECT_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-mist-500 2xl:right-6 2xl:h-6 2xl:w-6" />
+                  </div>
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">Shoot Dates</label>

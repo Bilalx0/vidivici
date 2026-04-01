@@ -1,4 +1,4 @@
-# 🚗 Falcon Car Rental - Client Information Checklist
+# 🚗 VIDIVICI - Client Information Checklist
 
 ## URGENT - Needed for Launch
 □ Business name and tagline

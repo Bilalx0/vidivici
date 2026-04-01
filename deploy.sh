@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Hostinger Deployment Script for Falcon Car Rental
+# Hostinger Deployment Script for VIDIVICI
 
 echo "🚀 Starting Hostinger deployment process..."
 

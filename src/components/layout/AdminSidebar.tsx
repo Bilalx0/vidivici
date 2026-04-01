@@ -36,7 +36,7 @@ export default function AdminSidebar() {
       <aside className={`fixed top-0 left-0 h-full bg-black z-30 transition-transform duration-200 w-64 ${collapsed ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}>
         <div className="p-6 border-b border-mist-800">
           <Link href="/admin/dashboard" className="text-xl font-bold text-white tracking-wider">
-            FALCON <span className="text-xs text-mist-400 font-normal">ADMIN</span>
+            VIDIVICI <span className="text-xs text-mist-400 font-normal">ADMIN</span>
           </Link>
         </div>
 

@@ -7,14 +7,14 @@ export default function AdminSettingsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [form, setForm] = useState({
-    siteName: "Falcon Car Rental",
-    contactEmail: "info@falconcarrental.com",
+    siteName: "VIDIVICI",
+    contactEmail: "info@vidivici.com",
     phone: "+1-310-887-7005",
     address: "499 N Canon Dr, Beverly Hills, CA 90210",
     hoursWeekday: "8:00 AM - 8:00 PM",
     hoursWeekend: "8:00 AM - 6:00 PM",
-    instagram: "falcon_lifestyle",
-    facebook: "falconlifestyle",
+    instagram: "vidivici_lifestyle",
+    facebook: "vidivici",
     youtube: "",
     twitter: "",
   })

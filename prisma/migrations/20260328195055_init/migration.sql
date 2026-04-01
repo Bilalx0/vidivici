@@ -137,7 +137,7 @@ CREATE TABLE "BlogPost" (
     "excerpt" TEXT,
     "coverImage" TEXT,
     "published" BOOLEAN NOT NULL DEFAULT false,
-    "author" TEXT NOT NULL DEFAULT 'Falcon Car Rental',
+    "author" TEXT NOT NULL DEFAULT 'VIDIVICI',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

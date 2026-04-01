@@ -7,11 +7,11 @@ export async function POST() {
     // Create admin user
     const adminPassword = await bcrypt.hash('admin123', 12)
     await prisma.user.upsert({
-      where: { email: 'admin@falconcarrental.com' },
+      where: { email: 'admin@vidivici.com' },
       update: {},
       create: {
         name: 'Admin',
-        email: 'admin@falconcarrental.com',
+        email: 'admin@vidivici.com',
         password: adminPassword,
         role: 'ADMIN',
         phone: '+1-310-887-7005',
@@ -104,7 +104,7 @@ export async function POST() {
       { name: 'Sarah M.', content: 'Rented a Rolls-Royce Cullinan for our wedding weekend. The team went above and beyond to make everything perfect. Highly recommend!', rating: 5 },
       { name: 'Michael T.', content: 'Best exotic car rental in LA. The process was smooth, no hidden fees, and the car was immaculate. The Ferrari 488 Spider was a dream!', rating: 5 },
       { name: 'Emily K.', content: 'Professional, transparent, and reliable. The Porsche 911 was amazing and they delivered it right to our hotel. Outstanding service!', rating: 5 },
-      { name: 'David L.', content: 'Third time renting from Falcon and they never disappoint. Great selection, fair prices, and the cars are always in showroom condition.', rating: 5 },
+      { name: 'David L.', content: 'Third time renting from VIDIVICI and they never disappoint. Great selection, fair prices, and the cars are always in showroom condition.', rating: 5 },
     ]
 
     for (const t of testimonials) {

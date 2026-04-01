@@ -16,7 +16,7 @@ const raleway = Raleway({
 });
 
 export const metadata: Metadata = {
-  title: "Falcon Car Rental | Exotic & Luxury Car Rental Los Angeles",
+  title: "VIDIVICI | Exotic & Luxury Car Rental Los Angeles",
   description:
     "Premium luxury and exotic car rental in Los Angeles and Miami. Rent Lamborghini, Ferrari, Rolls-Royce, Bentley, Porsche and more.",
 };

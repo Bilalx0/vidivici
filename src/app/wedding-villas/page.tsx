@@ -19,6 +19,7 @@ import {
   MapPin,
   Clock,
   Calendar,
+  ChevronDown,
 } from "lucide-react"
 import { ChevronRight, RotateCcw, X } from "lucide-react"
 
@@ -450,11 +451,14 @@ function WeddingBookingInquiry() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 2xl:gap-12">
                 <div className="flex flex-col gap-2 2xl:gap-4">
                   <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">Event Type</label>
-                  <select value={form.eventType} onChange={(e) => setForm({ ...form, eventType: e.target.value })}
-                    className="w-full appearance-none border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm text-mist-900 bg-white focus:outline-none focus:border-mist-400 transition-colors duration-200 cursor-pointer">
-                    <option value="">Select event type</option>
-                    {EVENT_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
-                  </select>
+                  <div className="relative">
+                    <select value={form.eventType} onChange={(e) => setForm({ ...form, eventType: e.target.value })}
+                      className="w-full border border-mist-300 rounded-xl px-4 py-3 pr-12 2xl:px-8 2xl:pr-16 2xl:py-6 text-sm text-mist-900 bg-white focus:outline-none focus:border-mist-400 transition-colors duration-200 cursor-pointer appearance-none">
+                      <option value="">Select event type</option>
+                      {EVENT_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-mist-500 2xl:right-6 2xl:h-6 2xl:w-6" />
+                  </div>
                 </div>
                 <div className="flex flex-col gap-2 2xl:gap-4">
                   <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">Event Date</label>

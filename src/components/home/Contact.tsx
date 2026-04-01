@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, ChevronDown } from "lucide-react";
 
 const inquiryTypes = [
   "Car Rental",
@@ -167,7 +167,7 @@ export default function ContactForm() {
                       name="inquiryType"
                       value={form.inquiryType}
                       onChange={handleChange}
-                      className="w-full border border-mist-300 rounded-xl 2xl:rounded-2xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-2xl text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white appearance-none cursor-pointer"
+                      className="w-full border border-mist-300 rounded-xl 2xl:rounded-2xl px-4 py-3 pr-12 2xl:px-8 2xl:pr-16 2xl:py-6 text-sm 2xl:text-2xl text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white appearance-none cursor-pointer"
                       required
                     >
                       <option value="" disabled>Select your inquiry type</option>
@@ -175,6 +175,7 @@ export default function ContactForm() {
                         <option key={type} value={type}>{type}</option>
                       ))}
                     </select>
+                    <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-mist-500 2xl:right-6 2xl:h-6 2xl:w-6" />
                   </div>
                 </Field>
               </div>

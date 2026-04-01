@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import toast from "react-hot-toast"
 
 interface Booking {
@@ -68,6 +69,10 @@ export default function AdminBookingsPage() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold text-mist-900">Manage Bookings</h1>
+        <div className="flex items-center gap-3">
+          <Link href="/admin/bookings/new" className="bg-black text-white text-sm px-4 py-2 rounded hover:bg-mist-800 transition-colors">
+            + Add Booking
+          </Link>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
@@ -80,6 +85,7 @@ export default function AdminBookingsPage() {
           <option>Completed</option>
           <option>Cancelled</option>
         </select>
+        </div>
       </div>
 
       {loading ? (

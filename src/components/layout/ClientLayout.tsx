@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 
 import Header from "./Header";
 import Footer from "./Footer";
+import ChatBot from "@/components/ChatBot";
 
 import AccountHeader from "./AccountHeader";
 import AccountFooter from "./AccountFooter";
@@ -56,6 +57,7 @@ const isVillaOrCarSlug =
       <Header />
       <main className="min-h-screen">{children}</main>
       <Footer />
+      <ChatBot />
     </SessionProvider>
   );
 }

@@ -22,10 +22,21 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const segments = pathname.split("/").filter(Boolean);
 
   const carStaticPages = new Set(["experience", "extraordinary", "insurance", "longterm"]);
+  const eventStaticPages = new Set(["ballroom"]);
+
   const isCarSlugPage =
     segments[0] === "cars" &&
     segments.length === 2 &&
     !carStaticPages.has(segments[1].toLowerCase());
+
+  const isVillaSlugPage = segments[0] === "villas" && segments.length === 2;
+
+  const isEventSlugPage =
+    segments[0] === "events" &&
+    segments.length === 2 &&
+    !eventStaticPages.has(segments[1].toLowerCase());
+
+  const isDetailPage = isCarSlugPage || isVillaSlugPage || isEventSlugPage;
 
   const isBooking = pathname === "/booking" || pathname.startsWith("/booking/");
 
@@ -62,8 +73,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     );
   }
 
-  // Car detail layout: only /cars/[slug]
-  if (isCarSlugPage) {
+  // Detail layout: /cars/[slug], /villas/[slug], /events/[slug]
+  if (isDetailPage) {
     return (
       <SessionProvider>
         <AccountHeader />

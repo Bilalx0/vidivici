@@ -4,53 +4,76 @@ import { useState, useRef, useEffect } from "react"
 import { MessageCircle, X, Send } from "lucide-react"
 
 interface Message {
-  role: "user" | "bot"
-  text: string
-}
-
-const RESPONSES: Record<string, string> = {
-  hello: "Hello! Welcome to VIDIVICI. How can I help you today? I can assist with car rentals, villa bookings, or events.",
-  hi: "Hi there! Welcome to VIDIVICI. Looking for a luxury car, villa, or event experience?",
-  hey: "Hey! How can I help you today?",
-  cars: "We offer a premium fleet of exotic and luxury cars including Lamborghini, Ferrari, Rolls-Royce, Bentley, and more. Browse our collection at /cars or let me know what you're looking for!",
-  villas: "We have stunning luxury villas in Los Angeles, Beverly Hills, Malibu, and Miami. Check them out at /villas!",
-  events: "We host exclusive nightlife, private events, and VIP experiences across LA. See what's available at /events!",
-  price: "Our pricing varies by vehicle and duration. Longer rentals get better rates - up to 40% off for monthly rentals! Visit /cars for specific pricing.",
-  booking: "You can book directly on our website! Just pick a car, villa, or event, select your dates, and complete the reservation. Need help with a specific booking?",
-  contact: "You can reach us at our Beverly Hills office: 499 N Canon Dr, Beverly Hills, CA 90210. Or use the contact form on our website!",
-  thanks: "You're welcome! Let me know if there's anything else I can help with.",
-  "thank you": "You're welcome! Enjoy the VIDIVICI experience!",
-  bye: "Goodbye! Have a great day!",
-}
-
-function getBotResponse(input: string): string {
-  const lower = input.toLowerCase().trim()
-  for (const [key, response] of Object.entries(RESPONSES)) {
-    if (lower.includes(key)) return response
-  }
-  return "Thanks for your message! For detailed inquiries, please contact us through our contact page or call us directly. I can help with questions about our cars, villas, or events!"
+  role: "user" | "assistant"
+  content: string
 }
 
 export default function ChatBot() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
-    { role: "bot", text: "Hi! I'm the VIDIVICI assistant. How can I help you today?" },
+    { role: "assistant", content: "Hey there! I'm **Mark**, your personal VIDI VICI concierge. Looking for a luxury car, villa, or exclusive event? I can help you find and book the perfect experience. What are you looking for?" },
   ])
   const [input, setInput] = useState("")
+  const [loading, setLoading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  const send = () => {
+  const send = async () => {
     const text = input.trim()
-    if (!text) return
-    setMessages((prev) => [...prev, { role: "user", text }])
+    if (!text || loading) return
+
+    const userMsg: Message = { role: "user", content: text }
+    const newMessages = [...messages, userMsg]
+    setMessages(newMessages)
     setInput("")
-    setTimeout(() => {
-      setMessages((prev) => [...prev, { role: "bot", text: getBotResponse(text) }])
-    }, 500)
+    setLoading(true)
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
+        }),
+      })
+
+      if (!res.ok) throw new Error()
+      const data = await res.json()
+
+      setMessages((prev) => [...prev, { role: "assistant", content: data.content }])
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Please try again in a moment." },
+      ])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Simple markdown-like rendering for links and bold
+  const renderContent = (content: string) => {
+    const parts = content.split(/(\[.*?\]\(.*?\)|\*\*.*?\*\*)/g)
+    return parts.map((part, i) => {
+      // Markdown link [text](url)
+      const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/)
+      if (linkMatch) {
+        return (
+          <a key={i} href={linkMatch[2]} className="text-[#dbb241] underline hover:text-[#c9a238]" target={linkMatch[2].startsWith("http") ? "_blank" : undefined}>
+            {linkMatch[1]}
+          </a>
+        )
+      }
+      // Bold **text**
+      const boldMatch = part.match(/\*\*(.*?)\*\*/)
+      if (boldMatch) {
+        return <strong key={i}>{boldMatch[1]}</strong>
+      }
+      return <span key={i}>{part}</span>
+    })
   }
 
   return (
@@ -67,12 +90,15 @@ export default function ChatBot() {
 
       {/* Chat window */}
       {open && (
-        <div className="fixed bottom-6 right-6 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-mist-200 flex flex-col overflow-hidden" style={{ height: "480px" }}>
+        <div className="fixed bottom-6 right-6 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-mist-200 flex flex-col overflow-hidden" style={{ height: "520px" }}>
           {/* Header */}
           <div className="bg-black text-white px-4 py-3 flex items-center justify-between flex-shrink-0">
-            <div>
-              <p className="font-semibold text-sm">VIDIVICI Assistant</p>
-              <p className="text-[10px] text-mist-400">We typically reply instantly</p>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#dbb241] flex items-center justify-center text-black text-xs font-bold">M</div>
+              <div>
+                <p className="font-semibold text-sm">Mark</p>
+                <p className="text-[10px] text-mist-400">VIDI VICI Concierge</p>
+              </div>
             </div>
             <button onClick={() => setOpen(false)} className="text-mist-400 hover:text-white">
               <X size={18} />
@@ -83,17 +109,32 @@ export default function ChatBot() {
           <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-mist-50">
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                {msg.role === "assistant" && (
+                  <div className="w-6 h-6 rounded-full bg-[#dbb241] flex items-center justify-center text-black text-[10px] font-bold mr-2 mt-1 flex-shrink-0">M</div>
+                )}
                 <div
-                  className={`max-w-[80%] px-3 py-2 rounded-xl text-sm ${
+                  className={`max-w-[80%] px-3 py-2 rounded-xl text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.role === "user"
                       ? "bg-black text-white rounded-br-sm"
                       : "bg-white text-mist-800 border border-mist-200 rounded-bl-sm"
                   }`}
                 >
-                  {msg.text}
+                  {msg.role === "assistant" ? renderContent(msg.content) : msg.content}
                 </div>
               </div>
             ))}
+            {loading && (
+              <div className="flex justify-start">
+                <div className="w-6 h-6 rounded-full bg-[#dbb241] flex items-center justify-center text-black text-[10px] font-bold mr-2 mt-1 flex-shrink-0">M</div>
+                <div className="bg-white text-mist-400 border border-mist-200 px-3 py-2 rounded-xl rounded-bl-sm text-sm">
+                  <span className="inline-flex gap-1">
+                    <span className="w-1.5 h-1.5 bg-mist-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <span className="w-1.5 h-1.5 bg-mist-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <span className="w-1.5 h-1.5 bg-mist-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                  </span>
+                </div>
+              </div>
+            )}
             <div ref={bottomRef} />
           </div>
 
@@ -104,13 +145,15 @@ export default function ChatBot() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && send()}
-                placeholder="Type a message..."
-                className="flex-1 text-sm px-3 py-2 border border-mist-200 rounded-lg focus:outline-none focus:border-[#dbb241]"
+                onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && send()}
+                placeholder="Ask Mark anything..."
+                disabled={loading}
+                className="flex-1 text-sm px-3 py-2 border border-mist-200 rounded-lg focus:outline-none focus:border-[#dbb241] disabled:opacity-50"
               />
               <button
                 onClick={send}
-                className="bg-[#dbb241] text-black p-2 rounded-lg hover:bg-[#c9a238] transition-colors"
+                disabled={loading || !input.trim()}
+                className="bg-[#dbb241] text-black p-2 rounded-lg hover:bg-[#c9a238] transition-colors disabled:opacity-50"
               >
                 <Send size={16} />
               </button>

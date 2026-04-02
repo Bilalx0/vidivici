@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo, Suspense, Dispatch, SetStateAction } from "react"
+import { useState, useEffect, useMemo, useRef, Suspense, Dispatch, SetStateAction } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
@@ -93,12 +93,51 @@ function calcCarPricing(
   return { subtotal, discountPercent, discountAmount, driverTotal, tax, securityDeposit, total }
 }
 
-function calcVillaPricing(villa: VillaData, nights: number) {
+function calcVillaPricing(villa: VillaData, nights: number, airportTransfer: boolean) {
   const nightsTotal = villa.pricePerNight * nights
-  const subtotal = nightsTotal + villa.cleaningFee
+  const airportTransferFee = airportTransfer ? 500 : 0
+  const subtotal = nightsTotal + villa.cleaningFee + airportTransferFee
   const tax = Math.round(subtotal * 0.14)
   const total = subtotal + tax + villa.securityDeposit
-  return { nightsTotal, cleaningFee: villa.cleaningFee, tax, securityDeposit: villa.securityDeposit, total }
+  const payNow = villa.securityDeposit
+  const dueAtPickup = Math.max(0, total - payNow)
+  return {
+    nightsTotal,
+    airportTransferFee,
+    cleaningFee: villa.cleaningFee,
+    tax,
+    securityDeposit: villa.securityDeposit,
+    payNow,
+    dueAtPickup,
+    total,
+  }
+}
+
+function switchTemporalInputType(input: HTMLInputElement, kind: "date" | "time") {
+  if (input.type !== "text") return
+  input.type = kind
+  requestAnimationFrame(() => {
+    input.focus()
+    if (typeof (input as HTMLInputElement & { showPicker?: () => void }).showPicker === "function") {
+      try {
+        ;(input as HTMLInputElement & { showPicker: () => void }).showPicker()
+      } catch {
+        // Safari may not support or may block showPicker; focus fallback still works.
+      }
+    }
+  })
+}
+
+function getUploadedFileName(url: string) {
+  if (!url) return "—"
+  const clean = url.split("?")[0]
+  const rawName = clean.split("/").pop() || ""
+  if (!rawName) return "—"
+  try {
+    return decodeURIComponent(rawName)
+  } catch {
+    return rawName
+  }
 }
 
 /* ================================================================== */
@@ -122,8 +161,17 @@ function ReservationContent() {
   const { data: session } = useSession()
 
   /* ---- Mode: car or villa ---- */
-  const initialMode = searchParams.get("type") === "villa" ? "villa" : "car"
-  const isVillaFlowLocked = searchParams.get("type") === "villa"
+  const incomingType = searchParams.get("type")
+  const sourceMode: "car" | "villa" | null =
+    incomingType === "car" || incomingType === "villa"
+      ? incomingType
+      : searchParams.get("villa")
+        ? "villa"
+        : searchParams.get("car")
+          ? "car"
+          : null
+  const initialMode = sourceMode === "villa" ? "villa" : "car"
+  const isFlowLockedFromDetails = sourceMode !== null
   const [mode, setMode] = useState<"car" | "villa">(initialMode as "car" | "villa")
   const [step, setStep] = useState<1 | 2 | 3>(1)
   const [bookingId, setBookingId] = useState("")
@@ -169,6 +217,7 @@ function ReservationContent() {
   const [insuranceUrl, setInsuranceUrl] = useState("")
   const [uploadingLicense, setUploadingLicense] = useState(false)
   const [uploadingInsurance, setUploadingInsurance] = useState(false)
+  const [villaIdDocumentName, setVillaIdDocumentName] = useState("")
 
   /* ---- Delivery state ---- */
   const [deliveryType, setDeliveryType] = useState<"pickup" | "delivery">("pickup")
@@ -367,8 +416,8 @@ function ReservationContent() {
   )
 
   const villaPricing = useMemo(
-    () => (selectedVilla && days > 0 ? calcVillaPricing(selectedVilla, days) : null),
-    [selectedVilla, days]
+    () => (selectedVilla && days > 0 ? calcVillaPricing(selectedVilla, days, villaAirportTransfer) : null),
+    [selectedVilla, days, villaAirportTransfer]
   )
 
   /* ---- Select car from dropdown ---- */
@@ -406,12 +455,16 @@ function ReservationContent() {
         {/* Tabs */}
         <div className="flex gap-0 mb-8 border border-mist-200 rounded-md overflow-hidden max-w-sm mx-auto">
           <button
-            onClick={() => { if (isVillaFlowLocked || step >= 2) return; setMode("car"); setStep(1) }}
-            disabled={isVillaFlowLocked || (step >= 2 && mode !== "car")}
+            onClick={() => {
+              if ((isFlowLockedFromDetails && sourceMode !== "car") || step >= 2) return
+              setMode("car")
+              setStep(1)
+            }}
+            disabled={(isFlowLockedFromDetails && sourceMode !== "car") || (step >= 2 && mode !== "car")}
             className={`flex-1 py-2.5 text-center text-sm font-medium transition-colors ${
               mode === "car"
                 ? "bg-mist-900 text-white"
-                : (isVillaFlowLocked || step >= 2)
+                : ((isFlowLockedFromDetails && sourceMode !== "car") || step >= 2)
                   ? "text-mist-300 bg-mist-50 cursor-not-allowed"
                   : "text-mist-400 bg-mist-50 hover:bg-mist-100"
             }`}
@@ -419,10 +472,18 @@ function ReservationContent() {
             Car
           </button>
           <button
-            onClick={() => { if (step >= 2) return; setMode("villa"); setStep(1) }}
-            disabled={step >= 2 && mode !== "villa"}
+            onClick={() => {
+              if ((isFlowLockedFromDetails && sourceMode !== "villa") || step >= 2) return
+              setMode("villa")
+              setStep(1)
+            }}
+            disabled={(isFlowLockedFromDetails && sourceMode !== "villa") || (step >= 2 && mode !== "villa")}
             className={`flex-1 py-2.5 text-center text-sm font-medium transition-colors ${
-              mode === "villa" ? "bg-mist-900 text-white" : step >= 2 ? "text-mist-300 bg-mist-50 cursor-not-allowed" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
+              mode === "villa"
+                ? "bg-mist-900 text-white"
+                : ((isFlowLockedFromDetails && sourceMode !== "villa") || step >= 2)
+                  ? "text-mist-300 bg-mist-50 cursor-not-allowed"
+                  : "text-mist-400 bg-mist-50 hover:bg-mist-100"
             }`}
           >
             Villa
@@ -439,7 +500,7 @@ function ReservationContent() {
             </div>
             <span className={`text-xs mt-1.5 ${step >= 1 ? "text-blue-600 font-medium" : "text-mist-400"}`}>Select</span>
           </div>
-          <div className={`flex-1 h-0.5 mx-2 mt-[-12px] ${step >= 2 ? "bg-blue-600" : "bg-mist-200"}`} />
+          <div className={`flex-1 h-0.5 mx-2 -mt-3 ${step >= 2 ? "bg-blue-600" : "bg-mist-200"}`} />
           <div className="flex flex-col items-center">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
               step >= 2 ? "bg-blue-600 text-white" : "bg-mist-200 text-mist-400"
@@ -448,7 +509,7 @@ function ReservationContent() {
             </div>
             <span className={`text-xs mt-1.5 ${step >= 2 ? "text-blue-600 font-medium" : "text-mist-400"}`}>Pay</span>
           </div>
-          <div className={`flex-1 h-0.5 mx-2 mt-[-12px] ${step >= 3 ? "bg-blue-600" : "bg-mist-200"}`} />
+          <div className={`flex-1 h-0.5 mx-2 -mt-3 ${step >= 3 ? "bg-blue-600" : "bg-mist-200"}`} />
           <div className="flex flex-col items-center">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
               step >= 3 ? "bg-blue-600 text-white" : "bg-mist-200 text-mist-400"
@@ -516,6 +577,7 @@ function ReservationContent() {
                 setReturnAddress={setReturnAddress}
                 isOneWay={isOneWay}
                 setIsOneWay={setIsOneWay}
+                autoScrollToCustomerInfo={isFlowLockedFromDetails}
               />
             )}
 
@@ -556,6 +618,9 @@ function ReservationContent() {
                   setStep(2)
                 }}
                 canProceed={!!canProceed}
+                autoScrollToCustomerInfo={isFlowLockedFromDetails}
+                villaIdDocumentName={villaIdDocumentName}
+                setVillaIdDocumentName={setVillaIdDocumentName}
               />
             )}
 
@@ -651,7 +716,8 @@ function ReservationContent() {
                 needDriver={needDriver}
                 driverHours={driverHours}
                 actualDriverDays={actualDriverDays}
-                step={step}
+                driverLicenseUrl={driverLicenseUrl}
+                insuranceUrl={insuranceUrl}
                 session={session}
               />
             )}
@@ -660,11 +726,21 @@ function ReservationContent() {
                 villa={selectedVilla}
                 startDate={startDate}
                 endDate={endDate}
+                startTime={startTime}
+                endTime={endTime}
                 days={days}
                 guestCount={guestCount}
                 pricing={villaPricing}
                 step={step}
                 session={session}
+                firstName={firstName}
+                lastName={lastName}
+                email={email}
+                phone={phone}
+                villaAirportTransfer={villaAirportTransfer}
+                villaPrivateChef={villaPrivateChef}
+                villaSecurityService={villaSecurityService}
+                villaIdDocumentName={villaIdDocumentName}
               />
             )}
             {!hasVehicle && (
@@ -698,6 +774,7 @@ function CarSelectStep({
   deliveryAddress, setDeliveryAddress,
   returnAddress, setReturnAddress,
   isOneWay, setIsOneWay,
+  autoScrollToCustomerInfo,
 }: {
   brands: BrandOption[]
   selectedBrandSlug: string
@@ -741,15 +818,51 @@ function CarSelectStep({
   setReturnAddress: (v: string) => void
   isOneWay: boolean
   setIsOneWay: (v: boolean) => void
+  autoScrollToCustomerInfo: boolean
 }) {
   const [showOneWayInfo, setShowOneWayInfo] = useState(false)
+  const customerInfoRef = useRef<HTMLDivElement | null>(null)
+  const didAutoScrollRef = useRef(false)
+
+  useEffect(() => {
+    if (!autoScrollToCustomerInfo || didAutoScrollRef.current) return
+    let attempts = 0
+    let timerId: number | undefined
+
+    const tryScroll = () => {
+      const node = customerInfoRef.current
+      if (node) {
+        const top = Math.max(0, node.getBoundingClientRect().top + window.scrollY - 110)
+        window.scrollTo({ top, behavior: "smooth" })
+        didAutoScrollRef.current = true
+        return
+      }
+
+      attempts += 1
+      if (attempts < 8) {
+        timerId = window.setTimeout(tryScroll, 120)
+      }
+    }
+
+    timerId = window.setTimeout(tryScroll, 120)
+    return () => window.clearTimeout(timerId)
+  }, [autoScrollToCustomerInfo])
+
+  const showCustomerInfo = Boolean(
+    selectedCar
+    && startDate
+    && endDate
+    && startTime
+    && endTime
+    && days > 0
+  )
 
   return (
     <div className="space-y-8">
       {/* Select Vehicle */}
       <div>
         <h2 className="text-lg font-semibold text-mist-900 mb-4">Select Vehicle</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="text-xs text-mist-500 block mb-1.5">Make</label>
             <div className="relative">
@@ -793,13 +906,14 @@ function CarSelectStep({
         <h2 className="text-lg font-semibold text-mist-900 mb-4">When & Where</h2>
 
         <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Start Date</label>
               <input
                 type={startDate ? "date" : "text"}
-                onFocus={(e) => (e.target.type = "date")}
-                onBlur={(e) => !startDate && (e.target.type = "text")}
+                onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                onBlur={(e) => { if (!startDate) e.currentTarget.type = "text" }}
                 min={today}
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
@@ -810,21 +924,23 @@ function CarSelectStep({
               <label className="text-xs text-mist-500 block mb-1.5">Time</label>
               <input
                 type={startTime ? "time" : "text"}
-                onFocus={(e) => (e.target.type = "time")}
-                onBlur={(e) => !startTime && (e.target.type = "text")}
+                onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                onBlur={(e) => { if (!startTime) e.currentTarget.type = "text" }}
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 placeholder="Time*"
                 className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:border-neutral-400 focus:outline-none" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">End Date</label>
               <input
                 type={endDate ? "date" : "text"}
-                onFocus={(e) => (e.target.type = "date")}
-                onBlur={(e) => !endDate && (e.target.type = "text")}
+                onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                onBlur={(e) => { if (!endDate) e.currentTarget.type = "text" }}
                 min={startDate || today}
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
@@ -835,8 +951,9 @@ function CarSelectStep({
               <label className="text-xs text-mist-500 block mb-1.5">Time</label>
               <input
                 type={endTime ? "time" : "text"}
-                onFocus={(e) => (e.target.type = "time")}
-                onBlur={(e) => !endTime && (e.target.type = "text")}
+                onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                onBlur={(e) => { if (!endTime) e.currentTarget.type = "text" }}
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
                 placeholder="Time*"
@@ -903,10 +1020,12 @@ function CarSelectStep({
       </div>
 
       {/* Customer Info */}
-      <div>
+      <div ref={customerInfoRef} className="scroll-mt-28">
+        {showCustomerInfo && (
+          <>
         {/* Pickup / Delivery Toggle */}
-        <div className="flex items-center justify-between my-8">
-          <div className="flex gap-0 border border-mist-200 rounded-md overflow-hidden">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 my-8">
+          <div className="flex w-fit self-start gap-0 border border-mist-200 rounded-md overflow-hidden">
             <button type="button" onClick={() => setDeliveryType("pickup")}
               className={`px-5 py-2 text-sm font-medium transition-colors ${
                 deliveryType === "pickup" ? "bg-mist-900 text-white" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
@@ -967,16 +1086,16 @@ function CarSelectStep({
           </div>
         )}
 
-        {deliveryType === "delivery" && (
+        {(deliveryType === "delivery" || (deliveryType === "pickup" && isOneWay)) && (
           <div className="space-y-3 mb-4">
-            {!isOneWay ? (
+            {deliveryType === "delivery" && !isOneWay ? (
               <div>
                 <label className="text-xs text-mist-500 block mb-1.5">Delivery & Return Address</label>
                 <input type="text" placeholder="Delivery & return address" value={deliveryAddress}
                   onChange={(e) => setDeliveryAddress(e.target.value)}
                   className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
               </div>
-            ) : (
+            ) : deliveryType === "delivery" && isOneWay ? (
               <>
                 <div>
                   <label className="text-xs text-mist-500 block mb-1.5">Delivery Address</label>
@@ -991,13 +1110,20 @@ function CarSelectStep({
                     className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
                 </div>
               </>
+            ) : (
+              <div>
+                <label className="text-xs text-mist-500 block mb-1.5">Return Address</label>
+                <input type="text" placeholder="Return address" value={returnAddress}
+                  onChange={(e) => setReturnAddress(e.target.value)}
+                  className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
+              </div>
             )}
           </div>
         )}
 
         <h2 className="text-lg font-semibold text-mist-900 mb-4">Customer Info</h2>
         <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">First Name <span className="text-red-400">*</span></label>
               <input type="text" placeholder="Enter first name" value={firstName} onChange={(e) => setFirstName(e.target.value)}
@@ -1009,7 +1135,7 @@ function CarSelectStep({
                 className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Email Address</label>
               <input type="email" placeholder="Enter email address" value={email} onChange={(e) => setEmail(e.target.value)}
@@ -1021,47 +1147,51 @@ function CarSelectStep({
                 className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Drivers License</label>
-              {driverLicenseUrl ? (
-                <div className="relative border border-mist-200 rounded-md overflow-hidden h-24">
-                  <img src={driverLicenseUrl} alt="Driver License" className="w-full h-full object-cover" />
-                  <button type="button" onClick={() => (document.getElementById("license-upload") as HTMLInputElement)?.click()}
-                    className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-medium">
-                    Change
-                  </button>
-                </div>
-              ) : (
-                <button type="button" onClick={() => (document.getElementById("license-upload") as HTMLInputElement)?.click()}
-                  className="w-full flex items-center gap-2 border border-mist-200 rounded-md px-3 py-2.5 text-sm text-mist-400 hover:bg-mist-50 transition-colors text-left">
-                  {uploadingLicense ? "Uploading..." : "Choose File"} <span className="text-xs text-mist-300">No file chosen</span>
-                </button>
-              )}
-              <input id="license-upload" type="file" accept="image/*" className="hidden"
+              <input
+                id="license-upload"
+                type="file"
+                accept="image/*"
+                className="w-full border border-neutral-300 rounded-md px-3 py-2 text-sm text-mist-700 file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700"
                 onChange={(e) => { const f = e.target.files?.[0]; if (f) onDocUpload(f, "license") }} />
+              {uploadingLicense && <p className="mt-1 text-xs text-mist-400">Uploading...</p>}
+              {driverLicenseUrl && (
+                <a
+                  href={driverLicenseUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-1 inline-block text-xs text-mist-600 underline"
+                >
+                  View uploaded license
+                </a>
+              )}
             </div>
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Insurance</label>
-              {insuranceUrl ? (
-                <div className="relative border border-mist-200 rounded-md overflow-hidden h-24">
-                  <img src={insuranceUrl} alt="Insurance" className="w-full h-full object-cover" />
-                  <button type="button" onClick={() => (document.getElementById("insurance-upload") as HTMLInputElement)?.click()}
-                    className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-medium">
-                    Change
-                  </button>
-                </div>
-              ) : (
-                <button type="button" onClick={() => (document.getElementById("insurance-upload") as HTMLInputElement)?.click()}
-                  className="w-full flex items-center gap-2 border border-mist-200 rounded-md px-3 py-2.5 text-sm text-mist-400 hover:bg-mist-50 transition-colors text-left">
-                  {uploadingInsurance ? "Uploading..." : "Choose File"} <span className="text-xs text-mist-300">No file chosen</span>
-                </button>
-              )}
-              <input id="insurance-upload" type="file" accept="image/*" className="hidden"
+              <input
+                id="insurance-upload"
+                type="file"
+                accept="image/*"
+                className="w-full border border-neutral-300 rounded-md px-3 py-2 text-sm text-mist-700 file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700"
                 onChange={(e) => { const f = e.target.files?.[0]; if (f) onDocUpload(f, "insurance") }} />
+              {uploadingInsurance && <p className="mt-1 text-xs text-mist-400">Uploading...</p>}
+              {insuranceUrl && (
+                <a
+                  href={insuranceUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-1 inline-block text-xs text-mist-600 underline"
+                >
+                  View uploaded insurance
+                </a>
+              )}
             </div>
           </div>
         </div>
+          </>
+        )}
       </div>
 
       <button onClick={onNext} disabled={!canProceed}
@@ -1084,7 +1214,9 @@ function VillaSelectStep({
   villaPrivateChef, setVillaPrivateChef,
   villaSecurityService, setVillaSecurityService,
   firstName, setFirstName, lastName, setLastName, email, setEmail, phone, setPhone,
+  villaIdDocumentName, setVillaIdDocumentName,
   days, today, onNext, canProceed,
+  autoScrollToCustomerInfo,
 }: {
   villaOptions: VillaData[]
   selectedVilla: VillaData | null
@@ -1118,9 +1250,48 @@ function VillaSelectStep({
   today: string
   onNext: () => void
   canProceed: boolean
+  autoScrollToCustomerInfo: boolean
+  villaIdDocumentName: string
+  setVillaIdDocumentName: (v: string) => void
 }) {
   const locations = [...new Set(villaOptions.map((v) => v.location))].sort()
   const [locationFilter, setLocationFilter] = useState("")
+  const customerInfoRef = useRef<HTMLDivElement | null>(null)
+  const didAutoScrollRef = useRef(false)
+
+  useEffect(() => {
+    if (!autoScrollToCustomerInfo || didAutoScrollRef.current) return
+    let attempts = 0
+    let timerId: number | undefined
+
+    const tryScroll = () => {
+      const node = customerInfoRef.current
+      if (node) {
+        const top = Math.max(0, node.getBoundingClientRect().top + window.scrollY - 110)
+        window.scrollTo({ top, behavior: "smooth" })
+        didAutoScrollRef.current = true
+        return
+      }
+
+      attempts += 1
+      if (attempts < 8) {
+        timerId = window.setTimeout(tryScroll, 120)
+      }
+    }
+
+    timerId = window.setTimeout(tryScroll, 120)
+    return () => window.clearTimeout(timerId)
+  }, [autoScrollToCustomerInfo])
+
+  const showCustomerInfo = Boolean(
+    selectedVilla
+    && startDate
+    && endDate
+    && startTime
+    && endTime
+    && guestCount > 0
+    && days > 0
+  )
 
   const filteredVillas = locationFilter
     ? villaOptions.filter((v) => v.location === locationFilter)
@@ -1131,7 +1302,7 @@ function VillaSelectStep({
       {/* Villa Info */}
       <div>
         <h2 className="text-3xl font-semibold text-mist-900 mb-4">Villa Info</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="text-xs text-mist-500 block mb-1.5">Villa Name</label>
             <div className="relative">
@@ -1175,12 +1346,13 @@ function VillaSelectStep({
       <div>
         <h2 className="text-3xl font-semibold text-mist-900 mb-4">Stay Details</h2>
         <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <input
                 type={startDate ? "date" : "text"}
-                onFocus={(e) => (e.target.type = "date")}
-                onBlur={(e) => !startDate && (e.target.type = "text")}
+                onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                onBlur={(e) => { if (!startDate) e.currentTarget.type = "text" }}
                 min={today}
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
@@ -1191,8 +1363,9 @@ function VillaSelectStep({
             <div>
               <input
                 type={startTime ? "time" : "text"}
-                onFocus={(e) => (e.target.type = "time")}
-                onBlur={(e) => !startTime && (e.target.type = "text")}
+                onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                onBlur={(e) => { if (!startTime) e.currentTarget.type = "text" }}
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 placeholder="Time"
@@ -1201,12 +1374,13 @@ function VillaSelectStep({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <input
                 type={endDate ? "date" : "text"}
-                onFocus={(e) => (e.target.type = "date")}
-                onBlur={(e) => !endDate && (e.target.type = "text")}
+                onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                onBlur={(e) => { if (!endDate) e.currentTarget.type = "text" }}
                 min={startDate || today}
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
@@ -1217,8 +1391,9 @@ function VillaSelectStep({
             <div>
               <input
                 type={endTime ? "time" : "text"}
-                onFocus={(e) => (e.target.type = "time")}
-                onBlur={(e) => !endTime && (e.target.type = "text")}
+                onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                onBlur={(e) => { if (!endTime) e.currentTarget.type = "text" }}
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
                 placeholder="Time"
@@ -1291,10 +1466,12 @@ function VillaSelectStep({
       </div>
 
       {/* Customer Info */}
-      <div className="border-t border-mist-200 pt-8">
+      <div ref={customerInfoRef} className="border-t border-mist-200 pt-8 scroll-mt-28">
+        {showCustomerInfo && (
+          <>
         <h2 className="text-3xl font-semibold text-mist-900 mb-4">Customer Info</h2>
         <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">First Name</label>
               <input
@@ -1317,7 +1494,7 @@ function VillaSelectStep({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Email Address</label>
               <input
@@ -1344,10 +1521,16 @@ function VillaSelectStep({
             <label className="text-xs text-mist-500 block mb-1.5">Upload ID / Passport</label>
             <input
               type="file"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                setVillaIdDocumentName(file?.name || "")
+              }}
               className="w-full text-sm text-mist-500 file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700 hover:file:bg-mist-50"
             />
           </div>
         </div>
+          </>
+        )}
       </div>
 
       <button onClick={onNext} disabled={!canProceed}
@@ -1397,11 +1580,15 @@ function DoneStep({ bookingId, vehicleName, mode }: { bookingId: string; vehicle
 /* ================================================================== */
 function CarSummaryCard({
   car, startDate, endDate, startTime, endTime, days, pricing,
-  needDriver, driverHours, actualDriverDays, step, session,
+  needDriver, driverHours, actualDriverDays,
+  driverLicenseUrl, insuranceUrl,
+  session,
 }: {
   car: CarData; startDate: string; endDate: string; startTime: string; endTime: string
   days: number; pricing: ReturnType<typeof calcCarPricing> | null
-  needDriver: boolean; driverHours: number; actualDriverDays: number; step: number; session: any
+  needDriver: boolean; driverHours: number; actualDriverDays: number
+  driverLicenseUrl: string; insuranceUrl: string
+  session: any
 }) {
   const formatDate = (d: string, t: string) => {
     if (!d) return "—"
@@ -1413,7 +1600,7 @@ function CarSummaryCard({
   return (
     <div className="border border-mist-200 rounded-2xl p-5 space-y-4 sticky top-24">
       <div className="flex gap-4">
-        <div className="w-24 h-16 bg-mist-100 rounded-xl overflow-hidden flex-shrink-0">
+        <div className="w-24 h-16 bg-mist-100 rounded-xl overflow-hidden shrink-0">
           {car.image ? (
             <img src={car.image} alt={car.name} className="w-full h-full object-cover" />
           ) : (
@@ -1424,14 +1611,14 @@ function CarSummaryCard({
           <h3 className="font-semibold text-mist-900 text-sm">{car.name}</h3>
           <div className="mt-2 space-y-1.5">
             <div className="flex items-start gap-2">
-              <div className="w-2 h-2 rounded-full bg-mist-900 mt-1 flex-shrink-0" />
+              <div className="w-2 h-2 rounded-full bg-mist-900 mt-1 shrink-0" />
               <div className="text-xs text-mist-500">
                 <p>{formatDate(startDate, startTime)}</p>
                 <p className="text-mist-400">{car.location}</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
-              <div className="w-2 h-2 rounded-full bg-mist-400 mt-1 flex-shrink-0" />
+              <div className="w-2 h-2 rounded-full bg-mist-400 mt-1 shrink-0" />
               <div className="text-xs text-mist-500">
                 <p>{formatDate(endDate, endTime)}</p>
                 <p className="text-mist-400">{car.location}</p>
@@ -1446,18 +1633,16 @@ function CarSummaryCard({
         </div>
       </div>
 
-      {step >= 2 && session?.user && (
-        <div className="text-xs text-mist-500 space-y-0.5 border-t border-mist-100 pt-3">
-          <p><span className="text-mist-700 font-medium">Full name:</span> {session.user.name || "—"}</p>
-          <p><span className="text-mist-700 font-medium">Email:</span> {session.user.email || "—"}</p>
-        </div>
-      )}
+      <div className="text-xs text-mist-500 space-y-0.5 border-t border-mist-100 pt-3">
+        <p><span className="text-mist-700 font-medium">Full name:</span> {session?.user?.name || "—"}</p>
+        <p><span className="text-mist-700 font-medium">Email:</span> {session?.user?.email || "—"}</p>
+        <p><span className="text-mist-700 font-medium">Driver License:</span> {getUploadedFileName(driverLicenseUrl)}</p>
+        <p><span className="text-mist-700 font-medium">Insurance:</span> {getUploadedFileName(insuranceUrl)}</p>
+      </div>
 
-      {step >= 2 && (
-        <p className="text-xs text-mist-400 border-t border-mist-100 pt-3">
-          Free cancellation within 24 hours from the time you place the order.
-        </p>
-      )}
+      <p className="text-xs text-mist-400 border-t border-mist-100 pt-3">
+        Free cancellation within 24 hours from the time you place the order.
+      </p>
 
       {pricing && days > 0 && (
         <div className="space-y-2 text-sm border-t border-mist-100 pt-3">
@@ -1500,10 +1685,16 @@ function CarSummaryCard({
 /*  Villa Summary Card                                                  */
 /* ================================================================== */
 function VillaSummaryCard({
-  villa, startDate, endDate, days, guestCount, pricing, step, session,
+  villa, startDate, endDate, startTime, endTime, days, guestCount, pricing, step, session,
+  firstName, lastName, email, phone,
+  villaAirportTransfer, villaPrivateChef, villaSecurityService,
+  villaIdDocumentName,
 }: {
-  villa: VillaData; startDate: string; endDate: string; days: number; guestCount: number
+  villa: VillaData; startDate: string; endDate: string; startTime: string; endTime: string; days: number; guestCount: number
   pricing: ReturnType<typeof calcVillaPricing> | null; step: number; session: any
+  firstName: string; lastName: string; email: string; phone: string
+  villaAirportTransfer: boolean; villaPrivateChef: boolean; villaSecurityService: boolean
+  villaIdDocumentName: string
 }) {
   const formatDate = (d: string) => {
     if (!d) return "—"
@@ -1513,7 +1704,7 @@ function VillaSummaryCard({
   return (
     <div className="border border-mist-200 rounded-2xl p-5 space-y-4 sticky top-24">
       <div className="flex gap-4">
-        <div className="w-24 h-16 bg-mist-100 rounded-xl overflow-hidden flex-shrink-0">
+        <div className="w-24 h-16 bg-mist-100 rounded-xl overflow-hidden shrink-0">
           {villa.image ? (
             <img src={villa.image} alt={villa.name} className="w-full h-full object-cover" />
           ) : (
@@ -1531,19 +1722,41 @@ function VillaSummaryCard({
         </div>
       </div>
 
-      {step >= 2 && session?.user && (
-        <div className="text-xs text-mist-500 space-y-0.5 border-t border-mist-100 pt-3">
-          <p><span className="text-mist-700 font-medium">Full name:</span> {session.user.name || "—"}</p>
-          <p><span className="text-mist-700 font-medium">Email:</span> {session.user.email || "—"}</p>
-        </div>
-      )}
+      <div className="text-xs text-mist-500 space-y-0.5 border-t border-mist-100 pt-3">
+        <p><span className="text-mist-700 font-medium">Full name:</span> {(firstName || lastName) ? `${firstName} ${lastName}`.trim() : (session?.user?.name || "—")}</p>
+        <p><span className="text-mist-700 font-medium">Email:</span> {email || session?.user?.email || "—"}</p>
+        <p><span className="text-mist-700 font-medium">Phone number:</span> {phone || "—"}</p>
+        <p><span className="text-mist-700 font-medium">Upload ID / Passport:</span> {villaIdDocumentName || "—"}</p>
+      </div>
+
+      <p className="text-xs text-mist-400 border-t border-mist-100 pt-3">
+        Free cancellation within 24 hours from the time you place the order.
+      </p>
 
       {pricing && days > 0 && (
         <div className="space-y-2 text-sm border-t border-mist-100 pt-3">
           <div className="flex justify-between text-mist-500">
-            <span>${villa.pricePerNight.toLocaleString()} × {days} night{days > 1 ? "s" : ""}</span>
+            <span>Nightly Rate <span className="text-xs">(${villa.pricePerNight.toLocaleString()} × {days} night{days > 1 ? "s" : ""})</span></span>
             <span className="text-mist-900">${pricing.nightsTotal.toLocaleString()}</span>
           </div>
+          {villaAirportTransfer && (
+            <div className="flex justify-between text-mist-500">
+              <span>Airport Transfer</span>
+              <span className="text-mist-900">${pricing.airportTransferFee.toLocaleString()}</span>
+            </div>
+          )}
+          {villaPrivateChef && (
+            <div className="flex justify-between text-mist-500">
+              <span>Private Chef</span>
+              <span className="text-mist-900">TBD</span>
+            </div>
+          )}
+          {villaSecurityService && (
+            <div className="flex justify-between text-mist-500">
+              <span>Security Service</span>
+              <span className="text-mist-900">TBD</span>
+            </div>
+          )}
           {pricing.cleaningFee > 0 && (
             <div className="flex justify-between text-mist-500">
               <span>Cleaning Fee</span>
@@ -1556,13 +1769,22 @@ function VillaSummaryCard({
           </div>
           {pricing.securityDeposit > 0 && (
             <div className="flex justify-between text-mist-500">
-              <span>Security Deposit</span>
+              <span>Security Deposit <span className="text-xs">(Fully Refundable)</span></span>
               <span className="text-mist-900">${pricing.securityDeposit.toLocaleString()}</span>
             </div>
           )}
           <hr className="border-mist-100" />
+          <div className="flex justify-between text-mist-500">
+            <span>Pay Now <span className="text-xs">(Authorize Hold)</span></span>
+            <span className="text-blue-600">${pricing.payNow.toLocaleString()}</span>
+          </div>
+          <div className="flex justify-between text-mist-500">
+            <span>Due at Pickup</span>
+            <span className="text-mist-900">${pricing.dueAtPickup.toLocaleString()}</span>
+          </div>
+          <hr className="border-mist-100" />
           <div className="flex justify-between font-bold text-mist-900 text-base pt-1">
-            <span>Total</span>
+            <span>Total Charges</span>
             <span>${pricing.total.toLocaleString()}</span>
           </div>
         </div>

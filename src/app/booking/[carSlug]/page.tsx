@@ -27,6 +27,7 @@ function CarBookingRedirect() {
 
   useEffect(() => {
     const sp = new URLSearchParams(searchParams.toString())
+    sp.set("type", "car")
     sp.set("car", carSlug)
     router.replace(`/booking?${sp.toString()}`)
   }, [carSlug, searchParams, router])

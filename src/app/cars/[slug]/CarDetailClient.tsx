@@ -482,6 +482,21 @@ const discountTiers = [
   { duration: "9-12 months", discount: "65% OFF", miles: "1,000 miles/month" },
 ]
 
+function switchTemporalInputType(input: HTMLInputElement, kind: "date" | "time") {
+  if (input.type !== "text") return
+  input.type = kind
+  requestAnimationFrame(() => {
+    input.focus()
+    if (typeof (input as HTMLInputElement & { showPicker?: () => void }).showPicker === "function") {
+      try {
+        ;(input as HTMLInputElement & { showPicker: () => void }).showPicker()
+      } catch {
+        // Safari can block showPicker; focus fallback still works.
+      }
+    }
+  })
+}
+
 export default function CarDetailClient({ car }: { car: CarDetail }) {
   const router = useRouter()
   const [startDate, setStartDate] = useState("")
@@ -777,8 +792,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                       <div className="relative">
                         <input
                           type={startDate ? "date" : "text"}
-                          onFocus={(e) => (e.target.type = "date")}
-                          onBlur={(e) => !startDate && (e.target.type = "text")}
+                          onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                          onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                          onBlur={(e) => { if (!startDate) e.currentTarget.type = "text" }}
                           min={today}
                           value={startDate}
                           onChange={(e) => setStartDate(e.target.value)}
@@ -789,8 +805,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                       <div className="relative">
                         <input
                           type={startTime ? "time" : "text"}
-                          onFocus={(e) => (e.target.type = "time")}
-                          onBlur={(e) => !startTime && (e.target.type = "text")}
+                          onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                          onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                          onBlur={(e) => { if (!startTime) e.currentTarget.type = "text" }}
                           value={startTime}
                           onChange={(e) => setStartTime(e.target.value)}
                           placeholder="Time*"
@@ -804,8 +821,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                       <div className="relative">
                         <input
                           type={endDate ? "date" : "text"}
-                          onFocus={(e) => (e.target.type = "date")}
-                          onBlur={(e) => !endDate && (e.target.type = "text")}
+                          onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                          onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                          onBlur={(e) => { if (!endDate) e.currentTarget.type = "text" }}
                           min={startDate || today}
                           value={endDate}
                           onChange={(e) => setEndDate(e.target.value)}
@@ -816,8 +834,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                       <div className="relative">
                         <input
                           type={endTime ? "time" : "text"}
-                          onFocus={(e) => (e.target.type = "time")}
-                          onBlur={(e) => !endTime && (e.target.type = "text")}
+                          onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                          onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                          onBlur={(e) => { if (!endTime) e.currentTarget.type = "text" }}
                           value={endTime}
                           onChange={(e) => setEndTime(e.target.value)}
                           placeholder="Time*"
@@ -1020,7 +1039,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
       {/* Mobile Full-Screen Booking Popup */}
       {showMobileBooking && (
         <div className="lg:hidden fixed inset-0 z-50 bg-white overflow-y-auto">
-          <div className="sticky top-0 bg-white border-b border-mist-200 px-4 py-3 flex items-center justify-between">
+          <div className="sticky top-0 z-30 bg-white border-b border-mist-200 px-4 py-3 shadow-sm flex items-center justify-between">
             <h3 className="text-xl font-semibold text-mist-900">Select Dates</h3>
             <button
               type="button"
@@ -1057,8 +1076,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                   <div className="relative">
                     <input
                       type={startDate ? "date" : "text"}
-                      onFocus={(e) => (e.target.type = "date")}
-                      onBlur={(e) => !startDate && (e.target.type = "text")}
+                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onBlur={(e) => { if (!startDate) e.currentTarget.type = "text" }}
                       min={today}
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
@@ -1069,8 +1089,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                   <div className="relative">
                     <input
                       type={startTime ? "time" : "text"}
-                      onFocus={(e) => (e.target.type = "time")}
-                      onBlur={(e) => !startTime && (e.target.type = "text")}
+                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                      onBlur={(e) => { if (!startTime) e.currentTarget.type = "text" }}
                       value={startTime}
                       onChange={(e) => setStartTime(e.target.value)}
                       placeholder="Time*"
@@ -1083,8 +1104,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                   <div className="relative">
                     <input
                       type={endDate ? "date" : "text"}
-                      onFocus={(e) => (e.target.type = "date")}
-                      onBlur={(e) => !endDate && (e.target.type = "text")}
+                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onBlur={(e) => { if (!endDate) e.currentTarget.type = "text" }}
                       min={startDate || today}
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
@@ -1095,8 +1117,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                   <div className="relative">
                     <input
                       type={endTime ? "time" : "text"}
-                      onFocus={(e) => (e.target.type = "time")}
-                      onBlur={(e) => !endTime && (e.target.type = "text")}
+                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                      onBlur={(e) => { if (!endTime) e.currentTarget.type = "text" }}
                       value={endTime}
                       onChange={(e) => setEndTime(e.target.value)}
                       placeholder="Time*"

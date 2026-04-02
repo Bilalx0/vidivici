@@ -57,6 +57,21 @@ const VILLA_ADDONS = [
   { name: "Mixologist", icon: "/addon5.png" },
 ]
 
+function switchTemporalInputType(input: HTMLInputElement, kind: "date" | "time") {
+  if (input.type !== "text") return
+  input.type = kind
+  requestAnimationFrame(() => {
+    input.focus()
+    if (typeof (input as HTMLInputElement & { showPicker?: () => void }).showPicker === "function") {
+      try {
+        ;(input as HTMLInputElement & { showPicker: () => void }).showPicker()
+      } catch {
+        // Safari can block showPicker; focus fallback still works.
+      }
+    }
+  })
+}
+
 export default function VillaDetailClient({ villa, relatedVillas }: { villa: Villa; relatedVillas: RelatedVilla[] }) {
   const router = useRouter()
   const [currentImage, setCurrentImage] = useState(0)
@@ -462,8 +477,9 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                         <div className="relative">
                           <input
                             type={checkInDate ? "date" : "text"}
-                            onFocus={(e) => (e.target.type = "date")}
-                            onBlur={(e) => !checkInDate && (e.target.type = "text")}
+                            onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                            onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                            onBlur={(e) => { if (!checkInDate) e.currentTarget.type = "text" }}
                             value={checkInDate}
                             onChange={(e) => setCheckInDate(e.target.value)}
                             placeholder="Start date*"
@@ -473,8 +489,9 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                         <div className="relative">
                           <input
                             type={checkInTime ? "time" : "text"}
-                            onFocus={(e) => (e.target.type = "time")}
-                            onBlur={(e) => !checkInTime && (e.target.type = "text")}
+                            onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                            onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                            onBlur={(e) => { if (!checkInTime) e.currentTarget.type = "text" }}
                             value={checkInTime}
                             onChange={(e) => setCheckInTime(e.target.value)}
                             placeholder="Time*"
@@ -488,8 +505,9 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                         <div className="relative">
                           <input
                             type={checkOutDate ? "date" : "text"}
-                            onFocus={(e) => (e.target.type = "date")}
-                            onBlur={(e) => !checkOutDate && (e.target.type = "text")}
+                            onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                            onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                            onBlur={(e) => { if (!checkOutDate) e.currentTarget.type = "text" }}
                             min={checkInDate}
                             value={checkOutDate}
                             onChange={(e) => setCheckOutDate(e.target.value)}
@@ -500,8 +518,9 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                         <div className="relative">
                           <input
                             type={checkOutTime ? "time" : "text"}
-                            onFocus={(e) => (e.target.type = "time")}
-                            onBlur={(e) => !checkOutTime && (e.target.type = "text")}
+                            onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                            onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                            onBlur={(e) => { if (!checkOutTime) e.currentTarget.type = "text" }}
                             value={checkOutTime}
                             onChange={(e) => setCheckOutTime(e.target.value)}
                             placeholder="Time*"
@@ -640,12 +659,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
 
                 {activeTab === "Event" && (
                   <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg">
-
-                    <div className="flex items-baseline gap-2 mb-6 2xl:mb-8">
-                      <span className="text-3xl 2xl:text-5xl font-bold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
-                      {/* <span className="text-sm text-mist-400 line-through">${villa.originalPrice?.toLocaleString()} </span> */}
-                      <span className="text-sm 2xl:text-lg text-mist-400">USD / night</span>
-                    </div>
+                    <h3 className="text-xl 2xl:text-3xl font-semibold text-mist-900 text-center">Request a Quote for Your Event</h3>
 
 
                     {/* First Name & Last Name */}
@@ -778,11 +792,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
 
                 {activeTab === "Production" && (
                   <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg">
-                    <div className="flex items-baseline gap-2 mb-6 2xl:mb-8">
-                      <span className="text-3xl 2xl:text-5xl font-bold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
-                      {/* <span className="text-sm text-mist-400 line-through">${villa.originalPrice?.toLocaleString()} </span> */}
-                      <span className="text-sm 2xl:text-lg text-mist-400">USD / night</span>
-                    </div>
+                    <h3 className="text-xl 2xl:text-3xl font-semibold text-mist-900 text-center">Film &amp; TV Production House Inquiry</h3>
 
 
                     {/* First Name & Last Name */}
@@ -958,7 +968,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
       {/* Mobile Full-Screen Booking Popup */}
       {showMobileBooking && (
         <div className="lg:hidden fixed inset-0 z-50 bg-white overflow-y-auto">
-          <div className="sticky top-0 bg-white border-b border-mist-200 px-4 py-3 flex items-center justify-between">
+          <div className="sticky top-0 z-30 bg-white border-b border-mist-200 px-4 py-3 shadow-sm flex items-center justify-between">
             <h3 className="text-xl font-semibold text-mist-900">Book {villa.name}</h3>
             <button
               type="button"
@@ -997,8 +1007,9 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                   <div className="grid grid-cols-2 gap-3">
                     <input
                       type={checkInDate ? "date" : "text"}
-                      onFocus={(e) => (e.target.type = "date")}
-                      onBlur={(e) => !checkInDate && (e.target.type = "text")}
+                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onBlur={(e) => { if (!checkInDate) e.currentTarget.type = "text" }}
                       value={checkInDate}
                       onChange={(e) => setCheckInDate(e.target.value)}
                       placeholder="Start date*"
@@ -1006,8 +1017,9 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                     />
                     <input
                       type={checkInTime ? "time" : "text"}
-                      onFocus={(e) => (e.target.type = "time")}
-                      onBlur={(e) => !checkInTime && (e.target.type = "text")}
+                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                      onBlur={(e) => { if (!checkInTime) e.currentTarget.type = "text" }}
                       value={checkInTime}
                       onChange={(e) => setCheckInTime(e.target.value)}
                       placeholder="Time*"
@@ -1017,8 +1029,9 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                   <div className="grid grid-cols-2 gap-3">
                     <input
                       type={checkOutDate ? "date" : "text"}
-                      onFocus={(e) => (e.target.type = "date")}
-                      onBlur={(e) => !checkOutDate && (e.target.type = "text")}
+                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onBlur={(e) => { if (!checkOutDate) e.currentTarget.type = "text" }}
                       min={checkInDate}
                       value={checkOutDate}
                       onChange={(e) => setCheckOutDate(e.target.value)}
@@ -1027,8 +1040,9 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                     />
                     <input
                       type={checkOutTime ? "time" : "text"}
-                      onFocus={(e) => (e.target.type = "time")}
-                      onBlur={(e) => !checkOutTime && (e.target.type = "text")}
+                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                      onBlur={(e) => { if (!checkOutTime) e.currentTarget.type = "text" }}
                       value={checkOutTime}
                       onChange={(e) => setCheckOutTime(e.target.value)}
                       placeholder="Time*"
@@ -1160,6 +1174,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
 
             {activeTab === "Event" && (
               <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-5 shadow-lg">
+                <h3 className="text-lg font-semibold text-mist-900 text-center">Request a Quote for Your Event</h3>
                 <div className="grid grid-cols-2 gap-3 border-t border-mist-300 pt-6">
                   <div>
                     <label className="text-xs text-mist-500 block mb-1.5">First Name</label>
@@ -1282,6 +1297,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
 
             {activeTab === "Production" && (
               <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-5 shadow-lg">
+                <h3 className="text-lg font-semibold text-mist-900 text-center">Film &amp; TV Production House Inquiry</h3>
                 <div className="grid grid-cols-2 gap-3 border-t border-mist-300 pt-6">
                   <div>
                     <label className="text-xs text-mist-500 block mb-1.5">First Name</label>

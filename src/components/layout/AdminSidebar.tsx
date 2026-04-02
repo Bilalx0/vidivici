@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 import { LayoutDashboard, Car, FolderOpen, Tag, CalendarDays, FileText, Settings, ArrowLeft, Menu, Users, Home, PartyPopper, X, MessageSquare, MessagesSquare } from "lucide-react"
+import AdminNotificationBell from "@/components/admin/AdminNotificationBell"
 
 const navItems = [
   { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
@@ -55,9 +56,12 @@ export default function AdminSidebar({ desktopOpen, onDesktopToggle }: { desktop
           <Link href="/admin/dashboard" className="text-xl font-bold text-white tracking-wider">
             VIDIVICI <span className="text-xs text-mist-400 font-normal">ADMIN</span>
           </Link>
-          <button onClick={() => { setMobileOpen(false); onDesktopToggle(); }} className="text-mist-400 hover:text-white p-1 rounded">
-            <X size={18} />
-          </button>
+          <div className="flex items-center gap-1">
+            <AdminNotificationBell />
+            <button onClick={() => { setMobileOpen(false); onDesktopToggle(); }} className="text-mist-400 hover:text-white p-1 rounded">
+              <X size={18} />
+            </button>
+          </div>
         </div>
 
         <nav className="p-4 space-y-0.5">

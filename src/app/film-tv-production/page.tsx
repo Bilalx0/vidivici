@@ -322,20 +322,22 @@ function ProductionInquiryForm() {
     if (!form.firstName || !form.email || !form.projectType || !form.shootDates) return
     setSubmitting(true)
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("/api/inquiries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          fullName: `${form.firstName} ${form.lastName}`.trim(),
+          source: "film-tv-production",
+          category: "Event",
+          name: `${form.firstName} ${form.lastName}`.trim(),
           email: form.email,
           phone: form.phone,
-          inquiryType: `Film & TV Production — ${form.projectType}`,
-          message: [
-            `Project Type: ${form.projectType}`,
-            `Shoot Dates: ${form.shootDates}`,
-            `Crew Size: ${form.crewSize || "Not specified"}`,
-            form.specialRequests ? `Special Requests: ${form.specialRequests}` : "",
-          ].filter(Boolean).join("\n"),
+          subject: `Film & TV Production — ${form.projectType}`,
+          message: form.specialRequests,
+          data: {
+            projectType: form.projectType,
+            shootDates: form.shootDates,
+            crewSize: form.crewSize,
+          },
         }),
       })
       if (res.ok) setSubmitted(true)

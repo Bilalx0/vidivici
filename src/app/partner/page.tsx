@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import FAQ from "@/components/home/FAQ";
 import Banner from "@/components/ui/Banner";
+import toast, { Toaster } from "react-hot-toast";
 import {
     Eye, SlidersHorizontal, ShieldCheck,
     BadgeDollarSign, Headphones, Globe
@@ -65,8 +67,41 @@ const whoCanJoin = [
 
 export default function PartnerPage() {
     const inputCls = "w-full border border-mist-200 rounded-xl bg-mist-100 px-4 py-2.5 text-sm text-mist-950 placeholder-mist-300 outline-none focus:border-mist-400 transition-colors ";
+    const [pForm, setPForm] = useState({ fullName: "", email: "", phone: "", company: "", listingType: "", location: "", capacity: "", rates: "", blackoutDates: "", insurance: "", website: "", description: "", agreed: false });
+    const [pSubmitting, setPSubmitting] = useState(false);
+
+    const handlePartnerSubmit = async () => {
+        if (!pForm.fullName || !pForm.email) { toast.error("Name and email are required"); return; }
+        if (!pForm.agreed) { toast.error("Please agree to be contacted"); return; }
+        setPSubmitting(true);
+        try {
+            const category = pForm.listingType === "Luxury Car" ? "Car" : pForm.listingType === "Villa / Property" ? "Villa" : pForm.listingType === "Club / Venue" || pForm.listingType === "Event Space" ? "Event" : "General";
+            const res = await fetch("/api/inquiries", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    source: "partner",
+                    category,
+                    name: pForm.fullName,
+                    email: pForm.email,
+                    phone: pForm.phone,
+                    subject: `Partner Application - ${pForm.listingType || "General"}`,
+                    message: pForm.description,
+                    data: { company: pForm.company, listingType: pForm.listingType, location: pForm.location, capacity: pForm.capacity, rates: pForm.rates, blackoutDates: pForm.blackoutDates, insurance: pForm.insurance, website: pForm.website },
+                }),
+            });
+            if (!res.ok) throw new Error();
+            toast.success("Application submitted successfully!");
+            setPForm({ fullName: "", email: "", phone: "", company: "", listingType: "", location: "", capacity: "", rates: "", blackoutDates: "", insurance: "", website: "", description: "", agreed: false });
+        } catch {
+            toast.error("Failed to submit. Please try again.");
+        } finally {
+            setPSubmitting(false);
+        }
+    };
     return (
         <div className="w-full">
+            <Toaster position="top-right" />
 
             {/* Banner */}
             <Banner
@@ -323,11 +358,11 @@ export default function PartnerPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-base font-semibold text-mist-700">Full Name</label>
-                                    <input placeholder="Enter your full name" className={inputCls} />
+                                    <input placeholder="Enter your full name" value={pForm.fullName} onChange={e => setPForm({...pForm, fullName: e.target.value})} className={inputCls} />
                                 </div>
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-base font-semibold text-mist-700">Email</label>
-                                    <input type="email" placeholder="Enter your email" className={inputCls} />
+                                    <input type="email" placeholder="Enter your email" value={pForm.email} onChange={e => setPForm({...pForm, email: e.target.value})} className={inputCls} />
                                 </div>
                             </div>
 
@@ -337,14 +372,14 @@ export default function PartnerPage() {
                                     <label className="text-base font-semibold text-mist-700">Phone</label>
                                     <div className="flex items-center border border-mist-200 rounded-xl overflow-hidden focus-within:border-mist-400 transition-colors bg-white">
                                         <span className="px-3 py-2.5 text-sm border-r border-mist-200 bg-mist-50 text-mist-600 flex-shrink-0">🇺🇸</span>
-                                        <input placeholder="Enter your phone number" className="flex-1 px-3 py-2.5 text-base bg-mist-100 text-mist-900 placeholder-mist-300 outline-none" />
+                                        <input placeholder="Enter your phone number" value={pForm.phone} onChange={e => setPForm({...pForm, phone: e.target.value})} className="flex-1 px-3 py-2.5 text-base bg-mist-100 text-mist-900 placeholder-mist-300 outline-none" />
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-base font-semibold text-mist-700">
                                         Company <span className="text-mist-300 font-normal">(optional)</span>
                                     </label>
-                                    <input placeholder="Enter your company name" className={inputCls} />
+                                    <input placeholder="Enter your company name" value={pForm.company} onChange={e => setPForm({...pForm, company: e.target.value})} className={inputCls} />
                                 </div>
                             </div>
 
@@ -352,7 +387,7 @@ export default function PartnerPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-base font-semibold text-mist-700">What do you want to list?</label>
-                                    <select className={`${inputCls} text-mist-400`} defaultValue="">
+                                    <select className={`${inputCls} text-mist-400`} value={pForm.listingType} onChange={e => setPForm({...pForm, listingType: e.target.value})}>
                                         <option value="" disabled>Select one</option>
                                         <option>Luxury Car</option>
                                         <option>Villa / Property</option>
@@ -362,7 +397,7 @@ export default function PartnerPage() {
                                 </div>
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-base font-semibold text-mist-700">Primary Location / City</label>
-                                    <input placeholder="Enter your location" className={inputCls} />
+                                    <input placeholder="Enter your location" value={pForm.location} onChange={e => setPForm({...pForm, location: e.target.value})} className={inputCls} />
                                 </div>
                             </div>
 
@@ -370,11 +405,11 @@ export default function PartnerPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-base font-semibold text-mist-700">Fleet Size / Bedrooms / Capacity</label>
-                                    <input placeholder="e.g. 6 cars • 12 bedrooms • 260 pax" className={inputCls} />
+                                    <input placeholder="e.g. 6 cars • 12 bedrooms • 260 pax" value={pForm.capacity} onChange={e => setPForm({...pForm, capacity: e.target.value})} className={inputCls} />
                                 </div>
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-base font-semibold text-mist-700">Your Rates (daily/weekly/monthly)</label>
-                                    <input placeholder="$1,500/day • $8,500/week • $32,000/month" className={inputCls} />
+                                    <input placeholder="$1,500/day • $8,500/week • $32,000/month" value={pForm.rates} onChange={e => setPForm({...pForm, rates: e.target.value})} className={inputCls} />
                                 </div>
                             </div>
 
@@ -382,12 +417,12 @@ export default function PartnerPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-base font-semibold text-mist-700">Availability Blackout Dates</label>
-                                    <input placeholder="e.g. Available year-round except Aug 5-20" className={inputCls} />
+                                    <input placeholder="e.g. Available year-round except Aug 5-20" value={pForm.blackoutDates} onChange={e => setPForm({...pForm, blackoutDates: e.target.value})} className={inputCls} />
                                 </div>
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-base font-semibold text-mist-700">Insurance/Liability Coverage</label>
-                                    <select className={`${inputCls} text-mist-400`} defaultValue="">
-                                        <option value="" disabled>Yes verified coverage</option>
+                                    <select className={`${inputCls} text-mist-400`} value={pForm.insurance} onChange={e => setPForm({...pForm, insurance: e.target.value})}>
+                                        <option value="" disabled>Select coverage status</option>
                                         <option>Yes, verified coverage</option>
                                         <option>No coverage yet</option>
                                         <option>In progress</option>
@@ -398,7 +433,7 @@ export default function PartnerPage() {
                             {/* Row 6 — full width */}
                             <div className="flex flex-col gap-1.5">
                                 <label className="text-base font-semibold text-mist-700">Website / Instagram</label>
-                                <input placeholder="e.g. yoursite.com, @handle" className={inputCls} />
+                                <input placeholder="e.g. yoursite.com, @handle" value={pForm.website} onChange={e => setPForm({...pForm, website: e.target.value})} className={inputCls} />
                             </div>
 
                             {/* Textarea */}
@@ -407,19 +442,21 @@ export default function PartnerPage() {
                                 <textarea
                                     rows={4}
                                     placeholder="Models, specs, amenities, restrictions, preferred clientele, etc."
+                                    value={pForm.description}
+                                    onChange={e => setPForm({...pForm, description: e.target.value})}
                                     className={`${inputCls} resize-none`}
                                 />
                             </div>
 
                             {/* Checkbox */}
                             <label className="flex items-center gap-2.5 cursor-pointer">
-                                <input type="checkbox" className="w-4 h-4 rounded border-mist-300 accent-mist-900" />
+                                <input type="checkbox" checked={pForm.agreed} onChange={e => setPForm({...pForm, agreed: e.target.checked})} className="w-4 h-4 rounded border-mist-300 accent-mist-900" />
                                 <span className="text-[12.5px] text-mist-500">I agree to be contacted about my application.</span>
                             </label>
 
                             {/* Submit */}
-                            <button className="w-full bg-mist-900 text-white text-[14px] font-semibold py-4 rounded-xl hover:bg-mist-700 transition-colors duration-200 mt-1">
-                                Submit Application
+                            <button onClick={handlePartnerSubmit} disabled={pSubmitting} className="w-full bg-mist-900 text-white text-[14px] font-semibold py-4 rounded-xl hover:bg-mist-700 transition-colors duration-200 mt-1 disabled:opacity-50">
+                                {pSubmitting ? "Submitting..." : "Submit Application"}
                             </button>
 
                             {/* Trust badges */}

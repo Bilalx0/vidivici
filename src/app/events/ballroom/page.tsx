@@ -240,10 +240,34 @@ export function VenueBookingForm() {
     if (!form.fullName || !form.email || !form.bookingDate) return;
     setSubmitting(true);
 
-    setTimeout(() => {
-      setSubmitting(false);
+    try {
+      const res = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "ballroom",
+          category: "Event",
+          name: form.fullName,
+          email: form.email,
+          phone: form.phone,
+          subject: `Ballroom Booking - ${form.clubVenue}`,
+          message: form.specialRequests,
+          data: {
+            clubVenue: form.clubVenue,
+            bookingDate: form.bookingDate,
+            guestsTotal: form.guestsTotal,
+            budget: form.budget,
+            addOns: form.addOns.join(", "),
+          },
+        }),
+      });
+      if (!res.ok) throw new Error();
       setSubmitted(true);
-    }, 1500);
+    } catch {
+      alert("Failed to submit. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // Reusable input class (matches ContactForm exactly)

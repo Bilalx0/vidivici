@@ -3,6 +3,7 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { ReactNode } from "react";
 import { Phone, Mail, MapPin, Clock, ChevronDown } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
 import Banner from "@/components/ui/Banner";
 import FAQ from "@/components/home/FAQ";
 
@@ -59,15 +60,49 @@ export default function ContactPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(form);
+    setSubmitting(true);
+    try {
+      const category = form.tripNeed === "Car" ? "Car" : form.tripNeed === "House" ? "Villa" : form.tripNeed === "VIP events" ? "Event" : "General";
+      const res = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "contact-page",
+          category,
+          name: `${form.firstName} ${form.lastName}`.trim(),
+          email: form.email,
+          phone: form.phone,
+          subject: `Trip Inquiry - ${form.tripNeed}`,
+          message: form.notes || null,
+          data: {
+            adults: form.adults,
+            kids: form.kids,
+            budget: form.budget,
+            tripNeed: form.tripNeed,
+            startDate: form.startDate,
+            endDate: form.endDate,
+          },
+        }),
+      });
+      if (!res.ok) throw new Error();
+      toast.success("Inquiry submitted successfully!");
+      setForm({ firstName: "", lastName: "", email: "", phone: "", adults: "", kids: "", budget: "", tripNeed: "House" as TripNeed, startDate: "", endDate: "", notes: "" });
+    } catch {
+      toast.error("Failed to submit. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const inputCls = "w-full border border-mist-200 rounded-xl 2xl:rounded-2xl px-4 py-2.5 2xl:px-8 2xl:py-6 text-[13px] 2xl:text-2xl text-mist-900 placeholder-mist-300 outline-none focus:border-mist-400 transition-colors bg-white";
 
   return (
     <div className="w-full">
+      <Toaster position="top-right" />
       <Banner
         heading="Contact Us"
         description={false}
@@ -218,8 +253,8 @@ export default function ContactPage() {
                 <textarea name="notes" value={form.notes} onChange={handleChange} placeholder="Write any special requests or notes here..." rows={4} className={`${inputCls} resize-none`} />
               </Field>
 
-              <button type="submit" className="w-full bg-mist-900 text-white text-[14px] 2xl:text-3xl font-semibold py-3.5 2xl:py-8 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200 mt-1 2xl:mt-2">
-                Send Request
+              <button type="submit" disabled={submitting} className="w-full bg-mist-900 text-white text-[14px] 2xl:text-3xl font-semibold py-3.5 2xl:py-8 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200 mt-1 2xl:mt-2 disabled:opacity-50">
+                {submitting ? "Sending..." : "Send Request"}
               </button>
 
             </form>

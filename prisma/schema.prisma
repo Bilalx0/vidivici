@@ -217,6 +217,20 @@ model ContactMessage {
   createdAt DateTime @default(now())
 }
 
+model Inquiry {
+  id          String   @id @default(cuid())
+  source      String   // "car", "villa", "event", "general", "partner", "production", "wedding"
+  category    String   // "Car", "Villa", "Event", "General"
+  name        String
+  email       String
+  phone       String?
+  subject     String?
+  message     String?  @db.Text
+  data        String?  @db.Text // JSON string for extra form fields
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
 model SiteSettings {
   id          String  @id @default(cuid())
   key         String  @unique

@@ -38,19 +38,35 @@ export default function ContactForm() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setForm({
-        fullName: "",
-        email: "",
-        phone: "",
-        inquiryType: "",
-        message: "",
+    setSubmitting(true);
+    try {
+      const category = form.inquiryType === "Car Rental" ? "Car" : form.inquiryType === "Villa Booking" ? "Villa" : form.inquiryType === "VIP Event" ? "Event" : "General";
+      const res = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "homepage-contact",
+          category,
+          name: form.fullName,
+          email: form.email,
+          phone: form.phone,
+          subject: form.inquiryType || "General Inquiry",
+          message: form.message,
+        }),
       });
-      setIsSubmitted(false);
-    }, 2000);
+      if (!res.ok) throw new Error();
+      setIsSubmitted(true);
+      setForm({ fullName: "", email: "", phone: "", inquiryType: "", message: "" });
+      setTimeout(() => setIsSubmitted(false), 3000);
+    } catch {
+      alert("Failed to submit. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

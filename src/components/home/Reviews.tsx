@@ -100,17 +100,17 @@ export default function Testimonials() {
         <button
           onClick={() => scroll(-1)}
           disabled={!canLeft}
-          className="absolute left-3 2xl:left-10 top-1/2 -translate-y-1/2 z-20 w-9 h-9 2xl:w-20 2xl:h-20 rounded-full bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all disabled:opacity-20"
+          className="absolute left-3 2xl:left-10 top-1/2 -translate-y-1/2 z-20 w-9 h-9 2xl:w-12 2xl:h-12 rounded-full bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all disabled:opacity-20"
         >
-          <ChevronLeft className="text-mist-700 w-4 h-4 2xl:w-10 2xl:h-10" strokeWidth={2.5} />
+          <ChevronLeft className="text-mist-700 w-4 h-4 2xl:w-6 2xl:h-6" strokeWidth={2.5} />
         </button>
 
         <button
           onClick={() => scroll(1)}
           disabled={!canRight}
-          className="absolute right-3 2xl:right-10 top-1/2 -translate-y-1/2 z-20 w-9 h-9 2xl:w-20 2xl:h-20 rounded-full bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all disabled:opacity-20"
+          className="absolute right-3 2xl:right-10 top-1/2 -translate-y-1/2 z-20 w-9 h-9 2xl:w-12 2xl:h-12 rounded-full bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all disabled:opacity-20"
         >
-          <ChevronRight className="text-mist-700 w-4 h-4 2xl:w-10 2xl:h-10" strokeWidth={2.5} />
+          <ChevronRight className="text-mist-700 w-4 h-4 2xl:w-6 2xl:h-6" strokeWidth={2.5} />
         </button>
 
         {/* Carousel Track */}

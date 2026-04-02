@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo, Suspense } from "react"
+import { useState, useEffect, useMemo, Suspense, Dispatch, SetStateAction } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
@@ -8,6 +8,7 @@ import {
   ChevronDown,
   Minus,
   Plus,
+  Info,
   CreditCard,
   CheckCircle,
   MapPin,
@@ -122,6 +123,7 @@ function ReservationContent() {
 
   /* ---- Mode: car or villa ---- */
   const initialMode = searchParams.get("type") === "villa" ? "villa" : "car"
+  const isVillaFlowLocked = searchParams.get("type") === "villa"
   const [mode, setMode] = useState<"car" | "villa">(initialMode as "car" | "villa")
   const [step, setStep] = useState<1 | 2 | 3>(1)
   const [submitting, setSubmitting] = useState(false)
@@ -142,8 +144,8 @@ function ReservationContent() {
   /* ---- Shared date state ---- */
   const [startDate, setStartDate] = useState(searchParams.get("startDate") || searchParams.get("checkIn") || "")
   const [endDate, setEndDate] = useState(searchParams.get("endDate") || searchParams.get("checkOut") || "")
-  const [startTime, setStartTime] = useState(searchParams.get("startTime") || "10:00")
-  const [endTime, setEndTime] = useState(searchParams.get("endTime") || "10:00")
+  const [startTime, setStartTime] = useState(searchParams.get("startTime") || searchParams.get("checkInTime") || "")
+  const [endTime, setEndTime] = useState(searchParams.get("endTime") || searchParams.get("checkOutTime") || "")
 
   /* ---- Car-specific state ---- */
   const [needDriver, setNeedDriver] = useState(searchParams.get("driver") === "1")
@@ -155,6 +157,9 @@ function ReservationContent() {
 
   /* ---- Villa-specific state ---- */
   const [guestCount, setGuestCount] = useState(Number(searchParams.get("guests")) || 1)
+  const [villaAirportTransfer, setVillaAirportTransfer] = useState(searchParams.get("airportTransfer") === "1")
+  const [villaPrivateChef, setVillaPrivateChef] = useState(searchParams.get("privateChef") === "1")
+  const [villaSecurityService, setVillaSecurityService] = useState(searchParams.get("securityService") === "1")
 
   /* ---- Customer info state ---- */
   const [firstName, setFirstName] = useState("")
@@ -434,6 +439,21 @@ function ReservationContent() {
         setBookingId(booking.id?.slice(-6)?.toUpperCase() || "000000")
         setStep(3)
       } else if (mode === "villa" && selectedVilla) {
+        const villaAddOns = [
+          villaAirportTransfer ? "Airport Transfer (Luxury SUV)" : null,
+          villaPrivateChef ? "Private Chef" : null,
+          villaSecurityService ? "Security Service" : null,
+        ].filter(Boolean)
+
+        const villaNotes = [
+          `Check-in time: ${startTime || "N/A"}`,
+          `Check-out time: ${endTime || "N/A"}`,
+          `Customer: ${firstName || ""} ${lastName || ""}`.trim(),
+          `Email: ${email || "N/A"}`,
+          `Phone: ${phone || "N/A"}`,
+          `Add-ons: ${villaAddOns.length ? villaAddOns.join(", ") : "None"}`,
+        ].join("\n")
+
         const res = await fetch("/api/villa-bookings", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -442,6 +462,7 @@ function ReservationContent() {
             checkIn: startDate,
             checkOut: endDate,
             guests: guestCount,
+            notes: villaNotes,
           }),
         })
         if (!res.ok) throw new Error("Booking failed")
@@ -458,18 +479,26 @@ function ReservationContent() {
 
   const vehicleName = mode === "car" ? (selectedCar?.name || "Car") : (selectedVilla?.name || "Villa")
   const hasVehicle = mode === "car" ? !!selectedCar : !!selectedVilla
-  const canProceed = hasVehicle && startDate && endDate && days > 0
+  const canProceed = hasVehicle
+    && startDate
+    && endDate
+    && days > 0
+    && (mode === "car" || (!!startTime && !!endTime && !!firstName && !!email && !!phone))
 
   return (
     <div className="bg-white min-h-screen pt-24 pb-16">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         {/* Tabs */}
-        <div className="flex gap-0 mb-8 border border-mist-200 rounded-xl overflow-hidden max-w-sm mx-auto">
+        <div className="flex gap-0 mb-8 border border-mist-200 rounded-md overflow-hidden max-w-sm mx-auto">
           <button
-            onClick={() => { if (step >= 2) return; setMode("car"); setStep(1) }}
-            disabled={step >= 2 && mode !== "car"}
+            onClick={() => { if (isVillaFlowLocked || step >= 2) return; setMode("car"); setStep(1) }}
+            disabled={isVillaFlowLocked || (step >= 2 && mode !== "car")}
             className={`flex-1 py-2.5 text-center text-sm font-medium transition-colors ${
-              mode === "car" ? "bg-mist-900 text-white" : step >= 2 ? "text-mist-300 bg-mist-50 cursor-not-allowed" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
+              mode === "car"
+                ? "bg-mist-900 text-white"
+                : (isVillaFlowLocked || step >= 2)
+                  ? "text-mist-300 bg-mist-50 cursor-not-allowed"
+                  : "text-mist-400 bg-mist-50 hover:bg-mist-100"
             }`}
           >
             Car
@@ -585,8 +614,26 @@ function ReservationContent() {
                 setStartDate={setStartDate}
                 endDate={endDate}
                 setEndDate={setEndDate}
+                startTime={startTime}
+                setStartTime={setStartTime}
+                endTime={endTime}
+                setEndTime={setEndTime}
                 guestCount={guestCount}
                 setGuestCount={setGuestCount}
+                villaAirportTransfer={villaAirportTransfer}
+                setVillaAirportTransfer={setVillaAirportTransfer}
+                villaPrivateChef={villaPrivateChef}
+                setVillaPrivateChef={setVillaPrivateChef}
+                villaSecurityService={villaSecurityService}
+                setVillaSecurityService={setVillaSecurityService}
+                firstName={firstName}
+                setFirstName={setFirstName}
+                lastName={lastName}
+                setLastName={setLastName}
+                email={email}
+                setEmail={setEmail}
+                phone={phone}
+                setPhone={setPhone}
                 days={days}
                 today={today}
                 onNext={() => {
@@ -727,6 +774,8 @@ function CarSelectStep({
   isOneWay: boolean
   setIsOneWay: (v: boolean) => void
 }) {
+  const [showOneWayInfo, setShowOneWayInfo] = useState(false)
+
   return (
     <div className="space-y-8">
       {/* Select Vehicle */}
@@ -739,7 +788,7 @@ function CarSelectStep({
               <select
                 value={selectedBrandSlug}
                 onChange={(e) => setSelectedBrandSlug(e.target.value)}
-                className="w-full appearance-none border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-mist-400 focus:outline-none pr-8"
+                className="w-full appearance-none border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8"
               >
                 <option value="">Select a make</option>
                 {brands.map((b) => (
@@ -756,7 +805,7 @@ function CarSelectStep({
                 value={selectedCar?.slug || ""}
                 onChange={(e) => onSelectCar(e.target.value)}
                 disabled={!selectedBrandSlug || loadingCars}
-                className="w-full appearance-none border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-mist-400 focus:outline-none pr-8 disabled:opacity-50"
+                className="w-full appearance-none border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8 disabled:opacity-50"
               >
                 <option value="">
                   {loadingCars ? "Loading..." : !selectedBrandSlug ? "Select a make first" : "Select a model"}
@@ -779,25 +828,51 @@ function CarSelectStep({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Start Date</label>
-              <input type="date" min={today} value={startDate} onChange={(e) => setStartDate(e.target.value)}
-                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 focus:border-mist-400 focus:outline-none" />
+              <input
+                type={startDate ? "date" : "text"}
+                onFocus={(e) => (e.target.type = "date")}
+                onBlur={(e) => !startDate && (e.target.type = "text")}
+                min={today}
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                placeholder="Start date*"
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:border-neutral-400 focus:outline-none" />
             </div>
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Time</label>
-              <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)}
-                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 focus:border-mist-400 focus:outline-none" />
+              <input
+                type={startTime ? "time" : "text"}
+                onFocus={(e) => (e.target.type = "time")}
+                onBlur={(e) => !startTime && (e.target.type = "text")}
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                placeholder="Time*"
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:border-neutral-400 focus:outline-none" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">End Date</label>
-              <input type="date" min={startDate || today} value={endDate} onChange={(e) => setEndDate(e.target.value)}
-                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 focus:border-mist-400 focus:outline-none" />
+              <input
+                type={endDate ? "date" : "text"}
+                onFocus={(e) => (e.target.type = "date")}
+                onBlur={(e) => !endDate && (e.target.type = "text")}
+                min={startDate || today}
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                placeholder="End date*"
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:border-neutral-400 focus:outline-none" />
             </div>
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Time</label>
-              <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)}
-                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 focus:border-mist-400 focus:outline-none" />
+              <input
+                type={endTime ? "time" : "text"}
+                onFocus={(e) => (e.target.type = "time")}
+                onBlur={(e) => !endTime && (e.target.type = "text")}
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                placeholder="Time*"
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:border-neutral-400 focus:outline-none" />
             </div>
           </div>
         </div>
@@ -845,12 +920,12 @@ function CarSelectStep({
             {driverAvailability === "select" && (
               <div className="flex items-center gap-4">
                 <button type="button" onClick={() => setDriverDays(Math.max(1, driverDays - 1))}
-                  className="w-8 h-8 rounded-lg border border-mist-200 flex items-center justify-center text-mist-500 hover:bg-mist-50">
+                  className="w-8 h-8 rounded-md border border-mist-200 flex items-center justify-center text-mist-500 hover:bg-mist-50">
                   <Minus size={14} />
                 </button>
                 <span className="text-sm font-medium text-mist-900 w-6 text-center">{driverDays}</span>
                 <button type="button" onClick={() => setDriverDays(Math.min(days || 365, driverDays + 1))}
-                  className="w-8 h-8 rounded-lg border border-mist-200 flex items-center justify-center text-mist-500 hover:bg-mist-50">
+                  className="w-8 h-8 rounded-md border border-mist-200 flex items-center justify-center text-mist-500 hover:bg-mist-50">
                   <Plus size={14} />
                 </button>
               </div>
@@ -863,7 +938,7 @@ function CarSelectStep({
       <div>
         {/* Pickup / Delivery Toggle */}
         <div className="flex items-center justify-between my-8">
-          <div className="flex gap-0 border border-mist-200 rounded-xl overflow-hidden">
+          <div className="flex gap-0 border border-mist-200 rounded-md overflow-hidden">
             <button type="button" onClick={() => setDeliveryType("pickup")}
               className={`px-5 py-2 text-sm font-medium transition-colors ${
                 deliveryType === "pickup" ? "bg-mist-900 text-white" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
@@ -877,12 +952,52 @@ function CarSelectStep({
               Delivery
             </button>
           </div>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" checked={isOneWay} onChange={(e) => setIsOneWay(e.target.checked)}
-              className="w-4 h-4 rounded border-mist-300 text-blue-600 focus:ring-blue-500" />
-            <span className="text-sm text-mist-600">One-way</span>
-          </label>
+          <div className="flex items-center gap-2.5">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" checked={isOneWay} onChange={(e) => setIsOneWay(e.target.checked)}
+                className="w-4 h-4 rounded border-mist-300 text-blue-600 focus:ring-blue-500" />
+              <span className="text-sm text-mist-600">One-way</span>
+            </label>
+            <button
+              type="button"
+              onClick={() => setShowOneWayInfo(true)}
+              className="inline-flex h-5 w-5 items-center justify-center rounded-full text-mist-400 transition-colors hover:bg-mist-100 hover:text-mist-700"
+              aria-label="One-way information"
+            >
+              <Info size={14} />
+            </button>
+          </div>
         </div>
+
+        {showOneWayInfo && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+            <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl">
+              <div className="mb-3 flex items-start justify-between gap-3">
+                <h3 className="text-base font-semibold text-mist-900">About one-way delivery</h3>
+                <button
+                  type="button"
+                  onClick={() => setShowOneWayInfo(false)}
+                  className="rounded-md px-2 py-1 text-sm text-mist-400 hover:bg-mist-100 hover:text-mist-700"
+                  aria-label="Close"
+                >
+                  x
+                </button>
+              </div>
+              <p className="text-sm leading-relaxed text-mist-600">
+                One-way means your vehicle can be delivered to one address and collected from a different
+                address at the end of your reservation. Additional relocation fees may apply based on
+                distance and scheduling.
+              </p>
+              <button
+                type="button"
+                onClick={() => setShowOneWayInfo(false)}
+                className="mt-5 w-full rounded-md bg-mist-900 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-mist-700"
+              >
+                Got it
+              </button>
+            </div>
+          </div>
+        )}
 
         {deliveryType === "delivery" && (
           <div className="space-y-3 mb-4">
@@ -891,7 +1006,7 @@ function CarSelectStep({
                 <label className="text-xs text-mist-500 block mb-1.5">Delivery & Return Address</label>
                 <input type="text" placeholder="Delivery & return address" value={deliveryAddress}
                   onChange={(e) => setDeliveryAddress(e.target.value)}
-                  className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+                  className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
               </div>
             ) : (
               <>
@@ -899,13 +1014,13 @@ function CarSelectStep({
                   <label className="text-xs text-mist-500 block mb-1.5">Delivery Address</label>
                   <input type="text" placeholder="Delivery address" value={deliveryAddress}
                     onChange={(e) => setDeliveryAddress(e.target.value)}
-                    className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+                    className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
                 </div>
                 <div>
                   <label className="text-xs text-mist-500 block mb-1.5">Return Address</label>
                   <input type="text" placeholder="Return address" value={returnAddress}
                     onChange={(e) => setReturnAddress(e.target.value)}
-                    className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+                    className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
                 </div>
               </>
             )}
@@ -918,31 +1033,31 @@ function CarSelectStep({
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">First Name <span className="text-red-400">*</span></label>
               <input type="text" placeholder="Enter first name" value={firstName} onChange={(e) => setFirstName(e.target.value)}
-                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
             </div>
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Last Name</label>
               <input type="text" placeholder="Enter last name" value={lastName} onChange={(e) => setLastName(e.target.value)}
-                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Email Address</label>
               <input type="email" placeholder="Enter email address" value={email} onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
             </div>
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Phone Number</label>
               <input type="tel" placeholder="Enter phone number" value={phone} onChange={(e) => setPhone(e.target.value)}
-                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Drivers License</label>
               {driverLicenseUrl ? (
-                <div className="relative border border-mist-200 rounded-xl overflow-hidden h-24">
+                <div className="relative border border-mist-200 rounded-md overflow-hidden h-24">
                   <img src={driverLicenseUrl} alt="Driver License" className="w-full h-full object-cover" />
                   <button type="button" onClick={() => (document.getElementById("license-upload") as HTMLInputElement)?.click()}
                     className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-medium">
@@ -951,7 +1066,7 @@ function CarSelectStep({
                 </div>
               ) : (
                 <button type="button" onClick={() => (document.getElementById("license-upload") as HTMLInputElement)?.click()}
-                  className="w-full flex items-center gap-2 border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-400 hover:bg-mist-50 transition-colors text-left">
+                  className="w-full flex items-center gap-2 border border-mist-200 rounded-md px-3 py-2.5 text-sm text-mist-400 hover:bg-mist-50 transition-colors text-left">
                   {uploadingLicense ? "Uploading..." : "Choose File"} <span className="text-xs text-mist-300">No file chosen</span>
                 </button>
               )}
@@ -961,7 +1076,7 @@ function CarSelectStep({
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Insurance</label>
               {insuranceUrl ? (
-                <div className="relative border border-mist-200 rounded-xl overflow-hidden h-24">
+                <div className="relative border border-mist-200 rounded-md overflow-hidden h-24">
                   <img src={insuranceUrl} alt="Insurance" className="w-full h-full object-cover" />
                   <button type="button" onClick={() => (document.getElementById("insurance-upload") as HTMLInputElement)?.click()}
                     className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-medium">
@@ -970,7 +1085,7 @@ function CarSelectStep({
                 </div>
               ) : (
                 <button type="button" onClick={() => (document.getElementById("insurance-upload") as HTMLInputElement)?.click()}
-                  className="w-full flex items-center gap-2 border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-400 hover:bg-mist-50 transition-colors text-left">
+                  className="w-full flex items-center gap-2 border border-mist-200 rounded-md px-3 py-2.5 text-sm text-mist-400 hover:bg-mist-50 transition-colors text-left">
                   {uploadingInsurance ? "Uploading..." : "Choose File"} <span className="text-xs text-mist-300">No file chosen</span>
                 </button>
               )}
@@ -982,7 +1097,7 @@ function CarSelectStep({
       </div>
 
       <button onClick={onNext} disabled={!canProceed}
-        className="w-full bg-mist-900 text-white py-3 rounded-xl font-semibold text-sm hover:bg-mist-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+        className="w-full bg-mist-900 text-white py-3 rounded-md font-semibold text-sm hover:bg-mist-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
         Next
       </button>
     </div>
@@ -995,7 +1110,12 @@ function CarSelectStep({
 function VillaSelectStep({
   villaOptions, selectedVilla, setSelectedVilla, loadingVillas,
   startDate, setStartDate, endDate, setEndDate,
+  startTime, setStartTime, endTime, setEndTime,
   guestCount, setGuestCount,
+  villaAirportTransfer, setVillaAirportTransfer,
+  villaPrivateChef, setVillaPrivateChef,
+  villaSecurityService, setVillaSecurityService,
+  firstName, setFirstName, lastName, setLastName, email, setEmail, phone, setPhone,
   days, today, onNext, canProceed,
 }: {
   villaOptions: VillaData[]
@@ -1006,8 +1126,26 @@ function VillaSelectStep({
   setStartDate: (v: string) => void
   endDate: string
   setEndDate: (v: string) => void
+  startTime: string
+  setStartTime: (v: string) => void
+  endTime: string
+  setEndTime: (v: string) => void
   guestCount: number
   setGuestCount: (v: number) => void
+  villaAirportTransfer: boolean
+  setVillaAirportTransfer: Dispatch<SetStateAction<boolean>>
+  villaPrivateChef: boolean
+  setVillaPrivateChef: Dispatch<SetStateAction<boolean>>
+  villaSecurityService: boolean
+  setVillaSecurityService: Dispatch<SetStateAction<boolean>>
+  firstName: string
+  setFirstName: (v: string) => void
+  lastName: string
+  setLastName: (v: string) => void
+  email: string
+  setEmail: (v: string) => void
+  phone: string
+  setPhone: (v: string) => void
   days: number
   today: string
   onNext: () => void
@@ -1022,17 +1160,37 @@ function VillaSelectStep({
 
   return (
     <div className="space-y-8">
-      {/* Select Villa */}
+      {/* Villa Info */}
       <div>
-        <h2 className="text-lg font-semibold text-mist-900 mb-4">Select Villa</h2>
+        <h2 className="text-3xl font-semibold text-mist-900 mb-4">Villa Info</h2>
         <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="text-xs text-mist-500 block mb-1.5">Villa Name</label>
+            <div className="relative">
+              <select
+                value={selectedVilla?.slug || ""}
+                onChange={(e) => {
+                  const v = filteredVillas.find((x) => x.slug === e.target.value) || null
+                  setSelectedVilla(v)
+                }}
+                className="w-full appearance-none border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8"
+              >
+                <option value="">{loadingVillas ? "Loading..." : "Select a villa"}</option>
+                {filteredVillas.map((v) => (
+                  <option key={v.slug} value={v.slug}>{v.name}</option>
+                ))}
+              </select>
+              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none" />
+            </div>
+          </div>
           <div>
             <label className="text-xs text-mist-500 block mb-1.5">Location</label>
             <div className="relative">
               <select
                 value={locationFilter}
                 onChange={(e) => { setLocationFilter(e.target.value); setSelectedVilla(null) }}
-                className="w-full appearance-none border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-mist-400 focus:outline-none pr-8"
+                disabled={loadingVillas}
+                className="w-full appearance-none border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8 disabled:opacity-50"
               >
                 <option value="">All Locations</option>
                 {locations.map((loc) => (
@@ -1042,67 +1200,190 @@ function VillaSelectStep({
               <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none" />
             </div>
           </div>
-          <div>
-            <label className="text-xs text-mist-500 block mb-1.5">Villa</label>
-            <div className="relative">
-              <select
-                value={selectedVilla?.slug || ""}
-                onChange={(e) => {
-                  const v = filteredVillas.find((x) => x.slug === e.target.value) || null
-                  setSelectedVilla(v)
-                }}
-                disabled={loadingVillas}
-                className="w-full appearance-none border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-mist-400 focus:outline-none pr-8 disabled:opacity-50"
-              >
-                <option value="">{loadingVillas ? "Loading..." : "Select a villa"}</option>
-                {filteredVillas.map((v) => (
-                  <option key={v.slug} value={v.slug}>{v.name} — ${v.pricePerNight}/night</option>
-                ))}
-              </select>
-              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none" />
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* When */}
+      {/* Stay Details */}
       <div>
-        <h2 className="text-lg font-semibold text-mist-900 mb-4">When</h2>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="text-xs text-mist-500 block mb-1.5">Check-In</label>
-            <input type="date" min={today} value={startDate} onChange={(e) => setStartDate(e.target.value)}
-              className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 focus:border-mist-400 focus:outline-none" />
+        <h2 className="text-3xl font-semibold text-mist-900 mb-4">Stay Details</h2>
+        <div className="space-y-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <input
+                type={startDate ? "date" : "text"}
+                onFocus={(e) => (e.target.type = "date")}
+                onBlur={(e) => !startDate && (e.target.type = "text")}
+                min={today}
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                placeholder="Check-in"
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:border-neutral-400 focus:outline-none"
+              />
+            </div>
+            <div>
+              <input
+                type={startTime ? "time" : "text"}
+                onFocus={(e) => (e.target.type = "time")}
+                onBlur={(e) => !startTime && (e.target.type = "text")}
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                placeholder="Time"
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:border-neutral-400 focus:outline-none"
+              />
+            </div>
           </div>
-          <div>
-            <label className="text-xs text-mist-500 block mb-1.5">Check-Out</label>
-            <input type="date" min={startDate || today} value={endDate} onChange={(e) => setEndDate(e.target.value)}
-              className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 focus:border-mist-400 focus:outline-none" />
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <input
+                type={endDate ? "date" : "text"}
+                onFocus={(e) => (e.target.type = "date")}
+                onBlur={(e) => !endDate && (e.target.type = "text")}
+                min={startDate || today}
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                placeholder="Check-out"
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:border-neutral-400 focus:outline-none"
+              />
+            </div>
+            <div>
+              <input
+                type={endTime ? "time" : "text"}
+                onFocus={(e) => (e.target.type = "time")}
+                onBlur={(e) => !endTime && (e.target.type = "text")}
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                placeholder="Time"
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:border-neutral-400 focus:outline-none"
+              />
+            </div>
           </div>
         </div>
       </div>
 
       {/* Guests */}
       <div>
-        <h2 className="text-lg font-semibold text-mist-900 mb-4">Guests</h2>
-        <div className="flex items-center gap-4">
-          <button type="button" onClick={() => setGuestCount(Math.max(1, guestCount - 1))}
-            className="w-8 h-8 rounded-lg border border-mist-200 flex items-center justify-center text-mist-500 hover:bg-mist-50">
-            <Minus size={14} />
-          </button>
-          <span className="text-sm font-medium text-mist-900 w-6 text-center">{guestCount}</span>
-          <button type="button" onClick={() => setGuestCount(Math.min(selectedVilla?.guests || 20, guestCount + 1))}
-            className="w-8 h-8 rounded-lg border border-mist-200 flex items-center justify-center text-mist-500 hover:bg-mist-50">
-            <Plus size={14} />
-          </button>
-          {selectedVilla && (
-            <span className="text-xs text-mist-400">max {selectedVilla.guests}</span>
-          )}
+        <div className="relative">
+          <select
+            value={guestCount}
+            onChange={(e) => setGuestCount(Number(e.target.value))}
+            className="w-full appearance-none border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8"
+          >
+            {Array.from({ length: selectedVilla?.guests || 20 }, (_, i) => i + 1).map((count) => (
+              <option key={count} value={count}>Number of Guests: {count}</option>
+            ))}
+          </select>
+          <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none" />
+        </div>
+      </div>
+
+      {/* Add-Ons */}
+      <div>
+        <h2 className="text-3xl font-semibold text-mist-900 mb-1">Add-Ons <span className="text-base italic text-mist-500 font-normal">(optional)</span></h2>
+        <div className="space-y-3 mt-4">
+          <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+            <div className="flex items-center gap-2.5">
+              <input
+                type="radio"
+                checked={villaAirportTransfer}
+                onClick={() => setVillaAirportTransfer((prev) => !prev)}
+                onChange={() => { }}
+                className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
+              />
+              <span className="text-sm text-mist-700">Airport Transfer (Luxury SUV)</span>
+            </div>
+          </label>
+
+          <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+            <div className="flex items-center gap-2.5">
+              <input
+                type="radio"
+                checked={villaPrivateChef}
+                onClick={() => setVillaPrivateChef((prev) => !prev)}
+                onChange={() => { }}
+                className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
+              />
+              <span className="text-sm text-mist-700">Private Chef</span>
+            </div>
+          </label>
+
+          <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+            <div className="flex items-center gap-2.5">
+              <input
+                type="radio"
+                checked={villaSecurityService}
+                onClick={() => setVillaSecurityService((prev) => !prev)}
+                onChange={() => { }}
+                className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
+              />
+              <span className="text-sm text-mist-700">Security Service</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      {/* Customer Info */}
+      <div className="border-t border-mist-200 pt-8">
+        <h2 className="text-3xl font-semibold text-mist-900 mb-4">Customer Info</h2>
+        <div className="space-y-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs text-mist-500 block mb-1.5">First Name</label>
+              <input
+                type="text"
+                placeholder="Enter first name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-mist-500 block mb-1.5">Last Name</label>
+              <input
+                type="text"
+                placeholder="Enter last name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs text-mist-500 block mb-1.5">Email Address</label>
+              <input
+                type="email"
+                placeholder="Enter email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-mist-500 block mb-1.5">Phone Number</label>
+              <input
+                type="tel"
+                placeholder="Enter phone number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs text-mist-500 block mb-1.5">Upload ID / Passport</label>
+            <input
+              type="file"
+              className="w-full text-sm text-mist-500 file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700 hover:file:bg-mist-50"
+            />
+          </div>
         </div>
       </div>
 
       <button onClick={onNext} disabled={!canProceed}
-        className="w-full bg-mist-900 text-white py-3 rounded-xl font-semibold text-sm hover:bg-mist-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+        className="w-full bg-mist-900 text-white py-3 rounded-md font-semibold text-sm hover:bg-mist-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
         Next
       </button>
     </div>
@@ -1141,7 +1422,7 @@ function PayStep({
     <div className="space-y-6">
       <h2 className="text-lg font-semibold text-mist-900">Card Info</h2>
 
-      <div className="border border-blue-200 bg-blue-50/30 rounded-xl p-4">
+      <div className="border border-blue-200 bg-blue-50/30 rounded-md p-4">
         <div className="flex items-center justify-between">
           <label className="flex items-center gap-2.5">
             <div className="w-4 h-4 rounded-full border-2 border-blue-600 flex items-center justify-center">
@@ -1161,14 +1442,14 @@ function PayStep({
       <div>
         <label className="text-xs text-mist-500 block mb-1.5">Name on Card</label>
         <input type="text" placeholder="Full name" value={cardName} onChange={(e) => setCardName(e.target.value)}
-          className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+          className="w-full border border-neutral-300 rounded-md px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
       </div>
 
       <div>
         <label className="text-xs text-mist-500 block mb-1.5">Card Number</label>
         <input type="text" placeholder="1234 1234 1234 1234" value={cardNumber}
           onChange={(e) => setCardNumber(formatCardNumber(e.target.value))} maxLength={19}
-          className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+          className="w-full border border-neutral-300 rounded-md px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -1176,13 +1457,13 @@ function PayStep({
           <label className="text-xs text-mist-500 block mb-1.5">Expiration Date</label>
           <input type="text" placeholder="MM/YY" value={expiry}
             onChange={(e) => setExpiry(formatExpiry(e.target.value))} maxLength={5}
-            className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+            className="w-full border border-neutral-300 rounded-md px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
         </div>
         <div>
           <label className="text-xs text-mist-500 block mb-1.5">Security Code</label>
           <input type="text" placeholder="CVV" value={cvv}
             onChange={(e) => setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))} maxLength={4}
-            className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+            className="w-full border border-neutral-300 rounded-md px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
         </div>
       </div>
 
@@ -1190,7 +1471,7 @@ function PayStep({
         <label className="text-xs text-mist-500 block mb-1.5">Billing Address</label>
         <input type="text" placeholder="Enter billing address" value={billingAddress}
           onChange={(e) => setBillingAddress(e.target.value)}
-          className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+          className="w-full border border-neutral-300 rounded-md px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -1198,7 +1479,7 @@ function PayStep({
           <label className="text-xs text-mist-500 block mb-1.5">Country</label>
           <div className="relative">
             <select value={country} onChange={(e) => setCountry(e.target.value)}
-              className="w-full appearance-none border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 bg-white focus:border-mist-400 focus:outline-none pr-8">
+              className="w-full appearance-none border border-neutral-300 rounded-md px-4 py-2.5 text-sm text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8">
               <option>United States</option>
               <option>Canada</option>
               <option>United Kingdom</option>
@@ -1214,11 +1495,11 @@ function PayStep({
           <label className="text-xs text-mist-500 block mb-1.5">ZIP Code</label>
           <input type="text" placeholder="ZIP code" value={zipCode}
             onChange={(e) => setZipCode(e.target.value)}
-            className="w-full border border-mist-200 rounded-xl px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+            className="w-full border border-neutral-300 rounded-md px-4 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
         </div>
       </div>
 
-      <div className="border border-mist-200 rounded-xl p-4">
+      <div className="border border-mist-200 rounded-md p-4">
         <label className="flex items-center gap-2.5 cursor-pointer">
           <div className="w-4 h-4 rounded-full border-2 border-mist-300" />
           <span className="text-sm text-mist-500">PayPal</span>
@@ -1237,11 +1518,11 @@ function PayStep({
 
       <div className="flex gap-3">
         <button onClick={onBack}
-          className="flex-1 border border-mist-200 text-mist-700 py-3 rounded-xl font-semibold text-sm hover:bg-mist-50 transition-colors">
+          className="flex-1 border border-mist-200 text-mist-700 py-3 rounded-md font-semibold text-sm hover:bg-mist-50 transition-colors">
           Back
         </button>
         <button onClick={onPay} disabled={submitting || !cardNumber || !expiry || !cvv}
-          className="flex-1 bg-mist-900 text-white py-3 rounded-xl font-semibold text-sm hover:bg-mist-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+          className="flex-1 bg-mist-900 text-white py-3 rounded-md font-semibold text-sm hover:bg-mist-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
           {submitting ? "Processing..." : "Place Order"}
         </button>
       </div>
@@ -1271,11 +1552,11 @@ function DoneStep({ bookingId, vehicleName, mode }: { bookingId: string; vehicle
       </p>
       <div className="flex gap-3 justify-center pt-4">
         <Link href="/account/bookings"
-          className="px-6 py-2.5 bg-mist-900 text-white rounded-xl text-sm font-semibold hover:bg-mist-700 transition-colors">
+          className="px-6 py-2.5 bg-mist-900 text-white rounded-md text-sm font-semibold hover:bg-mist-700 transition-colors">
           View My Bookings
         </Link>
         <Link href={mode === "car" ? "/cars" : "/villas"}
-          className="px-6 py-2.5 border border-mist-200 text-mist-700 rounded-xl text-sm font-semibold hover:bg-mist-50 transition-colors">
+          className="px-6 py-2.5 border border-mist-200 text-mist-700 rounded-md text-sm font-semibold hover:bg-mist-50 transition-colors">
           Browse More {mode === "car" ? "Cars" : "Villas"}
         </Link>
       </div>
@@ -1461,3 +1742,4 @@ function VillaSummaryCard({
     </div>
   )
 }
+

@@ -6,6 +6,7 @@ import { Phone, Mail, MapPin, Clock, ChevronDown } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import Banner from "@/components/ui/Banner";
 import FAQ from "@/components/home/FAQ";
+import Turnstile from "@/components/Turnstile";
 
 interface ContactDetail {
   icon: ReactNode;
@@ -61,6 +62,7 @@ export default function ContactPage() {
   };
 
   const [submitting, setSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -78,6 +80,7 @@ export default function ContactPage() {
           phone: form.phone,
           subject: `Trip Inquiry - ${form.tripNeed}`,
           message: form.notes || null,
+          turnstileToken,
           data: {
             adults: form.adults,
             kids: form.kids,
@@ -256,6 +259,8 @@ export default function ContactPage() {
               <button type="submit" disabled={submitting} className="w-full bg-mist-900 text-white text-[14px] 2xl:text-3xl font-semibold py-3.5 2xl:py-8 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200 mt-1 2xl:mt-2 disabled:opacity-50">
                 {submitting ? "Sending..." : "Send Request"}
               </button>
+
+              <Turnstile onVerify={setTurnstileToken} onExpire={() => setTurnstileToken("")} />
 
             </form>
           </div>

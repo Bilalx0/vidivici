@@ -13,6 +13,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [sidebarOpen, setSidebarOpen] = useState(true)
 
   useEffect(() => {
     const stored = sessionStorage.getItem("admin_auth")
@@ -84,8 +85,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="flex min-h-screen bg-mist-50">
-      <AdminSidebar />
-      <main className="flex-1 lg:ml-64 p-4 pt-14 sm:p-6 sm:pt-6 lg:p-10">
+      <AdminSidebar desktopOpen={sidebarOpen} onDesktopToggle={() => setSidebarOpen(!sidebarOpen)} />
+      <main className={`flex-1 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-0'} p-4 pt-14 sm:p-6 sm:pt-6 lg:p-10 transition-all duration-200`}>
         {children}
       </main>
       <Toaster position="top-right" />

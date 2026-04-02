@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
+import { verifyTurnstile } from '@/lib/turnstile'
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password, phone } = await request.json()
+    const { name, email, password, phone, turnstileToken } = await request.json()
+
+    const valid = await verifyTurnstile(turnstileToken)
+    if (!valid) {
+      return NextResponse.json({ error: 'Bot verification failed' }, { status: 403 })
+    }
 
     if (!name || !email || !password) {
       return NextResponse.json({ error: 'Name, email and password are required' }, { status: 400 })

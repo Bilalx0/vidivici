@@ -5,6 +5,7 @@ import { useState } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Eye, EyeOff } from "lucide-react"
+import Turnstile from "@/components/Turnstile"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -14,11 +15,25 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [remember, setRemember] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError("")
+
+    if (turnstileToken) {
+      const verify = await fetch("/api/verify-turnstile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: turnstileToken }),
+      })
+      if (!verify.ok) {
+        setError("Bot verification failed. Please try again.")
+        setLoading(false)
+        return
+      }
+    }
 
     const result = await signIn("credentials", {
       email,
@@ -122,6 +137,8 @@ export default function LoginPage() {
               >
                 {loading ? "Signing in..." : "Sign Up"}
               </button>
+
+              <Turnstile onVerify={setTurnstileToken} onExpire={() => setTurnstileToken("")} />
             </form>
 
             {/* Divider */}

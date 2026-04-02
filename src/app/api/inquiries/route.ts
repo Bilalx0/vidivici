@@ -23,7 +23,13 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { source, category, name, email, phone, subject, message, data } = body
+    const { source, category, name, email, phone, subject, message, data, turnstileToken } = body
+
+    const { verifyTurnstile } = await import('@/lib/turnstile')
+    const valid = await verifyTurnstile(turnstileToken)
+    if (!valid) {
+      return NextResponse.json({ error: "Bot verification failed" }, { status: 403 })
+    }
 
     if (!name || !email || !source || !category) {
       return NextResponse.json({ error: "Name, email, source and category are required" }, { status: 400 })

@@ -46,12 +46,14 @@ export function CarsContent() {
     try {
       const params = new URLSearchParams()
       const brand = searchParams.get("brand")
+      const make = searchParams.get("make")
       const category = searchParams.get("category")
       const minPrice = searchParams.get("minPrice")
       const maxPrice = searchParams.get("maxPrice")
       const search = searchParams.get("search")
 
       if (brand) params.set("brand", brand)
+      else if (make) params.set("make", make)
       if (category) params.set("category", category)
       if (minPrice) params.set("minPrice", minPrice)
       if (maxPrice) params.set("maxPrice", maxPrice)

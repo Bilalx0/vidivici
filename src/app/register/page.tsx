@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Eye, EyeOff } from "lucide-react"
+import Turnstile from "@/components/Turnstile"
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -12,6 +13,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [agreeTerms, setAgreeTerms] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -31,7 +33,7 @@ export default function RegisterPage() {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: form.name, email: form.email, password: form.password }),
+        body: JSON.stringify({ name: form.name, email: form.email, password: form.password, turnstileToken }),
       })
 
       if (!res.ok) {
@@ -143,6 +145,8 @@ export default function RegisterPage() {
               >
                 {loading ? "Creating Account..." : "Sign Up"}
               </button>
+
+              <Turnstile onVerify={setTurnstileToken} onExpire={() => setTurnstileToken("")} />
             </form>
 
             {/* Divider */}

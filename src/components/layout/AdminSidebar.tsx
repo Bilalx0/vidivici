@@ -20,32 +20,42 @@ const navItems = [
   { label: "Settings", href: "/admin/settings", icon: Settings },
 ]
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ desktopOpen, onDesktopToggle }: { desktopOpen: boolean; onDesktopToggle: () => void }) {
   const pathname = usePathname()
-  const [collapsed, setCollapsed] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <>
+      {/* Mobile hamburger */}
       <div className="lg:hidden fixed top-0 left-0 z-40 p-3">
         <button
-          onClick={() => setCollapsed(!collapsed)}
+          onClick={() => setMobileOpen(!mobileOpen)}
           className="bg-black text-white p-2 rounded"
         >
           <Menu size={18} />
         </button>
       </div>
 
-      {/* Backdrop */}
-      {collapsed && (
-        <div className="lg:hidden fixed inset-0 bg-black/50 z-20" onClick={() => setCollapsed(false)} />
+      {/* Desktop toggle when sidebar closed */}
+      {!desktopOpen && (
+        <div className="hidden lg:block fixed top-0 left-0 z-40 p-3">
+          <button onClick={onDesktopToggle} className="bg-black text-white p-2 rounded hover:bg-mist-800 transition-colors">
+            <Menu size={18} />
+          </button>
+        </div>
       )}
 
-      <aside className={`fixed top-0 left-0 h-full bg-black z-30 transition-transform duration-200 w-64 ${collapsed ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}>
+      {/* Mobile backdrop */}
+      {mobileOpen && (
+        <div className="lg:hidden fixed inset-0 bg-black/50 z-20" onClick={() => setMobileOpen(false)} />
+      )}
+
+      <aside className={`fixed top-0 left-0 h-full bg-black z-30 transition-transform duration-200 w-64 ${mobileOpen ? "translate-x-0" : "-translate-x-full"} ${desktopOpen ? "lg:translate-x-0" : "lg:-translate-x-full"}`}>
         <div className="p-5 border-b border-mist-800 flex items-center justify-between">
           <Link href="/admin/dashboard" className="text-xl font-bold text-white tracking-wider">
             VIDIVICI <span className="text-xs text-mist-400 font-normal">ADMIN</span>
           </Link>
-          <button onClick={() => setCollapsed(false)} className="lg:hidden text-mist-400 hover:text-white p-1 rounded">
+          <button onClick={() => { setMobileOpen(false); onDesktopToggle(); }} className="text-mist-400 hover:text-white p-1 rounded">
             <X size={18} />
           </button>
         </div>
@@ -58,7 +68,7 @@ export default function AdminSidebar() {
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => setCollapsed(false)}
+                onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-colors ${
                   isActive
                     ? "bg-white text-black font-medium"

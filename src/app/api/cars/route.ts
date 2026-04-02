@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
     }
 
     const brand = searchParams.get('brand')
+    const make = searchParams.get('make')
     const category = searchParams.get('category')
     const location = searchParams.get('location')
     const minPrice = searchParams.get('minPrice')
@@ -28,7 +29,8 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search')
     const where: any = all === 'true' ? {} : { isAvailable: true }
     if (brand) where.brand = { slug: brand }
-    if (category) where.category = { slug: category }
+    else if (make) where.brand = { name: { equals: make, mode: 'insensitive' } }
+    if (category) where.category = { OR: [{ slug: category }, { name: { equals: category, mode: 'insensitive' } }] }
     if (location) where.location = location
     if (minPrice) where.pricePerDay = { ...where.pricePerDay, gte: parseFloat(minPrice) }
     if (maxPrice) where.pricePerDay = { ...where.pricePerDay, lte: parseFloat(maxPrice) }

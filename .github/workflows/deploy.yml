@@ -51,7 +51,7 @@ jobs:
             echo "        (auto-handles new tables/fields)"
             echo "======================================"
             # Sync schema directly to the database (adds new columns/tables)
-            npx prisma db push 2>/dev/null || true
+            npx prisma db push --accept-data-loss
 
             echo "======================================"
             echo " [4/6] Generating Prisma client"

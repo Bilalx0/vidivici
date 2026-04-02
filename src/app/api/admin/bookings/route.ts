@@ -143,7 +143,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    const [carBookings, villaBookings, eventBookings] = await Promise.all([
+    const [carResult, villaResult, eventResult] = await Promise.allSettled([
       prisma.booking.findMany({
         include: {
           car: { include: { brand: true, images: { take: 1, orderBy: { isPrimary: 'desc' } } } },
@@ -164,9 +164,17 @@ export async function GET() {
       }),
     ])
 
+    if (carResult.status === 'rejected') console.error('Car bookings fetch failed:', carResult.reason)
+    if (villaResult.status === 'rejected') console.error('Villa bookings fetch failed:', villaResult.reason)
+    if (eventResult.status === 'rejected') console.error('Event bookings fetch failed:', eventResult.reason)
+
+    const carBookings = carResult.status === 'fulfilled' ? carResult.value : []
+    const villaBookings = villaResult.status === 'fulfilled' ? villaResult.value : []
+    const eventBookings = eventResult.status === 'fulfilled' ? eventResult.value : []
+
     const all = [
-      ...carBookings.map((b: any) => ({ ...b, bookingType: 'car', itemName: `${b.car.brand.name} ${b.car.name}`, customerName: b.user.name, customerEmail: b.user.email, customerPhone: b.user.phone })),
-      ...villaBookings.map((b: any) => ({ ...b, bookingType: 'villa', itemName: b.villa.name, customerName: b.user.name, customerEmail: b.user.email, customerPhone: b.user.phone, startDate: b.checkIn, endDate: b.checkOut })),
+      ...carBookings.map((b: any) => ({ ...b, bookingType: 'car', itemName: b.car ? `${b.car.brand?.name || ''} ${b.car.name}`.trim() : 'Unknown Car', customerName: b.user?.name, customerEmail: b.user?.email || '', customerPhone: b.user?.phone })),
+      ...villaBookings.map((b: any) => ({ ...b, bookingType: 'villa', itemName: b.villa?.name || 'Unknown Villa', customerName: b.user?.name, customerEmail: b.user?.email || '', customerPhone: b.user?.phone, startDate: b.checkIn, endDate: b.checkOut })),
       ...eventBookings.map((b: any) => ({ ...b, bookingType: 'event', itemName: b.event?.name || 'Custom Event', customerName: b.firstName + (b.lastName ? ` ${b.lastName}` : ''), customerEmail: b.email, customerPhone: b.phone, startDate: b.bookingDate, endDate: b.bookingDate })),
     ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 

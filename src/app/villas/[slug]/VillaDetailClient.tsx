@@ -898,7 +898,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
             onClick={() => setShowMobileBooking(true)}
             className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm sm:text-base px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl whitespace-nowrap"
           >
-            Select Dates
+            Start
           </button>
         </div>
       </div>

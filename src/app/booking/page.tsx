@@ -419,7 +419,10 @@ function ReservationContent() {
             dropoffLocation: selectedCar.location,
             deliveryType,
             deliveryAddress: deliveryType === "delivery" ? deliveryAddress : undefined,
-            returnAddress: deliveryType === "delivery" ? returnAddress : undefined,
+            returnAddress:
+              deliveryType === "delivery"
+                ? (isOneWay ? returnAddress : deliveryAddress)
+                : undefined,
             isOneWay,
             notes: needDriver
               ? `Driver: ${driverHours}hr/day × ${actualDriverDays} days`
@@ -772,46 +775,6 @@ function CarSelectStep({
       <div>
         <h2 className="text-lg font-semibold text-mist-900 mb-4">When & Where</h2>
 
-        {/* Pickup / Delivery Toggle */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex gap-0 border border-mist-200 rounded-xl overflow-hidden">
-            <button type="button" onClick={() => setDeliveryType("pickup")}
-              className={`px-5 py-2 text-sm font-medium transition-colors ${
-                deliveryType === "pickup" ? "bg-mist-900 text-white" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
-              }`}>
-              Pickup
-            </button>
-            <button type="button" onClick={() => setDeliveryType("delivery")}
-              className={`px-5 py-2 text-sm font-medium transition-colors ${
-                deliveryType === "delivery" ? "bg-mist-900 text-white" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
-              }`}>
-              Delivery
-            </button>
-          </div>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" checked={isOneWay} onChange={(e) => setIsOneWay(e.target.checked)}
-              className="w-4 h-4 rounded border-mist-300 text-blue-600 focus:ring-blue-500" />
-            <span className="text-sm text-mist-600">One-way</span>
-          </label>
-        </div>
-
-        {deliveryType === "delivery" && (
-          <div className="space-y-3 mb-4">
-            <div>
-              <label className="text-xs text-mist-500 block mb-1.5">Delivery Address</label>
-              <input type="text" placeholder="Delivery address" value={deliveryAddress}
-                onChange={(e) => setDeliveryAddress(e.target.value)}
-                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
-            </div>
-            <div>
-              <label className="text-xs text-mist-500 block mb-1.5">Return Address</label>
-              <input type="text" placeholder="Return address" value={returnAddress}
-                onChange={(e) => setReturnAddress(e.target.value)}
-                className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
-            </div>
-          </div>
-        )}
-
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -898,6 +861,57 @@ function CarSelectStep({
 
       {/* Customer Info */}
       <div>
+        {/* Pickup / Delivery Toggle */}
+        <div className="flex items-center justify-between my-8">
+          <div className="flex gap-0 border border-mist-200 rounded-xl overflow-hidden">
+            <button type="button" onClick={() => setDeliveryType("pickup")}
+              className={`px-5 py-2 text-sm font-medium transition-colors ${
+                deliveryType === "pickup" ? "bg-mist-900 text-white" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
+              }`}>
+              Pickup
+            </button>
+            <button type="button" onClick={() => setDeliveryType("delivery")}
+              className={`px-5 py-2 text-sm font-medium transition-colors ${
+                deliveryType === "delivery" ? "bg-mist-900 text-white" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
+              }`}>
+              Delivery
+            </button>
+          </div>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" checked={isOneWay} onChange={(e) => setIsOneWay(e.target.checked)}
+              className="w-4 h-4 rounded border-mist-300 text-blue-600 focus:ring-blue-500" />
+            <span className="text-sm text-mist-600">One-way</span>
+          </label>
+        </div>
+
+        {deliveryType === "delivery" && (
+          <div className="space-y-3 mb-4">
+            {!isOneWay ? (
+              <div>
+                <label className="text-xs text-mist-500 block mb-1.5">Delivery & Return Address</label>
+                <input type="text" placeholder="Delivery & return address" value={deliveryAddress}
+                  onChange={(e) => setDeliveryAddress(e.target.value)}
+                  className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+              </div>
+            ) : (
+              <>
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1.5">Delivery Address</label>
+                  <input type="text" placeholder="Delivery address" value={deliveryAddress}
+                    onChange={(e) => setDeliveryAddress(e.target.value)}
+                    className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+                </div>
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1.5">Return Address</label>
+                  <input type="text" placeholder="Return address" value={returnAddress}
+                    onChange={(e) => setReturnAddress(e.target.value)}
+                    className="w-full border border-mist-200 rounded-xl px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-mist-400 focus:outline-none" />
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
         <h2 className="text-lg font-semibold text-mist-900 mb-4">Customer Info</h2>
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">

@@ -117,23 +117,38 @@ model CarImage {
 
 model Booking {
   id              String        @id @default(cuid())
+  bookingNumber   String        @unique @default(cuid())
   user            User          @relation(fields: [userId], references: [id])
   userId          String
   car             Car           @relation(fields: [carId], references: [id])
   carId           String
   startDate       DateTime
   endDate         DateTime
+  startTime       String?
+  endTime         String?
   pickupLocation  String
   dropoffLocation String
   deliveryType    String        @default("pickup")
   deliveryAddress String?
   returnAddress   String?
   isOneWay        Boolean       @default(false)
+  needsDriver     Boolean       @default(false)
+  driverHours     Int?
+  driverDays      Int?
+  deliveryFee     Float         @default(0)
+  driverCost      Float         @default(0)
+  discount        Float         @default(0)
+  addOnsTotal     Float         @default(0)
+  tax             Float         @default(0)
+  basePrice       Float         @default(0)
   totalPrice      Float
   status          BookingStatus @default(PENDING)
   paymentStatus   PaymentStatus @default(UNPAID)
+  documentStatus  String        @default("PENDING")
   paymentIntentId String?
   notes           String?       @db.Text
+  adminNotes      String?       @db.Text
+  documents       String?       @db.Text
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 }
@@ -240,6 +255,7 @@ model VillaImage {
 
 model VillaBooking {
   id              String        @id @default(cuid())
+  bookingNumber   String        @unique @default(cuid())
   user            User          @relation(fields: [userId], references: [id])
   userId          String
   villa           Villa         @relation(fields: [villaId], references: [id])
@@ -250,7 +266,10 @@ model VillaBooking {
   totalPrice      Float
   status          BookingStatus @default(PENDING)
   paymentStatus   PaymentStatus @default(UNPAID)
+  documentStatus  String        @default("PENDING")
   notes           String?       @db.Text
+  adminNotes      String?       @db.Text
+  documents       String?       @db.Text
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 }
@@ -305,6 +324,7 @@ model EventImage {
 
 model EventBooking {
   id              String   @id @default(cuid())
+  bookingNumber   String?  @unique
   event           Event?   @relation(fields: [eventId], references: [id])
   eventId         String?
   firstName       String
@@ -317,6 +337,12 @@ model EventBooking {
   budget          String?
   addOns          String?
   specialRequests String?  @db.Text
+  totalPrice      Float    @default(0)
+  status          String   @default("PENDING")
+  paymentStatus   String   @default("UNPAID")
+  documentStatus  String   @default("PENDING")
+  adminNotes      String?  @db.Text
+  documents       String?  @db.Text
   isRead          Boolean  @default(false)
   createdAt       DateTime @default(now())
 }

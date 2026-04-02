@@ -28,6 +28,7 @@ export default async function CarDetailPage({ params }: { params: Promise<{ slug
     description: car.description,
     shortDescription: car.shortDescription,
     pricePerDay: car.pricePerDay,
+    originalPrice: car.originalPrice,
     year: car.year,
     seats: car.seats,
     transmission: car.transmission,

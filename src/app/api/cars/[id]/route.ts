@@ -40,11 +40,11 @@ export async function PUT(
       return NextResponse.json({ error: 'Car not found' }, { status: 404 })
     }
 
-    const { images, ...carData } = body
+    const { images, brandId, categoryId, ...rest } = body
 
     // Regenerate slug if name changed
-    if (carData.name && carData.name !== existing.name) {
-      carData.slug = carData.name.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-')
+    if (rest.name && rest.name !== existing.name) {
+      rest.slug = rest.name.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-')
     }
 
     // Reconcile images if provided (array of URL strings, may be empty)
@@ -63,7 +63,11 @@ export async function PUT(
 
     const car = await prisma.car.update({
       where: { id },
-      data: carData,
+      data: {
+        ...rest,
+        ...(brandId && { brand: { connect: { id: brandId } } }),
+        ...(categoryId && { category: { connect: { id: categoryId } } }),
+      },
       include: { brand: true, category: true, images: true },
     })
 

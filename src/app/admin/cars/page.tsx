@@ -59,7 +59,7 @@ export default function AdminCarsPage() {
   return (
     <div>
       <Toaster position="top-right" />
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <h1 className="text-2xl font-bold text-mist-900">Manage Cars</h1>
         <Link href="/admin/cars/new" className="bg-black text-white px-6 py-2.5 rounded text-sm font-semibold hover:bg-mist-800 transition-colors">
           + Add New Car
@@ -71,12 +71,12 @@ export default function AdminCarsPage() {
           <table className="w-full">
             <thead>
               <tr className="text-left text-xs text-mist-500 border-b border-mist-200">
-                <th className="px-6 py-3">Car</th>
-                <th className="px-6 py-3">Brand</th>
-                <th className="px-6 py-3">Category</th>
-                <th className="px-6 py-3">Price/Day</th>
-                <th className="px-6 py-3">Status</th>
-                <th className="px-6 py-3">Actions</th>
+                <th className="px-3 sm:px-6 py-3">Car</th>
+                <th className="px-3 sm:px-6 py-3 hidden sm:table-cell">Brand</th>
+                <th className="px-3 sm:px-6 py-3 hidden md:table-cell">Category</th>
+                <th className="px-3 sm:px-6 py-3">Price/Day</th>
+                <th className="px-3 sm:px-6 py-3">Status</th>
+                <th className="px-3 sm:px-6 py-3">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -94,7 +94,7 @@ export default function AdminCarsPage() {
                   const primaryImage = car.images?.[0]?.url
                   return (
                     <tr key={car.id} className="border-b border-mist-100 hover:bg-mist-50 transition-colors">
-                      <td className="px-6 py-4">
+                      <td className="px-3 sm:px-6 py-4">
                         <div className="flex items-center gap-3">
                           {primaryImage ? (
                             <img src={primaryImage} alt={car.name} className="w-12 h-10 bg-mist-100 rounded object-cover" />
@@ -104,17 +104,17 @@ export default function AdminCarsPage() {
                           <span className="text-sm font-medium text-mist-900">{car.name}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-mist-500">{car.brand?.name}</td>
-                      <td className="px-6 py-4 text-sm text-mist-500">{car.category?.name}</td>
-                      <td className="px-6 py-4 text-sm text-mist-900 font-medium">${car.pricePerDay}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-3 sm:px-6 py-4 text-sm text-mist-500 hidden sm:table-cell">{car.brand?.name}</td>
+                      <td className="px-3 sm:px-6 py-4 text-sm text-mist-500 hidden md:table-cell">{car.category?.name}</td>
+                      <td className="px-3 sm:px-6 py-4 text-sm text-mist-900 font-medium">${car.pricePerDay}</td>
+                      <td className="px-3 sm:px-6 py-4">
                         <span className={`text-xs px-2 py-1 rounded ${
                           status === "Available" ? "bg-green-50 text-green-600" :
                           status === "Rented" ? "bg-blue-50 text-blue-600" :
                           "bg-orange-50 text-orange-600"
                         }`}>{status}</span>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-3 sm:px-6 py-4">
                         <div className="flex gap-2">
                           <Link href={`/admin/cars/new?edit=${car.id}`} className="text-xs text-black font-medium hover:underline">Edit</Link>
                           <button onClick={() => handleDelete(car.id, car.name)} className="text-xs text-red-500 hover:underline">Delete</button>

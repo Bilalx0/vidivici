@@ -54,7 +54,7 @@ export default function AdminVillasPage() {
   return (
     <div>
       <Toaster position="top-right" />
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <h1 className="text-2xl font-bold text-mist-900">Manage Villas</h1>
         <Link href="/admin/villas/new" className="bg-black text-white px-6 py-2.5 rounded text-sm font-semibold hover:bg-mist-800 transition-colors">
           + Add New Villa
@@ -66,13 +66,13 @@ export default function AdminVillasPage() {
           <table className="w-full">
             <thead>
               <tr className="text-left text-xs text-mist-500 border-b border-mist-200">
-                <th className="px-6 py-3">Villa</th>
-                <th className="px-6 py-3">Location</th>
-                <th className="px-6 py-3">Bedrooms</th>
-                <th className="px-6 py-3">Guests</th>
-                <th className="px-6 py-3">Price/Night</th>
-                <th className="px-6 py-3">Status</th>
-                <th className="px-6 py-3">Actions</th>
+                <th className="px-3 sm:px-6 py-3">Villa</th>
+                <th className="px-3 sm:px-6 py-3 hidden sm:table-cell">Location</th>
+                <th className="px-3 sm:px-6 py-3 hidden md:table-cell">Bedrooms</th>
+                <th className="px-3 sm:px-6 py-3 hidden md:table-cell">Guests</th>
+                <th className="px-3 sm:px-6 py-3">Price/Night</th>
+                <th className="px-3 sm:px-6 py-3">Status</th>
+                <th className="px-3 sm:px-6 py-3">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -89,7 +89,7 @@ export default function AdminVillasPage() {
                   const primaryImage = villa.images?.[0]?.url
                   return (
                     <tr key={villa.id} className="border-b border-mist-100 hover:bg-mist-50 transition-colors">
-                      <td className="px-6 py-4">
+                      <td className="px-3 sm:px-6 py-4">
                         <div className="flex items-center gap-3">
                           {primaryImage ? (
                             <img src={primaryImage} alt={villa.name} className="w-12 h-10 bg-mist-100 rounded object-cover" />
@@ -99,16 +99,16 @@ export default function AdminVillasPage() {
                           <span className="text-sm font-medium text-mist-900">{villa.name}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-mist-500">{villa.location}</td>
-                      <td className="px-6 py-4 text-sm text-mist-500">{villa.bedrooms}</td>
-                      <td className="px-6 py-4 text-sm text-mist-500">{villa.guests}</td>
-                      <td className="px-6 py-4 text-sm text-mist-900 font-medium">${villa.pricePerNight.toLocaleString()}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-3 sm:px-6 py-4 text-sm text-mist-500 hidden sm:table-cell">{villa.location}</td>
+                      <td className="px-3 sm:px-6 py-4 text-sm text-mist-500 hidden md:table-cell">{villa.bedrooms}</td>
+                      <td className="px-3 sm:px-6 py-4 text-sm text-mist-500 hidden md:table-cell">{villa.guests}</td>
+                      <td className="px-3 sm:px-6 py-4 text-sm text-mist-900 font-medium">${villa.pricePerNight.toLocaleString()}</td>
+                      <td className="px-3 sm:px-6 py-4">
                         <span className={`text-xs px-2 py-1 rounded ${
                           villa.isAvailable ? "bg-green-50 text-green-600" : "bg-orange-50 text-orange-600"
                         }`}>{villa.isAvailable ? "Available" : "Unavailable"}</span>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-3 sm:px-6 py-4">
                         <div className="flex gap-2">
                           <Link href={`/admin/villas/new?edit=${villa.id}`} className="text-xs text-black font-medium hover:underline">Edit</Link>
                           <button onClick={() => handleDelete(villa.id, villa.name)} className="text-xs text-red-500 hover:underline">Delete</button>

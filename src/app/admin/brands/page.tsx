@@ -101,7 +101,7 @@ export default function AdminBrandsPage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <h1 className="text-2xl font-bold text-mist-900">Manage Brands</h1>
         <button onClick={() => { if (showForm) { resetForm() } else { setShowForm(true) } }} className="bg-black text-white px-6 py-2.5 rounded text-sm font-semibold hover:bg-mist-800 transition-colors">
           {showForm ? "Cancel" : "+ Add Brand"}

@@ -11,6 +11,7 @@ interface CarCardProps {
   brand: string
   category: string
   pricePerDay: number
+  originalPrice?: number | null
   year?: number
   transmission?: string
   seats?: number
@@ -31,7 +32,7 @@ function StatPill({ icon, label, value }: { icon: React.ReactNode; label: string
   )
 }
 
-export default function CarCard({ id, name, slug, brand, pricePerDay, seats, image, horsepower, acceleration, wishlisted: initialWishlisted }: CarCardProps) {
+export default function CarCard({ id, name, slug, brand, pricePerDay, originalPrice, seats, image, horsepower, acceleration, wishlisted: initialWishlisted }: CarCardProps) {
   const [wishlisted, setWishlisted] = useState(initialWishlisted || false)
   const [toggling, setToggling] = useState(false)
 
@@ -105,7 +106,11 @@ export default function CarCard({ id, name, slug, brand, pricePerDay, seats, ima
           </Link>
           <div className="flex flex-col items-end">
             <span className="text-base 2xl:text-3xl font-semibold text-mist-900">${pricePerDay}</span>
-            <span className="text-[10px] 2xl:text-lg text-mist-400">/ day</span>
+            {originalPrice ? (
+              <span className="text-[10px] 2xl:text-lg text-mist-400 line-through">${originalPrice} / day</span>
+            ) : (
+              <span className="text-[10px] 2xl:text-lg text-mist-400">/ day</span>
+            )}
           </div>
         </div>
       </div>

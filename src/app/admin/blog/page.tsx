@@ -48,7 +48,7 @@ export default function AdminBlogPage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <h1 className="text-2xl font-bold text-mist-900">Manage Blog Posts</h1>
         <Link href="/admin/blog/new" className="bg-black text-white px-6 py-2.5 rounded text-sm font-semibold hover:bg-mist-800 transition-colors">
           + New Post
@@ -56,13 +56,14 @@ export default function AdminBlogPage() {
       </div>
 
       <div className="bg-white border border-mist-200 rounded-xl overflow-hidden">
+        <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="text-left text-xs text-mist-500 border-b border-mist-200">
-              <th className="px-6 py-3">Title</th>
-              <th className="px-6 py-3">Status</th>
-              <th className="px-6 py-3">Date</th>
-              <th className="px-6 py-3">Actions</th>
+              <th className="px-3 sm:px-6 py-3">Title</th>
+              <th className="px-3 sm:px-6 py-3">Status</th>
+              <th className="px-3 sm:px-6 py-3 hidden sm:table-cell">Date</th>
+              <th className="px-3 sm:px-6 py-3">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -80,12 +81,12 @@ export default function AdminBlogPage() {
                 const date = new Date(p.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
                 return (
                   <tr key={p.id} className="border-b border-mist-100 hover:bg-mist-50 transition-colors">
-                    <td className="px-6 py-4 text-sm text-mist-900">{p.title}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-6 py-4 text-sm text-mist-900">{p.title}</td>
+                    <td className="px-3 sm:px-6 py-4">
                       <span className={`text-xs px-2 py-1 rounded ${status === "Published" ? "bg-green-50 text-green-600" : "bg-yellow-50 text-yellow-600"}`}>{status}</span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-mist-500">{date}</td>
-                    <td className="px-6 py-4 flex gap-2">
+                    <td className="px-3 sm:px-6 py-4 text-sm text-mist-500 hidden sm:table-cell">{date}</td>
+                    <td className="px-3 sm:px-6 py-4 flex gap-2">
                       <button onClick={() => router.push(`/admin/blog/new?edit=${p.id}`)} className="text-xs text-black font-medium hover:underline">Edit</button>
                       <button onClick={() => handleDelete(p.id, p.title)} className="text-xs text-red-500 hover:underline">Delete</button>
                     </td>
@@ -95,6 +96,7 @@ export default function AdminBlogPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   )

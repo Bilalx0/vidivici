@@ -8,6 +8,7 @@ interface CarFromAPI {
   name: string
   slug: string
   pricePerDay: number
+  originalPrice?: number | null
   year: number | null
   seats: number
   transmission: string
@@ -72,6 +73,7 @@ export default function ExoticCarRentals({
                 brand={car.brand.name}
                 category={car.category.name}
                 pricePerDay={car.pricePerDay}
+                originalPrice={car.originalPrice}
                 year={car.year ?? undefined}
                 transmission={car.transmission}
                 seats={car.seats}

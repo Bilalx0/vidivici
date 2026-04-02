@@ -84,7 +84,7 @@ export default function AdminDashboard() {
         })}
       </div>
 
-      <div className="flex gap-3 mb-10">
+      <div className="flex flex-wrap gap-3 mb-10">
         <Link href="/admin/cars/new" className="bg-black text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-mist-800 transition-colors">+ Add Car</Link>
         <Link href="/admin/messages" className="border border-mist-200 text-mist-600 px-5 py-2.5 rounded-lg text-sm hover:border-mist-400 transition-colors">View Messages</Link>
         <Link href="/admin/blog/new" className="border border-mist-200 text-mist-600 px-5 py-2.5 rounded-lg text-sm hover:border-mist-400 transition-colors">New Blog Post</Link>
@@ -99,12 +99,12 @@ export default function AdminDashboard() {
           <table className="w-full">
             <thead>
               <tr className="text-left text-xs font-medium text-mist-500 uppercase tracking-wider border-b border-mist-100">
-                <th className="px-6 py-3">ID</th>
-                <th className="px-6 py-3">Customer</th>
-                <th className="px-6 py-3">Car</th>
-                <th className="px-6 py-3">Date</th>
-                <th className="px-6 py-3">Total</th>
-                <th className="px-6 py-3">Status</th>
+                <th className="px-4 sm:px-6 py-3 hidden sm:table-cell">ID</th>
+                <th className="px-4 sm:px-6 py-3">Customer</th>
+                <th className="px-4 sm:px-6 py-3">Car</th>
+                <th className="px-4 sm:px-6 py-3 hidden md:table-cell">Date</th>
+                <th className="px-4 sm:px-6 py-3">Total</th>
+                <th className="px-4 sm:px-6 py-3">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-mist-50">
@@ -115,11 +115,11 @@ export default function AdminDashboard() {
               ) : (
                 recentBookings.map((b) => (
                   <tr key={b.id} className="hover:bg-mist-50/50 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-mist-900">{b.id.slice(0, 8)}</td>
-                    <td className="px-6 py-4 text-sm text-mist-700">{b.user.name || b.user.email}</td>
-                    <td className="px-6 py-4 text-sm text-mist-500">{b.car.brand.name} {b.car.name}</td>
-                    <td className="px-6 py-4 text-sm text-mist-500">{formatDate(b.startDate)}</td>
-                    <td className="px-6 py-4 text-sm font-medium text-mist-900">${b.totalPrice.toLocaleString()}</td>
+                    <td className="px-4 sm:px-6 py-4 text-sm font-medium text-mist-900 hidden sm:table-cell">{b.id.slice(0, 8)}</td>
+                    <td className="px-4 sm:px-6 py-4 text-sm text-mist-700">{b.user.name || b.user.email}</td>
+                    <td className="px-4 sm:px-6 py-4 text-sm text-mist-500">{b.car.brand.name} {b.car.name}</td>
+                    <td className="px-4 sm:px-6 py-4 text-sm text-mist-500 hidden md:table-cell">{formatDate(b.startDate)}</td>
+                    <td className="px-4 sm:px-6 py-4 text-sm font-medium text-mist-900">${b.totalPrice.toLocaleString()}</td>
                     <td className="px-6 py-4">
                       <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
                         b.status === "CONFIRMED" ? "bg-blue-50 text-blue-600" :

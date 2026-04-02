@@ -458,6 +458,7 @@ interface CarDetail {
   description: string | null
   shortDescription: string | null
   pricePerDay: number
+  originalPrice?: number | null
   year: number | null
   seats: number
   transmission: string
@@ -524,7 +525,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
   const securityDeposit = Math.round(car.pricePerDay * 2)
   const total = preTax + tax + securityDeposit
 
-  const originalDayRate = Math.round(car.pricePerDay * 1.2)
+  const originalDayRate = car.originalPrice ?? Math.round(car.pricePerDay * 1.2)
 
   const handleNext = () => {
     const params = new URLSearchParams({
@@ -746,7 +747,11 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                     <span className="text-3xl 2xl:text-5xl font-bold text-mist-900">
                       ${car.pricePerDay.toLocaleString()}
                     </span>
-                    <span className="text-sm 2xl:text-lg text-mist-400">USD / day</span>
+                    {car.originalPrice ? (
+                      <span className="text-sm 2xl:text-lg text-mist-400 line-through">${car.originalPrice.toLocaleString()}</span>
+                    ) : (
+                      <span className="text-sm 2xl:text-lg text-mist-400">USD / day</span>
+                    )}
                   </div>
                   {/* Date + Time Rows */}
                   <div className="space-y-3 2xl:space-y-4 border-t border-mist-300 pt-6 2xl:pt-8">
@@ -978,7 +983,11 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
               ${car.pricePerDay.toLocaleString()}
             </p>
             <p className="text-xs sm:text-sm text-mist-500 leading-tight">
-              <span className="line-through">${originalDayRate.toLocaleString()}</span>/day
+              {car.originalPrice ? (
+                <><span className="line-through">${car.originalPrice.toLocaleString()}</span>/day</>
+              ) : (
+                <span>/day</span>
+              )}
             </p>
           </div>
           <button
@@ -1019,7 +1028,11 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                 <span className="text-3xl font-bold text-mist-900">
                   ${car.pricePerDay.toLocaleString()}
                 </span>
-                <span className="text-sm text-mist-400">USD / day</span>
+                {car.originalPrice ? (
+                  <span className="text-sm text-mist-400 line-through">${car.originalPrice.toLocaleString()}</span>
+                ) : (
+                  <span className="text-sm text-mist-400">USD / day</span>
+                )}
               </div>
 
               <div className="space-y-3 border-t border-mist-300 pt-6">

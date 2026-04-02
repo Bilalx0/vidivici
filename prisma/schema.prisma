@@ -231,6 +231,26 @@ model Inquiry {
   createdAt   DateTime @default(now())
 }
 
+model ChatSession {
+  id          String        @id @default(cuid())
+  visitorId   String
+  visitorName String?
+  isPaused    Boolean       @default(false)
+  lastMessage String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  messages    ChatMessage[]
+}
+
+model ChatMessage {
+  id        String      @id @default(cuid())
+  sessionId String
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role      String      // "user", "assistant", "admin"
+  content   String      @db.Text
+  createdAt DateTime    @default(now())
+}
+
 model SiteSettings {
   id          String  @id @default(cuid())
   key         String  @unique

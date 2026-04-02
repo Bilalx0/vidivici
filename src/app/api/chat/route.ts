@@ -385,11 +385,50 @@ async function executeTool(name: string, args: any) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { messages } = await request.json()
+    const { messages, sessionId, visitorId } = await request.json()
+
+    // Get or create session
+    let session: any = null
+    if (sessionId) {
+      session = await prisma.chatSession.findUnique({ where: { id: sessionId } })
+    }
+    if (!session) {
+      session = await prisma.chatSession.create({
+        data: { visitorId: visitorId || `visitor-${Date.now()}` },
+      })
+    }
+
+    // Save the user's latest message
+    const latestUserMsg = messages[messages.length - 1]
+    if (latestUserMsg && latestUserMsg.role === "user") {
+      await prisma.chatMessage.create({
+        data: { sessionId: session.id, role: "user", content: latestUserMsg.content },
+      })
+      await prisma.chatSession.update({
+        where: { id: session.id },
+        data: { lastMessage: latestUserMsg.content, updatedAt: new Date() },
+      })
+    }
+
+    // If session is paused (admin took over), don't call AI
+    if (session.isPaused) {
+      // Check for any new admin messages
+      const adminMsgs = await prisma.chatMessage.findMany({
+        where: { sessionId: session.id, role: "admin" },
+        orderBy: { createdAt: "desc" },
+        take: 1,
+      })
+      return NextResponse.json({
+        sessionId: session.id,
+        content: null,
+        paused: true,
+        adminMessages: adminMsgs,
+      })
+    }
 
     const groqMessages = [
       { role: "system", content: SYSTEM_PROMPT },
-      ...messages,
+      ...messages.map((m: any) => ({ role: m.role === "admin" ? "assistant" : m.role, content: m.content })),
     ]
 
     // First call to Groq
@@ -464,8 +503,21 @@ export async function POST(request: NextRequest) {
       assistantMessage = data.choices[0].message
     }
 
+    const aiContent = assistantMessage.content || "I encountered an issue. Please try again."
+
+    // Save AI response to DB
+    await prisma.chatMessage.create({
+      data: { sessionId: session.id, role: "assistant", content: aiContent },
+    })
+    await prisma.chatSession.update({
+      where: { id: session.id },
+      data: { lastMessage: aiContent, updatedAt: new Date() },
+    })
+
     return NextResponse.json({
-      content: assistantMessage.content || "I encountered an issue. Please try again.",
+      sessionId: session.id,
+      content: aiContent,
+      paused: false,
     })
   } catch (error: any) {
     console.error("Chat error:", error)

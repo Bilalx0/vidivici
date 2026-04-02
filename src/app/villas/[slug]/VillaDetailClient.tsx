@@ -8,6 +8,7 @@ import { parseAmenity, AMENITY_ICONS } from "@/lib/amenity-icons"
 import WhyChooseUs from "@/components/home/WhyChooseUs"
 import Reviews from "@/components/home/Reviews"
 import FAQ from "@/components/home/FAQ"
+import HomeVillaSection from "@/components/home/Villa"
 
 interface VillaImage {
   url: string
@@ -61,8 +62,10 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
   const [currentImage, setCurrentImage] = useState(0)
   const [activeTab, setActiveTab] = useState<TabType>("Stay")
   const [showMobileBooking, setShowMobileBooking] = useState(false)
-  const [checkIn, setCheckIn] = useState("")
-  const [checkOut, setCheckOut] = useState("")
+  const [checkInDate, setCheckInDate] = useState("")
+  const [checkInTime, setCheckInTime] = useState("")
+  const [checkOutDate, setCheckOutDate] = useState("")
+  const [checkOutTime, setCheckOutTime] = useState("")
   const [guestCount, setGuestCount] = useState(1)
   const [showFullDesc, setShowFullDesc] = useState(false);
   const [showAllAmenities, setShowAllAmenities] = useState(false);
@@ -102,7 +105,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
   const prevImage = () => setCurrentImage((prev) => (prev - 1 + images.length) % images.length)
 
   // Calculate days
-  const days = checkIn && checkOut ? Math.max(1, Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24))) : 1
+  const days = checkInDate && checkOutDate ? Math.max(1, Math.ceil((new Date(checkOutDate).getTime() - new Date(checkInDate).getTime()) / (1000 * 60 * 60 * 24))) : 1
   const nightsTotal = villa.pricePerNight * days
   const addOnsTotal = (airportTransfer ? 500 : 0)
   const subtotal = nightsTotal + villa.cleaningFee + addOnsTotal
@@ -239,22 +242,6 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                     </p>
                   </div>
                 </div>
-              </div>
-
-              {/* Mobile Tabs */}
-              <div className="lg:hidden flex gap-2 justify-between mb-6">
-                {TABS.map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`w-full py-2 rounded-md text-sm transition-all ${activeTab === tab
-                      ? "bg-neutral-500 text-white"
-                      : "text-mist-500 hover:text-mist-700 bg-neutral-200 hover:bg-neutral-200"
-                      }`}
-                  >
-                    {tab}
-                  </button>
-                ))}
               </div>
 
               {/* Specs Grid */}
@@ -439,22 +426,22 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                       <div className="grid grid-cols-2 gap-3">
                         <div className="relative">
                           <input
-                            type={checkIn ? "date" : "text"}
+                            type={checkInDate ? "date" : "text"}
                             onFocus={(e) => (e.target.type = "date")}
-                            onBlur={(e) => !checkIn && (e.target.type = "text")}
-                            value={checkIn}
-                            onChange={(e) => setCheckIn(e.target.value)}
+                            onBlur={(e) => !checkInDate && (e.target.type = "text")}
+                            value={checkInDate}
+                            onChange={(e) => setCheckInDate(e.target.value)}
                             placeholder="Start date*"
                             className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
                           />
                         </div>
                         <div className="relative">
                           <input
-                            type={checkIn ? "time" : "text"}
+                            type={checkInTime ? "time" : "text"}
                             onFocus={(e) => (e.target.type = "time")}
-                            onBlur={(e) => !checkIn && (e.target.type = "text")}
-                            value={checkIn}
-                            onChange={(e) => setCheckIn(e.target.value)}
+                            onBlur={(e) => !checkInTime && (e.target.type = "text")}
+                            value={checkInTime}
+                            onChange={(e) => setCheckInTime(e.target.value)}
                             placeholder="Time*"
                             className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
                           />
@@ -465,23 +452,23 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                       <div className="grid grid-cols-2 gap-3">
                         <div className="relative">
                           <input
-                            type={checkOut ? "date" : "text"}
+                            type={checkOutDate ? "date" : "text"}
                             onFocus={(e) => (e.target.type = "date")}
-                            onBlur={(e) => !checkOut && (e.target.type = "text")}
-                            min={checkIn}
-                            value={checkOut}
-                            onChange={(e) => setCheckOut(e.target.value)}
+                            onBlur={(e) => !checkOutDate && (e.target.type = "text")}
+                            min={checkInDate}
+                            value={checkOutDate}
+                            onChange={(e) => setCheckOutDate(e.target.value)}
                             placeholder="End date*"
                             className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
                           />
                         </div>
                         <div className="relative">
                           <input
-                            type={checkOut ? "time" : "text"}
+                            type={checkOutTime ? "time" : "text"}
                             onFocus={(e) => (e.target.type = "time")}
-                            onBlur={(e) => !checkOut && (e.target.type = "text")}
-                            value={checkOut}
-                            onChange={(e) => setCheckOut(e.target.value)}
+                            onBlur={(e) => !checkOutTime && (e.target.type = "text")}
+                            value={checkOutTime}
+                            onChange={(e) => setCheckOutTime(e.target.value)}
                             placeholder="Time*"
                             className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
                           />
@@ -573,8 +560,10 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                         const params = new URLSearchParams({
                           type: "villa",
                           villa: villa.slug,
-                          ...(checkIn && { checkIn }),
-                          ...(checkOut && { checkOut }),
+                          ...(checkInDate && { checkIn: checkInDate }),
+                          ...(checkInTime && { checkInTime }),
+                          ...(checkOutDate && { checkOut: checkOutDate }),
+                          ...(checkOutTime && { checkOutTime }),
                           ...(guestCount > 1 && { guests: String(guestCount) }),
                           ...(airportTransfer && { airportTransfer: "1" }),
                           ...(privateChef && { privateChef: "1" }),
@@ -695,7 +684,8 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                           <input
                             type="radio"
                             checked={eventForm.addOns.includes(addon)}
-                            onChange={() => toggleEventAddon(addon)}
+                            onClick={() => toggleEventAddon(addon)}
+                            onChange={() => { }}
                             className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
                           />
                           <span className="text-sm text-mist-700">{addon}</span>
@@ -898,7 +888,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
             onClick={() => setShowMobileBooking(true)}
             className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm sm:text-base px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl whitespace-nowrap"
           >
-            Start
+            START
           </button>
         </div>
       </div>
@@ -944,41 +934,41 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                 <div className="space-y-3 border-t border-mist-300 pt-6">
                   <div className="grid grid-cols-2 gap-3">
                     <input
-                      type={checkIn ? "date" : "text"}
+                      type={checkInDate ? "date" : "text"}
                       onFocus={(e) => (e.target.type = "date")}
-                      onBlur={(e) => !checkIn && (e.target.type = "text")}
-                      value={checkIn}
-                      onChange={(e) => setCheckIn(e.target.value)}
+                      onBlur={(e) => !checkInDate && (e.target.type = "text")}
+                      value={checkInDate}
+                      onChange={(e) => setCheckInDate(e.target.value)}
                       placeholder="Start date*"
                       className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
                     />
                     <input
-                      type={checkIn ? "time" : "text"}
+                      type={checkInTime ? "time" : "text"}
                       onFocus={(e) => (e.target.type = "time")}
-                      onBlur={(e) => !checkIn && (e.target.type = "text")}
-                      value={checkIn}
-                      onChange={(e) => setCheckIn(e.target.value)}
+                      onBlur={(e) => !checkInTime && (e.target.type = "text")}
+                      value={checkInTime}
+                      onChange={(e) => setCheckInTime(e.target.value)}
                       placeholder="Time*"
                       className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <input
-                      type={checkOut ? "date" : "text"}
+                      type={checkOutDate ? "date" : "text"}
                       onFocus={(e) => (e.target.type = "date")}
-                      onBlur={(e) => !checkOut && (e.target.type = "text")}
-                      min={checkIn}
-                      value={checkOut}
-                      onChange={(e) => setCheckOut(e.target.value)}
+                      onBlur={(e) => !checkOutDate && (e.target.type = "text")}
+                      min={checkInDate}
+                      value={checkOutDate}
+                      onChange={(e) => setCheckOutDate(e.target.value)}
                       placeholder="End date*"
                       className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
                     />
                     <input
-                      type={checkOut ? "time" : "text"}
+                      type={checkOutTime ? "time" : "text"}
                       onFocus={(e) => (e.target.type = "time")}
-                      onBlur={(e) => !checkOut && (e.target.type = "text")}
-                      value={checkOut}
-                      onChange={(e) => setCheckOut(e.target.value)}
+                      onBlur={(e) => !checkOutTime && (e.target.type = "text")}
+                      value={checkOutTime}
+                      onChange={(e) => setCheckOutTime(e.target.value)}
                       placeholder="Time*"
                       className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
                     />
@@ -998,14 +988,67 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                   ))}
                 </select>
 
+                <div className="space-y-3">
+                  <p className="text-[15px] font-bold text-mist-900">
+                    Add-Ons <span className="font-normal italic text-mist-500 text-sm">(optional)</span>
+                  </p>
+
+                  <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="radio"
+                        checked={airportTransfer}
+                        onClick={() => setAirportTransfer((prev) => !prev)}
+                        onChange={() => { }}
+                        className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
+                      />
+                      <span className="text-sm text-mist-700">Airport Transfer (Luxury SUV)</span>
+                    </div>
+                    <span className="text-sm font-bold text-mist-900">$500</span>
+                  </label>
+
+                  <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="radio"
+                        checked={privateChef}
+                        onClick={() => setPrivateChef((prev) => !prev)}
+                        onChange={() => { }}
+                        className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
+                      />
+                      <span className="text-sm text-mist-700">Private Chef</span>
+                    </div>
+                    <span className="text-sm font-bold text-mist-900">Price TBD</span>
+                  </label>
+
+                  <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="radio"
+                        checked={securityService}
+                        onClick={() => setSecurityService((prev) => !prev)}
+                        onChange={() => { }}
+                        className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
+                      />
+                      <span className="text-sm text-mist-700">Security Service</span>
+                    </div>
+                    <span className="text-sm font-bold text-mist-900">Price TBD</span>
+                  </label>
+                </div>
+
                 <button
                   onClick={() => {
                     const params = new URLSearchParams({
                       type: "villa",
                       villa: villa.slug,
-                      ...(checkIn && { checkIn }),
-                      ...(checkOut && { checkOut }),
+                      ...(checkInDate && { checkIn: checkInDate }),
+                      ...(checkInTime && { checkInTime }),
+                      ...(checkOutDate && { checkOut: checkOutDate }),
+                      ...(checkOutTime && { checkOutTime }),
                       ...(guestCount > 1 && { guests: String(guestCount) }),
+                      ...(airportTransfer && { airportTransfer: "1" }),
+                      ...(privateChef && { privateChef: "1" }),
+                      ...(securityService && { securityService: "1" }),
                     });
                     router.push(`/booking?${params.toString()}`);
                   }}
@@ -1017,30 +1060,117 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
             )}
 
             {activeTab === "Event" && (
-              <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-4 shadow-lg">
+              <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-5 shadow-lg">
                 <div className="grid grid-cols-2 gap-3 border-t border-mist-300 pt-6">
+                  <div>
+                    <label className="text-xs text-mist-500 block mb-1.5">First Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter your first name"
+                      value={eventForm.firstName}
+                      onChange={(e) => setEventForm({ ...eventForm, firstName: e.target.value })}
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-mist-500 block mb-1.5">Last Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter your last name"
+                      value={eventForm.lastName}
+                      onChange={(e) => setEventForm({ ...eventForm, lastName: e.target.value })}
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1.5">Email Address</label>
                   <input
-                    type="text"
-                    placeholder="First Name"
-                    value={eventForm.firstName}
-                    onChange={(e) => setEventForm({ ...eventForm, firstName: e.target.value })}
-                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    value={eventForm.lastName}
-                    onChange={(e) => setEventForm({ ...eventForm, lastName: e.target.value })}
-                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm"
+                    type="email"
+                    placeholder="Enter your email address"
+                    value={eventForm.email}
+                    onChange={(e) => setEventForm({ ...eventForm, email: e.target.value })}
+                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
                   />
                 </div>
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  value={eventForm.email}
-                  onChange={(e) => setEventForm({ ...eventForm, email: e.target.value })}
-                  className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm"
-                />
+
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1.5">Phone Number</label>
+                  <input
+                    type="tel"
+                    placeholder="e.g. +1 (310) 987-6543"
+                    value={eventForm.phone}
+                    onChange={(e) => setEventForm({ ...eventForm, phone: e.target.value })}
+                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs text-mist-500 block mb-1.5">Event Type</label>
+                    <select
+                      value={eventForm.eventType}
+                      onChange={(e) => setEventForm({ ...eventForm, eventType: e.target.value })}
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 appearance-none focus:outline-none focus:border-mist-400"
+                    >
+                      <option value="">Event Type</option>
+                      {["Birthday", "Corporate", "Wedding", "Film Shoot", "Private Party", "Other"].map((t) => (
+                        <option key={t} value={t}>{t}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs text-mist-500 block mb-1.5">Event Date</label>
+                    <input
+                      type="date"
+                      value={eventForm.eventDate}
+                      onChange={(e) => setEventForm({ ...eventForm, eventDate: e.target.value })}
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1.5">Number of Guests</label>
+                  <input
+                    type="number"
+                    placeholder="e.g. 120"
+                    value={eventForm.guestCount}
+                    onChange={(e) => setEventForm({ ...eventForm, guestCount: e.target.value })}
+                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <p className="text-[15px] font-bold text-mist-900">
+                    Add-ons <span className="font-normal italic text-mist-500 text-sm">(Optional)</span>
+                  </p>
+                  {["Valet Parking", "Security", "Mixologist", "Drivers"].map((addon) => (
+                    <label key={addon} className="flex items-center gap-3 border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
+                      <input
+                        type="radio"
+                        checked={eventForm.addOns.includes(addon)}
+                        onClick={() => toggleEventAddon(addon)}
+                        onChange={() => { }}
+                        className="w-5 h-5 rounded-full accent-blue-600 cursor-pointer"
+                      />
+                      <span className="text-sm text-mist-700">{addon}</span>
+                    </label>
+                  ))}
+                </div>
+
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1.5">Special Requests / Notes</label>
+                  <textarea
+                    placeholder="Tell us more about your event ...."
+                    value={eventForm.specialRequests}
+                    onChange={(e) => setEventForm({ ...eventForm, specialRequests: e.target.value })}
+                    rows={3}
+                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400 resize-none"
+                  />
+                </div>
+
                 <button
                   onClick={() => router.push(`/booking?type=event&villa=${villa.slug}`)}
                   className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide"
@@ -1051,30 +1181,99 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
             )}
 
             {activeTab === "Production" && (
-              <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-4 shadow-lg">
+              <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-5 shadow-lg">
                 <div className="grid grid-cols-2 gap-3 border-t border-mist-300 pt-6">
+                  <div>
+                    <label className="text-xs text-mist-500 block mb-1.5">First Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter your first name"
+                      value={productionForm.firstName}
+                      onChange={(e) => setProductionForm({ ...productionForm, firstName: e.target.value })}
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-mist-500 block mb-1.5">Last Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter your last name"
+                      value={productionForm.lastName}
+                      onChange={(e) => setProductionForm({ ...productionForm, lastName: e.target.value })}
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1.5">Email Address</label>
                   <input
-                    type="text"
-                    placeholder="First Name"
-                    value={productionForm.firstName}
-                    onChange={(e) => setProductionForm({ ...productionForm, firstName: e.target.value })}
-                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    value={productionForm.lastName}
-                    onChange={(e) => setProductionForm({ ...productionForm, lastName: e.target.value })}
-                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm"
+                    type="email"
+                    placeholder="Enter your email address"
+                    value={productionForm.email}
+                    onChange={(e) => setProductionForm({ ...productionForm, email: e.target.value })}
+                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
                   />
                 </div>
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  value={productionForm.email}
-                  onChange={(e) => setProductionForm({ ...productionForm, email: e.target.value })}
-                  className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm"
-                />
+
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1.5">Phone Number</label>
+                  <input
+                    type="tel"
+                    placeholder="e.g. +1 (310) 987-6543"
+                    value={productionForm.phone}
+                    onChange={(e) => setProductionForm({ ...productionForm, phone: e.target.value })}
+                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs text-mist-500 block mb-1.5">Project Type</label>
+                    <select
+                      value={productionForm.projectType}
+                      onChange={(e) => setProductionForm({ ...productionForm, projectType: e.target.value })}
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 appearance-none focus:outline-none focus:border-mist-400"
+                    >
+                      <option value="">Project Type</option>
+                      {["Feature Film", "TV Series", "Commercial", "Music Video", "Documentary", "Photo Shoot"].map((t) => (
+                        <option key={t} value={t}>{t}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs text-mist-500 block mb-1.5">Shoot Date</label>
+                    <input
+                      type="date"
+                      value={productionForm.shootDate}
+                      onChange={(e) => setProductionForm({ ...productionForm, shootDate: e.target.value })}
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1.5">Crew Size</label>
+                  <input
+                    type="number"
+                    placeholder="e.g. 120"
+                    value={productionForm.crewSize}
+                    onChange={(e) => setProductionForm({ ...productionForm, crewSize: e.target.value })}
+                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1.5">Special Requests / Notes</label>
+                  <textarea
+                    placeholder="Tell us more about your project ...."
+                    value={productionForm.specialRequests}
+                    onChange={(e) => setProductionForm({ ...productionForm, specialRequests: e.target.value })}
+                    rows={3}
+                    className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400 resize-none"
+                  />
+                </div>
+
                 <button
                   onClick={() => router.push(`/booking?type=production&villa=${villa.slug}`)}
                   className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide"
@@ -1086,6 +1285,13 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
           </div>
         </div>
       )}
+
+      <section className="pt-8 2xl:pt-12">
+        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32">
+          <h2 className="text-2xl sm:text-4xl 2xl:text-5xl font-bold text-mist-900 tracking-tight">You may also like</h2>
+        </div>
+        <HomeVillaSection showHeader={false} />
+      </section>
 
       {/* Bottom Sections */}
       <WhyChooseUs />

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const carMakes = [
   { name: "Rolls-Royce", logo: "/carlogo1.png" },
@@ -67,10 +68,18 @@ function BrowseCard({
 
 export default function CarBrowseSection() {
   const [activeTab, setActiveTab] = useState("make");
+  const marqueeRef = useRef<HTMLDivElement>(null);
   const isType = activeTab === "type";
   const data = isType ? carTypes : carMakes;
 
   const marqueeItems = [...data, ...data, ...data, ...data];
+
+  const scrollMarquee = (direction: "left" | "right") => {
+    const node = marqueeRef.current;
+    if (!node) return;
+    const delta = direction === "left" ? -320 : 320;
+    node.scrollBy({ left: delta, behavior: "smooth" });
+  };
 
   return (
     <section className="w-full bg-[#fcfcfc] py-16 sm:py-24 2xl:py-48 overflow-hidden">
@@ -106,11 +115,24 @@ export default function CarBrowseSection() {
 
       {/* Marquee Wrapper */}
       <div className="relative w-full">
-        {/* Luxury Fades */}
-        <div className="absolute inset-y-0 left-0 w-32 2xl:w-80 bg-gradient-to-r from-[#fcfcfc] to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-32 2xl:w-80 bg-gradient-to-l from-[#fcfcfc] to-transparent z-10 pointer-events-none" />
+        <button
+          type="button"
+          onClick={() => scrollMarquee("left")}
+          className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full 2xl:w-12 2xl:h-12 bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all"
+          aria-label="Scroll left"
+        >
+          <ChevronLeft size={16} strokeWidth={2.5} className="text-mist-700 2xl:w-6 2xl:h-6" />
+        </button>
+        <button
+          type="button"
+          onClick={() => scrollMarquee("right")}
+          className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full 2xl:w-12 2xl:h-12 bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all"
+          aria-label="Scroll right"
+        >
+          <ChevronRight size={16} strokeWidth={2.5} className="text-mist-700 2xl:w-6 2xl:h-6" />
+        </button>
 
-        <div className="marquee">
+        <div ref={marqueeRef} className="marquee">
           <div className={`marquee-track ${isType ? 'speed-type' : 'speed-make'}`}>
             {marqueeItems.map((item, i) => (
               <BrowseCard
@@ -128,6 +150,7 @@ export default function CarBrowseSection() {
         .marquee {
           overflow: hidden;
           width: 100%;
+          scroll-behavior: smooth;
         }
 
         .marquee-track {

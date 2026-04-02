@@ -547,12 +547,12 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
 
   return (
     <div className="bg-white min-h-screen mt-10 2xl:mt-24 pb-24 lg:pb-0">
-      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-24">
+      <div className="px-6 sm:px-16 2xl:px-32 py-16 2xl:py-24">
 
 
         {/* Breadcrumb */}
-        <div className=" flex flex-col sm:flex-row justify-between items-center pb-10 2xl:pb-16">
-          <div className="flex items-center gap-2 2xl:gap-4 text-sm sm:text-base 2xl:text-xl text-mist-400">
+        <div className="flex flex-col gap-3 pb-6 sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:pb-10 2xl:pb-16">
+          <div className="min-w-0 flex items-center gap-1.5 sm:gap-2 2xl:gap-4 text-xs sm:text-base 2xl:text-xl text-mist-400 whitespace-nowrap">
             <Link href="/" className="hover:text-mist-700">Los Angeles</Link>
             <span>{">"}</span>
             <Link href={`/cars?brand=${car.brandSlug}`} className="hover:text-mist-700">{car.brandName}</Link>
@@ -560,11 +560,11 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
             <Link href={`/cars?category=${car.categorySlug}`} className="hover:text-mist-700">{car.categoryName}</Link>
           </div>
           {/* Share / Save */}
-          <div className="flex justify-end gap-3 2xl:gap-5">
-            <button className="flex items-center gap-1.5 text-sm 2xl:text-lg text-mist-500 hover:text-mist-800">
+          <div className="flex w-full items-center justify-between sm:w-auto sm:justify-end sm:gap-4 2xl:gap-5">
+            <button className="flex items-center gap-1.5 text-xs sm:text-sm 2xl:text-lg text-mist-500 hover:text-mist-800">
               <Share2 size={14} /> Share
             </button>
-            <button className="flex items-center gap-1.5 text-sm 2xl:text-lg text-mist-500 hover:text-mist-800">
+            <button className="flex items-center gap-1.5 text-xs sm:text-sm 2xl:text-lg text-mist-500 hover:text-mist-800">
               <Bookmark size={14} /> Save
             </button>
           </div>
@@ -575,8 +575,20 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
           <div className="flex flex-col lg:flex-row gap-10 2xl:gap-16 items-start">
             {/* Left Column */}
             <div className="flex-1 min-w-0 space-y-8 2xl:space-y-12">
+
               {/* Gallery */}
               <CarGallery images={car.images} />
+              {/* Mobile title block */}
+              <div className="lg:hidden space-y-2">
+                <h1 className="text-2xl font-semibold text-mist-900">{car.name}</h1>
+                {car.shortDescription && (
+                  <p className="text-sm text-mist-500 leading-relaxed">{car.shortDescription}</p>
+                )}
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl font-bold text-mist-900">${car.pricePerDay.toLocaleString()}</span>
+                  <span className="text-sm text-mist-400">USD / day</span>
+                </div>
+              </div>
 
               {/* Info Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 2xl:gap-5 mb-8 2xl:mb-12">
@@ -585,7 +597,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                   <div className="flex items-center gap-2.5">
                     <Shield size={30} className="text-mist-400 bg-white p-2 rounded-md flex-shrink-0" />
                     <p className="text-sm 2xl:text-lg text-mist-500">
-                      <span className="font-semibold">Security Deposit:</span> ${securityDeposit.toLocaleString()} fully refundable
+                      <span className="font-semibold">Security Deposit:</span> ${securityDeposit.toLocaleString()} <span className="text-[10px] 2xl:text-xs italic">(Fully Refundable)</span>
                     </p>
                   </div>
                   <div className="flex items-center gap-2.5">
@@ -628,11 +640,11 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                   { label: "Seats", value: car.seats, icon: Users },
                   { label: "0-60 mph", value: car.acceleration || "-", icon: Zap },
                   { label: "Engine", value: car.horsepower ? `${car.horsepower} hp` : "-", icon: Gauge },
-                  { label: "Top Speed", value: car.topSpeed || "-", icon: Activity },
-                  { label: "Transmission", value: car.transmission, icon: Settings2 },
-                  { label: "Fuel", value: car.fuelType, icon: Fuel },
-                  { label: "Year", value: car.year || "-", icon: Calendar },
-                  { label: "Miles/Day", value: `${car.milesIncluded}`, icon: Route },
+                  // { label: "Top Speed", value: car.topSpeed || "-", icon: Activity },
+                  // { label: "Transmission", value: car.transmission, icon: Settings2 },
+                  // { label: "Fuel", value: car.fuelType, icon: Fuel },
+                  // { label: "Year", value: car.year || "-", icon: Calendar },
+                  // { label: "Miles/Day", value: `${car.milesIncluded}`, icon: Route },
                 ].map(({ label, value, icon: Icon }) => (
                   <div key={label} className="bg-mist-100 rounded-xl p-4 2xl:p-6 flex flex-col sm:flex-row items-center gap-4">
                     <Icon size={30} className="text-mist-400 bg-neutral-200 rounded-full p-1.5" />
@@ -666,31 +678,30 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                 {discountsOpen && (
                   <>
                     {/* Table with blue-tinted bg */}
-                    <div className="bg-blue-50 rounded-xl overflow-hidden border border-blue-100">
+                    <div className="bg-blue-100 rounded-xl overflow-hidden border border-blue-400">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr>
+                          <tr className="border-b border-mist-300">
                             <th className="text-left px-4 2xl:px-6 py-3 2xl:py-4 font-medium text-mist-500 text-xs 2xl:text-base">Duration</th>
-                            <th className="text-left px-4 2xl:px-6 py-3 2xl:py-4 font-medium text-mist-500 text-xs 2xl:text-base">Discount</th>
-                            <th className="text-left px-4 2xl:px-6 py-3 2xl:py-4 font-medium text-mist-500 text-xs 2xl:text-base">Mileage</th>
+                            <th className="text-left px-4 2xl:px-6 py-3 2xl:py-4 font-medium text-mist-500 text-xs 2xl:text-base border-l border-mist-300">Discount</th>
+                            <th className="text-left px-4 2xl:px-6 py-3 2xl:py-4 font-medium text-mist-500 text-xs 2xl:text-base border-l border-mist-300">Mileage</th>
                           </tr>
                         </thead>
                         <tbody>
                           {discountTiers.map((tier, i) => (
-                            <tr key={i} className="border-t border-blue-100 bg-white/60">
+                            <tr key={i} className="border-t border-mist-300">
                               <td className="px-4 2xl:px-6 py-2.5 2xl:py-4 text-mist-600 text-sm 2xl:text-lg">{tier.duration}</td>
-                              <td className="px-4 2xl:px-6 py-2.5 2xl:py-4 font-semibold text-mist-800 text-sm 2xl:text-lg">{tier.discount}</td>
-                              <td className="px-4 2xl:px-6 py-2.5 2xl:py-4 text-mist-500 text-sm 2xl:text-lg">{tier.miles}</td>
+                              <td className="px-4 2xl:px-6 py-2.5 2xl:py-4 font-semibold text-mist-800 text-sm 2xl:text-lg border-l border-mist-300">{tier.discount}</td>
+                              <td className="px-4 2xl:px-6 py-2.5 2xl:py-4 text-mist-500 text-sm 2xl:text-lg border-l border-mist-300">{tier.miles}</td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
+                      <p className="text-xs 2xl:text-lg text-mist-500 px-4 2xl:px-6 py-3 2xl:py-4 border-t border-mist-300 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-mist-300 inline-block flex-shrink-0" />
+                        <span><span className="font-medium text-mist-700">Vehicle Swap Option:</span> Available with 30-day notice</span>
+                      </p>
                     </div>
-
-                    <p className="text-xs 2xl:text-lg text-mist-400 mt-2 flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-mist-300 inline-block flex-shrink-0" />
-                      Vehicle Swap Option: Available with 30-day notice
-                    </p>
                   </>
                 )}
               </div>
@@ -995,7 +1006,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
             onClick={() => setShowMobileBooking(true)}
             className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm sm:text-base px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl whitespace-nowrap"
           >
-            Start
+            START
           </button>
         </div>
       </div>

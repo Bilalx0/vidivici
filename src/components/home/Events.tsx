@@ -118,17 +118,17 @@ export default function ExclusiveNightlife({ showHeader = true }) {
         {/* Left Arrow */}
         <button
           onClick={() => scrollTo(activeIndex - 2)}
-          className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all"
+          className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full 2xl:w-12 2xl:h-12 bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all"
         >
-          <ChevronLeft size={16} strokeWidth={2.5} className="text-mist-700" />
+          <ChevronLeft size={16} strokeWidth={2.5} className="text-mist-700  2xl:w-6 2xl:h-6" />
         </button>
 
         {/* Right Arrow */}
         <button
           onClick={() => scrollTo(activeIndex + 2)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all"
+          className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full 2xl:w-12 2xl:h-12 bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all"
         >
-          <ChevronRight size={16} strokeWidth={2.5} className="text-mist-700" />
+          <ChevronRight size={16} strokeWidth={2.5} className="text-mist-700  2xl:w-6 2xl:h-6" />
         </button>
 
         {/* Carousel track */}

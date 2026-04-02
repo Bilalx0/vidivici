@@ -572,7 +572,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
 
         <div className="pb-16 2xl:pb-24">
 
-          <div className="flex flex-col lg:flex-row gap-10 2xl:gap-16 items-start">
+          <div className="flex flex-col lg:flex-row gap-10 2xl:gap-16">
             {/* Left Column */}
             <div className="flex-1 min-w-0 space-y-8 2xl:space-y-12">
 
@@ -747,19 +747,19 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
               {/* RIGHT COLUMN — Booking Form */}
 
             </div>
-            <div className="hidden lg:block lg:w-[380px] 2xl:w-[500px] flex-shrink-0 lg:self-start">
-              <div>
+            <div className="hidden lg:block lg:w-[380px] 2xl:w-[500px] flex-shrink-0">
+              <div className="lg:sticky lg:top-24">
                 {/* Header - Always visible */}
                 <div className="mb-8 2xl:mb-12">
                   <h1 className="text-3xl 2xl:text-5xl font-semibold text-mist-900 mb-2 2xl:mb-4">{car.name}</h1>
                   {car.shortDescription && (
                     <p className="text-mist-600 text-base 2xl:text-xl leading-relaxed mb-4 2xl:mb-6">{car.shortDescription}</p>
                   )}
-                  
+
                 </div>
 
                 {/* Form Container */}
-                <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg lg:sticky lg:top-24 lg:h-fit">
+                <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg">
                   <div className="flex items-baseline gap-2 mb-6 2xl:mb-8">
                     <span className="text-3xl 2xl:text-5xl font-bold text-mist-900">
                       ${car.pricePerDay.toLocaleString()}

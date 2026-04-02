@@ -155,8 +155,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
         </div>
 
         <div className="pb-16 2xl:pb-24">
-          {/* CRITICAL FIX: items-start prevents flex children from stretching */}
-          <div className="flex flex-col lg:flex-row gap-10 2xl:gap-16 items-start">
+          <div className="flex flex-col lg:flex-row gap-10 2xl:gap-16">
             {/* Left Column */}
             <div className="flex-1 min-w-0">
               {/* Gallery */}
@@ -392,9 +391,8 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
             </div>
 
             {/* Right Column — Booking Sidebar */}
-            {/* CRITICAL FIX: The sticky wrapper is OUTSIDE the conditional forms */}
-            <div className="hidden lg:block lg:w-[380px] 2xl:w-[500px] flex-shrink-0 lg:self-start ">
-              <div>
+            <div className="hidden lg:block lg:w-[380px] 2xl:w-[500px] flex-shrink-0">
+              <div className="lg:sticky lg:top-24">
                 {/* Header - Always visible */}
                 <div className="mb-8 2xl:mb-12">
                   <h1 className="text-3xl 2xl:text-5xl font-semibold text-mist-900 mb-2 2xl:mb-4">{villa.name}</h1>
@@ -426,7 +424,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
 
                 {/* FORMS CONTAINER - Only ONE form rendered at a time */}
                 {activeTab === "Stay" && (
-                  <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg lg:sticky lg:top-24 lg:h-fit">
+                  <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg">
                     <div className="flex items-baseline gap-2 mb-6 2xl:mb-8">
                       <span className="text-3xl 2xl:text-5xl font-bold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
                       {/* <span className="text-sm text-mist-400 line-through">${villa.originalPrice?.toLocaleString()} </span> */}
@@ -613,7 +611,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                 )}
 
                 {activeTab === "Event" && (
-                  <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg lg:sticky lg:top-24 lg:h-fit">
+                  <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg">
 
                     <div className="flex items-baseline gap-2 mb-6 2xl:mb-8">
                       <span className="text-3xl 2xl:text-5xl font-bold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
@@ -750,7 +748,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                 )}
 
                 {activeTab === "Production" && (
-                  <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg lg:sticky lg:top-24 lg:h-fit">
+                  <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg">
                     <div className="flex items-baseline gap-2 mb-6 2xl:mb-8">
                       <span className="text-3xl 2xl:text-5xl font-bold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
                       {/* <span className="text-sm text-mist-400 line-through">${villa.originalPrice?.toLocaleString()} </span> */}

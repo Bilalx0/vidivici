@@ -82,21 +82,21 @@ export default function DocumentsPage() {
     <div className="overflow-hidden">
 
       {/* ── Heading ─────────────────────────────────────────── */}
-      <div className="px-6 sm:px-8 py-14 border-b-2 border-mist-300 font-medium flex items-center justify-between">
-        <h1 className="text-4xl font-bold text-mist-900">Documents</h1>
+      <div className="px-4 sm:px-6 2xl:px-10 py-10 sm:py-12 2xl:py-16 border-b-2 border-mist-300 font-medium flex items-center justify-between">
+        <h1 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900">Documents</h1>
       </div>
 
       {/* ── Body ────────────────────────────────────────────── */}
-      <div className="my-16 p-6 mx-7 sm:mx-10 lg:mx-16 space-y-4 bg-white rounded-2xl">
+      <div className="my-8 sm:my-12 2xl:my-16 p-4 sm:p-6 2xl:p-8 mx-4 sm:mx-6 lg:mx-10 2xl:mx-14 space-y-4 bg-white rounded-2xl">
 
         {/* Existing document cards */}
         {docs.map((doc) => (
           <div
             key={doc.id}
-            className="flex items-start gap-4 border border-mist-200 rounded-2xl p-4 sm:p-5"
+            className="flex flex-col sm:flex-row items-start gap-4 border border-mist-200 rounded-2xl p-4 sm:p-5"
           >
             {/* Thumbnail */}
-            <div className="w-56 h-36 rounded-xl bg-mist-200 flex-shrink-0 overflow-hidden">
+            <div className="w-full sm:w-56 2xl:w-72 h-44 sm:h-36 2xl:h-44 rounded-xl bg-mist-200 flex-shrink-0 overflow-hidden">
               {doc.imageUrl && (
                 <img src={doc.imageUrl} alt={doc.type} className="w-full h-full object-cover" />
               )}
@@ -110,7 +110,7 @@ export default function DocumentsPage() {
             </div>
 
             {/* Status + menu */}
-            <div className="relative flex items-center gap-2 flex-shrink-0">
+            <div className="relative flex items-center gap-2 flex-shrink-0 self-end sm:self-auto">
               <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-md ${statusColor(doc.status)}`}>
                 {doc.status}
               </span>

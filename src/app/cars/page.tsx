@@ -9,7 +9,7 @@ import WhyChooseUs from "@/components/home/WhyChooseUs"
 import FAQ from "@/components/home/FAQ"
 import Reviews from "@/components/home/Reviews"
 import Contact from "@/components/home/Contact"
-import { SlidersHorizontal } from "lucide-react"
+import { SlidersHorizontal, X } from "lucide-react"
 
 interface CarFromAPI {
   id: string
@@ -142,9 +142,35 @@ return (
           </select>
         </div>
 
+        {showFilters && (
+          <div
+            className="fixed inset-0 z-120 bg-black/50 lg:hidden"
+            onClick={() => setShowFilters(false)}
+          >
+            <div
+              className="h-full w-full max-w-sm bg-white p-5 overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="mb-5 flex items-center justify-between border-b border-mist-200 pb-3">
+                <h3 className="text-base font-semibold text-mist-900">Filters</h3>
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="rounded-md p-1 text-mist-500 hover:bg-mist-100 hover:text-mist-900"
+                  aria-label="Close filters"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+              <Suspense fallback={<div className="h-96 bg-mist-100 rounded-xl animate-pulse" />}>
+                <CarFilters />
+              </Suspense>
+            </div>
+          </div>
+        )}
+
         <div className="flex flex-col lg:flex-row gap-8 2xl:gap-12">
           {/* Sidebar - FIXED: removed lg:block, added onHide prop */}
-          <aside className={`lg:w-72 2xl:w-96 flex-shrink-0 ${showFilters ? "block" : "hidden"}`}>
+          <aside className={`hidden lg:block lg:w-72 2xl:w-96 shrink-0 ${showFilters ? "lg:block" : "lg:hidden"}`}>
             <Suspense fallback={<div className="h-96 bg-mist-100 rounded-xl animate-pulse" />}>
               <CarFilters onHide={() => setShowFilters(false)} />
             </Suspense>

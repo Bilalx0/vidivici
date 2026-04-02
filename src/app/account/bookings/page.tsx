@@ -76,12 +76,12 @@ export default function MyBookingsPage() {
     <div className="overflow-hidden">
 
       {/* ── Heading ─────────────────────────────────────────── */}
-      <div className="px-6 sm:px-8 py-14 border-b-2 border-mist-300 font-medium flex items-center justify-between">
-        <h1 className="text-4xl font-bold text-mist-900">My Bookings</h1>
+      <div className="px-4 sm:px-6 2xl:px-10 py-10 sm:py-12 2xl:py-16 border-b-2 border-mist-300 font-medium flex items-center justify-between">
+        <h1 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900">My Bookings</h1>
       </div>
 
       {/* ── Body ────────────────────────────────────────────── */}
-      <div className="py-16 px-7 sm:px-10 lg:px-16">
+      <div className="py-10 sm:py-12 2xl:py-16 px-4 sm:px-6 lg:px-10 2xl:px-14">
 
        
 
@@ -115,7 +115,7 @@ export default function MyBookingsPage() {
           </div>
 
         ) : (
-          <div className="space-y-5">
+          <div className="space-y-5 2xl:space-y-7">
              {/* Tabs */}
         <div className="flex flex-wrap gap-2 mb-10">
           {TABS.map((tab) => (
@@ -143,7 +143,7 @@ export default function MyBookingsPage() {
                   <div className="flex flex-col sm:flex-row gap-0">
 
                     {/* Image */}
-                    <div className="relative w-full sm:w-52 h-44 sm:h-auto flex-shrink-0 bg-mist-100">
+                    <div className="relative w-full sm:w-52 2xl:w-64 h-44 sm:h-auto flex-shrink-0 bg-mist-100">
                       {/* Orange "Car" badge */}
                       <span className="absolute top-3 left-3 z-10 bg-orange-400 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-md">
                         Car
@@ -158,12 +158,12 @@ export default function MyBookingsPage() {
                     </div>
 
                     {/* Details */}
-                    <div className="flex-1 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 p-5 sm:p-6">
+                    <div className="flex-1 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 p-4 sm:p-6 2xl:p-8">
 
                       {/* Left: text info */}
                       <div className="space-y-1.5">
                         <p className="text-xs text-mist-400 font-medium">{booking.car.brand.name}</p>
-                        <p className="text-xl font-bold text-mist-900">{booking.car.name}</p>
+                        <p className="text-lg sm:text-xl 2xl:text-3xl font-bold text-mist-900">{booking.car.name}</p>
                         <p className="text-xs text-mist-400">Booking ID: VV-{booking.id.slice(-8).toUpperCase()}</p>
                         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-xs text-mist-500">
                           <span className="flex items-center gap-1.5">
@@ -202,7 +202,7 @@ export default function MyBookingsPage() {
                             Contract Signed
                           </span>
                         )}
-                        <p className="text-2xl font-bold text-mist-900 leading-tight">
+                        <p className="text-xl sm:text-2xl 2xl:text-4xl font-bold text-mist-900 leading-tight">
                           ${booking.totalPrice.toLocaleString()}
                           <span className="text-sm font-normal text-mist-400"> /day</span>
                         </p>

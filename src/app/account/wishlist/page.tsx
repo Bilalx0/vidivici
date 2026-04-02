@@ -55,16 +55,16 @@ export default function MyWishlistPage() {
     <div className="overflow-hidden">
 
       {/* ── Heading ─────────────────────────────────────────── */}
-      <div className="px-6 sm:px-8 py-14 border-b-2 border-mist-300 font-medium flex items-center justify-between">
-        <h1 className="text-4xl font-bold text-mist-900">My Wishlist</h1>
+      <div className="px-4 sm:px-6 2xl:px-10 py-10 sm:py-12 2xl:py-16 border-b-2 border-mist-300 font-medium flex items-center justify-between">
+        <h1 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900">My Wishlist</h1>
       </div>
 
       {/* ── Body ────────────────────────────────────────────── */}
-      <div className="py-16 px-7 sm:px-10 lg:px-16">
+      <div className="py-10 sm:py-12 2xl:py-16 px-4 sm:px-6 lg:px-10 2xl:px-14">
 
         {/* Tabs — only show when there are items */}
         {(items.length > 0 || activeTab !== "Cars") && (
-          <div className="flex gap-2 mb-10">
+          <div className="flex flex-wrap gap-2 mb-10">
             {["Cars", "Villas", "Events"].map((tab) => (
               <button
                 key={tab}
@@ -89,7 +89,7 @@ export default function MyWishlistPage() {
           </div>
 
         ) : loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-5 2xl:gap-7">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="h-72 bg-mist-100 rounded-2xl animate-pulse" />
             ))}
@@ -121,7 +121,7 @@ export default function MyWishlistPage() {
 
         ) : (
           /* ── Cards grid (Image 1) ── */
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-5 2xl:gap-7">
             {items.map((item) => {
               const img = item.car.images?.[0]?.url
               return (

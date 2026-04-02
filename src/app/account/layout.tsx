@@ -40,9 +40,9 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
   return (
     <>
       {/* CONTENT */}
-      <div className="">
-        <div className="">
-          <div className="flex flex-col lg:flex-row gap-3 bg-mist-100">
+      <div className="bg-mist-100 min-h-screen pt-16 2xl:pt-28">
+        <div className="w-full mx-auto 2xl:max-w-[1920px]">
+          <div className="flex flex-col lg:flex-row gap-3">
 
             {/* SIDEBAR */}
             <AccountSidebar
@@ -52,7 +52,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
             />
 
             {/* PAGE CONTENT */}
-            <main className="flex-1 min-w-0 pr-32">
+            <main className="flex-1 min-w-0 pr-0 sm:pr-3 lg:pr-8 2xl:pr-20 pb-6 lg:pb-8 2xl:pb-12">
               {children}
             </main>
 

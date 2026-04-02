@@ -6,7 +6,7 @@ import Banner from "@/components/ui/Banner";
 import toast, { Toaster } from "react-hot-toast";
 import {
     Eye, SlidersHorizontal, ShieldCheck,
-    BadgeDollarSign, Headphones, Globe
+    BadgeDollarSign, Headphones, Globe, ChevronDown
 } from "lucide-react";
 
 const whyPartnerFeatures = [
@@ -387,13 +387,16 @@ export default function PartnerPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-base font-semibold text-mist-700">What do you want to list?</label>
-                                    <select className={`${inputCls} text-mist-400`} value={pForm.listingType} onChange={e => setPForm({...pForm, listingType: e.target.value})}>
-                                        <option value="" disabled>Select one</option>
-                                        <option>Luxury Car</option>
-                                        <option>Villa / Property</option>
-                                        <option>Club / Venue</option>
-                                        <option>Event Space</option>
-                                    </select>
+                                    <div className="relative">
+                                        <select className={`${inputCls} pr-10 appearance-none text-mist-400`} value={pForm.listingType} onChange={e => setPForm({...pForm, listingType: e.target.value})}>
+                                            <option value="" disabled>Select one</option>
+                                            <option>Luxury Car</option>
+                                            <option>Villa / Property</option>
+                                            <option>Club / Venue</option>
+                                            <option>Event Space</option>
+                                        </select>
+                                        <ChevronDown size={16} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mist-400" />
+                                    </div>
                                 </div>
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-base font-semibold text-mist-700">Primary Location / City</label>
@@ -421,12 +424,15 @@ export default function PartnerPage() {
                                 </div>
                                 <div className="flex flex-col gap-1.5">
                                     <label className="text-base font-semibold text-mist-700">Insurance/Liability Coverage</label>
-                                    <select className={`${inputCls} text-mist-400`} value={pForm.insurance} onChange={e => setPForm({...pForm, insurance: e.target.value})}>
-                                        <option value="" disabled>Select coverage status</option>
-                                        <option>Yes, verified coverage</option>
-                                        <option>No coverage yet</option>
-                                        <option>In progress</option>
-                                    </select>
+                                    <div className="relative">
+                                        <select className={`${inputCls} pr-10 appearance-none text-mist-400`} value={pForm.insurance} onChange={e => setPForm({...pForm, insurance: e.target.value})}>
+                                            <option value="" disabled>Select coverage status</option>
+                                            <option>Yes, verified coverage</option>
+                                            <option>No coverage yet</option>
+                                            <option>In progress</option>
+                                        </select>
+                                        <ChevronDown size={16} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mist-400" />
+                                    </div>
                                 </div>
                             </div>
 

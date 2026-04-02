@@ -24,7 +24,7 @@ export default function AccountSidebar({ name, email, profileImage }: AccountSid
   const initials = (name || email || "U").charAt(0).toUpperCase()
 
   return (
-    <aside className="w-full lg:w-2xs flex-shrink-0 h-screen">
+    <aside className="w-full lg:w-80 2xl:w-96 flex-shrink-0 lg:sticky lg:top-16 2xl:top-28 lg:self-start">
       <div className="bg-white border border-mist-200 overflow-hidden">
 
         {/* ── Avatar + Name ─────────────────────────────────── */}

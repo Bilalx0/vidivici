@@ -657,9 +657,33 @@ function WeddingVillasContent() {
       </select>
     </div>
 
+    {showFilters && (
+      <div
+        className="fixed inset-0 z-120 bg-black/50 lg:hidden"
+        onClick={() => setShowFilters(false)}
+      >
+        <div
+          className="h-full w-full max-w-sm bg-white p-5 overflow-y-auto"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="mb-5 flex items-center justify-between border-b border-mist-200 pb-3">
+            <h3 className="text-base font-semibold text-mist-900">Filters</h3>
+            <button
+              onClick={() => setShowFilters(false)}
+              className="rounded-md p-1 text-mist-500 hover:bg-mist-100 hover:text-mist-900"
+              aria-label="Close filters"
+            >
+              <X size={18} />
+            </button>
+          </div>
+          <WeddingVillaFilters onHide={() => setShowFilters(false)} />
+        </div>
+      </div>
+    )}
+
     <div className="flex flex-col lg:flex-row gap-8 2xl:gap-16">
       {/* Sidebar Filters - Fixed: proper conditional visibility */}
-      <aside className={`lg:w-72 flex-shrink-0 ${showFilters ? "block" : "hidden"}`}>
+      <aside className={`hidden lg:block lg:w-72 shrink-0 ${showFilters ? "lg:block" : "lg:hidden"}`}>
         <WeddingVillaFilters onHide={() => setShowFilters(false)} />
       </aside>
 

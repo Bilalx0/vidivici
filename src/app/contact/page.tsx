@@ -101,7 +101,7 @@ export default function ContactPage() {
     }
   };
 
-  const inputCls = "w-full border border-mist-200 rounded-xl 2xl:rounded-2xl px-4 py-2.5 2xl:px-8 2xl:py-6 text-[13px] 2xl:text-2xl text-mist-900 placeholder-mist-300 outline-none focus:border-mist-400 transition-colors bg-white";
+  const inputCls = "w-full border border-mist-200 rounded-md 2xl:rounded-2xl px-4 py-2.5 2xl:px-8 2xl:py-6 text-[13px] 2xl:text-2xl text-mist-900 placeholder-mist-300 outline-none focus:border-mist-400 transition-colors bg-white";
 
   return (
     <div className="w-full">
@@ -132,7 +132,7 @@ export default function ContactPage() {
                 key={item.label}
                 className="bg-white border border-mist-100 rounded-2xl 2xl:rounded-[40px] py-4 2xl:py-8 flex flex-col items-center text-center gap-2 2xl:gap-4 shadow-sm hover:shadow-md transition-shadow duration-200"
               >
-                <div className="w-10 h-10 2xl:w-16 2xl:h-16 rounded-full border border-mist-100 bg-mist-100 flex items-center justify-center text-mist-500">
+                <div className="w-10 h-10 2xl:w-16 2xl:h-16 rounded-md border border-mist-100 bg-mist-200 flex items-center justify-center text-mist-500">
                   {item.icon}
                 </div>
                 <p className="text-[13px] 2xl:text-xl font-normal text-mist-900">{item.label}</p>
@@ -149,7 +149,7 @@ export default function ContactPage() {
       </section>
       <section className="-mt-96 relative z-10 2xl:-mt-[600px]">
         <div className="w-full pt-16 2xl:pt-32 px-6 sm:px-14 md:px-24 2xl:px-40">
-          <div className="max-w-4xl mx-auto 2xl:max-w-full bg-white rounded-3xl 2xl:rounded-[60px] shadow-sm border border-mist-100 px-8 py-10 2xl:px-16 2xl:py-20">
+          <div className="max-w-4xl mx-auto 2xl:max-w-full bg-white rounded-2xl 2xl:rounded-[60px] shadow-sm border border-mist-100 px-8 py-10 2xl:px-16 2xl:py-20">
 
             <h2 className="text-2xl font-bold text-mist-900 text-center tracking-tight mb-8 2xl:text-5xl 2xl:mb-16">
               Start Planning Your Luxury Experience

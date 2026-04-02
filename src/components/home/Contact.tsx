@@ -163,7 +163,7 @@ export default function ContactForm() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 2xl:gap-10">
                 <Field label="Phone">
                   <div className="flex items-center border border-mist-300 rounded-xl 2xl:rounded-2xl overflow-hidden focus-within:border-mist-400 transition-colors duration-200 bg-white">
-                    <span className="px-4 py-3 2xl:px-8 2xl:py-6 text-lg 2xl:text-3xl border-r border-mist-300 bg-mist-50 flex items-center gap-2 text-mist-600 flex-shrink-0">
+                    <span className="px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-3xl border-r border-mist-300 bg-mist-50 flex items-center gap-2 text-mist-600 flex-shrink-0">
                       🇺🇸
                     </span>
                     <input

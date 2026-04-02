@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { ChevronLeft, ChevronRight, BedDouble, Users, Bath, Maximize2, MapPin, Plane, ChefHat, Shield, CreditCard, Sparkles, Percent, Bed, Tag, } from "lucide-react"
+import { ChevronLeft, ChevronRight, ChevronDown, BedDouble, Users, Bath, Maximize2, MapPin, Plane, ChefHat, Shield, CreditCard, Sparkles, Percent, Bed, Tag, Share2, Bookmark } from "lucide-react"
 import { parseAmenity, AMENITY_ICONS } from "@/lib/amenity-icons"
 import WhyChooseUs from "@/components/home/WhyChooseUs"
 import Reviews from "@/components/home/Reviews"
@@ -143,21 +143,29 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
       <div className=" px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-24">
 
 
-        {/* Breadcrumb */}
-        <div className="mb-10 2xl:mb-16">
-          <div className="flex items-center gap-2 2xl:gap-4 text-xs sm:text-base 2xl:text-xl text-mist-400">
+        {/* Breadcrumb + Share/Save */}
+        <div className="flex items-center justify-end sm:justify-between gap-3 pb-6 sm:gap-3 sm:pb-10 2xl:pb-16">
+          <div className="hidden sm:flex min-w-0 items-center gap-1.5 sm:gap-2 2xl:gap-4 text-xs sm:text-base 2xl:text-xl text-mist-400 whitespace-nowrap">
             <Link href="/" className="hover:text-mist-700">Home</Link>
-            <span>{">"}</span>
+            <ChevronRight size={12} className="text-mist-400 flex-shrink-0" />
             <Link href="/villas" className="hover:text-mist-700">Villas</Link>
-            <span>{">"}</span>
+            <ChevronRight size={12} className="text-mist-400 flex-shrink-0" />
             <span className="text-mist-700">{villa.name}</span>
+          </div>
+          <div className="flex items-center gap-4 2xl:gap-5">
+            <button className="flex items-center gap-1.5 text-xs sm:text-sm 2xl:text-lg text-mist-500 hover:text-mist-800">
+              <Share2 size={14} /> Share
+            </button>
+            <button className="flex items-center gap-1.5 text-xs sm:text-sm 2xl:text-lg text-mist-500 hover:text-mist-800">
+              <Bookmark size={14} /> Save
+            </button>
           </div>
         </div>
 
         <div className="pb-16 2xl:pb-24">
           <div className="flex flex-col lg:flex-row gap-10 2xl:gap-16">
             {/* Left Column */}
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 space-y-8 2xl:space-y-12">
               {/* Gallery */}
               {/* Main Image */}
               <div className="relative rounded-2xl overflow-hidden mb-4">
@@ -202,6 +210,23 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                   </button>
                 </div>
               )}
+
+              {/* Mobile breadcrumb under gallery */}
+              <div className="sm:hidden min-w-0 flex items-center gap-1.5 text-sm text-mist-700 whitespace-nowrap -mt-3">
+                <Link href="/" className="hover:text-mist-700">Home</Link>
+                <ChevronRight size={12} className="text-mist-800 flex-shrink-0" />
+                <Link href="/villas" className="hover:text-mist-700">Villas</Link>
+                <ChevronRight size={12} className="text-mist-800 flex-shrink-0" />
+                <span className="text-mist-900">{villa.name}</span>
+              </div>
+
+              {/* Mobile title block */}
+              <div className="lg:hidden space-y-2">
+                <h1 className="text-2xl font-semibold text-mist-900">{villa.name}</h1>
+                {villa.shortDescription && (
+                  <p className="text-sm text-mist-500 leading-relaxed">{villa.shortDescription}</p>
+                )}
+              </div>
 
               {/* Info Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 2xl:gap-5 mb-8 2xl:mb-12">
@@ -487,18 +512,21 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                     </div>
 
                     {/* Guests */}
-                    <select
-                      value={guestCount}
-                      onChange={(e) => setGuestCount(Number(e.target.value))}
-                      className="w-full bg-white border border-mist-300 rounded-md px-3 2xl:px-5 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400"
-                    >
-                      <option value="" disabled>Number of Guests</option>
-                      {Array.from({ length: villa.guests }, (_, i) => (
-                        <option key={i + 1} value={i + 1}>
-                          {i + 1} Guest{i > 0 ? "s" : ""}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="relative">
+                      <select
+                        value={guestCount}
+                        onChange={(e) => setGuestCount(Number(e.target.value))}
+                        className="w-full appearance-none bg-white border border-mist-300 rounded-md px-3 2xl:px-5 pr-10 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400"
+                      >
+                        <option value="" disabled>Number of Guests</option>
+                        {Array.from({ length: villa.guests }, (_, i) => (
+                          <option key={i + 1} value={i + 1}>
+                            {i + 1} Guest{i > 0 ? "s" : ""}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown size={16} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mist-400" />
+                    </div>
 
                     {/* Add-Ons */}
                     <div className="space-y-3">
@@ -670,18 +698,19 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
 
                     {/* Event Type & Date */}
                     <div className="grid grid-cols-2 gap-3">
-                      <div>
+                      <div className="relative">
                         <label className="text-xs text-mist-500 block mb-1.5">Event Type</label>
                         <select
                           value={eventForm.eventType}
                           onChange={(e) => setEventForm({ ...eventForm, eventType: e.target.value })}
-                          className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 appearance-none focus:outline-none focus:border-mist-400"
+                          className="w-full bg-white border border-mist-300 rounded-md px-3 pr-10 py-2.5 text-sm text-mist-700 appearance-none focus:outline-none focus:border-mist-400"
                         >
                           <option value="">Event Type</option>
                           {["Birthday", "Corporate", "Wedding", "Film Shoot", "Private Party", "Other"].map((t) => (
                             <option key={t} value={t}>{t}</option>
                           ))}
                         </select>
+                        <ChevronDown size={16} className="pointer-events-none absolute right-3 top-[calc(50%+10px)] -translate-y-1/2 text-mist-400" />
                       </div>
                       <div>
                         <label className="text-xs text-mist-500 block mb-1.5">Event Date</label>
@@ -806,18 +835,19 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
 
                     {/* Project Type & Shoot Date */}
                     <div className="grid grid-cols-2 gap-3">
-                      <div>
+                      <div className="relative">
                         <label className="text-xs text-mist-500 block mb-1.5">Project Type</label>
                         <select
                           value={productionForm.projectType}
                           onChange={(e) => setProductionForm({ ...productionForm, projectType: e.target.value })}
-                          className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 appearance-none focus:outline-none focus:border-mist-400"
+                          className="w-full bg-white border border-mist-300 rounded-md px-3 pr-10 py-2.5 text-sm text-mist-700 appearance-none focus:outline-none focus:border-mist-400"
                         >
                           <option value="">Project Type</option>
                           {["Feature Film", "TV Series", "Commercial", "Music Video", "Documentary", "Photo Shoot"].map((t) => (
                             <option key={t} value={t}>{t}</option>
                           ))}
                         </select>
+                        <ChevronDown size={16} className="pointer-events-none absolute right-3 top-[calc(50%+10px)] -translate-y-1/2 text-mist-400" />
                       </div>
                       <div>
                         <label className="text-xs text-mist-500 block mb-1.5">Shoot Date</label>
@@ -918,9 +948,9 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
           <button
             type="button"
             onClick={() => setShowMobileBooking(true)}
-            className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg sm:text-base px-8 sm:px-6 py-2.5 sm:py-3 rounded-lg whitespace-nowrap"
+            className="shrink-0 bg-red-600 hover:bg-red-700 text-white font-semibold text-lg sm:text-xl px-10 sm:px-9 py-3.5 sm:py-4 rounded-xl whitespace-nowrap"
           >
-            START
+            Book Now
           </button>
         </div>
       </div>
@@ -1007,18 +1037,21 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                   </div>
                 </div>
 
-                <select
-                  value={guestCount}
-                  onChange={(e) => setGuestCount(Number(e.target.value))}
-                  className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400"
-                >
-                  <option value="" disabled>Number of Guests</option>
-                  {Array.from({ length: villa.guests }, (_, i) => (
-                    <option key={i + 1} value={i + 1}>
-                      {i + 1} Guest{i > 0 ? "s" : ""}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <select
+                    value={guestCount}
+                    onChange={(e) => setGuestCount(Number(e.target.value))}
+                    className="w-full appearance-none bg-white border border-mist-300 rounded-md px-3 pr-10 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400"
+                  >
+                    <option value="" disabled>Number of Guests</option>
+                    {Array.from({ length: villa.guests }, (_, i) => (
+                      <option key={i + 1} value={i + 1}>
+                        {i + 1} Guest{i > 0 ? "s" : ""}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown size={16} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mist-400" />
+                </div>
 
                 <div className="space-y-3">
                   <p className="text-[15px] font-bold text-mist-900">
@@ -1173,18 +1206,19 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <div>
+                  <div className="relative">
                     <label className="text-xs text-mist-500 block mb-1.5">Event Type</label>
                     <select
                       value={eventForm.eventType}
                       onChange={(e) => setEventForm({ ...eventForm, eventType: e.target.value })}
-                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 appearance-none focus:outline-none focus:border-mist-400"
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 pr-10 py-2.5 text-sm text-mist-700 appearance-none focus:outline-none focus:border-mist-400"
                     >
                       <option value="">Event Type</option>
                       {["Birthday", "Corporate", "Wedding", "Film Shoot", "Private Party", "Other"].map((t) => (
                         <option key={t} value={t}>{t}</option>
                       ))}
                     </select>
+                    <ChevronDown size={16} className="pointer-events-none absolute right-3 top-[calc(50%+10px)] -translate-y-1/2 text-mist-400" />
                   </div>
                   <div>
                     <label className="text-xs text-mist-500 block mb-1.5">Event Date</label>
@@ -1294,18 +1328,19 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <div>
+                  <div className="relative">
                     <label className="text-xs text-mist-500 block mb-1.5">Project Type</label>
                     <select
                       value={productionForm.projectType}
                       onChange={(e) => setProductionForm({ ...productionForm, projectType: e.target.value })}
-                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 appearance-none focus:outline-none focus:border-mist-400"
+                      className="w-full bg-white border border-mist-300 rounded-md px-3 pr-10 py-2.5 text-sm text-mist-700 appearance-none focus:outline-none focus:border-mist-400"
                     >
                       <option value="">Project Type</option>
                       {["Feature Film", "TV Series", "Commercial", "Music Video", "Documentary", "Photo Shoot"].map((t) => (
                         <option key={t} value={t}>{t}</option>
                       ))}
                     </select>
+                    <ChevronDown size={16} className="pointer-events-none absolute right-3 top-[calc(50%+10px)] -translate-y-1/2 text-mist-400" />
                   </div>
                   <div>
                     <label className="text-xs text-mist-500 block mb-1.5">Shoot Date</label>

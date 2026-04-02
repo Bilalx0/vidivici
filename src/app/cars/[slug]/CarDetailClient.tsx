@@ -1010,9 +1010,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
           <button
             type="button"
             onClick={() => setShowMobileBooking(true)}
-            className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg sm:text-base px-8 sm:px-6 py-2.5 sm:py-3 rounded-lg whitespace-nowrap"
+            className="shrink-0 bg-red-600 hover:bg-red-700 text-white font-semibold text-lg sm:text-xl px-10 sm:px-9 py-3.5 sm:py-4 rounded-xl whitespace-nowrap"
           >
-            START
+            Book Now
           </button>
         </div>
       </div>

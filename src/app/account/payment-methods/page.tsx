@@ -49,16 +49,16 @@ export default function PaymentMethodsPage() {
     <div className="overflow-hidden">
 
       {/* ── Heading ─────────────────────────────────────────── */}
-      <div className="px-6 sm:px-8 py-14 border-b-2 border-mist-300 font-medium flex items-center justify-between">
-        <h1 className="text-4xl font-bold text-mist-900">Payment Method</h1>
+      <div className="px-4 sm:px-6 2xl:px-10 py-10 sm:py-12 2xl:py-16 border-b-2 border-mist-300 font-medium flex items-center justify-between">
+        <h1 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900">Payment Method</h1>
       </div>
 
       {/* ── Body ────────────────────────────────────────────── */}
-      <div className="my-16 p-6 mx-7 sm:mx-10 lg:mx-16 bg-white rounded-2xl shadow-xl border border-mist-200">
+      <div className="my-8 sm:my-12 2xl:my-16 p-4 sm:p-6 2xl:p-8 mx-4 sm:mx-6 lg:mx-10 2xl:mx-14 bg-white rounded-2xl shadow-xl border border-mist-200">
 
         {!showForm ? (
           /* ── Cards grid ── */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 2xl:gap-5">
             {cards.map((card) => (
               <div key={card.id} className="aspect-[1.6/1] bg-mist-900 rounded-2xl p-5 flex flex-col justify-between text-white">
                 <div className="flex justify-between items-start">
@@ -191,7 +191,7 @@ export default function PaymentMethodsPage() {
               </div>
 
               {/* Payment icons */}
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <div className="flex items-center justify-center h-7 px-2.5 bg-white border border-mist-200 rounded-md">
                   <span className="text-[#1A1F71] text-xs font-black tracking-tight">VISA</span>
                 </div>

@@ -60,13 +60,18 @@ const BUDGET_OPTIONS = [
 ]
 
 const ADD_ONS = ["Chauffeur / Party Bus", "Security / Bodyguard"]
+const VENUE_OPTIONS = [
+  "Delilah Los Angeles",
+  "Catch LA Rooftop",
+  "The Highlight Room",
+]
 
 export function VenueBookingForm() {
   const [form, setForm] = useState({
     fullName: "",
     email: "",
     phone: "",
-    clubVenue: "Delilah Los Angeles",
+    clubVenue: "",
     bookingDate: "",
     guestsTotal: "",
     budget: "",
@@ -88,7 +93,7 @@ export function VenueBookingForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.fullName || !form.email || !form.bookingDate) return;
+    if (!form.fullName || !form.email || !form.bookingDate || !form.clubVenue) return;
     setSubmitting(true);
 
     try {
@@ -205,10 +210,13 @@ export function VenueBookingForm() {
                     <select
                       value={form.clubVenue}
                       onChange={(e) => setForm({ ...form, clubVenue: e.target.value })}
-                      disabled
-                      className={`${inputClass} appearance-none pr-10 bg-mist-50 cursor-not-allowed`}
+                      className={`${inputClass} appearance-none pr-10`}
+                      required
                     >
-                      <option value={form.clubVenue}>{form.clubVenue}</option>
+                      <option value="" disabled>Select venue</option>
+                      {VENUE_OPTIONS.map((venue) => (
+                        <option key={venue} value={venue}>{venue}</option>
+                      ))}
                     </select>
                     <ChevronDown size={16} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-mist-400" />
                     </div>

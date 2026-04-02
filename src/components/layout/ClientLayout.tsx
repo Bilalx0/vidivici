@@ -52,6 +52,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         <AccountHeader />
         <main className="min-h-screen">{children}</main>
         <AccountFooter />
+        <ChatBot />
       </SessionProvider>
     );
   }
@@ -69,6 +70,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         </header>
         <main className="min-h-screen">{children}</main>
         <AccountFooter />
+        <ChatBot />
       </SessionProvider>
     );
   }
@@ -80,6 +82,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         <AccountHeader />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        <ChatBot />
       </SessionProvider>
     );
   }

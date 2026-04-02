@@ -138,7 +138,7 @@ export default function PartnerPage() {
   transition-all duration-300
 "
                             >
-                                <div className="w-10 h-10 rounded-xl bg-mist-50 border border-mist-100 flex items-center justify-center text-mist-600">
+                                <div className="w-10 h-10 rounded-lg bg-mist-100 border border-mist-100 flex items-center justify-center text-neutral-600">
                                     {f.icon}
                                 </div>
                                 <h3 className="text-xl font-bold text-mist-900">{f.title}</h3>
@@ -151,16 +151,33 @@ export default function PartnerPage() {
             </section>
 
             {/* Who Can Join */}
-            <section className="relative w-full bg-mist-950 sm:px-16 lg:px-20 px-6 pt-16">
-                <div className="">
+            <section
+                className="relative w-full sm:px-16 lg:px-20 px-6 pt-16 overflow-visible"
+                style={{ backgroundColor: "#f0f0ee" }}
+            >
+                <img
+                    src="/Vector 7.png"
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none rotate-180  "
+                />
+
+                <img
+                    src="/Vector 7.png"
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180 "
+                />
+
+                <div className="relative z-10">
 
                     {/* Heading */}
                     <div className="text-center mb-12">
-                        <h2 className="text-4xl font-bold text-white">
+                        <h2 className="text-4xl font-bold text-mist-900">
                             Who Can Join
                         </h2>
 
-                        <p className="mt-3 text-sm text-white/60 max-w-xl mx-auto">
+                        <p className="mt-3 text-sm text-mist-500 max-w-xl mx-auto">
                             Whether you own a supercar, villa, club, or host exclusive events,
                             there's a place for your luxury asset in our elite network.
                         </p>
@@ -196,7 +213,7 @@ export default function PartnerPage() {
             </section>
 
             {/* How It Works */}
-            <section className="w-full bg-white sm:px-16 lg:px-20 px-6 my-56">
+            <section className="w-full bg-white sm:px-16 lg:px-20 px-6 mb-56 mt-72">
                 <div className="">
 
                     {/* Heading */}
@@ -284,165 +301,165 @@ export default function PartnerPage() {
             </section>
 
             {/* Become a Partner Form */}
-<section className="w-full sm:px-16 lg:px-20 px-6 py-16">
-  <div className="">
+            <section className="w-full sm:px-16 lg:px-20 px-6 py-16">
+                <div className="">
 
-    {/* Heading */}
-    <div className="text-center mb-16">
-      <h2 className="text-4xl font-bold text-mist-900 tracking-tight">Become a Partner</h2>
-      <p className="mt-4 text-base text-mist-400 leading-relaxed max-w-2xl mx-auto">
-        Share your vehicles or properties with our vetted clientele. Complete the form below
-        and our team will get back to you shortly.
-      </p>
-    </div>
+                    {/* Heading */}
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-bold text-mist-900 tracking-tight">Become a Partner</h2>
+                        <p className="mt-4 text-base text-mist-400 leading-relaxed max-w-2xl mx-auto">
+                            Share your vehicles or properties with our vetted clientele. Complete the form below
+                            and our team will get back to you shortly.
+                        </p>
+                    </div>
 
-    {/* Form card */}
-    <div className="bg-white rounded-3xl border border-mist-100 px-8 py-10  shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_24px_rgba(0,0,0,0.08)]
+                    {/* Form card */}
+                    <div className="bg-white rounded-3xl border border-mist-100 px-8 py-10  shadow-[0_1px_2px_rgba(0,0,0,0.05),0_8px_24px_rgba(0,0,0,0.08)]
   hover:shadow-[0_2px_4px_rgba(0,0,0,0.06),0_12px_30px_rgba(0,0,0,0.10)]
   transition-all duration-300">
-      <div className="flex flex-col gap-5">
+                        <div className="flex flex-col gap-5">
 
-        {/* Row 1 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-base font-semibold text-mist-700">Full Name</label>
-            <input placeholder="Enter your full name" className={inputCls} />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-base font-semibold text-mist-700">Email</label>
-            <input type="email" placeholder="Enter your email" className={inputCls} />
-          </div>
-        </div>
+                            {/* Row 1 */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-base font-semibold text-mist-700">Full Name</label>
+                                    <input placeholder="Enter your full name" className={inputCls} />
+                                </div>
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-base font-semibold text-mist-700">Email</label>
+                                    <input type="email" placeholder="Enter your email" className={inputCls} />
+                                </div>
+                            </div>
 
-        {/* Row 2 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-base font-semibold text-mist-700">Phone</label>
-            <div className="flex items-center border border-mist-200 rounded-xl overflow-hidden focus-within:border-mist-400 transition-colors bg-white">
-              <span className="px-3 py-2.5 text-sm border-r border-mist-200 bg-mist-50 text-mist-600 flex-shrink-0">🇺🇸</span>
-              <input placeholder="Enter your phone number" className="flex-1 px-3 py-2.5 text-base bg-mist-100 text-mist-900 placeholder-mist-300 outline-none" />
+                            {/* Row 2 */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-base font-semibold text-mist-700">Phone</label>
+                                    <div className="flex items-center border border-mist-200 rounded-xl overflow-hidden focus-within:border-mist-400 transition-colors bg-white">
+                                        <span className="px-3 py-2.5 text-sm border-r border-mist-200 bg-mist-50 text-mist-600 flex-shrink-0">🇺🇸</span>
+                                        <input placeholder="Enter your phone number" className="flex-1 px-3 py-2.5 text-base bg-mist-100 text-mist-900 placeholder-mist-300 outline-none" />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-base font-semibold text-mist-700">
+                                        Company <span className="text-mist-300 font-normal">(optional)</span>
+                                    </label>
+                                    <input placeholder="Enter your company name" className={inputCls} />
+                                </div>
+                            </div>
+
+                            {/* Row 3 */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-base font-semibold text-mist-700">What do you want to list?</label>
+                                    <select className={`${inputCls} text-mist-400`} defaultValue="">
+                                        <option value="" disabled>Select one</option>
+                                        <option>Luxury Car</option>
+                                        <option>Villa / Property</option>
+                                        <option>Club / Venue</option>
+                                        <option>Event Space</option>
+                                    </select>
+                                </div>
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-base font-semibold text-mist-700">Primary Location / City</label>
+                                    <input placeholder="Enter your location" className={inputCls} />
+                                </div>
+                            </div>
+
+                            {/* Row 4 */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-base font-semibold text-mist-700">Fleet Size / Bedrooms / Capacity</label>
+                                    <input placeholder="e.g. 6 cars • 12 bedrooms • 260 pax" className={inputCls} />
+                                </div>
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-base font-semibold text-mist-700">Your Rates (daily/weekly/monthly)</label>
+                                    <input placeholder="$1,500/day • $8,500/week • $32,000/month" className={inputCls} />
+                                </div>
+                            </div>
+
+                            {/* Row 5 */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-base font-semibold text-mist-700">Availability Blackout Dates</label>
+                                    <input placeholder="e.g. Available year-round except Aug 5-20" className={inputCls} />
+                                </div>
+                                <div className="flex flex-col gap-1.5">
+                                    <label className="text-base font-semibold text-mist-700">Insurance/Liability Coverage</label>
+                                    <select className={`${inputCls} text-mist-400`} defaultValue="">
+                                        <option value="" disabled>Yes verified coverage</option>
+                                        <option>Yes, verified coverage</option>
+                                        <option>No coverage yet</option>
+                                        <option>In progress</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            {/* Row 6 — full width */}
+                            <div className="flex flex-col gap-1.5">
+                                <label className="text-base font-semibold text-mist-700">Website / Instagram</label>
+                                <input placeholder="e.g. yoursite.com, @handle" className={inputCls} />
+                            </div>
+
+                            {/* Textarea */}
+                            <div className="flex flex-col gap-1.5">
+                                <label className="text-base font-semibold text-mist-700">Tell us about your asset(s)</label>
+                                <textarea
+                                    rows={4}
+                                    placeholder="Models, specs, amenities, restrictions, preferred clientele, etc."
+                                    className={`${inputCls} resize-none`}
+                                />
+                            </div>
+
+                            {/* Checkbox */}
+                            <label className="flex items-center gap-2.5 cursor-pointer">
+                                <input type="checkbox" className="w-4 h-4 rounded border-mist-300 accent-mist-900" />
+                                <span className="text-[12.5px] text-mist-500">I agree to be contacted about my application.</span>
+                            </label>
+
+                            {/* Submit */}
+                            <button className="w-full bg-mist-900 text-white text-[14px] font-semibold py-4 rounded-xl hover:bg-mist-700 transition-colors duration-200 mt-1">
+                                Submit Application
+                            </button>
+
+                            {/* Trust badges */}
+                            <div className="flex flex-wrap items-center justify-center gap-6 pt-2">
+                                {["Verified Client Base", "100% Secure Data", "Transparent Commission Structure"].map((badge) => (
+                                    <div key={badge} className="flex items-center gap-1.5 text-[11.5px] text-mist-500 font-medium">
+                                        <div className="w-4 h-4 rounded-full bg-mist-900 flex items-center justify-center flex-shrink-0">
+                                            <svg width="8" height="8" viewBox="0 0 10 8" fill="none">
+                                                <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                            </svg>
+                                        </div>
+                                        {badge}
+                                    </div>
+                                ))}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <FAQ />
+
+            <div className="relative w-full bg-[#eeeeed] py-16 px-6 text-center mt-16">
+
+                <div className="relative z-10 max-w-md mx-auto flex flex-col items-center gap-8">
+
+                    <h2 className="text-5xl font-bold text-mist-900 tracking-tight">
+                        Still have questions?
+                    </h2>
+                    <p className="text-base text-mist-500 leading-relaxed">
+                        Our dedicated support team is available 24/7 to assist you with
+                        bookings, inquiries, or custom requests.
+                    </p>
+                    <button className="mt-2 bg-mist-800 text-white text-base px-7 py-3 rounded-xl hover:bg-mist-700 transition-colors duration-200">
+                        Contact Us
+                    </button>
+                </div>
+
             </div>
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-base font-semibold text-mist-700">
-              Company <span className="text-mist-300 font-normal">(optional)</span>
-            </label>
-            <input placeholder="Enter your company name" className={inputCls} />
-          </div>
-        </div>
-
-        {/* Row 3 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-base font-semibold text-mist-700">What do you want to list?</label>
-            <select className={`${inputCls} text-mist-400`} defaultValue="">
-              <option value="" disabled>Select one</option>
-              <option>Luxury Car</option>
-              <option>Villa / Property</option>
-              <option>Club / Venue</option>
-              <option>Event Space</option>
-            </select>
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-base font-semibold text-mist-700">Primary Location / City</label>
-            <input placeholder="Enter your location" className={inputCls} />
-          </div>
-        </div>
-
-        {/* Row 4 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-base font-semibold text-mist-700">Fleet Size / Bedrooms / Capacity</label>
-            <input placeholder="e.g. 6 cars • 12 bedrooms • 260 pax" className={inputCls} />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-base font-semibold text-mist-700">Your Rates (daily/weekly/monthly)</label>
-            <input placeholder="$1,500/day • $8,500/week • $32,000/month" className={inputCls} />
-          </div>
-        </div>
-
-        {/* Row 5 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-base font-semibold text-mist-700">Availability Blackout Dates</label>
-            <input placeholder="e.g. Available year-round except Aug 5-20" className={inputCls} />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-base font-semibold text-mist-700">Insurance/Liability Coverage</label>
-            <select className={`${inputCls} text-mist-400`} defaultValue="">
-              <option value="" disabled>Yes verified coverage</option>
-              <option>Yes, verified coverage</option>
-              <option>No coverage yet</option>
-              <option>In progress</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Row 6 — full width */}
-        <div className="flex flex-col gap-1.5">
-          <label className="text-base font-semibold text-mist-700">Website / Instagram</label>
-          <input placeholder="e.g. yoursite.com, @handle" className={inputCls} />
-        </div>
-
-        {/* Textarea */}
-        <div className="flex flex-col gap-1.5">
-          <label className="text-base font-semibold text-mist-700">Tell us about your asset(s)</label>
-          <textarea
-            rows={4}
-            placeholder="Models, specs, amenities, restrictions, preferred clientele, etc."
-            className={`${inputCls} resize-none`}
-          />
-        </div>
-
-        {/* Checkbox */}
-        <label className="flex items-center gap-2.5 cursor-pointer">
-          <input type="checkbox" className="w-4 h-4 rounded border-mist-300 accent-mist-900" />
-          <span className="text-[12.5px] text-mist-500">I agree to be contacted about my application.</span>
-        </label>
-
-        {/* Submit */}
-        <button className="w-full bg-mist-900 text-white text-[14px] font-semibold py-4 rounded-xl hover:bg-mist-700 transition-colors duration-200 mt-1">
-          Submit Application
-        </button>
-
-        {/* Trust badges */}
-        <div className="flex flex-wrap items-center justify-center gap-6 pt-2">
-          {["Verified Client Base", "100% Secure Data", "Transparent Commission Structure"].map((badge) => (
-            <div key={badge} className="flex items-center gap-1.5 text-[11.5px] text-mist-500 font-medium">
-              <div className="w-4 h-4 rounded-full bg-mist-900 flex items-center justify-center flex-shrink-0">
-                <svg width="8" height="8" viewBox="0 0 10 8" fill="none">
-                  <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-              {badge}
-            </div>
-          ))}
-        </div>
-
-      </div>
-    </div>
-  </div>
-</section>
-
-<FAQ/>
-
-          <div className="relative w-full bg-[#eeeeed] py-16 px-6 text-center mt-16">
-
-  <div className="relative z-10 max-w-md mx-auto flex flex-col items-center gap-8">
-    
-    <h2 className="text-5xl font-bold text-mist-900 tracking-tight">
-      Still have questions?
-    </h2>
-    <p className="text-base text-mist-500 leading-relaxed">
-      Our dedicated support team is available 24/7 to assist you with
-      bookings, inquiries, or custom requests.
-    </p>
-    <button className="mt-2 bg-mist-800 text-white text-base px-7 py-3 rounded-xl hover:bg-mist-700 transition-colors duration-200">
-      Contact Us
-    </button>
-  </div>
-
-</div>
 
         </div>
     );

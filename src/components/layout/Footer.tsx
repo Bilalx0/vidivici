@@ -83,8 +83,79 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Links Navigation Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 2xl:gap-16 py-12 2xl:py-32 border-b border-white/10">
+        {/* Links Navigation - Mobile */}
+        <div className="sm:hidden py-12 border-b border-white/10">
+          <div className="grid grid-cols-2 gap-8">
+            <div className="flex flex-col gap-8">
+              <FooterCol
+                title="Company"
+                links={[
+                  { label: "About Us", href: "/about" },
+                  { label: "Reserve Now", href: "#" },
+                  { label: "Become a Partner", href: "/partner" },
+                  { label: "FAQs", href: "/faqs" },
+                  { label: "Blogs", href: "/blog" },
+                  { label: "Contact", href: "/contact" },
+                ]}
+              />
+
+              <FooterCol
+                title="Services"
+                links={[
+                  { label: "Cars", href: "/cars" },
+                  { label: "Insurance Replacement", href: "/cars/insurance" },
+                  { label: "Drive the Extraordinary", href: "/cars/extraordinary" },
+                  { label: "Long-Term Car Rental", href: "/cars/longterm" },
+                  { label: "Experience", href: "/cars/experience" },
+                  "Villas", "Events", "Airport Transfer", "Wedding Car Rental",
+                ]}
+              />
+            </div>
+
+            <div className="flex flex-col gap-8">
+              <FooterCol
+                title="By Brand"
+                links={["Ferrari", "Lamborghini", "Rolls Royce", "Bentley", "Porsche", "Tesla", "Audi", "McLaren", "Range Rover", "Mercedes"]}
+              />
+
+              <FooterCol
+                title="By Type"
+                links={["Supercar", "SUV", "Convertible", "Chauffeur", "Ultra-Luxury", "EV", "Coupe | Sports", "Sedan | 4-Door"]}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4 mt-8">
+            <p className="text-[12px] font-normal text-white/80 uppercase tracking-wide">Subscribe for VIP updates & offers</p>
+
+            <div className="flex items-center bg-white/10 border border-white/20 rounded-lg px-2 py-1.5 focus-within:border-white/40 transition-colors">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="flex-1 min-w-0 bg-transparent border-none outline-none text-white placeholder-white/40 text-[12px] px-3"
+              />
+              <button className="bg-white text-gray-900 text-[12px] font-normal px-5 py-2 rounded-md hover:bg-gray-100 transition-colors flex-shrink-0">
+                Subscribe
+              </button>
+            </div>
+
+            <div className="flex items-center gap-3 mt-1">
+              {[Facebook, Instagram, Youtube].map((Icon, i) => (
+                <button key={i} className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white transition-all">
+                  <Icon size={16} />
+                </button>
+              ))}
+              <button className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white">
+                <div className="w-4 h-4"><TikTokIcon /></div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Links Navigation Grid - Tablet and Up */}
+        <div className="hidden sm:grid sm:grid-cols-3 lg:grid-cols-6 gap-8 2xl:gap-16 py-12 2xl:py-32 border-b border-white/10">
           <FooterCol
             title="Company"
             links={[
@@ -120,9 +191,9 @@ export default function Footer() {
           />
 
           {/* Newsletter & Socials */}
-          <div className="col-span-2 sm:col-span-3 lg:col-span-2 flex flex-col gap-4 2xl:gap-8">
+          <div className="sm:col-span-3 lg:col-span-2 flex flex-col gap-4 2xl:gap-8">
             <p className="text-[12px] 2xl:text-xl font-normal text-white/80 uppercase tracking-wide">Subscribe for VIP updates & offers</p>
-            
+
             <div className="flex items-center bg-white/10 border border-white/20 rounded-lg 2xl:rounded-2xl px-2 2xl:px-4 py-1.5 2xl:py-4 focus-within:border-white/40 transition-colors">
               <input
                 type="email"

@@ -2,7 +2,7 @@
 
 import { useState, ChangeEvent, FormEvent } from "react";
 import { ReactNode } from "react";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, ChevronDown } from "lucide-react";
 import Banner from "@/components/ui/Banner";
 import FAQ from "@/components/home/FAQ";
 
@@ -52,6 +52,8 @@ export default function ContactPage() {
   type TripNeed = "House" | "Car" | "VIP events";
 
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", adults: "", kids: "", budget: "", tripNeed: "House" as TripNeed, startDate: "", endDate: "", notes: "" });
+  const [startDateFocused, setStartDateFocused] = useState(false);
+  const [endDateFocused, setEndDateFocused] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -74,7 +76,7 @@ export default function ContactPage() {
         height="h-96"
       />
 
-      <section className="w-full bg-[#F0F1F2] pt-14 pb-96 sm:px-14 md:px-24 2xl:pt-20 2xl:pb-[600px] 2xl:px-40">
+      <section className="w-full bg-[#F0F1F2] pt-14 pb-96 px-6 sm:px-14 md:px-24 2xl:pt-20 2xl:pb-[600px] 2xl:px-40">
         <div className="mx-auto py-16 2xl:py-32 2xl:max-w-[1800px]">
           <div className="text-center mb-10 space-y-8 2xl:mb-16 2xl:space-y-12">
             <h2 className="text-3xl font-bold text-mist-900 2xl:text-6xl">
@@ -92,8 +94,8 @@ export default function ContactPage() {
                 key={item.label}
                 className="bg-white border border-mist-100 rounded-2xl 2xl:rounded-[40px] py-4 2xl:py-8 flex flex-col items-center text-center gap-2 2xl:gap-4 shadow-sm hover:shadow-md transition-shadow duration-200"
               >
-                <div className="w-10 h-10 2xl:w-16 2xl:h-16 rounded-full border border-mist-100 bg-mist-50 flex items-center justify-center text-mist-500">
-                  <Phone className="2xl:w-8 2xl:h-8" size={20} />
+                <div className="w-10 h-10 2xl:w-16 2xl:h-16 rounded-full border border-mist-100 bg-mist-100 flex items-center justify-center text-mist-500">
+                  {item.icon}
                 </div>
                 <p className="text-[13px] 2xl:text-xl font-normal text-mist-900">{item.label}</p>
                 {item.lines.map((line, i) => (
@@ -153,12 +155,23 @@ export default function ContactPage() {
               {/* Row 4 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 2xl:gap-8">
                 <Field label="Your Budget">
-                  <select name="budget" value={form.budget} onChange={handleChange} className={`${inputCls} ${!form.budget ? "text-mist-400" : "text-mist-900"}`}>
-                    <option value="" disabled>Select a budget</option>
-                    {["$1,000–$5,000", "$5,000–$10,000", "$10,000–$25,000", "$25,000+"].map((o) => (
-                      <option key={o} value={o} className="text-mist-900">{o}</option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    <select
+                      name="budget"
+                      value={form.budget}
+                      onChange={handleChange}
+                      className={`${inputCls} ${!form.budget ? "text-mist-400" : "text-mist-900"} appearance-none pr-10`}
+                    >
+                      <option value="" disabled>Select a budget</option>
+                      {["$1,000–$5,000", "$5,000–$10,000", "$10,000–$25,000", "$25,000+"].map((o) => (
+                        <option key={o} value={o} className="text-mist-900">{o}</option>
+                      ))}
+                    </select>
+                    <ChevronDown
+                      size={16}
+                      className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mist-500"
+                    />
+                  </div>
                 </Field>
                 <Field label="What do you need for your trip?">
                   <div className="flex items-center gap-4 2xl:gap-8 h-[42px] 2xl:h-[80px] px-1">
@@ -174,11 +187,29 @@ export default function ContactPage() {
 
               {/* Row 5 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 2xl:gap-8">
-                <Field label="Date">
-                  <input name="startDate" type="date" value={form.startDate} onChange={handleChange} className={inputCls} />
+                <Field label="Start Date">
+                  <input
+                    name="startDate"
+                    type={startDateFocused ? "date" : "text"}
+                    value={form.startDate}
+                    onChange={handleChange}
+                    onFocus={() => setStartDateFocused(true)}
+                    onBlur={() => setStartDateFocused(false)}
+                    placeholder="Start date"
+                    className={inputCls} 
+                  />
                 </Field>
-                <Field label="">
-                  <input name="endDate" type="date" value={form.endDate} onChange={handleChange} className={`${inputCls} mt-[22px]`} />
+                <Field label="End Date">
+                  <input
+                    name="endDate"
+                    type={endDateFocused ? "date" : "text"}
+                    value={form.endDate}
+                    onChange={handleChange}
+                    onFocus={() => setEndDateFocused(true)}
+                    onBlur={() => setEndDateFocused(false)}
+                    placeholder="End date"
+                    className={inputCls}
+                  />
                 </Field>
               </div>
 

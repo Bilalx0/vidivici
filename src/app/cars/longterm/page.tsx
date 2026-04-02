@@ -22,31 +22,31 @@ const rows = [
 
 const features = [
   {
-    icon: <Tag className="w-5 h-5 text-mist-700" />,
+    icon: <Tag className="w-5 h-5 text-mist-600" />,
     title: "Save Up to 65%",
     description:
       "Enjoy exclusive long-term pricing with up to 65% off standard daily rates.",
   },
   {
-    icon: <Calendar className="w-5 h-5 text-mist-700" />,
+    icon: <Calendar className="w-5 h-5 text-mist-600" />,
     title: "Flexible Duration",
     description:
       "Choose plans starting from 7 days to 12 months.",
   },
   {
-    icon: <RefreshCw className="w-5 h-5 text-mist-700" />,
+    icon: <RefreshCw className="w-5 h-5 text-mist-600" />,
     title: "Vehicle Swap Option",
     description:
       "Swap your vehicle with the fleet. Switch to suit your experience.",
   },
   {
-    icon: <Gauge className="w-5 h-5 text-mist-700" />,
+    icon: <Gauge className="w-5 h-5 text-mist-600" />,
     title: "Generous Mileage",
     description:
       "Up to 3,000 miles per month, depending on your plan.",
   },
   {
-    icon: <HeadphonesIcon className="w-5 h-5 text-mist-700" />,
+    icon: <HeadphonesIcon className="w-5 h-5 text-mist-600" />,
     title: "Concierge Support",
     description:
       "From 24/7 customer care to a dedicated luxury concierge team.",
@@ -118,7 +118,7 @@ export default function LongTermPage() {
             {features.map((feature, index) => (
               <div key={index} className="flex flex-col gap-3 2xl:gap-5 bg-mist-100 p-4 2xl:p-8 rounded-lg 2xl:rounded-2xl">
                 {/* Icon */}
-                <div className="w-9 h-9 2xl:w-14 2xl:h-14 flex items-center justify-center border border-mist-200 rounded-md 2xl:rounded-xl">
+                <div className="bg-white w-9 h-9 2xl:w-14 2xl:h-14 flex items-center justify-center rounded-md 2xl:rounded-xl">
                   {feature.icon}
                 </div>
                 {/* Title */}
@@ -195,29 +195,30 @@ export default function LongTermPage() {
           </h2>
 
           {/* Table */}
-          <div className="border border-blue-300 rounded-2xl overflow-hidden">
-            {/* Table Header */}
-            <div className="grid grid-cols-3 bg-blue-50 px-6 2xl:px-10 py-3 2xl:py-5">
-              <span className="text-xs 2xl:text-lg font-semibold text-mist-500 uppercase tracking-wide">Duration</span>
-              <span className="text-xs 2xl:text-lg font-semibold text-mist-500 uppercase tracking-wide">Discount</span>
-              <span className="text-xs 2xl:text-lg font-semibold text-mist-500 uppercase tracking-wide">Mileage</span>
-            </div>
+          <div className="bg-blue-100 rounded-xl overflow-hidden border border-blue-400">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-mist-300">
+                  <th className="text-left px-6 2xl:px-10 py-3 2xl:py-5 font-medium text-mist-500 text-xs 2xl:text-lg">Duration</th>
+                  <th className="text-left px-6 2xl:px-10 py-3 2xl:py-5 font-medium text-mist-500 text-xs 2xl:text-lg border-l border-mist-300">Discount</th>
+                  <th className="text-left px-6 2xl:px-10 py-3 2xl:py-5 font-medium text-mist-500 text-xs 2xl:text-lg border-l border-mist-300">Mileage</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((row, index) => (
+                  <tr key={index} className="border-t border-mist-300">
+                    <td className="px-6 2xl:px-10 py-4 2xl:py-6 text-sm 2xl:text-2xl text-mist-600">{row.duration}</td>
+                    <td className="px-6 2xl:px-10 py-4 2xl:py-6 text-sm 2xl:text-2xl font-semibold text-mist-900 border-l border-mist-300">{row.discount}</td>
+                    <td className="px-6 2xl:px-10 py-4 2xl:py-6 text-sm 2xl:text-2xl text-mist-500 border-l border-mist-300">{row.mileage}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-            {/* Table Rows */}
-            {rows.map((row, index) => (
-              <div
-                key={index}
-                className={`grid grid-cols-3 px-6 2xl:px-10 py-4 2xl:py-6 border-t border-mist-200 ${index % 2 === 0 ? "bg-blue-50" : "bg-blue-50"
-                  }`}
-              >
-                <span className="text-sm 2xl:text-2xl text-mist-600">{row.duration}</span>
-                <span className="text-sm 2xl:text-2xl font-semibold text-mist-900">{row.discount}</span>
-                <span className="text-sm 2xl:text-2xl text-mist-500">{row.mileage}</span>
-              </div>
-            ))}
-
-            {/* Bottom blue accent bar */}
-            <div className="h-1.5 bg-blue-500 w-full" />
+          {/* Laptop base / hinge */}
+          <div className="relative mx-4 2xl:mx-10">
+            <div className="h-3 2xl:h-10 bg-blue-400 rounded-b-3xl 2xl:rounded-b-[40px] mx-0 shadow-lg" />
           </div>
         </div>
       </section>

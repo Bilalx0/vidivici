@@ -415,7 +415,7 @@ import { MapPin, Shield, Clock, DollarSign, Share2, Bookmark, Minus, Plus } from
 import {
   AlertCircle,
   Users, Zap, Gauge, Activity, Settings2, Fuel, Calendar, Route,
-  Tag, ChevronDown, ChevronUp,
+  Tag, ChevronDown, ChevronUp, ChevronRight,
 } from "lucide-react";
 
 const car = {
@@ -551,16 +551,16 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
 
 
         {/* Breadcrumb */}
-        <div className="flex flex-col gap-3 pb-6 sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:pb-10 2xl:pb-16">
-          <div className="min-w-0 flex items-center gap-1.5 sm:gap-2 2xl:gap-4 text-xs sm:text-base 2xl:text-xl text-mist-400 whitespace-nowrap">
+        <div className="flex items-center justify-end sm:justify-between gap-3 pb-6 sm:gap-3 sm:pb-10 2xl:pb-16">
+          <div className="hidden sm:flex min-w-0 items-center gap-1.5 sm:gap-2 2xl:gap-4 text-xs sm:text-base 2xl:text-xl text-mist-400 whitespace-nowrap">
             <Link href="/" className="hover:text-mist-700">Los Angeles</Link>
-            <span>{">"}</span>
+            <ChevronRight size={12} className="text-mist-400 flex-shrink-0" />
             <Link href={`/cars?brand=${car.brandSlug}`} className="hover:text-mist-700">{car.brandName}</Link>
-            <span>{">"}</span>
+            <ChevronRight size={12} className="text-mist-400 flex-shrink-0" />
             <Link href={`/cars?category=${car.categorySlug}`} className="hover:text-mist-700">{car.categoryName}</Link>
           </div>
           {/* Share / Save */}
-          <div className="flex w-full items-center justify-between sm:w-auto sm:justify-end sm:gap-4 2xl:gap-5">
+          <div className="flex items-center gap-4 2xl:gap-5">
             <button className="flex items-center gap-1.5 text-xs sm:text-sm 2xl:text-lg text-mist-500 hover:text-mist-800">
               <Share2 size={14} /> Share
             </button>
@@ -578,16 +578,22 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
 
               {/* Gallery */}
               <CarGallery images={car.images} />
+
+              {/* Mobile breadcrumb under gallery */}
+              <div className="sm:hidden min-w-0 flex items-center gap-1.5 text-sm text-mist-700 whitespace-nowrap -mt-3">
+                <Link href="/" className="hover:text-mist-700">Los Angeles</Link>
+                <ChevronRight size={12} className="text-mist-800 flex-shrink-0" />
+                <Link href={`/cars?brand=${car.brandSlug}`} className="hover:text-mist-700">{car.brandName}</Link>
+                <ChevronRight size={12} className="text-mist-800 flex-shrink-0" />
+                <Link href={`/cars?category=${car.categorySlug}`} className="hover:text-mist-700">{car.categoryName}</Link>
+              </div>
+
               {/* Mobile title block */}
               <div className="lg:hidden space-y-2">
                 <h1 className="text-2xl font-semibold text-mist-900">{car.name}</h1>
                 {car.shortDescription && (
                   <p className="text-sm text-mist-500 leading-relaxed">{car.shortDescription}</p>
                 )}
-                <div className="flex items-baseline gap-2">
-                  <span className="text-2xl font-bold text-mist-900">${car.pricePerDay.toLocaleString()}</span>
-                  <span className="text-sm text-mist-400">USD / day</span>
-                </div>
               </div>
 
               {/* Info Cards */}
@@ -987,7 +993,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
       </div>
 
       {/* Mobile Sticky Bottom Bar */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-mist-200 px-3 sm:px-4 py-2.5 sm:py-3">
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-mist-200 px-6 sm:px-4 py-2.5 sm:py-3">
         <div className="flex items-center justify-between gap-2 sm:gap-3">
           <div className="min-w-0 flex-1">
             <p className="text-xl sm:text-2xl font-semibold text-mist-900 leading-none">
@@ -1004,7 +1010,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
           <button
             type="button"
             onClick={() => setShowMobileBooking(true)}
-            className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm sm:text-base px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl whitespace-nowrap"
+            className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg sm:text-base px-8 sm:px-6 py-2.5 sm:py-3 rounded-lg whitespace-nowrap"
           >
             START
           </button>

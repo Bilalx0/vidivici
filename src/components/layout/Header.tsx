@@ -252,7 +252,13 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
               Become a Partner
             </button>
 
-            <Link href="/booking" className="px-4 py-2 2xl:px-8 2xl:py-4 text-[13px] 2xl:text-[18px] font-normal text-white bg-mist-900 rounded-lg 2xl:rounded-xl hover:bg-black transition shadow-md">
+            <Link
+              href="/booking"
+              className={`px-4 py-2 2xl:px-8 2xl:py-4 text-[13px] 2xl:text-[18px] font-normal rounded-lg 2xl:rounded-xl transition shadow-md ${isLightMode
+                ? "bg-mist-900 text-white hover:bg-black"
+                : "bg-white text-mist-900 hover:bg-white/90"
+                }`}
+            >
               Reserve Now
             </Link>
 

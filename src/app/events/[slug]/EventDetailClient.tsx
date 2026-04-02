@@ -5,6 +5,7 @@ import Link from "next/link"
 import {
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   MapPin,
   Share2,
   Phone,
@@ -176,12 +177,17 @@ export function VenueBookingForm() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <Field label="Selected Venue">
-                    <input
-                      type="text"
+                    <div className="relative">
+                    <select
                       value={form.clubVenue}
-                      readOnly
-                      className={`${inputClass} bg-mist-50 cursor-not-allowed`}
-                    />
+                      onChange={(e) => setForm({ ...form, clubVenue: e.target.value })}
+                      disabled
+                      className={`${inputClass} appearance-none pr-10 bg-mist-50 cursor-not-allowed`}
+                    >
+                      <option value={form.clubVenue}>{form.clubVenue}</option>
+                    </select>
+                    <ChevronDown size={16} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-mist-400" />
+                    </div>
                   </Field>
                   <Field label="Booking Date">
                     <input
@@ -205,14 +211,17 @@ export function VenueBookingForm() {
                     />
                   </Field>
                   <Field label="Budget Range">
+                    <div className="relative">
                     <select
                       value={form.budget}
                       onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                      className={`${inputClass} appearance-none cursor-pointer`}
+                      className={`${inputClass} appearance-none pr-10 cursor-pointer`}
                     >
                       <option value="">Select range</option>
                       {BUDGET_OPTIONS.map((b) => <option key={b} value={b}>{b}</option>)}
                     </select>
+                    <ChevronDown size={16} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-mist-400" />
+                    </div>
                   </Field>
                 </div>
 

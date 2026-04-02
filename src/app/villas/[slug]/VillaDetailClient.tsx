@@ -69,6 +69,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
   const [guestCount, setGuestCount] = useState(1)
   const [showFullDesc, setShowFullDesc] = useState(false);
   const [showAllAmenities, setShowAllAmenities] = useState(false);
+  const [addonInfoModal, setAddonInfoModal] = useState<null | "chef" | "security">(null)
   // Add-ons
   const [airportTransfer, setAirportTransfer] = useState(false)
   const [privateChef, setPrivateChef] = useState(false)
@@ -125,6 +126,17 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
         : [...prev.addOns, addon]
     }))
   }
+
+  const addonInfoContent = {
+    chef: {
+      title: "Private Chef",
+      body: "Mock info: A private chef can prepare custom menus, dietary-friendly meals, and in-villa dining service. Pricing depends on guest count, menu complexity, and service hours.",
+    },
+    security: {
+      title: "Security Service",
+      body: "Mock info: Professional on-site security can be arranged for guest management, private event monitoring, and overnight protection. Final pricing is based on team size and booking duration.",
+    },
+  } as const
 
   return (
     <div className="bg-white mt-10 2xl:mt-24 pb-24 lg:pb-0">
@@ -525,10 +537,21 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span className="text-sm 2xl:text-lg font-bold text-mist-900">Price TBD</span>
-                          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="8" cy="8" r="7.5" stroke="#9CA3AF" />
-                            <text x="8" y="12" textAnchor="middle" fontSize="10" fill="#9CA3AF" fontFamily="serif" fontStyle="italic">i</text>
-                          </svg>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              setAddonInfoModal("chef")
+                            }}
+                            aria-label="Private Chef details"
+                            className="inline-flex items-center justify-center"
+                          >
+                            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="8" cy="8" r="7.5" stroke="#9CA3AF" />
+                              <text x="8" y="12" textAnchor="middle" fontSize="10" fill="#9CA3AF" fontFamily="serif" fontStyle="italic">i</text>
+                            </svg>
+                          </button>
                         </div>
                       </label>
 
@@ -546,10 +569,21 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span className="text-sm 2xl:text-lg font-bold text-mist-900">Price TBD</span>
-                          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="8" cy="8" r="7.5" stroke="#9CA3AF" />
-                            <text x="8" y="12" textAnchor="middle" fontSize="10" fill="#9CA3AF" fontFamily="serif" fontStyle="italic">i</text>
-                          </svg>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              setAddonInfoModal("security")
+                            }}
+                            aria-label="Security Service details"
+                            className="inline-flex items-center justify-center"
+                          >
+                            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="8" cy="8" r="7.5" stroke="#9CA3AF" />
+                              <text x="8" y="12" textAnchor="middle" fontSize="10" fill="#9CA3AF" fontFamily="serif" fontStyle="italic">i</text>
+                            </svg>
+                          </button>
                         </div>
                       </label>
                     </div>
@@ -875,7 +909,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
       </div>
 
       {/* Mobile Sticky Bottom Bar */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-mist-200 px-3 sm:px-4 py-2.5 sm:py-3">
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-mist-200 px-6 sm:px-16 py-2.5 sm:py-3">
         <div className="flex items-center justify-between gap-2 sm:gap-3">
           <div className="min-w-0 flex-1">
             <p className="text-xl sm:text-2xl font-semibold text-mist-900 leading-none">
@@ -886,7 +920,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
           <button
             type="button"
             onClick={() => setShowMobileBooking(true)}
-            className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm sm:text-base px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl whitespace-nowrap"
+            className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg sm:text-base px-8 sm:px-6 py-2.5 sm:py-3 rounded-lg whitespace-nowrap"
           >
             START
           </button>
@@ -1018,7 +1052,24 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                       />
                       <span className="text-sm text-mist-700">Private Chef</span>
                     </div>
-                    <span className="text-sm font-bold text-mist-900">Price TBD</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-bold text-mist-900">Price TBD</span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          setAddonInfoModal("chef")
+                        }}
+                        aria-label="Private Chef details"
+                        className="inline-flex items-center justify-center"
+                      >
+                        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="8" cy="8" r="7.5" stroke="#9CA3AF" />
+                          <text x="8" y="12" textAnchor="middle" fontSize="10" fill="#9CA3AF" fontFamily="serif" fontStyle="italic">i</text>
+                        </svg>
+                      </button>
+                    </div>
                   </label>
 
                   <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
@@ -1032,7 +1083,24 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                       />
                       <span className="text-sm text-mist-700">Security Service</span>
                     </div>
-                    <span className="text-sm font-bold text-mist-900">Price TBD</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-bold text-mist-900">Price TBD</span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          setAddonInfoModal("security")
+                        }}
+                        aria-label="Security Service details"
+                        className="inline-flex items-center justify-center"
+                      >
+                        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="8" cy="8" r="7.5" stroke="#9CA3AF" />
+                          <text x="8" y="12" textAnchor="middle" fontSize="10" fill="#9CA3AF" fontFamily="serif" fontStyle="italic">i</text>
+                        </svg>
+                      </button>
+                    </div>
                   </label>
                 </div>
 
@@ -1282,6 +1350,32 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {addonInfoModal && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl">
+            <div className="mb-3 flex items-start justify-between gap-3">
+              <h3 className="text-base font-semibold text-mist-900">{addonInfoContent[addonInfoModal].title}</h3>
+              <button
+                type="button"
+                onClick={() => setAddonInfoModal(null)}
+                className="rounded-md px-2 py-1 text-sm text-mist-400 hover:bg-mist-100 hover:text-mist-700"
+                aria-label="Close"
+              >
+                x
+              </button>
+            </div>
+            <p className="text-sm leading-relaxed text-mist-600">{addonInfoContent[addonInfoModal].body}</p>
+            <button
+              type="button"
+              onClick={() => setAddonInfoModal(null)}
+              className="mt-5 w-full rounded-md bg-mist-900 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-mist-700"
+            >
+              Got it
+            </button>
           </div>
         </div>
       )}

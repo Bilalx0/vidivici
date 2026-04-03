@@ -74,74 +74,82 @@ export default function CustomersPage() {
           <p className="text-mist-500">No customers found</p>
         </div>
       ) : (
-        <div className="bg-white border border-mist-200 rounded-2xl overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-mist-200 text-mist-500 text-xs uppercase tracking-wide bg-mist-50">
-                <th className="text-left px-5 py-3">Customer</th>
-                <th className="text-left px-5 py-3 hidden sm:table-cell">Email</th>
-                <th className="text-left px-5 py-3 hidden md:table-cell">Phone</th>
-                <th className="text-left px-5 py-3 hidden lg:table-cell">Location</th>
-                <th className="text-center px-5 py-3">Bookings</th>
-                <th className="text-center px-5 py-3 hidden sm:table-cell">Docs</th>
-                <th className="text-left px-5 py-3 hidden lg:table-cell">Joined</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((c, i) => {
-                const initials = (c.name || c.email).charAt(0).toUpperCase()
-                const totalBookings = c._count.bookings + c._count.villaBookings
-                const hasLicense = !!c.driverLicense
-                const hasInsurance = !!c.insurance
-                return (
-                  <tr
-                    key={c.id}
-                    onClick={() => router.push(`/admin/customers/${c.id}`)}
-                    className={`border-b border-mist-100 hover:bg-mist-50 transition cursor-pointer ${i === filtered.length - 1 ? "border-b-0" : ""}`}
-                  >
-                    <td className="px-5 py-3.5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-mist-200 overflow-hidden flex-shrink-0 flex items-center justify-center text-sm font-bold text-mist-500">
-                          {c.image ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={c.image} alt={c.name || ""} className="w-full h-full object-cover" />
-                          ) : initials}
-                        </div>
-                        <div>
+        <>
+          {/* Desktop Table */}
+          <div className="hidden sm:block bg-white border border-mist-200 rounded-2xl overflow-hidden">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-mist-200 text-mist-500 text-xs uppercase tracking-wide bg-mist-50/50">
+                  <th className="text-left px-4 py-3">Customer</th>
+                  <th className="text-left px-4 py-3">Email</th>
+                  <th className="text-left px-4 py-3 hidden md:table-cell">Phone</th>
+                  <th className="text-left px-4 py-3 hidden lg:table-cell">Location</th>
+                  <th className="text-center px-4 py-3">Bookings</th>
+                  <th className="text-center px-4 py-3 hidden md:table-cell">Docs</th>
+                  <th className="text-left px-4 py-3 hidden lg:table-cell">Joined</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((c, i) => {
+                  const initials = (c.name || c.email).charAt(0).toUpperCase()
+                  const totalBookings = c._count.bookings + c._count.villaBookings
+                  const hasLicense = !!c.driverLicense
+                  const hasInsurance = !!c.insurance
+                  return (
+                    <tr key={c.id} onClick={() => router.push(`/admin/customers/${c.id}`)}
+                      className={`border-b border-mist-100 hover:bg-mist-50 transition cursor-pointer ${i === filtered.length - 1 ? "border-b-0" : ""}`}>
+                      <td className="px-4 py-3.5">
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-full bg-mist-200 overflow-hidden flex-shrink-0 flex items-center justify-center text-sm font-bold text-mist-500">
+                            {c.image ? <img src={c.image} alt={c.name || ""} className="w-full h-full object-cover" /> : initials}
+                          </div>
                           <p className="font-medium text-mist-900">{c.name || "—"}</p>
-                          <p className="text-xs text-mist-400 sm:hidden">{c.email}</p>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-5 py-3.5 text-mist-600 hidden sm:table-cell">{c.email}</td>
-                    <td className="px-5 py-3.5 text-mist-600 hidden md:table-cell">{c.phone || "—"}</td>
-                    <td className="px-5 py-3.5 text-mist-600 hidden lg:table-cell text-xs">
-                      {[c.city, c.country].filter(Boolean).join(", ") || "—"}
-                    </td>
-                    <td className="px-5 py-3.5 text-center">
-                      <span className="inline-block bg-blue-50 text-blue-600 text-xs font-semibold px-2.5 py-0.5 rounded-full">
-                        {totalBookings}
-                      </span>
-                    </td>
-                    <td className="px-5 py-3.5 text-center hidden sm:table-cell">
-                      <div className="flex items-center justify-center gap-1">
-                        <span className={`text-xs font-semibold px-1.5 py-0.5 rounded ${hasLicense ? "bg-green-50 text-green-600" : "bg-mist-100 text-mist-400"}`}>
-                          {hasLicense ? "DL ✓" : "DL —"}
-                        </span>
-                        <span className={`text-xs font-semibold px-1.5 py-0.5 rounded ${hasInsurance ? "bg-green-50 text-green-600" : "bg-mist-100 text-mist-400"}`}>
-                          {hasInsurance ? "INS ✓" : "INS —"}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-5 py-3.5 text-mist-400 hidden lg:table-cell text-xs">
-                      {new Date(c.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+                      </td>
+                      <td className="px-4 py-3.5 text-mist-600 max-w-[180px] truncate">{c.email}</td>
+                      <td className="px-4 py-3.5 text-mist-600 hidden md:table-cell">{c.phone || "—"}</td>
+                      <td className="px-4 py-3.5 text-mist-600 hidden lg:table-cell text-xs">{[c.city, c.country].filter(Boolean).join(", ") || "—"}</td>
+                      <td className="px-4 py-3.5 text-center">
+                        <span className="inline-block bg-blue-50 text-blue-600 text-xs font-semibold px-2.5 py-0.5 rounded-full">{totalBookings}</span>
+                      </td>
+                      <td className="px-4 py-3.5 text-center hidden md:table-cell">
+                        <div className="flex items-center justify-center gap-1">
+                          <span className={`text-xs font-semibold px-1.5 py-0.5 rounded ${hasLicense ? "bg-green-50 text-green-600" : "bg-mist-100 text-mist-400"}`}>{hasLicense ? "DL ✓" : "DL —"}</span>
+                          <span className={`text-xs font-semibold px-1.5 py-0.5 rounded ${hasInsurance ? "bg-green-50 text-green-600" : "bg-mist-100 text-mist-400"}`}>{hasInsurance ? "INS ✓" : "INS —"}</span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3.5 text-mist-400 hidden lg:table-cell text-xs">{new Date(c.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile Cards */}
+          <div className="sm:hidden space-y-3">
+            {filtered.map((c) => {
+              const initials = (c.name || c.email).charAt(0).toUpperCase()
+              const totalBookings = c._count.bookings + c._count.villaBookings
+              return (
+                <button key={c.id} onClick={() => router.push(`/admin/customers/${c.id}`)}
+                  className="w-full bg-white border border-mist-200 rounded-xl p-4 text-left hover:border-mist-400 transition-colors">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-9 h-9 rounded-full bg-mist-200 overflow-hidden flex-shrink-0 flex items-center justify-center text-sm font-bold text-mist-500">
+                      {c.image ? <img src={c.image} alt={c.name || ""} className="w-full h-full object-cover" /> : initials}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-mist-900 text-sm">{c.name || "—"}</p>
+                      <p className="text-xs text-mist-400 truncate">{c.email}</p>
+                    </div>
+                    <span className="bg-blue-50 text-blue-600 text-xs font-semibold px-2 py-0.5 rounded-full">{totalBookings}</span>
+                  </div>
+                  {c.phone && <p className="text-xs text-mist-500">{c.phone}</p>}
+                </button>
+              )
+            })}
+          </div>
+        </>
       )}
     </div>
   )

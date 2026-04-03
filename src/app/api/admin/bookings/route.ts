@@ -88,6 +88,7 @@ export async function POST(request: NextRequest) {
           notes: notes || null,
           adminNotes: adminNotes || null,
           documents: documentsJson,
+          source: 'manual',
         },
         include: { villa: true, user: { select: { name: true, email: true, phone: true } } },
       })
@@ -115,6 +116,7 @@ export async function POST(request: NextRequest) {
           adminNotes: adminNotes || null,
           specialRequests: notes || null,
           documents: documentsJson,
+          source: 'manual',
         },
         include: { event: true },
       })
@@ -156,6 +158,7 @@ export async function POST(request: NextRequest) {
         notes: notes || null,
         adminNotes: adminNotes || null,
         documents: documentsJson,
+        source: 'manual',
       },
       include: { car: { include: { brand: true, images: { take: 1, orderBy: { isPrimary: 'desc' } } } }, user: { select: { name: true, email: true, phone: true } } },
     })
@@ -199,9 +202,9 @@ export async function GET() {
     const eventBookings = eventResult.status === 'fulfilled' ? eventResult.value : []
 
     const all = [
-      ...carBookings.map((b: any) => ({ ...b, bookingType: 'car', itemName: b.car ? `${b.car.brand?.name || ''} ${b.car.name}`.trim() : 'Unknown Car', customerName: b.user?.name, customerEmail: b.user?.email || '', customerPhone: b.user?.phone })),
-      ...villaBookings.map((b: any) => ({ ...b, bookingType: 'villa', itemName: b.villa?.name || 'Unknown Villa', customerName: b.user?.name, customerEmail: b.user?.email || '', customerPhone: b.user?.phone, startDate: b.checkIn, endDate: b.checkOut })),
-      ...eventBookings.map((b: any) => ({ ...b, bookingType: 'event', itemName: b.event?.name || 'Custom Event', customerName: b.firstName + (b.lastName ? ` ${b.lastName}` : ''), customerEmail: b.email, customerPhone: b.phone, startDate: b.bookingDate, endDate: b.bookingDate })),
+      ...carBookings.map((b: any) => ({ ...b, bookingType: 'car', itemName: b.car ? `${b.car.brand?.name || ''} ${b.car.name}`.trim() : 'Unknown Car', customerName: b.user?.name, customerEmail: b.user?.email || '', customerPhone: b.user?.phone, source: b.source || 'website' })),
+      ...villaBookings.map((b: any) => ({ ...b, bookingType: 'villa', itemName: b.villa?.name || 'Unknown Villa', customerName: b.user?.name, customerEmail: b.user?.email || '', customerPhone: b.user?.phone, startDate: b.checkIn, endDate: b.checkOut, source: b.source || 'website' })),
+      ...eventBookings.map((b: any) => ({ ...b, bookingType: 'event', itemName: b.event?.name || 'Custom Event', customerName: b.firstName + (b.lastName ? ` ${b.lastName}` : ''), customerEmail: b.email, customerPhone: b.phone, startDate: b.bookingDate, endDate: b.bookingDate, source: b.source || 'website' })),
     ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 
     return NextResponse.json(all)

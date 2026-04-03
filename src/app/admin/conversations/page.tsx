@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import toast, { Toaster } from "react-hot-toast"
-import { MessageCircle, Send, Pause, Play, ArrowLeft } from "lucide-react"
+import { MessageCircle, Send, Pause, Play, ArrowLeft, Search } from "lucide-react"
 
 interface ChatSession {
   id: string
@@ -32,6 +32,7 @@ export default function AdminConversationsPage() {
   const [loading, setLoading] = useState(true)
   const [reply, setReply] = useState("")
   const [sending, setSending] = useState(false)
+  const [search, setSearch] = useState("")
   const bottomRef = useRef<HTMLDivElement>(null)
   const pollRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -127,17 +128,17 @@ export default function AdminConversationsPage() {
   // Mobile: show either list or detail
   if (selected) {
     return (
-      <div className="h-[calc(100vh-80px)] flex flex-col">
+      <div className="h-[calc(100vh-80px)] flex flex-col min-w-0">
         <Toaster position="top-right" />
 
         {/* Header */}
-        <div className="flex items-center justify-between gap-3 pb-4 border-b border-mist-200 flex-shrink-0">
+        <div className="flex items-center justify-between gap-3 pb-4 border-b border-mist-200 flex-shrink-0 flex-wrap">
           <div className="flex items-center gap-3">
             <button onClick={() => setSelected(null)} className="text-mist-400 hover:text-mist-700">
               <ArrowLeft size={20} />
             </button>
             <div>
-              <p className="font-semibold text-mist-900 text-sm">{selected.visitorId.slice(0, 20)}</p>
+              <p className="font-semibold text-mist-900 text-sm truncate max-w-[200px]">{selected.visitorId.slice(0, 20)}</p>
               <p className="text-xs text-mist-400">{selected._count?.messages || selected.messages.length} messages</p>
             </div>
           </div>
@@ -170,7 +171,7 @@ export default function AdminConversationsPage() {
                   {msg.role === "admin" ? "A" : "M"}
                 </div>
               )}
-              <div className="max-w-[70%]">
+              <div className="max-w-[70%] min-w-0">
                 <div
                   className={`px-3 py-2 rounded-xl text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.role === "user"
@@ -200,8 +201,8 @@ export default function AdminConversationsPage() {
                 value={reply}
                 onChange={(e) => setReply(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && sendReply()}
-                placeholder="Type your reply to the customer..."
-                className="flex-1 text-sm px-4 py-2.5 border border-mist-200 rounded-lg focus:outline-none focus:border-black"
+                placeholder="Type your reply..."
+                className="flex-1 min-w-0 text-sm px-4 py-2.5 border border-mist-200 rounded-lg focus:outline-none focus:border-black"
               />
               <button
                 onClick={sendReply}
@@ -221,11 +222,17 @@ export default function AdminConversationsPage() {
     <div>
       <Toaster position="top-right" />
 
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold text-mist-900">Conversations</h1>
           <p className="text-sm text-mist-500">{sessions.length} total conversations</p>
         </div>
+      </div>
+
+      <div className="relative mb-6 max-w-md">
+        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-mist-400" />
+        <input type="text" placeholder="Search conversations..." value={search} onChange={e => setSearch(e.target.value)}
+          className="w-full pl-9 pr-4 py-2.5 bg-white border border-mist-200 rounded-lg text-sm text-mist-900 placeholder:text-mist-400 outline-none focus:border-black transition" />
       </div>
 
       {loading ? (
@@ -237,11 +244,15 @@ export default function AdminConversationsPage() {
         </div>
       ) : (
         <div className="space-y-2">
-          {sessions.map((s) => (
+          {sessions.filter(s => {
+            if (!search) return true
+            const q = search.toLowerCase()
+            return (s.visitorName?.toLowerCase().includes(q)) || s.visitorId.toLowerCase().includes(q) || (s.lastMessage?.toLowerCase().includes(q))
+          }).map((s) => (
             <button
               key={s.id}
               onClick={() => fetchSession(s.id)}
-              className="w-full bg-white border border-mist-200 rounded-xl p-4 text-left hover:border-mist-400 transition-colors flex items-center gap-4"
+              className="w-full bg-white border border-mist-200 rounded-xl p-4 text-left hover:border-mist-400 transition-colors flex items-center gap-3 min-w-0"
             >
               <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${s.isPaused ? "bg-yellow-100 text-yellow-700" : "bg-mist-100 text-mist-500"}`}>
                 <MessageCircle size={18} />

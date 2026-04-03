@@ -158,6 +158,7 @@ model Booking {
   notes                 String?       @db.Text
   adminNotes            String?       @db.Text
   documents             String?       @db.Text
+  source                String        @default("website")
   createdAt             DateTime      @default(now())
   updatedAt             DateTime      @updatedAt
 }
@@ -320,6 +321,7 @@ model VillaBooking {
   notes                 String?       @db.Text
   adminNotes            String?       @db.Text
   documents             String?       @db.Text
+  source                String        @default("website")
   createdAt             DateTime      @default(now())
   updatedAt             DateTime      @updatedAt
 }
@@ -397,6 +399,7 @@ model EventBooking {
   contractSentAt        DateTime?
   adminNotes            String?  @db.Text
   documents             String?  @db.Text
+  source                String   @default("website")
   isRead                Boolean  @default(false)
   createdAt             DateTime @default(now())
 }

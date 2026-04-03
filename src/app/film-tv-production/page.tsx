@@ -388,7 +388,7 @@ function ProductionInquiryForm() {
 
             <div className="relative z-10 flex flex-col gap-6">
               <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
                   <Phone size={16} />
                 </div>
                 <div>
@@ -397,7 +397,7 @@ function ProductionInquiryForm() {
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
                   <Mail size={16} />
                 </div>
                 <div>
@@ -406,7 +406,7 @@ function ProductionInquiryForm() {
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
                   <MapPin size={16} />
                 </div>
                 <div>
@@ -415,7 +415,7 @@ function ProductionInquiryForm() {
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
                   <Clock size={16} />
                 </div>
                 <div>

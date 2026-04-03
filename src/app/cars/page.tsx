@@ -40,6 +40,15 @@ export function CarsContent() {
 
   const currentPage = parseInt(searchParams.get("page") || "1")
   const sort = searchParams.get("sort") || "newest"
+  const make = searchParams.get("make") || ""
+  const category = searchParams.get("category") || ""
+
+  // Dynamic heading based on make or category
+  const heading = make
+    ? `${make} Car Rentals`
+    : category
+      ? `${category} Car Rentals`
+      : "Exotic Car Rentals"
 
   const fetchCars = useCallback(async () => {
     setLoading(true)
@@ -100,7 +109,7 @@ export function CarsContent() {
 return (
   <div>
     <Banner
-      heading="Exotic Car Rentals"
+      heading={heading}
       description="Browse our collection of exotic and luxury vehicles available for rent"
       height="h-96 2xl:h-[520px]"
       searchBar={{
@@ -119,7 +128,7 @@ return (
     <section className="bg-white py-16 2xl:py-32 px-6 sm:px-16 lg:px-20 2xl:px-32">
       <div className="max-w-[1840px] mx-auto">
         <h2 className="text-4xl 2xl:text-7xl font-bold text-mist-900 text-center my-20 2xl:my-32">
-          Exotic Car Rentals
+          {heading}
         </h2>
 
         {/* Filter toggle + Sort - MOVED HERE to match villas layout */}
@@ -162,7 +171,7 @@ return (
                 </button>
               </div>
               <Suspense fallback={<div className="h-96 bg-mist-100 rounded-xl animate-pulse" />}>
-                <CarFilters />
+                <CarFilters hideBrand={!!make} hideCategory={!!category} />
               </Suspense>
             </div>
           </div>
@@ -172,7 +181,7 @@ return (
           {/* Sidebar - FIXED: removed lg:block, added onHide prop */}
           <aside className={`hidden lg:block lg:w-72 2xl:w-96 shrink-0 ${showFilters ? "lg:block" : "lg:hidden"}`}>
             <Suspense fallback={<div className="h-96 bg-mist-100 rounded-xl animate-pulse" />}>
-              <CarFilters onHide={() => setShowFilters(false)} />
+              <CarFilters onHide={() => setShowFilters(false)} hideBrand={!!make} hideCategory={!!category} />
             </Suspense>
           </aside>
 

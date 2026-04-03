@@ -132,7 +132,7 @@ export default function ContactPage() {
                 key={item.label}
                 className="bg-white border border-mist-100 rounded-2xl 2xl:rounded-[40px] py-4 2xl:py-8 flex flex-col items-center text-center gap-2 2xl:gap-4 shadow-sm hover:shadow-md transition-shadow duration-200"
               >
-                <div className="w-10 h-10 2xl:w-16 2xl:h-16 rounded-md border border-mist-100 bg-mist-200 flex items-center justify-center text-mist-500">
+                <div className="w-10 h-10 2xl:w-16 2xl:h-16 rounded-md bg-mist-200 flex items-center justify-center text-mist-500">
                   {item.icon}
                 </div>
                 <p className="text-[13px] 2xl:text-xl font-normal text-mist-900">{item.label}</p>

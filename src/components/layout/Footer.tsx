@@ -76,7 +76,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <p className="text-[13px] 2xl:text-2xl text-mist-500 leading-relaxed max-w-sm 2xl:max-w-2xl lg:text-right">
+          <p className="text-[13px] 2xl:text-2xl text-mist-300 leading-relaxed max-w-sm 2xl:max-w-2xl lg:text-right">
             Experience the pinnacle of luxury and adventure with our exclusive
             fleet of exotic cars, premium villas, and world-class events —
             crafted for unforgettable moments.
@@ -115,12 +115,32 @@ export default function Footer() {
             <div className="flex flex-col gap-8">
               <FooterCol
                 title="By Brand"
-                links={["Ferrari", "Lamborghini", "Rolls Royce", "Bentley", "Porsche", "Tesla", "Audi", "McLaren", "Range Rover", "Mercedes"]}
+                links={[
+                  { label: "Ferrari", href: "/cars?make=Ferrari" },
+                  { label: "Lamborghini", href: "/cars?make=Lamborghini" },
+                  { label: "Rolls Royce", href: "/cars?make=Rolls-Royce" },
+                  { label: "Bentley", href: "/cars?make=Bentley" },
+                  { label: "Porsche", href: "/cars?make=Porsche" },
+                  { label: "Tesla", href: "/cars?make=Tesla" },
+                  { label: "Audi", href: "/cars?make=Audi" },
+                  { label: "McLaren", href: "/cars?make=McLaren" },
+                  { label: "Range Rover", href: "/cars?make=Range%20Rover" },
+                  { label: "Mercedes", href: "/cars?make=Mercedes" },
+                ]}
               />
 
               <FooterCol
                 title="By Type"
-                links={["Supercar", "SUV", "Convertible", "Chauffeur", "Ultra-Luxury", "EV", "Coupe | Sports", "Sedan | 4-Door"]}
+                links={[
+                  { label: "Supercar", href: "/cars?category=Supercar" },
+                  { label: "SUV", href: "/cars?category=SUV" },
+                  { label: "Convertible", href: "/cars?category=Convertible" },
+                  { label: "Chauffeur", href: "/cars?category=Chauffeur" },
+                  { label: "Ultra-Luxury", href: "/cars?category=Ultra-Luxury" },
+                  { label: "EV", href: "/cars?category=EV" },
+                  { label: "Coupe | Sports", href: "/cars?category=Coupe%20%7C%20Sports" },
+                  { label: "Sedan | 4-Door", href: "/cars?category=Sedan%20%7C%204-Door" },
+                ]}
               />
             </div>
           </div>
@@ -182,12 +202,32 @@ export default function Footer() {
 
           <FooterCol
             title="By Brand"
-            links={["Ferrari", "Lamborghini", "Rolls Royce", "Bentley", "Porsche", "Tesla", "Audi", "McLaren", "Range Rover", "Mercedes"]}
+            links={[
+              { label: "Ferrari", href: "/cars?make=Ferrari" },
+              { label: "Lamborghini", href: "/cars?make=Lamborghini" },
+              { label: "Rolls Royce", href: "/cars?make=Rolls-Royce" },
+              { label: "Bentley", href: "/cars?make=Bentley" },
+              { label: "Porsche", href: "/cars?make=Porsche" },
+              { label: "Tesla", href: "/cars?make=Tesla" },
+              { label: "Audi", href: "/cars?make=Audi" },
+              { label: "McLaren", href: "/cars?make=McLaren" },
+              { label: "Range Rover", href: "/cars?make=Range%20Rover" },
+              { label: "Mercedes", href: "/cars?make=Mercedes" },
+            ]}
           />
 
           <FooterCol
             title="By Type"
-            links={["Supercar", "SUV", "Convertible", "Chauffeur", "Ultra-Luxury", "EV", "Coupe | Sports", "Sedan | 4-Door"]}
+            links={[
+              { label: "Supercar", href: "/cars?category=Supercar" },
+              { label: "SUV", href: "/cars?category=SUV" },
+              { label: "Convertible", href: "/cars?category=Convertible" },
+              { label: "Chauffeur", href: "/cars?category=Chauffeur" },
+              { label: "Ultra-Luxury", href: "/cars?category=Ultra-Luxury" },
+              { label: "EV", href: "/cars?category=EV" },
+              { label: "Coupe | Sports", href: "/cars?category=Coupe%20%7C%20Sports" },
+              { label: "Sedan | 4-Door", href: "/cars?category=Sedan%20%7C%204-Door" },
+            ]}
           />
 
           {/* Newsletter & Socials */}

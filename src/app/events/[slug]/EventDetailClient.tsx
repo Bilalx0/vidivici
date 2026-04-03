@@ -351,7 +351,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function ContactInfo({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="flex items-start gap-4 2xl:gap-6">
-      <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+      <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-md bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
         {icon}
       </div>
       <div>
@@ -611,14 +611,14 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
 
           {/* Column 2 */}
           <div className="flex flex-col gap-6">
-            <div className="h-[220px] sm:h-[300px] lg:h-[400px]">
+            <div className="h-[220px] sm:h-[300px] lg:h-[400px] md:order-2">
               <img
                 src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800"
                 alt="Delilah Bar"
                 className="w-full h-full object-cover rounded-3xl"
               />
             </div>
-            <div className="bg-[#f5f5f5] p-6 sm:p-8 2xl:p-14 rounded-3xl">
+            <div className="bg-[#f5f5f5] p-6 sm:p-8 2xl:p-14 rounded-3xl md:order-1">
               <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">Culinary Excellence</h3>
               <p className="text-gray-500 text-sm 2xl:text-xl leading-relaxed">
                 Indulge in upscale American cuisine crafted to perfection. Signature dishes
@@ -672,12 +672,12 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
               <img
                 src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300&q=80"
                 alt="Mixologist"
-                className="w-24 h-24 sm:w-32 sm:h-32 2xl:w-72 2xl:h-72 object-cover rounded-3xl flex-shrink-0"
+                className="w-24 h-24 sm:w-32 sm:h-32 2xl:w-72 2xl:h-72 object-cover rounded-2xl flex-shrink-0"
               />
               <div className="pt-1">
-                <h3 className="text-base 2xl:text-2xl font-bold text-mist-900 mb-1 2xl:mb-3">Chauffeur Services or Party Bus</h3>
+                <h3 className="text-base 2xl:text-2xl font-bold text-mist-900 mb-1 2xl:mb-3">Chauffeur Services</h3>
                 <p className="text-base 2xl:text-xl text-mist-500 font-normal leading-relaxed">
-                  Professional bartenders to craft signature drinks for your guests.
+                  Professional bartenders to craft signature for drinks 
                 </p>
               </div>
             </div>
@@ -687,12 +687,12 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
               <img
                 src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=300&q=80"
                 alt="Valet Parking"
-                className="w-24 h-24 sm:w-32 sm:h-32 2xl:w-72 2xl:h-72 object-cover rounded-3xl flex-shrink-0"
+                className="w-24 h-24 sm:w-32 sm:h-32 2xl:w-72 2xl:h-72 object-cover rounded-2xl flex-shrink-0"
               />
               <div className="pt-1">
                 <h3 className="text-base 2xl:text-2xl font-bold text-mist-900 mb-1 2xl:mb-3">Security & Bodyguards</h3>
                 <p className="text-base 2xl:text-xl text-mist-500 font-normal leading-relaxed">
-                  Hassle-free parking management for you and your guests.
+                  Hassle-free parking management for you.
                 </p>
               </div>
             </div>

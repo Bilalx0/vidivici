@@ -212,7 +212,8 @@ const AmenityBadge = ({ icon: Icon, text }) => (
 /* ================================================================== */
 export function VenueBookingForm() {
   const [form, setForm] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     email: "",
     phone: "",
     clubVenue: "Trinity Ballroom",
@@ -237,7 +238,7 @@ export function VenueBookingForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.fullName || !form.email || !form.bookingDate) return;
+    if (!form.firstName || !form.email || !form.bookingDate) return;
     setSubmitting(true);
 
     try {
@@ -247,7 +248,7 @@ export function VenueBookingForm() {
         body: JSON.stringify({
           source: "ballroom",
           category: "Event",
-          name: form.fullName,
+          name: `${form.firstName} ${form.lastName}`.trim(),
           email: form.email,
           phone: form.phone,
           subject: `Ballroom Booking - ${form.clubVenue}`,
@@ -326,12 +327,12 @@ export function VenueBookingForm() {
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-6 2xl:gap-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <Field label="Full Name">
+                  <Field label="First Name">
                     <input
                       type="text"
-                      placeholder="Enter your full name"
-                      value={form.fullName}
-                      onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+                      placeholder="Enter your first name"
+                      value={form.firstName}
+                      onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                       className={inputClass}
                       required
                     />
@@ -345,6 +346,33 @@ export function VenueBookingForm() {
                       className={inputClass}
                       required
                     />
+                  </Field>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <Field label="Last Name">
+                    <input
+                      type="text"
+                      placeholder="Enter your last name"
+                      value={form.lastName}
+                      onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                      className={inputClass}
+                    />
+                  </Field>
+                  <Field label="Phone Number">
+                    <div className="flex items-center border border-mist-300 rounded-xl overflow-hidden focus-within:border-mist-400 transition-colors duration-200 bg-white">
+                      <span className="px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-3xl border-r border-mist-300 bg-mist-50 flex items-center gap-2 text-mist-600 flex-shrink-0">
+                        🇺🇸
+                      </span>
+                      <input
+                        type="tel"
+                        inputMode="tel"
+                        placeholder="Enter your phone number"
+                        value={form.phone}
+                        onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                        className="flex-1 px-4 py-3 2xl:px-8 2xl:py-6 text-sm text-mist-900 placeholder-mist-400 outline-none bg-white"
+                      />
+                    </div>
                   </Field>
                 </div>
 
@@ -378,7 +406,7 @@ export function VenueBookingForm() {
                   <Field label="Guests (Total)">
                     <input
                       type="text"
-                      placeholder="e.g. 50 guests"
+                      placeholder="e.g. 6 guests - 4M / 2F"
                       value={form.guestsTotal}
                       onChange={(e) => setForm({ ...form, guestsTotal: e.target.value })}
                       className={inputClass}
@@ -400,17 +428,25 @@ export function VenueBookingForm() {
                 </div>
 
                 <Field label="Add-Ons">
-                  <div className="flex flex-wrap gap-3 mt-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1">
                     {ADD_ONS.map((addon) => (
                       <button
                         key={addon}
                         type="button"
                         onClick={() => toggleAddOn(addon)}
-                        className={`px-4 2xl:px-6 py-2 2xl:py-3 rounded-full text-xs 2xl:text-base font-semibold border transition-all ${form.addOns.includes(addon)
-                            ? "bg-mist-900 text-white border-mist-900"
-                            : "bg-white text-mist-600 border-mist-200 hover:border-mist-400"
+                        className={`w-full px-4 2xl:px-6 py-3 2xl:py-5 rounded-2xl text-sm 2xl:text-xl font-medium border transition-all flex items-center gap-4 ${form.addOns.includes(addon)
+                            ? "bg-white text-mist-900 border-mist-300"
+                            : "bg-white text-mist-700 border-mist-200 hover:border-mist-300"
                           }`}
                       >
+                        <span
+                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${form.addOns.includes(addon)
+                              ? "border-blue-500"
+                              : "border-mist-400"
+                            }`}
+                        >
+                          {form.addOns.includes(addon) && <span className="w-3 h-3 rounded-full bg-blue-500" />}
+                        </span>
                         {addon}
                       </button>
                     ))}
@@ -455,7 +491,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function ContactInfo({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="flex items-start gap-4 2xl:gap-6">
-      <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+      <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-md bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
         {icon}
       </div>
       <div>

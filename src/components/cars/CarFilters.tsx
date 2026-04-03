@@ -11,7 +11,7 @@ interface Option {
   slug: string
 }
 
-export default function CarFilters({ onHide }: { onHide?: () => void }) {
+export default function CarFilters({ onHide, hideBrand, hideCategory }: { onHide?: () => void; hideBrand?: boolean; hideCategory?: boolean }) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -58,52 +58,60 @@ export default function CarFilters({ onHide }: { onHide?: () => void }) {
       )}
 
       {/* Brand Filter */}
-      <div className="space-y-3">
-        <label className="text-sm 2xl:text-xl font-medium text-mist-500 block">Brand</label>
-        <select
-          value={selectedBrand}
-          onChange={(e) => setSelectedBrand(e.target.value)}
-          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm 2xl:text-lg px-3 py-2.5 2xl:px-6 2xl:py-4 rounded-md 2xl:rounded-xl focus:border-mist-300 focus:outline-none appearance-none"
-        >
-          <option value="">Select brand</option>
-          {/* brand options */}
-        </select>
-        {selectedBrand && (
-          <div className="flex flex-wrap gap-2">
-            <span className="flex items-center gap-1 text-xs 2xl:text-base bg-mist-100 text-mist-600 px-3 py-1.5 2xl:px-6 2xl:py-3 rounded-full">
-              {selectedBrand}
-              <button onClick={() => setSelectedBrand("")} className="hover:text-mist-900">
-                <X size={10} />
-              </button>
-            </span>
-          </div>
-        )}
-      </div>
+      {!hideBrand && (
+        <div className="space-y-3">
+          <label className="text-sm 2xl:text-xl font-medium text-mist-500 block">Brand</label>
+          <select
+            value={selectedBrand}
+            onChange={(e) => setSelectedBrand(e.target.value)}
+            className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm 2xl:text-lg px-3 py-2.5 2xl:px-6 2xl:py-4 rounded-md 2xl:rounded-xl focus:border-mist-300 focus:outline-none appearance-none"
+          >
+            <option value="">Select brand</option>
+            {brands.map((b) => (
+              <option key={b.id} value={b.slug}>{b.name}</option>
+            ))}
+          </select>
+          {selectedBrand && (
+            <div className="flex flex-wrap gap-2">
+              <span className="flex items-center gap-1 text-xs 2xl:text-base bg-mist-100 text-mist-600 px-3 py-1.5 2xl:px-6 2xl:py-3 rounded-full">
+                {brands.find(b => b.slug === selectedBrand)?.name || selectedBrand}
+                <button onClick={() => setSelectedBrand("")} className="hover:text-mist-900">
+                  <X size={10} />
+                </button>
+              </span>
+            </div>
+          )}
+        </div>
+      )}
 
-      <div className="h-px bg-neutral-100" />
+      {!hideBrand && !hideCategory && <div className="h-px bg-neutral-100" />}
 
       {/* Category Filter */}
-      <div className="space-y-3">
-        <label className="text-sm 2xl:text-xl font-medium text-mist-500 block">Category</label>
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm 2xl:text-lg px-3 py-2.5 2xl:px-6 2xl:py-4 rounded-md 2xl:rounded-xl focus:border-mist-300 focus:outline-none appearance-none"
-        >
-          <option value="">Select category</option>
-          {/* category options */}
-        </select>
-        {selectedCategory && (
-          <div className="flex flex-wrap gap-2">
-            <span className="flex items-center gap-1 text-xs 2xl:text-base bg-mist-100 text-mist-600 px-3 py-1.5 2xl:px-6 2xl:py-3 rounded-full">
-              {selectedCategory}
-              <button onClick={() => setSelectedCategory("")} className="hover:text-mist-900">
-                <X size={10} />
-              </button>
-            </span>
-          </div>
-        )}
-      </div>
+      {!hideCategory && (
+        <div className="space-y-3">
+          <label className="text-sm 2xl:text-xl font-medium text-mist-500 block">Category</label>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full bg-neutral-100 border border-mist-200 text-mist-500 text-sm 2xl:text-lg px-3 py-2.5 2xl:px-6 2xl:py-4 rounded-md 2xl:rounded-xl focus:border-mist-300 focus:outline-none appearance-none"
+          >
+            <option value="">Select category</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.slug}>{c.name}</option>
+            ))}
+          </select>
+          {selectedCategory && (
+            <div className="flex flex-wrap gap-2">
+              <span className="flex items-center gap-1 text-xs 2xl:text-base bg-mist-100 text-mist-600 px-3 py-1.5 2xl:px-6 2xl:py-3 rounded-full">
+                {categories.find(c => c.slug === selectedCategory)?.name || selectedCategory}
+                <button onClick={() => setSelectedCategory("")} className="hover:text-mist-900">
+                  <X size={10} />
+                </button>
+              </span>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="h-px bg-neutral-100" />
 

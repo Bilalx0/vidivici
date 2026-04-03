@@ -376,7 +376,7 @@ function WeddingBookingInquiry() {
 
             <div className="relative z-10 flex flex-col gap-6 2xl:gap-12">
               <div className="flex items-start gap-4 2xl:gap-8">
-                <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-md bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
                   <Phone size={16} />
                 </div>
                 <div>
@@ -385,7 +385,7 @@ function WeddingBookingInquiry() {
                 </div>
               </div>
               <div className="flex items-start gap-4 2xl:gap-8">
-                <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-md bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
                   <Mail size={16} />
                 </div>
                 <div>
@@ -394,7 +394,7 @@ function WeddingBookingInquiry() {
                 </div>
               </div>
               <div className="flex items-start gap-4 2xl:gap-8">
-                <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-md bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
                   <MapPin size={16} />
                 </div>
                 <div>
@@ -403,7 +403,7 @@ function WeddingBookingInquiry() {
                 </div>
               </div>
               <div className="flex items-start gap-4 2xl:gap-8">
-                <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-md bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
                   <Clock size={16} />
                 </div>
                 <div>

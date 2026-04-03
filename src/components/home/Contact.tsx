@@ -249,7 +249,7 @@ interface ContactInfoProps {
 function ContactInfo({ icon, label, value }: ContactInfoProps) {
   return (
     <div className="flex items-start gap-4 2xl:gap-8">
-      <div className="w-8 h-8 2xl:w-16 2xl:h-16 rounded-full border border-mist-300 bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
+      <div className="w-8 h-8 2xl:w-16 2xl:h-16 rounded-md bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
         {icon}
       </div>
       <div>

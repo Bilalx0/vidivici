@@ -21,6 +21,19 @@
   --font-raleway: var(--font-raleway);
 }
 
+.ios-temporal-input[type="date"]::-webkit-calendar-picker-indicator,
+.ios-temporal-input[type="time"]::-webkit-calendar-picker-indicator,
+.ios-temporal-input[type="date"]::-webkit-inner-spin-button,
+.ios-temporal-input[type="time"]::-webkit-inner-spin-button,
+.ios-temporal-input[type="date"]::-webkit-clear-button,
+.ios-temporal-input[type="time"]::-webkit-clear-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
 h2 {
   font-family: var(--font-raleway);
 }

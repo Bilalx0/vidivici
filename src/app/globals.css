@@ -29,9 +29,25 @@
 .ios-temporal-input[type="time"]::-webkit-clear-button {
   -webkit-appearance: none;
   appearance: none;
-  display: none;
+  display: none !important;
   opacity: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
   pointer-events: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ios-temporal-input[type="date"],
+.ios-temporal-input[type="time"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.ios-temporal-input[type="date"]::-webkit-date-and-time-value,
+.ios-temporal-input[type="time"]::-webkit-date-and-time-value {
+  text-align: left;
 }
 
 h2 {

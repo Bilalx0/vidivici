@@ -365,20 +365,6 @@ function ContactInfo({ icon, label, value }: { icon: React.ReactNode; label: str
 
 export default function EventDetailClient({ event, relatedEvents }: { event: EventDetail; relatedEvents: RelatedEvent[] }) {
   const [currentImage, setCurrentImage] = useState(0)
-  const [bookingForm, setBookingForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    clubVenue: event.name,
-    bookingDate: "",
-    guestsTotal: "",
-    budget: "",
-    addOns: [] as string[],
-    specialRequests: "",
-  })
-  const [submitting, setSubmitting] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
 
   const images = event.images.length > 0
     ? event.images
@@ -390,42 +376,6 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
   const highlightsList = event.highlights
     ? event.highlights.split("|").map((h) => h.trim()).filter(Boolean)
     : []
-
-  const toggleAddOn = (addon: string) => {
-    setBookingForm((f) => ({
-      ...f,
-      addOns: f.addOns.includes(addon) ? f.addOns.filter((a) => a !== addon) : [...f.addOns, addon],
-    }))
-  }
-
-  const handleBookingSubmit = async () => {
-    if (!bookingForm.firstName || !bookingForm.email || !bookingForm.bookingDate) return
-    setSubmitting(true)
-    try {
-      const res = await fetch("/api/event-bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          eventId: event.id,
-          firstName: bookingForm.firstName,
-          lastName: bookingForm.lastName,
-          email: bookingForm.email,
-          phone: bookingForm.phone,
-          clubVenue: bookingForm.clubVenue,
-          bookingDate: bookingForm.bookingDate,
-          guestsTotal: bookingForm.guestsTotal,
-          budget: bookingForm.budget,
-          addOns: bookingForm.addOns.join(", "),
-          specialRequests: bookingForm.specialRequests,
-        }),
-      })
-      if (res.ok) setSubmitted(true)
-    } catch {
-      // silently fail
-    } finally {
-      setSubmitting(false)
-    }
-  }
 
   return (
     <div className="bg-white pt-24 lg:pt-28 2xl:pt-36">

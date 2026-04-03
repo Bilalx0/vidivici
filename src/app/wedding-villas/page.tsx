@@ -303,13 +303,25 @@ function WeddingBookingInquiry() {
     if (!form.firstName || !form.email || !form.eventType || !form.eventDate) return
     setSubmitting(true)
     try {
-      const res = await fetch("/api/wedding-inquiries", {
+      const res = await fetch("/api/inquiries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...form,
-          guestCount: parseInt(form.guestCount) || 50,
-          addOns: form.addOns.join(", "),
+          source: "wedding",
+          category: "Villa",
+          name: `${form.firstName} ${form.lastName}`.trim(),
+          email: form.email,
+          phone: form.phone,
+          subject: `Wedding Inquiry — ${form.eventType}`,
+          message: form.specialRequests,
+          data: {
+            firstName: form.firstName,
+            lastName: form.lastName,
+            eventType: form.eventType,
+            eventDate: form.eventDate,
+            guestCount: parseInt(form.guestCount) || 50,
+            addOns: form.addOns.join(", "),
+          },
         }),
       })
       if (res.ok) setSubmitted(true)
@@ -481,14 +493,14 @@ function WeddingBookingInquiry() {
                 <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">Add-Ons</label>
                 <div className="flex flex-wrap gap-3 2xl:gap-6">
                   {ADD_ONS.map((addon) => (
-                    <label key={addon} className="flex items-center gap-2 cursor-pointer">
+                    <button type="button" key={addon} onClick={() => toggleAddOn(addon)} className="flex items-center gap-2 cursor-pointer">
                       <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${
                         form.addOns.includes(addon) ? "border-blue-600" : "border-mist-300"
                       }`}>
                         {form.addOns.includes(addon) && <div className="w-2 h-2 rounded-full bg-blue-600" />}
                       </div>
                       <span className="text-sm text-mist-600">{addon}</span>
-                    </label>
+                    </button>
                   ))}
                 </div>
               </div>

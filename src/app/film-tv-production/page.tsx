@@ -329,7 +329,7 @@ function ProductionInquiryForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           source: "film-tv-production",
-          category: "Event",
+          category: "Villa",
           name: `${form.firstName} ${form.lastName}`.trim(),
           email: form.email,
           phone: form.phone,

@@ -5,9 +5,11 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const category = searchParams.get("category")
+    const source = searchParams.get("source")
 
     const where: any = {}
     if (category) where.category = category
+    if (source) where.source = source
 
     const inquiries = await prisma.inquiry.findMany({
       where,

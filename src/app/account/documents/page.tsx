@@ -15,6 +15,8 @@ interface UserDocs {
   driverLicenseStatus: string
   insurance: string | null
   insuranceStatus: string
+  passport: string | null
+  passportStatus: string
 }
 
 function parseDoc(raw: string | null): DocEntry | null {
@@ -81,6 +83,8 @@ export default function DocumentsPage() {
             driverLicenseStatus: data.driverLicenseStatus ?? "NONE",
             insurance: data.insurance ?? null,
             insuranceStatus: data.insuranceStatus ?? "NONE",
+            passport: data.passport ?? null,
+            passportStatus: data.passportStatus ?? "NONE",
           })
         }
       })
@@ -91,16 +95,18 @@ export default function DocumentsPage() {
 
   const dl  = parseDoc(docs?.driverLicense ?? null)
   const ins = parseDoc(docs?.insurance ?? null)
+  const pp  = parseDoc(docs?.passport ?? null)
 
   const existingDocs = [
     dl  ? { key: "dl",  type: "Driver's License", doc: dl,  status: docs?.driverLicenseStatus ?? "NONE", href: "/account/documents/add-license"   } : null,
     ins ? { key: "ins", type: "Insurance Policy",  doc: ins, status: docs?.insuranceStatus     ?? "NONE", href: "/account/documents/add-insurance" } : null,
+    pp  ? { key: "pp",  type: "Passport / ID",     doc: pp,  status: docs?.passportStatus      ?? "NONE", href: "/account/documents/add-id"        } : null,
   ].filter(Boolean) as { key: string; type: string; doc: DocEntry; status: string; href: string }[]
 
   const addSlots = [
     !dl  ? { label: "Add Driver's License", href: "/account/documents/add-license"   } : null,
     !ins ? { label: "Add Insurance Policy", href: "/account/documents/add-insurance" } : null,
-    { label: "Add ID / Passport", href: "/account/documents/add-id" },
+    !pp  ? { label: "Add ID / Passport", href: "/account/documents/add-id" } : null,
   ].filter(Boolean) as { label: string; href: string }[]
 
   return (

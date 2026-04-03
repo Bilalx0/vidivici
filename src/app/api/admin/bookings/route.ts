@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
       customerName, customerEmail, customerPhone,
       totalPrice, basePrice, discount, addOnsTotal, tax,
       status, paymentStatus, notes, adminNotes,
+      docUrls,
     } = body
 
     if (!customerEmail) {
@@ -47,6 +48,28 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    // Save uploaded documents to the user's profile
+    if (docUrls && typeof docUrls === 'object') {
+      const docUpdate: Record<string, string> = {}
+      if (docUrls.driverLicense) {
+        docUpdate.driverLicense = JSON.stringify({ url: docUrls.driverLicense })
+        docUpdate.driverLicenseStatus = 'PENDING'
+      }
+      if (docUrls.insurance) {
+        docUpdate.insurance = JSON.stringify({ url: docUrls.insurance })
+        docUpdate.insuranceStatus = 'PENDING'
+      }
+      if (docUrls.passport) {
+        docUpdate.passport = JSON.stringify({ url: docUrls.passport })
+        docUpdate.passportStatus = 'PENDING'
+      }
+      if (Object.keys(docUpdate).length > 0) {
+        await prisma.user.update({ where: { id: user.id }, data: docUpdate })
+      }
+    }
+
+    const documentsJson = docUrls ? JSON.stringify(docUrls) : null
+
     if (type === 'villa') {
       if (!villaId || !checkIn || !checkOut) {
         return NextResponse.json({ error: 'Villa, check-in, and check-out are required' }, { status: 400 })
@@ -64,6 +87,7 @@ export async function POST(request: NextRequest) {
           paymentStatus: paymentStatus || 'UNPAID',
           notes: notes || null,
           adminNotes: adminNotes || null,
+          documents: documentsJson,
         },
         include: { villa: true, user: { select: { name: true, email: true, phone: true } } },
       })
@@ -90,6 +114,7 @@ export async function POST(request: NextRequest) {
           paymentStatus: paymentStatus || 'UNPAID',
           adminNotes: adminNotes || null,
           specialRequests: notes || null,
+          documents: documentsJson,
         },
         include: { event: true },
       })
@@ -130,6 +155,7 @@ export async function POST(request: NextRequest) {
         paymentStatus: paymentStatus || 'UNPAID',
         notes: notes || null,
         adminNotes: adminNotes || null,
+        documents: documentsJson,
       },
       include: { car: { include: { brand: true, images: { take: 1, orderBy: { isPrimary: 'desc' } } } }, user: { select: { name: true, email: true, phone: true } } },
     })

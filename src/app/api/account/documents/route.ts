@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     const expiration = formData.get('expiration') as string
     const file = formData.get('file') as File | null
 
-    if (!type || !['DRIVING_LICENSE', 'INSURANCE_POLICY'].includes(type)) {
+    if (!type || !['DRIVING_LICENSE', 'INSURANCE_POLICY', 'PASSPORT_ID'].includes(type)) {
       return NextResponse.json({ error: 'Invalid document type' }, { status: 400 })
     }
 
@@ -40,10 +40,15 @@ export async function POST(request: NextRequest) {
         where: { id: userId },
         data: { driverLicense: docData, driverLicenseStatus: 'PENDING' },
       })
-    } else {
+    } else if (type === 'INSURANCE_POLICY') {
       await prisma.user.update({
         where: { id: userId },
         data: { insurance: docData, insuranceStatus: 'PENDING' },
+      })
+    } else {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { passport: docData, passportStatus: 'PENDING' },
       })
     }
 

@@ -56,6 +56,8 @@ interface CustomerDetail {
   driverLicenseStatus: string
   insurance: string | null
   insuranceStatus: string
+  passport: string | null
+  passportStatus: string
   createdAt: string
   bookings: CarBooking[]
   villaBookings: VillaBooking[]
@@ -161,6 +163,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
   const initials = (customer.name || customer.email).charAt(0).toUpperCase()
   const dl  = parseDoc(customer.driverLicense)
   const ins = parseDoc(customer.insurance)
+  const pp  = parseDoc(customer.passport)
   const hasLicense  = !!dl
   const hasInsurance = !!ins
 
@@ -203,6 +206,9 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                 </span>
                 <span className={`px-2.5 py-1 rounded-full font-medium text-xs ${DOC_STATUS_COLORS[customer.insuranceStatus] ?? DOC_STATUS_COLORS.NONE}`}>
                   Insurance: {customer.insuranceStatus === "NONE" ? "not submitted" : customer.insuranceStatus.toLowerCase()}
+                </span>
+                <span className={`px-2.5 py-1 rounded-full font-medium text-xs ${DOC_STATUS_COLORS[customer.passportStatus] ?? DOC_STATUS_COLORS.NONE}`}>
+                  Passport: {customer.passportStatus === "NONE" ? "not submitted" : customer.passportStatus.toLowerCase()}
                 </span>
               </div>
             </div>
@@ -326,6 +332,54 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                     className="flex-1 py-2 rounded-xl bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white text-xs font-semibold transition"
                   >
                     {verifying === "INSURANCE_POLICYREJECTED" ? "Saving…" : "Reject"}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <p className="text-sm text-mist-400 p-4">Not submitted yet.</p>
+            )}
+          </div>
+
+          {/* Passport / ID */}
+          <div className="border border-mist-200 rounded-2xl overflow-hidden">
+            <div className="px-4 py-3 border-b border-mist-100 flex items-center justify-between">
+              <p className="text-xs font-semibold uppercase tracking-wide text-mist-600">Passport / ID</p>
+              <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${DOC_STATUS_COLORS[customer.passportStatus] ?? DOC_STATUS_COLORS.NONE}`}>
+                {customer.passportStatus === "NONE" ? "Not submitted" : customer.passportStatus}
+              </span>
+            </div>
+            {pp ? (
+              <>
+                <div className="bg-mist-50 flex items-center justify-center" style={{ minHeight: 180 }}>
+                  {pp.url ? (
+                    pp.url.toLowerCase().endsWith(".pdf") ? (
+                      <a href={pp.url} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 underline p-4">View PDF</a>
+                    ) : (
+                      <a href={pp.url} target="_blank" rel="noopener noreferrer">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={pp.url} alt="Passport / ID" className="max-h-44 max-w-full object-contain" />
+                      </a>
+                    )
+                  ) : (
+                    <p className="text-xs text-mist-400 p-4">No image uploaded</p>
+                  )}
+                </div>
+                {pp.number && <p className="text-xs text-mist-500 px-4 pt-2">Number: <span className="font-medium text-mist-900">{pp.number}</span></p>}
+                {pp.expiry  && <p className="text-xs text-mist-500 px-4 pb-2">Expiry: <span className="font-medium text-mist-900">{pp.expiry}</span></p>}
+                <div className="flex gap-2 p-4 pt-3">
+                  <button
+                    onClick={() => verifyDoc("PASSPORT_ID", "VERIFIED")}
+                    disabled={verifying !== null || customer.passportStatus === "VERIFIED"}
+                    className="flex-1 py-2 rounded-xl bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white text-xs font-semibold transition"
+                  >
+                    {verifying === "PASSPORT_IDVERIFIED" ? "Saving\u2026" : "Verify"}
+                  </button>
+                  <button
+                    onClick={() => verifyDoc("PASSPORT_ID", "REJECTED")}
+                    disabled={verifying !== null || customer.passportStatus === "REJECTED"}
+                    className="flex-1 py-2 rounded-xl bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white text-xs font-semibold transition"
+                  >
+                    {verifying === "PASSPORT_IDREJECTED" ? "Saving\u2026" : "Reject"}
                   </button>
                 </div>
               </>

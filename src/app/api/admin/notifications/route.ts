@@ -8,6 +8,7 @@ export async function GET() {
         OR: [
           { driverLicenseStatus: 'PENDING' },
           { insuranceStatus: 'PENDING' },
+          { passportStatus: 'PENDING' },
         ],
       },
       select: {
@@ -17,6 +18,7 @@ export async function GET() {
         image: true,
         driverLicenseStatus: true,
         insuranceStatus: true,
+        passportStatus: true,
         updatedAt: true,
       },
       orderBy: { updatedAt: 'desc' },
@@ -44,6 +46,17 @@ export async function GET() {
           image: u.image,
           docType: 'INSURANCE_POLICY',
           docLabel: 'Insurance Policy',
+          updatedAt: u.updatedAt,
+        })
+      }
+      if (u.passportStatus === 'PENDING') {
+        items.push({
+          userId: u.id,
+          name: u.name,
+          email: u.email,
+          image: u.image,
+          docType: 'PASSPORT_ID',
+          docLabel: 'Passport / ID',
           updatedAt: u.updatedAt,
         })
       }

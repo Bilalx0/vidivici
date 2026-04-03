@@ -19,6 +19,10 @@ export default function NewBookingPage() {
   const [events, setEvents] = useState<EventOption[]>([])
   const [loading, setLoading] = useState(true)
 
+  const [dlFile, setDlFile] = useState<File | null>(null)
+  const [insuranceFile, setInsuranceFile] = useState<File | null>(null)
+  const [passportFile, setPassportFile] = useState<File | null>(null)
+
   const [form, setForm] = useState({
     carId: "", villaId: "", eventId: "",
     customerName: "", customerEmail: "", customerPhone: "",
@@ -80,10 +84,28 @@ export default function NewBookingPage() {
 
     setSubmitting(true)
     try {
+      // Upload document files first
+      const docUrls: Record<string, string> = {}
+      const filesToUpload: { key: string; file: File }[] = []
+      if (bookingType === "car") {
+        if (dlFile) filesToUpload.push({ key: "driverLicense", file: dlFile })
+        if (insuranceFile) filesToUpload.push({ key: "insurance", file: insuranceFile })
+      }
+      if (passportFile) filesToUpload.push({ key: "passport", file: passportFile })
+
+      for (const { key, file } of filesToUpload) {
+        const fd = new FormData()
+        fd.append("files", file)
+        const upRes = await fetch("/api/upload", { method: "POST", body: fd })
+        if (!upRes.ok) { toast.error(`Failed to upload ${key}`); setSubmitting(false); return }
+        const upData = await upRes.json()
+        if (upData.urls?.[0]) docUrls[key] = upData.urls[0]
+      }
+
       const res = await fetch("/api/admin/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, type: bookingType }),
+        body: JSON.stringify({ ...form, type: bookingType, docUrls }),
       })
       if (res.ok) {
         toast.success("Booking created!")
@@ -224,6 +246,35 @@ export default function NewBookingPage() {
               <div><label className="text-xs text-mist-500 block mb-1">Club/Venue</label>
                 <input type="text" value={form.clubVenue} onChange={e => setForm({ ...form, clubVenue: e.target.value })} className={inp} /></div>
             </div>
+          </div>
+        )}
+
+        {/* Customer Documents */}
+        {bookingType !== "event" && (
+          <div className="bg-white border border-mist-200 rounded-xl p-6">
+            <h2 className="text-base font-semibold text-mist-900 mb-4">Customer Documents</h2>
+            <div className={`grid gap-4 ${bookingType === "car" ? "grid-cols-1 md:grid-cols-3" : "grid-cols-1 md:grid-cols-1 max-w-sm"}`}>
+              {bookingType === "car" && (
+                <>
+                  <div>
+                    <label className="text-xs text-mist-500 block mb-1">Driver&apos;s License</label>
+                    <input type="file" accept="image/*,.pdf" onChange={e => setDlFile(e.target.files?.[0] || null)}
+                      className="w-full text-sm text-mist-600 file:mr-3 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-medium file:bg-mist-100 file:text-mist-700 hover:file:bg-mist-200" />
+                  </div>
+                  <div>
+                    <label className="text-xs text-mist-500 block mb-1">Insurance Policy</label>
+                    <input type="file" accept="image/*,.pdf" onChange={e => setInsuranceFile(e.target.files?.[0] || null)}
+                      className="w-full text-sm text-mist-600 file:mr-3 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-medium file:bg-mist-100 file:text-mist-700 hover:file:bg-mist-200" />
+                  </div>
+                </>
+              )}
+              <div>
+                <label className="text-xs text-mist-500 block mb-1">Passport / ID</label>
+                <input type="file" accept="image/*,.pdf" onChange={e => setPassportFile(e.target.files?.[0] || null)}
+                  className="w-full text-sm text-mist-600 file:mr-3 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-medium file:bg-mist-100 file:text-mist-700 hover:file:bg-mist-200" />
+              </div>
+            </div>
+            <p className="text-xs text-mist-400 mt-3">Uploaded documents will be attached to the customer&apos;s profile for verification.</p>
           </div>
         )}
 

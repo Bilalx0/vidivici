@@ -9,7 +9,7 @@ export async function POST(
     const { id } = await params
     const { docType, status } = await request.json()
 
-    if (!['DRIVING_LICENSE', 'INSURANCE_POLICY'].includes(docType)) {
+    if (!['DRIVING_LICENSE', 'INSURANCE_POLICY', 'PASSPORT_ID'].includes(docType)) {
       return NextResponse.json({ error: 'Invalid document type' }, { status: 400 })
     }
     if (!['VERIFIED', 'REJECTED', 'PENDING'].includes(status)) {
@@ -19,7 +19,9 @@ export async function POST(
     const data =
       docType === 'DRIVING_LICENSE'
         ? { driverLicenseStatus: status }
-        : { insuranceStatus: status }
+        : docType === 'INSURANCE_POLICY'
+        ? { insuranceStatus: status }
+        : { passportStatus: status }
 
     await prisma.user.update({ where: { id }, data })
 

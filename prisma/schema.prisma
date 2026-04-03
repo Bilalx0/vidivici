@@ -28,6 +28,8 @@ model User {
   driverLicenseStatus String  @default("NONE")
   insurance           String?
   insuranceStatus     String  @default("NONE")
+  passport            String?
+  passportStatus      String  @default("NONE")
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   bookings      Booking[]

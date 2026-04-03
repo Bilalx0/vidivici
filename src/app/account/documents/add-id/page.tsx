@@ -14,7 +14,7 @@ export default function AddIdPassportPage() {
     file: File | null
   }) => {
     const formData = new FormData()
-    formData.append("type", "ID_PASSPORT")
+    formData.append("type", "PASSPORT_ID")
     formData.append("number", data.number)
     formData.append("expiration", `${data.month}/${data.day}/${data.year}`)
     if (data.file) formData.append("file", data.file)

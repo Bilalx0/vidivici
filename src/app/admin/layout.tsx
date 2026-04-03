@@ -86,7 +86,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex min-h-screen bg-mist-50">
       <AdminSidebar desktopOpen={sidebarOpen} onDesktopToggle={() => setSidebarOpen(!sidebarOpen)} />
-      <main className={`flex-1 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-0'} p-4 pt-14 sm:p-6 sm:pt-6 lg:p-10 transition-all duration-200`}>
+      <main className={`flex-1 min-w-0 overflow-hidden ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-0'} p-4 pt-14 sm:p-6 sm:pt-6 lg:p-10 transition-all duration-200`}>
         {children}
       </main>
       <Toaster position="top-right" />

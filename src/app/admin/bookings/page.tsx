@@ -133,83 +133,49 @@ export default function AdminBookingsPage() {
         <div className="text-center py-16 text-mist-400 text-sm">No bookings found</div>
       ) : (
         <>
-          {/* Desktop Table */}
-          <div className="hidden lg:block bg-white border border-mist-200 rounded-xl overflow-hidden">
+          {/* Table (sm+) */}
+          <div className="hidden sm:block bg-white border border-mist-200 rounded-xl overflow-hidden">
             <table className="w-full">
               <thead>
                 <tr className="text-left text-xs text-mist-500 border-b border-mist-200 bg-mist-50/50">
-                  <th className="px-4 py-3">ID</th>
                   <th className="px-4 py-3">Customer</th>
-                  <th className="px-4 py-3">Type</th>
-                  <th className="px-4 py-3">Item</th>
-                  <th className="px-4 py-3">Dates</th>
+                  <th className="px-4 py-3 hidden md:table-cell">Type</th>
+                  <th className="px-4 py-3 hidden lg:table-cell">Item</th>
+                  <th className="px-4 py-3 hidden xl:table-cell">Dates</th>
                   <th className="px-4 py-3">Total</th>
                   <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3">Docs</th>
-                  <th className="px-4 py-3">Payment</th>
-                  <th className="px-4 py-3">Source</th>
+                  <th className="px-4 py-3 hidden md:table-cell">Payment</th>
+                  <th className="px-4 py-3 hidden xl:table-cell">Source</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map(b => (
                   <tr key={b.id} onClick={() => router.push(`/admin/bookings/${b.id}`)} className="border-b border-mist-100 hover:bg-mist-50/50 transition-colors cursor-pointer">
-                    <td className="px-4 py-3.5 text-sm font-medium text-mist-900">{(b.bookingNumber || b.id).slice(0, 8)}</td>
-                    <td className="px-4 py-3.5">
-                      <p className="text-sm text-mist-900 font-medium">{b.customerName || "N/A"}</p>
-                      <p className="text-xs text-mist-400">{b.customerEmail}</p>
-                    </td>
-                    <td className="px-4 py-3.5">
-                      <span className={`inline-flex items-center gap-1.5 text-xs px-2 py-1 rounded font-medium ${typeColors[b.bookingType] || "bg-mist-100 text-mist-600"}`}>
+                    <td className="px-4 py-3.5 max-w-[180px]">
+                      <p className="text-sm font-medium text-mist-900 truncate">{b.customerName || "N/A"}</p>
+                      <p className="text-xs text-mist-400 truncate">{b.customerEmail}</p>
+                      <span className={`inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded font-medium mt-1 md:hidden ${typeColors[b.bookingType] || "bg-mist-100 text-mist-600"}`}>
                         {typeIcon(b.bookingType)} {b.bookingType.charAt(0).toUpperCase() + b.bookingType.slice(1)}
                       </span>
                     </td>
-                    <td className="px-4 py-3.5 text-sm text-mist-600 max-w-[160px] truncate">{b.itemName}</td>
-                    <td className="px-4 py-3.5 text-xs text-mist-500">{fmt(b.startDate)}<br/>{fmt(b.endDate) !== fmt(b.startDate) && <span>– {fmt(b.endDate)}</span>}</td>
-                    <td className="px-4 py-3.5 text-sm font-semibold text-mist-900">${b.totalPrice?.toLocaleString() || "0"}</td>
-                    <td className="px-4 py-3.5"><span className={`text-xs px-2 py-1 rounded font-medium ${statusColors[b.status] || "bg-mist-100 text-mist-600"}`}>{label(b.status)}</span></td>
-                    <td className="px-4 py-3.5"><span className={`text-xs px-2 py-1 rounded font-medium ${docColors[b.documentStatus || "PENDING"]}`}>{label(b.documentStatus || "PENDING")}</span></td>
-                    <td className="px-4 py-3.5"><span className={`text-xs px-2 py-1 rounded font-medium ${payColors[b.paymentStatus] || "bg-mist-100 text-mist-600"}`}>{label(b.paymentStatus)}</span></td>
-                    <td className="px-4 py-3.5">
-                      <span className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded font-medium ${b.source === "manual" ? "bg-amber-50 text-amber-700" : "bg-sky-50 text-sky-700"}`}>
-                        {b.source === "manual" ? <><UserPlus size={11} /> Manual</> : <><Globe size={11} /> Website</>}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Tablet View */}
-          <div className="hidden sm:block lg:hidden bg-white border border-mist-200 rounded-xl overflow-hidden">
-            <table className="w-full">
-              <thead>
-                <tr className="text-left text-xs text-mist-500 border-b border-mist-200 bg-mist-50/50">
-                  <th className="px-4 py-3">Customer</th>
-                  <th className="px-4 py-3">Type</th>
-                  <th className="px-4 py-3">Item</th>
-                  <th className="px-4 py-3">Total</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3">Source</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map(b => (
-                  <tr key={b.id} onClick={() => router.push(`/admin/bookings/${b.id}`)} className="border-b border-mist-100 hover:bg-mist-50/50 transition-colors cursor-pointer">
-                    <td className="px-4 py-3">
-                      <p className="text-sm text-mist-900 font-medium">{b.customerName || "N/A"}</p>
-                      <p className="text-xs text-mist-400">{b.customerEmail}</p>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded font-medium ${typeColors[b.bookingType]}`}>
+                    <td className="px-4 py-3.5 hidden md:table-cell">
+                      <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded font-medium whitespace-nowrap ${typeColors[b.bookingType] || "bg-mist-100 text-mist-600"}`}>
                         {typeIcon(b.bookingType)} {b.bookingType.charAt(0).toUpperCase() + b.bookingType.slice(1)}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-sm text-mist-600 max-w-[120px] truncate">{b.itemName}</td>
-                    <td className="px-4 py-3 text-sm font-semibold text-mist-900">${b.totalPrice?.toLocaleString() || "0"}</td>
-                    <td className="px-4 py-3"><span className={`text-xs px-2 py-1 rounded font-medium ${statusColors[b.status]}`}>{label(b.status)}</span></td>
-                    <td className="px-4 py-3">
-                      <span className={`inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded font-medium ${b.source === "manual" ? "bg-amber-50 text-amber-700" : "bg-sky-50 text-sky-700"}`}>
+                    <td className="px-4 py-3.5 text-sm text-mist-600 max-w-[140px] truncate hidden lg:table-cell">{b.itemName}</td>
+                    <td className="px-4 py-3.5 text-xs text-mist-400 hidden xl:table-cell whitespace-nowrap">
+                      {fmt(b.startDate)}{fmt(b.endDate) !== fmt(b.startDate) && <><br/>– {fmt(b.endDate)}</>}
+                    </td>
+                    <td className="px-4 py-3.5 text-sm font-semibold text-mist-900 whitespace-nowrap">${b.totalPrice?.toLocaleString() || "0"}</td>
+                    <td className="px-4 py-3.5">
+                      <span className={`text-xs px-2 py-1 rounded font-medium whitespace-nowrap ${statusColors[b.status] || "bg-mist-100 text-mist-600"}`}>{label(b.status)}</span>
+                    </td>
+                    <td className="px-4 py-3.5 hidden md:table-cell">
+                      <span className={`text-xs px-2 py-0.5 rounded font-medium whitespace-nowrap ${payColors[b.paymentStatus] || "bg-mist-100 text-mist-600"}`}>{label(b.paymentStatus)}</span>
+                    </td>
+                    <td className="px-4 py-3.5 hidden xl:table-cell">
+                      <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded font-medium whitespace-nowrap ${b.source === "manual" ? "bg-amber-50 text-amber-700" : "bg-sky-50 text-sky-700"}`}>
                         {b.source === "manual" ? <><UserPlus size={10} /> Manual</> : <><Globe size={10} /> Website</>}
                       </span>
                     </td>

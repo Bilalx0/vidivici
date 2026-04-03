@@ -34,7 +34,7 @@ export default function PayPalBookingButton({
     return (
       <button
         disabled
-        className="w-full bg-gray-300 text-gray-500 py-3 rounded font-semibold text-sm cursor-not-allowed"
+        className="w-full bg-mist-300 text-mist-500 py-3 rounded font-semibold text-sm cursor-not-allowed"
       >
         Complete the form to continue
       </button>

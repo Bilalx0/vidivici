@@ -278,12 +278,12 @@ function EventsContent() {
 
           {/* Header */}
           <div className="text-center mb-12 2xl:mb-20">
-            <h2 className="text-4xl 2xl:text-7xl font-bold text-gray-900 mb-4 2xl:mb-6">
+            <h2 className="text-4xl 2xl:text-7xl font-bold text-mist-900 mb-4 2xl:mb-6">
               Explore Our Nightlife
               <br />
               Categories
             </h2>
-            <p className="text-gray-600 text-lg 2xl:text-2xl">
+            <p className="text-mist-600 text-lg 2xl:text-2xl">
               Find the perfect experience to match your style and occasion.
             </p>
           </div>
@@ -296,15 +296,15 @@ function EventsContent() {
                 className="bg-white rounded-2xl 2xl:rounded-3xl p-8 2xl:p-12 shadow-sm hover:shadow-lg transition-shadow duration-300"
               >
                 {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-mist-100 flex items-center justify-center text-mist-600 mb-6">
                   {category.icon}
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl 2xl:text-3xl font-semibold text-gray-900 mb-3 2xl:mb-4">
+                <h3 className="text-xl 2xl:text-3xl font-semibold text-mist-900 mb-3 2xl:mb-4">
                   {category.title}
                 </h3>
-                <p className="text-gray-500 text-base 2xl:text-2xl leading-relaxed">
+                <p className="text-mist-500 text-base 2xl:text-2xl leading-relaxed">
                   {category.description}
                 </p>
               </div>
@@ -329,30 +329,30 @@ function EventsContent() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 2xl:gap-y-8 gap-x-6 2xl:gap-x-10">
 
             {/* Mixologist */}
-            <div className="flex items-center gap-4 2xl:gap-8 bg-mist-100 rounded-2xl 2xl:rounded-[40px] p-4 2xl:p-8">
+            <div className="flex items-center gap-4 2xl:gap-8 bg-mist-100 rounded-3xl p-4 2xl:p-8">
               <img
                 src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300&q=80"
                 alt="Mixologist"
-                className="w-48 2xl:w-72 h-48 2xl:h-72 object-cover rounded-lg 2xl:rounded-2xl flex-shrink-0"
+                className="w-24 h-24 sm:w-32 sm:h-32 2xl:w-72 2xl:h-72 object-cover rounded-2xl flex-shrink-0"
               />
               <div className="pt-1">
-                <h3 className="text-base 2xl:text-2xl font-normal text-mist-900 mb-1 2xl:mb-3">Chauffeur Services or Party Bus</h3>
-                <p className="text-base text-mist-500 font-normal leading-relaxed">
+                <h3 className="text-base 2xl:text-2xl font-bold text-mist-900 mb-1 2xl:mb-3">Chauffeur Services or Party Bus</h3>
+                <p className="text-base 2xl:text-xl text-mist-500 font-normal leading-relaxed">
                   Professional bartenders to craft signature drinks for your guests.
                 </p>
               </div>
             </div>
 
             {/* Valet Parking */}
-            <div className="flex items-center gap-4 2xl:gap-8 bg-mist-100 rounded-2xl 2xl:rounded-[40px] p-4 2xl:p-8">
+            <div className="flex items-center gap-4 2xl:gap-8 bg-mist-100 rounded-3xl p-4 2xl:p-8">
               <img
                 src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=300&q=80"
                 alt="Valet Parking"
-                className="w-48 2xl:w-72 h-48 2xl:h-72 object-cover rounded-lg 2xl:rounded-2xl flex-shrink-0"
+                className="w-24 h-24 sm:w-32 sm:h-32 2xl:w-72 2xl:h-72 object-cover rounded-2xl flex-shrink-0"
               />
               <div className="pt-1">
-                <h3 className="text-base 2xl:text-2xl font-normal text-mist-900 mb-1 2xl:mb-3">Security & Bodyguards</h3>
-                <p className="text-base 2xl:text-2xl text-mist-500 font-normal leading-relaxed">
+                <h3 className="text-base 2xl:text-2xl font-bold text-mist-900 mb-1 2xl:mb-3">Security & Bodyguards</h3>
+                <p className="text-base 2xl:text-xl text-mist-500 font-normal leading-relaxed">
                   Hassle-free parking management for you and your guests.
                 </p>
               </div>

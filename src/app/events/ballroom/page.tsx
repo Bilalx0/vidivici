@@ -179,17 +179,50 @@ const BUDGET_OPTIONS = ["Under $5,000", "$5,000 - $15,000", "$15,000 - $30,000",
 const ADD_ONS = ["Chauffeur / Party Bus", "Security / Bodyguard"]
 const VENUE_OPTIONS = ["Trinity Ballroom", "Delilah Los Angeles", "The Majestic Downtown"]
 
+function switchTemporalInputType(input: HTMLInputElement, kind: "date" | "time") {
+  if (input.type !== "text") return
+  const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+
+  const lockedWidth = Math.ceil(input.getBoundingClientRect().width)
+  if (isIOS && lockedWidth > 0) {
+    input.style.width = `${lockedWidth}px`
+    input.style.minWidth = `${lockedWidth}px`
+    input.style.maxWidth = `${lockedWidth}px`
+    input.style.fontSize = "16px"
+  }
+  input.type = kind
+  requestAnimationFrame(() => {
+    input.focus()
+    if (typeof (input as HTMLInputElement & { showPicker?: () => void }).showPicker === "function") {
+      try {
+        ;(input as HTMLInputElement & { showPicker: () => void }).showPicker()
+      } catch {
+        // Fallback to focus when showPicker is unavailable.
+      }
+    }
+    if (isIOS) {
+      requestAnimationFrame(() => {
+        input.style.width = "100%"
+        input.style.minWidth = "0"
+        input.style.maxWidth = "100%"
+        input.style.fontSize = "16px"
+      })
+    }
+  })
+}
+
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
   <div className="bg-[#f5f5f5] p-8 2xl:p-12 rounded-xl 2xl:rounded-2xl flex flex-col items-start gap-4 2xl:gap-6 transition-all hover:shadow-md">
-    <div className="bg-[#e5e5e5] p-3 2xl:p-4 rounded-lg 2xl:rounded-xl text-gray-600">
+    <div className="bg-[#e5e5e5] p-3 2xl:p-4 rounded-lg 2xl:rounded-xl text-mist-600">
       <Icon size={24} />
     </div>
     <div>
-      <h3 className="text-xl 2xl:text-3xl font-bold text-gray-900 mb-2 2xl:mb-4 leading-tight">
+      <h3 className="text-xl 2xl:text-3xl font-bold text-mist-900 mb-2 2xl:mb-4 leading-tight">
         {title}
       </h3>
-      <p className="text-gray-600 leading-relaxed text-[15px] 2xl:text-2xl">
+      <p className="text-mist-600 leading-relaxed text-[15px] 2xl:text-2xl">
         {description}
       </p>
     </div>
@@ -198,7 +231,7 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
 
 const AmenityBadge = ({ icon: Icon, text }) => (
   <div className="flex items-center gap-4 2xl:gap-6 bg-[#f5f5f5] p-5 2xl:p-8 rounded-xl 2xl:rounded-2xl hover:bg-[#efefef] transition-colors cursor-default">
-    <div className="bg-[#e5e5e5] p-2.5 2xl:p-4 rounded-lg 2xl:rounded-xl text-gray-500 shrink-0">
+    <div className="bg-[#e5e5e5] p-2.5 2xl:p-4 rounded-lg 2xl:rounded-xl text-mist-500 shrink-0">
       <Icon size={22} />
     </div>
     <span className="text-[17px] 2xl:text-2xl font-semibold text-[#333] leading-tight">
@@ -393,10 +426,14 @@ export function VenueBookingForm() {
                   </Field>
                   <Field label="Booking Date">
                     <input
-                      type="date"
+                      type={form.bookingDate ? "date" : "text"}
+                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onBlur={(e) => { if (!form.bookingDate) e.currentTarget.type = "text" }}
                       value={form.bookingDate}
                       onChange={(e) => setForm({ ...form, bookingDate: e.target.value })}
-                      className={inputClass}
+                      placeholder="Select booking date"
+                      className={`${inputClass} ios-temporal-input`}
                       required
                     />
                   </Field>
@@ -562,19 +599,19 @@ export default function BallroomPage() {
       {/* Breadcrumb Section */}
       <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-8 2xl:py-12">
         <div className="flex items-center justify-between">
-          <nav className="flex items-center gap-2 text-sm 2xl:text-xl text-gray-500">
+          <nav className="flex items-center gap-2 text-sm 2xl:text-xl text-mist-500">
             <Link href="/" className="hover:text-black transition-colors">Los Angeles</Link>
-            <ChevronRight size={14} className="text-gray-400" />
+            <ChevronRight size={14} className="text-mist-400" />
             <Link href="/events" className="hover:text-black transition-colors">Event</Link>
-            <ChevronRight size={14} className="text-gray-400" />
-            <span className="text-gray-900 font-medium">Delilah</span>
+            <ChevronRight size={14} className="text-mist-400" />
+            <span className="text-mist-900 font-medium">Delilah</span>
           </nav>
 
           <div className="flex items-center gap-6">
-            <button className="flex items-center gap-2 text-sm 2xl:text-xl font-medium text-gray-600 hover:text-black transition-colors">
+            <button className="flex items-center gap-2 text-sm 2xl:text-xl font-medium text-mist-600 hover:text-black transition-colors">
               <Share2 size={18} /> Share
             </button>
-            <button className="flex items-center gap-2 text-sm 2xl:text-xl font-medium text-gray-600 hover:text-black transition-colors">
+            <button className="flex items-center gap-2 text-sm 2xl:text-xl font-medium text-mist-600 hover:text-black transition-colors">
               <Heart size={18} /> Save
             </button>
           </div>
@@ -605,7 +642,7 @@ export default function BallroomPage() {
 
             <button
               onClick={() => { }}
-              className="bg-white text-black px-10 2xl:px-14 py-4 2xl:py-6 rounded-xl 2xl:rounded-2xl text-base 2xl:text-2xl font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl"
+              className="bg-white text-black px-10 2xl:px-14 py-4 2xl:py-6 rounded-xl 2xl:rounded-2xl text-base 2xl:text-2xl font-bold hover:bg-mist-100 transition-all transform hover:scale-105 shadow-xl"
             >
               Reserve Now
             </button>
@@ -640,7 +677,7 @@ export default function BallroomPage() {
             A Landmark Born <br /> in 1914 — Reborn <br /> for Today
           </h2>
 
-          <div className="space-y-6 2xl:space-y-8 text-gray-600 2xl:text-2xl leading-relaxed max-w-xl 2xl:max-w-4xl">
+          <div className="space-y-6 2xl:space-y-8 text-mist-600 2xl:text-2xl leading-relaxed max-w-xl 2xl:max-w-4xl">
             <p>
               Originally constructed in <span className="font-bold text-[#1a1a1a]">1914</span>, the Trinity Building was
               celebrated as an architectural masterpiece in Downtown Los Angeles. Hidden within its walls was a
@@ -674,7 +711,7 @@ export default function BallroomPage() {
         <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-[#1a1a1a] mb-6 2xl:mb-8">
           Why Choose the Trinity Ballroom
         </h2>
-        <p className="text-lg 2xl:text-2xl text-gray-500 leading-relaxed">
+        <p className="text-lg 2xl:text-2xl text-mist-500 leading-relaxed">
           A rare blend of heritage, elegance, and scale—crafted for extraordinary events.
         </p>
       </div>
@@ -703,14 +740,14 @@ export default function BallroomPage() {
           {/* Navigation Buttons */}
           <button 
             onClick={prevSlide}
-            className="absolute left-[-20px] 2xl:left-[-24px] top-1/2 -translate-y-1/2 z-10 bg-white p-3 2xl:p-4 rounded-full shadow-lg hover:bg-gray-50 transition-colors border border-gray-100"
+            className="absolute left-[-20px] 2xl:left-[-24px] top-1/2 -translate-y-1/2 z-10 bg-white p-3 2xl:p-4 rounded-full shadow-lg hover:bg-mist-50 transition-colors border border-mist-100"
           >
             <ChevronLeft size={24} />
           </button>
           
           <button 
             onClick={nextSlide}
-            className="absolute right-[-20px] 2xl:right-[-24px] top-1/2 -translate-y-1/2 z-10 bg-white p-3 2xl:p-4 rounded-full shadow-lg hover:bg-gray-50 transition-colors border border-gray-100"
+            className="absolute right-[-20px] 2xl:right-[-24px] top-1/2 -translate-y-1/2 z-10 bg-white p-3 2xl:p-4 rounded-full shadow-lg hover:bg-mist-50 transition-colors border border-mist-100"
           >
             <ChevronRight size={24} />
           </button>
@@ -739,7 +776,7 @@ export default function BallroomPage() {
                       <h3 className="text-xl 2xl:text-3xl font-bold mb-2 2xl:mb-4">
                         {event.title}
                       </h3>
-                      <p className="text-sm 2xl:text-2xl text-gray-200 leading-relaxed">
+                      <p className="text-sm 2xl:text-2xl text-mist-200 leading-relaxed">
                         {event.description}
                       </p>
                     </div>
@@ -756,7 +793,7 @@ export default function BallroomPage() {
                 key={i}
                 onClick={() => setCurrentIndex(i)}
                 className={`h-2.5 rounded-full transition-all duration-300 ${
-                  currentIndex === i ? "w-8 bg-gray-800" : "w-2.5 bg-gray-300"
+                  currentIndex === i ? "w-8 bg-mist-800" : "w-2.5 bg-mist-300"
                 }`}
               />
             ))}
@@ -771,7 +808,7 @@ export default function BallroomPage() {
         <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">
           Venue Features & Amenities
         </h2>
-        <p className="text-gray-500 text-base 2xl:text-2xl max-w-xl 2xl:max-w-5xl mx-auto leading-relaxed">
+        <p className="text-mist-500 text-base 2xl:text-2xl max-w-xl 2xl:max-w-5xl mx-auto leading-relaxed">
           Designed to honor its historic roots while supporting world-class modern events.
         </p>
       </div>
@@ -829,7 +866,7 @@ export default function BallroomPage() {
           <h2 className="text-4xl md:text-5xl 2xl:text-7xl text-center font-bold text-mist-900">
             Gallery
           </h2>
-          <p className="text-gray-500 text-base 2xl:text-2xl max-w-md 2xl:max-w-4xl mx-auto text-center leading-relaxed mt-5 2xl:mt-8">
+          <p className="text-mist-500 text-base 2xl:text-2xl max-w-md 2xl:max-w-4xl mx-auto text-center leading-relaxed mt-5 2xl:mt-8">
           Designed to honor its historic roots while supporting world-class modern events.
         </p>
         </div>

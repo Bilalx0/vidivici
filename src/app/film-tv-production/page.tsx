@@ -75,6 +75,39 @@ const PROJECT_TYPES = [
   "Other",
 ]
 
+function switchTemporalInputType(input: HTMLInputElement, kind: "date" | "time") {
+  if (input.type !== "text") return
+  const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+
+  const lockedWidth = Math.ceil(input.getBoundingClientRect().width)
+  if (isIOS && lockedWidth > 0) {
+    input.style.width = `${lockedWidth}px`
+    input.style.minWidth = `${lockedWidth}px`
+    input.style.maxWidth = `${lockedWidth}px`
+    input.style.fontSize = "16px"
+  }
+  input.type = kind
+  requestAnimationFrame(() => {
+    input.focus()
+    if (typeof (input as HTMLInputElement & { showPicker?: () => void }).showPicker === "function") {
+      try {
+        ;(input as HTMLInputElement & { showPicker: () => void }).showPicker()
+      } catch {
+        // Fallback to focus when showPicker is unavailable.
+      }
+    }
+    if (isIOS) {
+      requestAnimationFrame(() => {
+        input.style.width = "100%"
+        input.style.minWidth = "0"
+        input.style.maxWidth = "100%"
+        input.style.fontSize = "16px"
+      })
+    }
+  })
+}
+
 const ABOUT_BULLETS = [
   "Spacious interiors for lighting & camera setups",
   "Scenic outdoor areas ideal for film or photo shoots",
@@ -483,9 +516,13 @@ function ProductionInquiryForm() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">Shoot Dates</label>
-                  <input type="date" value={form.shootDates}
+                  <input type={form.shootDates ? "date" : "text"}
+                    onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                    onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                    onBlur={(e) => { if (!form.shootDates) e.currentTarget.type = "text" }}
                     onChange={(e) => setForm({ ...form, shootDates: e.target.value })}
-                    className="w-full border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-xl text-mist-900 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
+                    placeholder="Select shoot date"
+                    className="ios-temporal-input w-full border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-xl text-mist-900 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
                 </div>
               </div>
 
@@ -726,7 +763,7 @@ function FilmTVContent() {
                 <li key={i} className="flex items-start gap-3">
                   <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-mist-300 flex items-center justify-center">
                     <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 6l3 3 5-5" stroke="gray" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M2 6l3 3 5-5" stroke="mist" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </span>
                   <span className="text-base 2xl:text-2xl text-mist-600 leading-relaxed">{item}</span>

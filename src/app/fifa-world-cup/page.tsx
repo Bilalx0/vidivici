@@ -291,7 +291,7 @@ function BigImageSlider() {
               key={i}
               onClick={() => { setCurrent(i); resetTimer(); }}
               className={`h-1.5 rounded-full transition-all duration-500 ${
-                i === current ? "w-12 bg-[#1a1a1a]" : "w-2 bg-gray-300"
+                i === current ? "w-12 bg-[#1a1a1a]" : "w-2 bg-mist-300"
               }`}
             />
           ))}
@@ -366,11 +366,11 @@ function FifaContent() {
           <h2 className="text-4xl 2xl:text-7xl lg:text-5xl 2xl:lg:text-7xl font-bold text-[#1a1a1a] mb-2">
             FIFA World Cup 2026™ Fixtures
           </h2>
-          <p className="text-xl 2xl:text-3xl text-gray-600 font-medium">in Los Angeles</p>
+          <p className="text-xl 2xl:text-3xl text-mist-600 font-medium">in Los Angeles</p>
         </div>
 
         {/* Table Container */}
-        <div className=" bg-mist-200 rounded-[2.5rem] 2xl:rounded-3xl shadow-sm border border-gray-100">
+        <div className=" bg-mist-200 rounded-[2.5rem] 2xl:rounded-3xl shadow-sm border border-mist-100">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
@@ -383,11 +383,11 @@ function FifaContent() {
               </thead>
               <tbody>
                 {FIXTURES.map((f, i) => (
-                  <tr key={i} className="border-b border-mist-300 last:border-0 hover:bg-gray-100/50 transition-colors">
-                    <td className="px-6 2xl:px-12 py-5 2xl:py-10 text-sm 2xl:text-lg font-medium text-gray-700 border-r border-mist-300">{f.date}</td>
-                    <td className="px-6 2xl:px-12 py-5 2xl:py-10 text-sm 2xl:text-lg text-gray-500 border-r border-mist-300">{f.matchNo}</td>
-                    <td className="px-6 2xl:px-12 py-5 2xl:py-10 text-sm 2xl:text-lg text-gray-600 italic lg:not-italic border-r border-mist-300">{f.stage}</td>
-                    <td className="px-6 2xl:px-12 py-5 2xl:py-10 text-sm 2xl:text-lg text-gray-500">{f.stadium}</td>
+                  <tr key={i} className="border-b border-mist-300 last:border-0 hover:bg-mist-100/50 transition-colors">
+                    <td className="px-6 2xl:px-12 py-5 2xl:py-10 text-sm 2xl:text-lg font-medium text-mist-700 border-r border-mist-300">{f.date}</td>
+                    <td className="px-6 2xl:px-12 py-5 2xl:py-10 text-sm 2xl:text-lg text-mist-500 border-r border-mist-300">{f.matchNo}</td>
+                    <td className="px-6 2xl:px-12 py-5 2xl:py-10 text-sm 2xl:text-lg text-mist-600 italic lg:not-italic border-r border-mist-300">{f.stage}</td>
+                    <td className="px-6 2xl:px-12 py-5 2xl:py-10 text-sm 2xl:text-lg text-mist-500">{f.stadium}</td>
                   </tr>
                 ))}
               </tbody>

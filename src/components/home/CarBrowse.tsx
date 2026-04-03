@@ -2,21 +2,22 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const carMakes = [
-  { name: "Rolls-Royce", logo: "/carlogo1.png" },
+  { name: "Rolls-Royce", logo: "/carlogo5.png" },
   { name: "Cadillac", logo: "/carlogo2.png" },
-  { name: "Mercedes", logo: "/carlogo3.png" },
-  { name: "Bentley", logo: "/carlogo4.png" },
-  { name: "Lamborghini", logo: "/carlogo5.png" },
-  { name: "Aston Martin", logo: "/carlogo6.png" },
-  { name: "BMW", logo: "/carlogo7.png" },
-  { name: "Porsche", logo: "/carlogo8.png" },
-  { name: "Ferrari", logo: "/carlogo9.png" },
-  { name: "Maserati", logo: "/carlogo10.png" },
-  { name: "Bugatti", logo: "/carlogo11.png" },
-  { name: "McLaren", logo: "/carlogo12.png" },
+  { name: "Mercedes", logo: "/carlogo4.png" },
+  { name: "Bentley", logo: "/carlogo9.png" },
+  { name: "Lamborghini", logo: "/carlogo3.png" },
+  { name: "Aston Martin", logo: "/carlogo1.png" },
+  { name: "BMW", logo: "/carlogo2.png" },
+  { name: "Porsche", logo: "/carlogo6.png" },
+  { name: "Audi", logo: "/carlogo10.png" },
+  { name: "Maserati", logo: "/carlogo13.png" },
+  { name: "Range Rover", logo: "/carlogo7.png" },
+  { name: "McLaren", logo: "/carlogo11.png" },
 ];
 
 const carTypes = [
@@ -42,7 +43,7 @@ function BrowseCard({
       onClick={() => onClick(item.name)}
       className="flex flex-col items-center justify-center gap-4 2xl:gap-10
       py-7 px-10 2xl:py-16 2xl:px-28 my-4 rounded-2xl border shrink-0
-      transition-all duration-300 border-gray-200 bg-white
+      transition-all duration-300 border-mist-200 bg-white
       hover:border-black hover:scale-105 group shadow-sm hover:shadow-xl"
     >
       <div className={`relative transition-transform duration-500 group-hover:scale-110
@@ -55,11 +56,11 @@ function BrowseCard({
           src={item.logo}
           alt={item.name}
           fill
-          className="object-contain filter grayscale group-hover:grayscale-0 transition-all"
+          className="object-contain filter mistscale group-hover:mistscale-0 transition-all"
         />
       </div>
       
-      <span className="text-[10px] sm:text-xs 2xl:text-2xl font-bold uppercase tracking-[0.2em] text-gray-400 group-hover:text-black">
+      <span className="text-[10px] sm:text-xs 2xl:text-2xl font-bold uppercase tracking-[0.2em] text-mist-400 group-hover:text-black">
         {item.name}
       </span>
     </button>
@@ -67,10 +68,20 @@ function BrowseCard({
 }
 
 export default function CarBrowseSection() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("make");
   const marqueeRef = useRef<HTMLDivElement>(null);
   const isType = activeTab === "type";
   const data = isType ? carTypes : carMakes;
+
+  const typeToCategory: Record<string, string> = {
+    SUV: "SUV",
+    Sports: "Coupe | Sports",
+    Luxury: "Ultra-Luxury",
+    Convertible: "Convertible",
+    Sedan: "Sedan | 4-Door",
+    Electric: "EV",
+  };
 
   const marqueeItems = [...data, ...data, ...data, ...data];
 
@@ -79,6 +90,15 @@ export default function CarBrowseSection() {
     if (!node) return;
     const delta = direction === "left" ? -320 : 320;
     node.scrollBy({ left: delta, behavior: "smooth" });
+  };
+
+  const handleBrowseClick = (name: string) => {
+    if (isType) {
+      const category = typeToCategory[name] || name;
+      router.push(`/cars?category=${encodeURIComponent(category)}`);
+      return;
+    }
+    router.push(`/cars?make=${encodeURIComponent(name)}`);
   };
 
   return (
@@ -93,7 +113,7 @@ export default function CarBrowseSection() {
           className={`px-7 py-2.5 2xl:px-14 2xl:py-5 text-xs sm:text-sm 2xl:text-lg font-semibold uppercase tracking-widest rounded-xl 2xl:rounded-2xl border-2 transition-all duration-300 ${
             !isType
               ? "bg-black border-black text-white shadow-2xl scale-105"
-              : "bg-white border-gray-200 text-gray-400 hover:border-black hover:text-black"
+              : "bg-white border-mist-200 text-mist-400 hover:border-black hover:text-black"
           }`}
         >
           Browse by Make
@@ -105,7 +125,7 @@ export default function CarBrowseSection() {
           className={`px-7 py-2.5 2xl:px-14 2xl:py-5 text-xs sm:text-sm 2xl:text-lg font-semibold uppercase tracking-widest rounded-xl 2xl:rounded-2xl border-2 transition-all duration-300 ${
             isType
               ? "bg-black border-black text-white shadow-2xl scale-105"
-              : "bg-white border-gray-200 text-gray-400 hover:border-black hover:text-black"
+              : "bg-white border-mist-200 text-mist-400 hover:border-black hover:text-black"
           }`}
         >
           Browse by Type
@@ -139,7 +159,7 @@ export default function CarBrowseSection() {
                 key={`${activeTab}-${i}`}
                 item={item}
                 isType={isType}
-                onClick={(name) => console.log(name)}
+                onClick={handleBrowseClick}
               />
             ))}
           </div>

@@ -80,7 +80,8 @@ function calcCarPricing(
   days: number,
   driverHours: number,
   driverDays: number,
-  needDriver: boolean
+  needDriver: boolean,
+  driverAvailability: "full" | "select"
 ) {
   const defaultDeposit = 2000
   const reducedDeposit = 500
@@ -90,8 +91,8 @@ function calcCarPricing(
   const driverTotal = needDriver ? driverDays * driverHours * 45 : 0
   const preTax = subtotal - discountAmount + driverTotal
   const tax = Math.round(preTax * 0.085)
-  const driverForAllDays = needDriver && days > 0 && driverDays === days
-  const securityDeposit = driverForAllDays ? reducedDeposit : defaultDeposit
+  const qualifiesForReducedDeposit = needDriver && (days >= 15 || driverAvailability === "full")
+  const securityDeposit = qualifiesForReducedDeposit ? reducedDeposit : defaultDeposit
   const total = preTax + tax + securityDeposit
   const payNow = securityDeposit
   const dueAtPickup = Math.max(0, total - payNow)
@@ -437,8 +438,8 @@ function ReservationContent() {
   const actualDriverDays = driverAvailability === "full" ? days : driverDays
 
   const carPricing = useMemo(
-    () => (selectedCar ? calcCarPricing(selectedCar.pricePerDay, days, driverHours, actualDriverDays, needDriver) : null),
-    [selectedCar, days, driverHours, actualDriverDays, needDriver]
+    () => (selectedCar ? calcCarPricing(selectedCar.pricePerDay, days, driverHours, actualDriverDays, needDriver, driverAvailability) : null),
+    [selectedCar, days, driverHours, actualDriverDays, needDriver, driverAvailability]
   )
 
   const villaPricing = useMemo(
@@ -862,8 +863,7 @@ function CarSelectStep({
     const tryScroll = () => {
       const node = customerInfoRef.current
       if (node) {
-        const top = Math.max(0, node.getBoundingClientRect().top + window.scrollY - 110)
-        window.scrollTo({ top, behavior: "smooth" })
+        node.scrollIntoView({ behavior: "smooth", block: "start" })
         didAutoScrollRef.current = true
         return
       }
@@ -960,7 +960,8 @@ function CarSelectStep({
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 placeholder="Time*"
-                className={temporalInputClass} />
+                className={temporalInputClass}
+              />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -987,7 +988,8 @@ function CarSelectStep({
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
                 placeholder="Time*"
-                className={temporalInputClass} />
+                className={temporalInputClass}
+              />
             </div>
           </div>
         </div>
@@ -1054,7 +1056,7 @@ function CarSelectStep({
         {showCustomerInfo && (
           <>
         {/* Pickup / Delivery Toggle */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 my-8">
+        <div className="flex flex-row items-center justify-between gap-3 my-8">
           <div className="flex w-fit self-start gap-0 border border-mist-200 rounded-md overflow-hidden">
             <button type="button" onClick={() => setDeliveryType("pickup")}
               className={`px-5 py-2 text-sm font-medium transition-colors ${
@@ -1289,16 +1291,25 @@ function VillaSelectStep({
   const customerInfoRef = useRef<HTMLDivElement | null>(null)
   const didAutoScrollRef = useRef(false)
 
+  const showCustomerInfo = Boolean(
+    selectedVilla
+    && startDate
+    && endDate
+    && startTime
+    && endTime
+    && guestCount > 0
+    && days > 0
+  )
+
   useEffect(() => {
-    if (!autoScrollToCustomerInfo || didAutoScrollRef.current) return
+    if (!autoScrollToCustomerInfo || !showCustomerInfo || didAutoScrollRef.current) return
     let attempts = 0
     let timerId: number | undefined
 
     const tryScroll = () => {
       const node = customerInfoRef.current
       if (node) {
-        const top = Math.max(0, node.getBoundingClientRect().top + window.scrollY - 110)
-        window.scrollTo({ top, behavior: "smooth" })
+        node.scrollIntoView({ behavior: "smooth", block: "start" })
         didAutoScrollRef.current = true
         return
       }
@@ -1311,17 +1322,7 @@ function VillaSelectStep({
 
     timerId = window.setTimeout(tryScroll, 120)
     return () => window.clearTimeout(timerId)
-  }, [autoScrollToCustomerInfo])
-
-  const showCustomerInfo = Boolean(
-    selectedVilla
-    && startDate
-    && endDate
-    && startTime
-    && endTime
-    && guestCount > 0
-    && days > 0
-  )
+  }, [autoScrollToCustomerInfo, showCustomerInfo])
 
   const filteredVillas = locationFilter
     ? villaOptions.filter((v) => v.location === locationFilter)
@@ -1398,7 +1399,7 @@ function VillaSelectStep({
                 onBlur={(e) => { if (!startTime) e.currentTarget.type = "text" }}
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                placeholder="Time"
+                placeholder="Time*"
                 className={temporalInputClass}
               />
             </div>
@@ -1426,7 +1427,7 @@ function VillaSelectStep({
                 onBlur={(e) => { if (!endTime) e.currentTarget.type = "text" }}
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                placeholder="Time"
+                placeholder="Time*"
                 className={temporalInputClass}
               />
             </div>

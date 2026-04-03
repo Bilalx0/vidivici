@@ -16,6 +16,39 @@ interface BookingFormProps {
   }
 }
 
+function switchTemporalInputType(input: HTMLInputElement, kind: "date" | "time") {
+  if (input.type !== "text") return
+  const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+
+  const lockedWidth = Math.ceil(input.getBoundingClientRect().width)
+  if (isIOS && lockedWidth > 0) {
+    input.style.width = `${lockedWidth}px`
+    input.style.minWidth = `${lockedWidth}px`
+    input.style.maxWidth = `${lockedWidth}px`
+    input.style.fontSize = "16px"
+  }
+  input.type = kind
+  requestAnimationFrame(() => {
+    input.focus()
+    if (typeof (input as HTMLInputElement & { showPicker?: () => void }).showPicker === "function") {
+      try {
+        ;(input as HTMLInputElement & { showPicker: () => void }).showPicker()
+      } catch {
+        // Fallback to focus when showPicker is unavailable.
+      }
+    }
+    if (isIOS) {
+      requestAnimationFrame(() => {
+        input.style.width = "100%"
+        input.style.minWidth = "0"
+        input.style.maxWidth = "100%"
+        input.style.fontSize = "16px"
+      })
+    }
+  })
+}
+
 export default function BookingForm({ car }: BookingFormProps) {
   const today = new Date().toISOString().split("T")[0]
   const [startDate, setStartDate] = useState("")
@@ -30,6 +63,8 @@ export default function BookingForm({ car }: BookingFormProps) {
   const [agreed, setAgreed] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState("")
+
+  const temporalInputClass = "ios-temporal-input w-full bg-[#111] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded focus:border-[#dbb241] focus:outline-none"
 
   const days = startDate && endDate
     ? Math.ceil((new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24))
@@ -65,13 +100,33 @@ export default function BookingForm({ car }: BookingFormProps) {
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className="text-xs text-mist-400 block mb-1">Start Date</label>
-          <input type="date" min={today} value={startDate} onChange={(e) => setStartDate(e.target.value)} required
-            className="w-full bg-[#111] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded focus:border-[#dbb241] focus:outline-none" />
+          <input
+            type={startDate ? "date" : "text"}
+            onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+            onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+            onBlur={(e) => { if (!startDate) e.currentTarget.type = "text" }}
+            min={today}
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            placeholder="Start date"
+            required
+            className={temporalInputClass}
+          />
         </div>
         <div>
           <label className="text-xs text-mist-400 block mb-1">End Date</label>
-          <input type="date" min={startDate || today} value={endDate} onChange={(e) => setEndDate(e.target.value)} required
-            className="w-full bg-[#111] border border-[#2a2a2a] text-white text-sm px-3 py-2 rounded focus:border-[#dbb241] focus:outline-none" />
+          <input
+            type={endDate ? "date" : "text"}
+            onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+            onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+            onBlur={(e) => { if (!endDate) e.currentTarget.type = "text" }}
+            min={startDate || today}
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            placeholder="End date"
+            required
+            className={temporalInputClass}
+          />
         </div>
       </div>
 

@@ -156,7 +156,7 @@ export default function Footer() {
                 placeholder="Enter your email"
                 className="flex-1 min-w-0 bg-transparent border-none outline-none text-white placeholder-white/40 text-[12px] px-3"
               />
-              <button className="bg-white text-gray-900 text-[12px] font-normal px-5 py-2 rounded-md hover:bg-gray-100 transition-colors flex-shrink-0">
+              <button className="bg-white text-mist-900 text-[12px] font-normal px-5 py-2 rounded-md hover:bg-mist-100 transition-colors flex-shrink-0">
                 Subscribe
               </button>
             </div>
@@ -242,7 +242,7 @@ export default function Footer() {
                 placeholder="Enter your email"
                 className="flex-1 min-w-0 bg-transparent border-none outline-none text-white placeholder-white/40 text-[12px] 2xl:text-xl px-3"
               />
-              <button className="bg-white text-gray-900 text-[12px] 2xl:text-xl font-normal px-5 2xl:px-10 py-2 2xl:py-4 rounded-md 2xl:rounded-xl hover:bg-gray-100 transition-colors flex-shrink-0">
+              <button className="bg-white text-mist-900 text-[12px] 2xl:text-xl font-normal px-5 2xl:px-10 py-2 2xl:py-4 rounded-md 2xl:rounded-xl hover:bg-mist-100 transition-colors flex-shrink-0">
                 Subscribe
               </button>
             </div>

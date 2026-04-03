@@ -1,21 +1,26 @@
+import Link from "next/link";
+
 const services = [
   {
     title: "Exotic Cars",
     description:
       "Unleash the thrill of the world's most powerful machines. From Lamborghinis to Rolls-Royces, your dream car is ready to be delivered to your door.",
     image: "/pic1.png",
+    href: "/cars",
   },
   {
     title: "Villas",
     description:
       "Stay in breathtaking LA properties with skyline views, infinity pools, and unmatched comfort. A home that defines prestige.",
     image: "/pic2.png",
+    href: "/villas",
   },
   {
     title: "Nightlife & Events",
     description:
       "Step into a world of exclusivity. From elite club access to personalized concierge services — we open the doors to unforgettable nights.",
     image: "/pic3.png",
+    href: "/events",
   },
 ];
 
@@ -49,8 +54,9 @@ export default function LuxuryServices() {
         {/* Right — cards grid */}
         <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 2xl:gap-7">
           {services.map((service) => (
-            <div
+            <Link
               key={service.title}
+              href={service.href}
               className="group bg-white rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               {/* Image */}
@@ -73,17 +79,17 @@ export default function LuxuryServices() {
 
                 {/* Footer */}
                 <div className="mt-5 2xl:mt-7 flex items-center justify-end">
-                  <button className="flex items-center gap-2 text-sm 2xl:text-lg group-hover:bg-mist-100 py-1 pr-2 pl-4 rounded-full text-mist-800 font-normal cursor-pointer transition-all duration-300">
+                  <span className="flex items-center gap-2 text-sm 2xl:text-lg group-hover:bg-mist-100 py-1 pr-2 pl-4 rounded-full text-mist-800 font-normal cursor-pointer transition-all duration-300">
                     <span className="opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-mist-800">
                       View Details
                     </span>
                     <span className="flex items-center justify-center w-8 h-8 2xl:w-11 2xl:h-11 rounded-full bg-mist-900 text-white">
                       <ArrowIcon />
                     </span>
-                  </button>
+                  </span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 

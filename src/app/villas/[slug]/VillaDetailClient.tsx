@@ -481,7 +481,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                     "TV & Film Production",
                   ].map((item) => (
                     <div key={item} className="flex items-center gap-2.5">
-                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-mist-200 border border-gray-300 flex items-center justify-center">
+                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-mist-200 border border-mist-300 flex items-center justify-center">
                         <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                           <path d="M2 6l3 3 5-5" stroke="#9CA3AF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
@@ -816,10 +816,14 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                       <div>
                         <label className="text-xs text-mist-500 block mb-1.5">Event Date</label>
                         <input
-                          type="date"
+                          type={eventForm.eventDate ? "date" : "text"}
+                          onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                          onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                          onBlur={(e) => { if (!eventForm.eventDate) e.currentTarget.type = "text" }}
                           value={eventForm.eventDate}
                           onChange={(e) => setEventForm({ ...eventForm, eventDate: e.target.value })}
-                          className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400"
+                          placeholder="Select event date"
+                          className={temporalInputClass}
                         />
                       </div>
                     </div>
@@ -958,10 +962,14 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                       <div>
                         <label className="text-xs text-mist-500 block mb-1.5">Shoot Date</label>
                         <input
-                          type="date"
+                          type={productionForm.shootDate ? "date" : "text"}
+                          onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                          onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                          onBlur={(e) => { if (!productionForm.shootDate) e.currentTarget.type = "text" }}
                           value={productionForm.shootDate}
                           onChange={(e) => setProductionForm({ ...productionForm, shootDate: e.target.value })}
-                          className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400"
+                          placeholder="Select shoot date"
+                          className={temporalInputClass}
                         />
                       </div>
                     </div>
@@ -1114,16 +1122,18 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                       placeholder="Start date*"
                       className={temporalInputClass}
                     />
-                    <input
-                      type={checkInTime ? "time" : "text"}
-                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
-                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
-                      onBlur={(e) => { if (!checkInTime) e.currentTarget.type = "text" }}
-                      value={checkInTime}
-                      onChange={(e) => setCheckInTime(e.target.value)}
-                      placeholder="Time*"
-                      className={temporalInputClass}
-                    />
+                    <div className="relative">
+                      <input
+                        type={checkInTime ? "time" : "text"}
+                        onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                        onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                        onBlur={(e) => { if (!checkInTime) e.currentTarget.type = "text" }}
+                        value={checkInTime}
+                        onChange={(e) => setCheckInTime(e.target.value)}
+                        placeholder="Time*"
+                        className={temporalInputClass}
+                      />
+                    </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <input
@@ -1137,16 +1147,18 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                       placeholder="End date*"
                       className={temporalInputClass}
                     />
-                    <input
-                      type={checkOutTime ? "time" : "text"}
-                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
-                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
-                      onBlur={(e) => { if (!checkOutTime) e.currentTarget.type = "text" }}
-                      value={checkOutTime}
-                      onChange={(e) => setCheckOutTime(e.target.value)}
-                      placeholder="Time*"
-                      className={temporalInputClass}
-                    />
+                    <div className="relative">
+                      <input
+                        type={checkOutTime ? "time" : "text"}
+                        onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                        onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
+                        onBlur={(e) => { if (!checkOutTime) e.currentTarget.type = "text" }}
+                        value={checkOutTime}
+                        onChange={(e) => setCheckOutTime(e.target.value)}
+                        placeholder="Time*"
+                        className={temporalInputClass}
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -1343,10 +1355,14 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                   <div>
                     <label className="text-xs text-mist-500 block mb-1.5">Event Date</label>
                     <input
-                      type="date"
+                      type={eventForm.eventDate ? "date" : "text"}
+                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onBlur={(e) => { if (!eventForm.eventDate) e.currentTarget.type = "text" }}
                       value={eventForm.eventDate}
                       onChange={(e) => setEventForm({ ...eventForm, eventDate: e.target.value })}
-                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400"
+                      placeholder="Select event date"
+                      className={temporalInputClass}
                     />
                   </div>
                 </div>
@@ -1475,10 +1491,14 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                   <div>
                     <label className="text-xs text-mist-500 block mb-1.5">Shoot Date</label>
                     <input
-                      type="date"
+                      type={productionForm.shootDate ? "date" : "text"}
+                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onBlur={(e) => { if (!productionForm.shootDate) e.currentTarget.type = "text" }}
                       value={productionForm.shootDate}
                       onChange={(e) => setProductionForm({ ...productionForm, shootDate: e.target.value })}
-                      className="w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400"
+                      placeholder="Select shoot date"
+                      className={temporalInputClass}
                     />
                   </div>
                 </div>

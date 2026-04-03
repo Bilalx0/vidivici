@@ -71,13 +71,6 @@ const NAV_ITEMS = [
   { label: "Contact", href: "/contact", sub: [] },
 ];
 
-const SearchIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-    <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="1.8" />
-    <path d="M13.5 13.5L17.5 17.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-  </svg>
-);
-
 export default function Header({ forceLight = false }: { forceLight?: boolean } = {}) {
   const router = useRouter();
   const pathname = usePathname();
@@ -85,27 +78,12 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
   const [openDropdown, setOpenDropdown] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(null);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
 
   const headerRef = useRef(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const forceLightByPath = pathname === "/events/ballroom";
 
- 
-  const showBg = scrolled;
-
-  const handleSearch = () => {
-    const q = searchQuery.trim();
-    if (!q) return;
-    router.push(`/cars?search=${encodeURIComponent(q)}`);
-    setSearchQuery("");
-    setSearchOpen(false);
-    setMobileOpen(false);
-    setMobileExpanded(null);
-  };
 
   useEffect(() => {
     setMobileOpen(false);
@@ -168,10 +146,10 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
                   href={item.href}
                   className={`flex items-center gap-1.5 px-3.5 py-2 2xl:px-6 2xl:py-4 text-[13.5px] 2xl:text-[22px] font-medium tracking-[0.04em] rounded-md transition-colors
                   ${isLightMode
-                      ? "text-mist-900 hover:bg-mist-200/50"
-                      : "text-white/90 hover:text-white hover:bg-white/10"
+                      ? "text-mist-900 hover:text-mist-700"
+                      : "text-white/90 hover:text-white"
                     }
-                  ${openDropdown === item.label ? (isLightMode ? "bg-mist-200" : "bg-white/10") : ""}`}
+                  ${openDropdown === item.label ? (isLightMode ? "text-mist-700" : "text-white") : ""}`}
                 >
                   {item.label}
                   {(item.sub.length > 0 || item.carsMenu) && (
@@ -316,25 +294,9 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
       {mobileOpen && (
         <div className={`sm:hidden fixed inset-0 z-[45] pt-16 pb-7 overflow-y-auto ${mobileLightTheme ? "bg-white" : "bg-[#0a0d12]"}`}>
 
-          {/* MOBILE SEARCH */}
-          <form
-            onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
-            className={`mx-6 mt-4 mb-4 flex items-center gap-1.5 rounded-lg overflow-hidden ${mobileLightTheme ? "bg-mist-50 border border-mist-200" : "bg-white/10 border border-white/20"}`}
-          >
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search cars..."
-              className={`flex-1 bg-transparent px-3 py-2.5 text-[14px] outline-none ${mobileLightTheme ? "text-mist-800 placeholder-mist-400" : "text-white placeholder-white/40"}`}
-            />
-            <button type="submit" className={`pr-3 ${mobileLightTheme ? "text-mist-500 hover:text-mist-900" : "text-white/60 hover:text-white"}`}>
-              <SearchIcon />
-            </button>
-          </form>
-
-          {NAV_ITEMS.map((item) => (
-            <div key={item.label}>
+          <div className="pt-3">
+            {NAV_ITEMS.map((item) => (
+              <div key={item.label}>
 
               {item.sub.length === 0 && !item.carsMenu ? (
                 <Link
@@ -389,8 +351,9 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
                   )}
                 </>
               )}
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
 
           <div className={`mx-6 mt-5 grid grid-cols-1 gap-2.5 border-t pt-4 ${mobileLightTheme ? "border-mist-200" : "border-white/10"}`}>
             <Link

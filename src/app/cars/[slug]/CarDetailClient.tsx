@@ -482,6 +482,32 @@ const discountTiers = [
   { duration: "9-12 months", discount: "65% OFF", miles: "1,000 miles/month" },
 ]
 
+const TIME_OPTIONS = [
+  { value: "09:00", label: "9:00 AM" },
+  { value: "09:30", label: "9:30 AM" },
+  { value: "10:00", label: "10:00 AM" },
+  { value: "10:30", label: "10:30 AM" },
+  { value: "11:00", label: "11:00 AM" },
+  { value: "11:30", label: "11:30 AM" },
+  { value: "12:00", label: "12:00 PM" },
+  { value: "12:30", label: "12:30 PM" },
+  { value: "13:00", label: "1:00 PM" },
+  { value: "13:30", label: "1:30 PM" },
+  { value: "14:00", label: "2:00 PM" },
+  { value: "14:30", label: "2:30 PM" },
+  { value: "15:00", label: "3:00 PM" },
+  { value: "15:30", label: "3:30 PM" },
+  { value: "16:00", label: "4:00 PM" },
+  { value: "16:30", label: "4:30 PM" },
+  { value: "17:00", label: "5:00 PM" },
+  { value: "17:30", label: "5:30 PM" },
+  { value: "18:00", label: "6:00 PM" },
+  { value: "18:30", label: "6:30 PM" },
+  { value: "19:00", label: "7:00 PM" },
+  { value: "19:30", label: "7:30 PM" },
+  { value: "20:00", label: "8:00 PM" },
+]
+
 function switchTemporalInputType(input: HTMLInputElement, kind: "date" | "time") {
   if (input.type !== "text") return
   const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent)
@@ -577,7 +603,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
     router.push(`/booking/${car.slug}?${params.toString()}`)
   }
 
-  const fieldBox = "w-full px-5 py-4 bg-white border border-gray-200 rounded-lg text-gray-400 text-lg transition-all";
+  const fieldBox = "w-full px-5 py-4 bg-white border border-mist-200 rounded-lg text-mist-400 text-lg transition-all";
 
   return (
     <div className="bg-white min-h-screen mt-10 2xl:mt-24 pb-24 lg:pb-0">
@@ -809,6 +835,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                     {/* Start date + time */}
                     <div className="grid grid-cols-2 gap-3">
                       <div className="relative">
+                        {startDate && (
+                          <span className="pointer-events-none absolute left-3 2xl:left-5 top-2 2xl:top-3 text-[10px] 2xl:text-xs text-mist-400">Start date*</span>
+                        )}
                         <input
                           type={startDate ? "date" : "text"}
                           onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
@@ -818,26 +847,35 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                           value={startDate}
                           onChange={(e) => setStartDate(e.target.value)}
                           placeholder="Start date*"
-                          className="ios-temporal-input w-full bg-white border border-mist-300 rounded-md px-3 2xl:px-5 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                          className={`ios-temporal-input w-full bg-white border border-mist-300 rounded-md px-3 2xl:px-5 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300 ${startDate ? "pt-6 2xl:pt-8 pb-2 2xl:pb-3" : "py-2.5 2xl:py-4"}`}
                         />
                       </div>
                       <div className="relative">
-                        <input
-                          type={startTime ? "time" : "text"}
-                          onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
-                          onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
-                          onBlur={(e) => { if (!startTime) e.currentTarget.type = "text" }}
+                        {startTime && (
+                          <span className="pointer-events-none absolute left-3 2xl:left-5 top-2 2xl:top-3 text-[10px] 2xl:text-xs text-mist-400">Time*</span>
+                        )}
+                        <select
                           value={startTime}
                           onChange={(e) => setStartTime(e.target.value)}
-                          placeholder="Time*"
-                          className="ios-temporal-input w-full bg-white border border-mist-300 rounded-md px-3 2xl:px-5 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
-                        />
+                          className={`w-full appearance-none bg-white border border-mist-300 rounded-md px-3 2xl:px-5 text-sm 2xl:text-lg text-mist-900 focus:outline-none focus:border-mist-400 ${startTime ? "pt-6 2xl:pt-8 pb-2 2xl:pb-3" : "py-2.5 2xl:py-4"}`}
+                        >
+                          <option value="" />
+                          {TIME_OPTIONS.map((option) => (
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                          ))}
+                        </select>
+                        {!startTime && (
+                          <span className="pointer-events-none absolute left-3 2xl:left-5 top-1/2 -translate-y-1/2 text-sm 2xl:text-lg text-mist-300">Time*</span>
+                        )}
                       </div>
                     </div>
 
                     {/* End date + time */}
                     <div className="grid grid-cols-2 gap-3">
                       <div className="relative">
+                        {endDate && (
+                          <span className="pointer-events-none absolute left-3 2xl:left-5 top-2 2xl:top-3 text-[10px] 2xl:text-xs text-mist-400">End date*</span>
+                        )}
                         <input
                           type={endDate ? "date" : "text"}
                           onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
@@ -847,20 +885,26 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                           value={endDate}
                           onChange={(e) => setEndDate(e.target.value)}
                           placeholder="End date*"
-                          className="ios-temporal-input w-full bg-white border border-mist-300 rounded-md px-3 2xl:px-5 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                          className={`ios-temporal-input w-full bg-white border border-mist-300 rounded-md px-3 2xl:px-5 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300 ${endDate ? "pt-6 2xl:pt-8 pb-2 2xl:pb-3" : "py-2.5 2xl:py-4"}`}
                         />
                       </div>
                       <div className="relative">
-                        <input
-                          type={endTime ? "time" : "text"}
-                          onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
-                          onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
-                          onBlur={(e) => { if (!endTime) e.currentTarget.type = "text" }}
+                        {endTime && (
+                          <span className="pointer-events-none absolute left-3 2xl:left-5 top-2 2xl:top-3 text-[10px] 2xl:text-xs text-mist-400">Time*</span>
+                        )}
+                        <select
                           value={endTime}
                           onChange={(e) => setEndTime(e.target.value)}
-                          placeholder="Time*"
-                          className="ios-temporal-input w-full bg-white border border-mist-300 rounded-md px-3 2xl:px-5 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
-                        />
+                          className={`w-full appearance-none bg-white border border-mist-300 rounded-md px-3 2xl:px-5 text-sm 2xl:text-lg text-mist-900 focus:outline-none focus:border-mist-400 ${endTime ? "pt-6 2xl:pt-8 pb-2 2xl:pb-3" : "py-2.5 2xl:py-4"}`}
+                        >
+                          <option value="" />
+                          {TIME_OPTIONS.map((option) => (
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                          ))}
+                        </select>
+                        {!endTime && (
+                          <span className="pointer-events-none absolute left-3 2xl:left-5 top-1/2 -translate-y-1/2 text-sm 2xl:text-lg text-mist-300">Time*</span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -1093,6 +1137,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
               <div className="space-y-3 border-t border-mist-300 pt-6">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="relative">
+                      {startDate && (
+                        <span className="pointer-events-none absolute left-3 top-2 text-[10px] text-mist-400">Start date*</span>
+                      )}
                     <input
                       type={startDate ? "date" : "text"}
                       onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
@@ -1101,26 +1148,35 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                       min={today}
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      placeholder="Start date*"
-                      className="ios-temporal-input w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                        placeholder="Start date*"
+                        className={`ios-temporal-input w-full bg-white border border-mist-300 rounded-md px-3 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300 ${startDate ? "pt-6 pb-2" : "py-2.5"}`}
                     />
                   </div>
                   <div className="relative">
-                    <input
-                      type={startTime ? "time" : "text"}
-                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
-                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
-                      onBlur={(e) => { if (!startTime) e.currentTarget.type = "text" }}
+                      {startTime && (
+                        <span className="pointer-events-none absolute left-3 top-2 text-[10px] text-mist-400">Time*</span>
+                      )}
+                    <select
                       value={startTime}
                       onChange={(e) => setStartTime(e.target.value)}
-                      placeholder="Time*"
-                      className="ios-temporal-input w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
-                    />
+                        className={`w-full appearance-none bg-white border border-mist-300 rounded-md px-3 text-sm text-mist-900 focus:outline-none focus:border-mist-400 ${startTime ? "pt-6 pb-2" : "py-2.5"}`}
+                    >
+                      <option value="" />
+                      {TIME_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
+                      {!startTime && (
+                        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-mist-300">Time*</span>
+                      )}
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="relative">
+                      {endDate && (
+                        <span className="pointer-events-none absolute left-3 top-2 text-[10px] text-mist-400">End date*</span>
+                      )}
                     <input
                       type={endDate ? "date" : "text"}
                       onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
@@ -1129,21 +1185,27 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                       min={startDate || today}
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      placeholder="End date*"
-                      className="ios-temporal-input w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
+                        placeholder="End date*"
+                        className={`ios-temporal-input w-full bg-white border border-mist-300 rounded-md px-3 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300 ${endDate ? "pt-6 pb-2" : "py-2.5"}`}
                     />
                   </div>
                   <div className="relative">
-                    <input
-                      type={endTime ? "time" : "text"}
-                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "time")}
-                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "time")}
-                      onBlur={(e) => { if (!endTime) e.currentTarget.type = "text" }}
+                      {endTime && (
+                        <span className="pointer-events-none absolute left-3 top-2 text-[10px] text-mist-400">Time*</span>
+                      )}
+                    <select
                       value={endTime}
                       onChange={(e) => setEndTime(e.target.value)}
-                      placeholder="Time*"
-                      className="ios-temporal-input w-full bg-white border border-mist-300 rounded-md px-3 py-2.5 text-sm text-mist-700 focus:outline-none focus:border-mist-400 placeholder:text-mist-300"
-                    />
+                        className={`w-full appearance-none bg-white border border-mist-300 rounded-md px-3 text-sm text-mist-900 focus:outline-none focus:border-mist-400 ${endTime ? "pt-6 pb-2" : "py-2.5"}`}
+                    >
+                      <option value="" />
+                      {TIME_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
+                      {!endTime && (
+                        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-mist-300">Time*</span>
+                      )}
                   </div>
                 </div>
               </div>

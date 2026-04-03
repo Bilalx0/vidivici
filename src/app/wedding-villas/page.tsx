@@ -38,6 +38,39 @@ interface VillaFromAPI {
 const ADD_ONS = ["Valet Parking", "Security", "Mixologist", "Drivers"]
 const EVENT_TYPES = ["Wedding", "Cocktail Party", "Corporate Event", "Birthday Party", "Private Celebration", "Other"]
 
+function switchTemporalInputType(input: HTMLInputElement, kind: "date" | "time") {
+  if (input.type !== "text") return
+  const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+
+  const lockedWidth = Math.ceil(input.getBoundingClientRect().width)
+  if (isIOS && lockedWidth > 0) {
+    input.style.width = `${lockedWidth}px`
+    input.style.minWidth = `${lockedWidth}px`
+    input.style.maxWidth = `${lockedWidth}px`
+    input.style.fontSize = "16px"
+  }
+  input.type = kind
+  requestAnimationFrame(() => {
+    input.focus()
+    if (typeof (input as HTMLInputElement & { showPicker?: () => void }).showPicker === "function") {
+      try {
+        ;(input as HTMLInputElement & { showPicker: () => void }).showPicker()
+      } catch {
+        // Fallback to focus when showPicker is unavailable.
+      }
+    }
+    if (isIOS) {
+      requestAnimationFrame(() => {
+        input.style.width = "100%"
+        input.style.minWidth = "0"
+        input.style.maxWidth = "100%"
+        input.style.fontSize = "16px"
+      })
+    }
+  })
+}
+
 const LOCATION_TAGS = ["Beverly Hills", "Malibu", "Hollywood Hills", "Los Angeles", "Miami"]
 const SQFT_OPTIONS = [
   { label: "Any", value: "" },
@@ -474,9 +507,13 @@ function WeddingBookingInquiry() {
                 </div>
                 <div className="flex flex-col gap-2 2xl:gap-4">
                   <label className="text-xs font-semibold text-mist-700 uppercase tracking-wide">Event Date</label>
-                  <input type="date" value={form.eventDate}
+                  <input type={form.eventDate ? "date" : "text"}
+                    onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                    onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                    onBlur={(e) => { if (!form.eventDate) e.currentTarget.type = "text" }}
                     onChange={(e) => setForm({ ...form, eventDate: e.target.value })}
-                    className="w-full border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm text-mist-900 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
+                    placeholder="Select event date"
+                    className="ios-temporal-input w-full border border-mist-300 rounded-xl px-4 py-3 2xl:px-8 2xl:py-6 text-sm text-mist-900 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white" />
                 </div>
               </div>
 
@@ -746,7 +783,7 @@ function WeddingVillasContent() {
                 <li key={i} className="flex items-start gap-3">
                   <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-mist-300 flex items-center justify-center">
                     <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 6l3 3 5-5" stroke="gray" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M2 6l3 3 5-5" stroke="mist" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </span>
                   <span className="text-base text-mist-700 leading-relaxed">{item}</span>

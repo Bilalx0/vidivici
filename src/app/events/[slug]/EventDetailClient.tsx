@@ -66,6 +66,41 @@ const VENUE_OPTIONS = [
   "The Highlight Room",
 ]
 
+function switchTemporalInputType(input: HTMLInputElement, kind: "date" | "time") {
+  if (input.type !== "text") return
+  const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+
+  const lockedWidth = Math.ceil(input.getBoundingClientRect().width)
+  if (isIOS && lockedWidth > 0) {
+    // Keep width stable while iOS switches native temporal input UI.
+    input.style.width = `${lockedWidth}px`
+    input.style.minWidth = `${lockedWidth}px`
+    input.style.maxWidth = `${lockedWidth}px`
+    input.style.fontSize = "16px"
+  }
+
+  input.type = kind
+  requestAnimationFrame(() => {
+    input.focus()
+    if (typeof (input as HTMLInputElement & { showPicker?: () => void }).showPicker === "function") {
+      try {
+        ;(input as HTMLInputElement & { showPicker: () => void }).showPicker()
+      } catch {
+        // Fallback to native focus behavior when showPicker is blocked.
+      }
+    }
+    if (isIOS) {
+      requestAnimationFrame(() => {
+        input.style.width = "100%"
+        input.style.minWidth = "0"
+        input.style.maxWidth = "100%"
+        input.style.fontSize = "16px"
+      })
+    }
+  })
+}
+
 export function VenueBookingForm() {
   const [form, setForm] = useState({
     firstName: "",
@@ -253,10 +288,14 @@ export function VenueBookingForm() {
                   </Field>
                   <Field label="Booking Date">
                     <input
-                      type="date"
+                      type={form.bookingDate ? "date" : "text"}
+                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
+                      onBlur={(e) => { if (!form.bookingDate) e.currentTarget.type = "text" }}
                       value={form.bookingDate}
                       onChange={(e) => setForm({ ...form, bookingDate: e.target.value })}
-                      className={inputClass}
+                      placeholder="Select booking date"
+                      className={`${inputClass} ios-temporal-input`}
                       required
                     />
                   </Field>
@@ -435,7 +474,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
             )}
             
             <button 
-               className="bg-white text-black px-10 2xl:px-14 py-3.5 2xl:py-6 rounded-3xl text-sm 2xl:text-2xl font-bold hover:bg-gray-100 transition-all shadow-lg"
+               className="bg-white text-black px-10 2xl:px-14 py-3.5 2xl:py-6 rounded-3xl text-sm 2xl:text-2xl font-bold hover:bg-mist-100 transition-all shadow-lg"
                onClick={() => document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" })}
             >
               Reserve Now
@@ -482,7 +521,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
     <h2 className="text-3xl lg:text-4xl 2xl:text-7xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">
       Why Choose {event.name}?
     </h2>
-    <p className="text-gray-600 text-base 2xl:text-2xl max-w-2xl 2xl:max-w-5xl mx-auto mb-12 2xl:mb-20 leading-relaxed">
+    <p className="text-mist-600 text-base 2xl:text-2xl max-w-2xl 2xl:max-w-5xl mx-auto mb-12 2xl:mb-20 leading-relaxed">
       {event.shortDescription || "Experience the perfect blend of luxury, entertainment, and world-class service in one unforgettable event."}
     </p>
 
@@ -499,9 +538,9 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
             className="bg-[#f5f5f5] p-8 2xl:p-12 rounded-3xl text-left flex flex-col h-full"
           >
             {/* Icon Container */}
-            <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mb-6">
+            <div className="w-12 h-12 bg-mist-200 rounded-lg flex items-center justify-center mb-6">
               {/* Using a generic Star or Check icon to match the aesthetic */}
-              <Star size={24} className="text-gray-600" />
+              <Star size={24} className="text-mist-600" />
             </div>
 
             {/* Content */}
@@ -509,7 +548,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
               {title}
             </h3>
             {desc && (
-              <p className="text-gray-600 text-sm 2xl:text-2xl leading-relaxed">
+              <p className="text-mist-600 text-sm 2xl:text-2xl leading-relaxed">
                 {desc}
               </p>
             )}
@@ -560,20 +599,20 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
         Experience the <br /> {event.name}
       </h2>
 
-      <h3 className="text-lg 2xl:text-3xl font-semibold text-gray-500 mb-6 2xl:mb-8">
+      <h3 className="text-lg 2xl:text-3xl font-semibold text-mist-500 mb-6 2xl:mb-8">
         Modern luxury meets classic elegance
       </h3>
 
-      <div className="text-gray-600 2xl:text-2xl leading-relaxed mb-8 2xl:mb-10 max-w-xl 2xl:max-w-4xl space-y-4 2xl:space-y-6">
+      <div className="text-mist-600 2xl:text-2xl leading-relaxed mb-8 2xl:mb-10 max-w-xl 2xl:max-w-4xl space-y-4 2xl:space-y-6">
         {event.experience.split("\n").filter(Boolean).map((para, i) => (
           <p key={i}>{para}</p>
         ))}
       </div>
 
       {event.dressCode && (
-        <div className="mb-8 p-6 2xl:p-10 bg-[#f5f5f5] rounded-3xl border border-gray-100">
+        <div className="mb-8 p-6 2xl:p-10 bg-[#f5f5f5] rounded-3xl border border-mist-100">
           <h4 className="text-sm 2xl:text-xl font-bold text-[#1a1a1a] uppercase tracking-wider mb-2">Dress Code</h4>
-          <p className="text-sm 2xl:text-2xl text-gray-600">{event.dressCode}</p>
+          <p className="text-sm 2xl:text-2xl text-mist-600">{event.dressCode}</p>
         </div>
       )}
 
@@ -601,7 +640,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
             </div>
             <div className="bg-[#f5f5f5] p-6 sm:p-8 2xl:p-14 rounded-3xl flex-grow">
               <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">Dress for the Occasion</h3>
-              <p className="text-gray-500 text-sm 2xl:text-xl leading-relaxed">
+              <p className="text-mist-500 text-sm 2xl:text-xl leading-relaxed">
                 Delilah's attire is upscale casual chic. Collared shirts are recommended.
                 No athletic apparel, shorts, swimwear, flip-flops, or slides. Arrive stylish
                 and ready to enjoy an elegant night out.
@@ -620,7 +659,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
             </div>
             <div className="bg-[#f5f5f5] p-6 sm:p-8 2xl:p-14 rounded-3xl md:order-1">
               <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">Culinary Excellence</h3>
-              <p className="text-gray-500 text-sm 2xl:text-xl leading-relaxed">
+              <p className="text-mist-500 text-sm 2xl:text-xl leading-relaxed">
                 Indulge in upscale American cuisine crafted to perfection. Signature dishes
                 and curated cocktails elevate your night, complementing live performances
                 and the sophisticated ambiance. Every bite and sip is designed to enhance
@@ -640,7 +679,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
             </div>
             <div className="bg-[#f5f5f5] p-6 sm:p-8 2xl:p-14 rounded-3xl flex-grow">
               <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">Live Entertainment & Performances</h3>
-              <p className="text-gray-500 text-sm 2xl:text-xl leading-relaxed">
+              <p className="text-mist-500 text-sm 2xl:text-xl leading-relaxed">
                 Enjoy live performers, DJs, and surprise acts throughout the evening.
                 After dinner, lounge-style bottle service brings a VIP touch to your night.
                 Every visit to Delilah promises a seamless blend of luxury, excitement,
@@ -728,7 +767,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
             <p className="text-sm 2xl:text-2xl text-mist-600 max-w-sm 2xl:max-w-3xl mx-auto leading-relaxed mb-8 2xl:mb-12">
               Secure your table, VIP services, or private experience today and make your evening truly extraordinary.
             </p>
-            <button className="bg-mist-900 text-white text-sm 2xl:text-2xl font-semibold px-7 2xl:px-12 py-3.5 2xl:py-5 rounded-3xl hover:bg-mist-700 transition-colors">
+            <button className="bg-mist-900 text-white text-sm 2xl:text-2xl font-semibold px-7 2xl:px-12 py-3.5 2xl:py-5 rounded-xl hover:bg-mist-700 transition-colors">
               Reserve Now
             </button>
 
@@ -741,7 +780,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
         {/* Header */}
         <div className="text-center mb-16 2xl:mb-24">
           <h2 className="text-4xl lg:text-5xl 2xl:text-7xl font-bold text-[#1a1a1a] mb-6 2xl:mb-8">Gallery</h2>
-          <p className="text-gray-600 text-base 2xl:text-2xl max-w-3xl 2xl:max-w-6xl mx-auto leading-relaxed">
+          <p className="text-mist-600 text-base 2xl:text-2xl max-w-3xl 2xl:max-w-6xl mx-auto leading-relaxed">
             Explore the vibrant atmosphere, elegant décor, and unforgettable
             performances that make Delilah Los Angeles a must-visit nightlife destination.
           </p>

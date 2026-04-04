@@ -33,6 +33,7 @@ function VillaForm() {
     securityDeposit: "0",
     description: "",
     shortDescription: "",
+    detailHeading: "",
     isAvailable: true,
     isFeatured: false,
   })
@@ -60,6 +61,7 @@ function VillaForm() {
               securityDeposit: villa.securityDeposit?.toString() || "0",
               description: villa.description || "",
               shortDescription: villa.shortDescription || "",
+              detailHeading: villa.detailHeading || "",
               isAvailable: villa.isAvailable ?? true,
               isFeatured: villa.isFeatured ?? false,
             })
@@ -241,6 +243,10 @@ function VillaForm() {
         <div className="bg-white border border-mist-200 rounded-xl p-6">
           <h2 className="text-lg font-semibold text-mist-900 mb-4">Description</h2>
           <div className="space-y-4">
+            <div>
+              <label className="text-xs text-mist-400 block mb-1">Detail Heading (Villa detail page title line)</label>
+              <input type="text" value={form.detailHeading} onChange={(e) => setForm({ ...form, detailHeading: e.target.value })} className={inputClass} placeholder="e.g., Rent a Beverly Hills Mansion" />
+            </div>
             <div>
               <label className="text-xs text-mist-400 block mb-1">Short Description</label>
               <input type="text" value={form.shortDescription} onChange={(e) => setForm({ ...form, shortDescription: e.target.value })} className={inputClass} placeholder="Brief tagline" />

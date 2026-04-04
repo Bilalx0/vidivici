@@ -29,7 +29,7 @@ function AddCarForm() {
     name: "", brandId: "", categoryId: "", pricePerDay: "", originalPrice: "", year: "", seats: "4",
     transmission: "Automatic", fuelType: "Gasoline", horsepower: "", topSpeed: "",
     acceleration: "", milesIncluded: "100", extraMileRate: "9", minRentalDays: "1",
-    description: "", shortDescription: "", location: "Los Angeles",
+    description: "", shortDescription: "", detailHeading: "", location: "Los Angeles",
     isAvailable: true, isFeatured: false,
   })
   const [existingImages, setExistingImages] = useState<ExistingImage[]>([])
@@ -74,6 +74,7 @@ function AddCarForm() {
               minRentalDays: car.minRentalDays?.toString() || "1",
               description: car.description || "",
               shortDescription: car.shortDescription || "",
+              detailHeading: car.detailHeading || "",
               location: car.location || "Los Angeles",
               isAvailable: car.isAvailable ?? true,
               isFeatured: car.isFeatured ?? false,
@@ -281,6 +282,10 @@ function AddCarForm() {
         <div className="bg-white border border-mist-200 rounded-xl p-6">
           <h2 className="text-lg font-semibold text-mist-900 mb-4">Description</h2>
           <div className="space-y-4">
+            <div>
+              <label className="text-xs text-mist-400 block mb-1">Detail Heading (Car detail page title line)</label>
+              <input type="text" value={form.detailHeading} onChange={(e) => setForm({ ...form, detailHeading: e.target.value })} className={inputClass} placeholder="e.g., Rent a Lamborghini Huracan in Los Angeles" />
+            </div>
             <div>
               <label className="text-xs text-mist-400 block mb-1">Short Description</label>
               <input type="text" value={form.shortDescription} onChange={(e) => setForm({ ...form, shortDescription: e.target.value })} className={inputClass} placeholder="Brief tagline" />

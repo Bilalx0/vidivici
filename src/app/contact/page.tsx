@@ -234,7 +234,7 @@ export default function ContactPage() {
                     onFocus={() => setStartDateFocused(true)}
                     onBlur={() => setStartDateFocused(false)}
                     placeholder="Start date"
-                    className={inputCls} 
+                    className={`${inputCls} no-date-indicator`} 
                   />
                 </Field>
                 <Field label="End Date">
@@ -246,7 +246,7 @@ export default function ContactPage() {
                     onFocus={() => setEndDateFocused(true)}
                     onBlur={() => setEndDateFocused(false)}
                     placeholder="End date"
-                    className={inputCls}
+                    className={`${inputCls} no-date-indicator`}
                   />
                 </Field>
               </div>
@@ -266,6 +266,21 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      <style jsx global>{`
+        .no-date-indicator::-webkit-calendar-picker-indicator {
+          opacity: 0;
+          display: none;
+          -webkit-appearance: none;
+          pointer-events: none;
+        }
+        .no-date-indicator::-webkit-clear-button,
+        .no-date-indicator::-webkit-inner-spin-button {
+          display: none;
+          -webkit-appearance: none;
+        }
+      `}</style>
+
       <FAQ />
       <section className="w-full h-96 mt-20 2xl:h-[500px] 2xl:mt-40">
         <iframe

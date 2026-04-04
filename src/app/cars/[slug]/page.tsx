@@ -27,6 +27,7 @@ export default async function CarDetailPage({ params }: { params: Promise<{ slug
     categorySlug: car.category.slug,
     description: car.description,
     shortDescription: car.shortDescription,
+    detailHeading: (car as unknown as { detailHeading?: string | null }).detailHeading ?? null,
     pricePerDay: car.pricePerDay,
     originalPrice: car.originalPrice,
     year: car.year,

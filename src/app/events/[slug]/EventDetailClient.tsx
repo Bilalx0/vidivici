@@ -12,7 +12,13 @@ import {
   Mail,
   Clock,
   Star,
-  Heart
+  Heart,
+  Sparkles,
+  Music2,
+  UtensilsCrossed,
+  ShieldCheck,
+  GlassWater,
+  Gem,
 } from "lucide-react"
 import WhyChooseUs from "@/components/home/WhyChooseUs"
 import Reviews from "@/components/home/Reviews"
@@ -65,6 +71,93 @@ const VENUE_OPTIONS = [
   "Catch LA Rooftop",
   "The Highlight Room",
 ]
+
+type WhyChooseCard = {
+  title: string
+  description: string
+  icon: string
+}
+
+type ShowcaseCard = {
+  title: string
+  description: string
+  imageUrl: string
+}
+
+function parseHighlightsConfig(raw: string | null | undefined): {
+  whyChooseCards: WhyChooseCard[]
+  showcaseCards: ShowcaseCard[]
+} {
+  if (!raw) return { whyChooseCards: [], showcaseCards: [] }
+
+  try {
+    const parsed = JSON.parse(raw)
+    const whyChooseCards = Array.isArray(parsed?.whyChooseCards)
+      ? parsed.whyChooseCards.map((item: any) => ({
+          title: String(item?.title || "").trim(),
+          description: String(item?.description || "").trim(),
+          icon: String(item?.icon || "Star").trim(),
+        })).filter((item: WhyChooseCard) => item.title || item.description)
+      : []
+
+    const showcaseCards = Array.isArray(parsed?.showcaseCards)
+      ? parsed.showcaseCards.map((item: any) => ({
+          title: String(item?.title || "").trim(),
+          description: String(item?.description || "").trim(),
+          imageUrl: String(item?.imageUrl || "").trim(),
+        })).filter((item: ShowcaseCard) => item.title || item.description || item.imageUrl)
+      : []
+
+    return { whyChooseCards, showcaseCards }
+  } catch {
+    const legacyCards = raw
+      .split("|")
+      .map((v) => v.trim())
+      .filter(Boolean)
+      .map((v) => {
+        const [title, description] = v.split(":")
+        return {
+          title: (title || "").trim(),
+          description: (description || "").trim(),
+          icon: "Star",
+        }
+      })
+
+    return { whyChooseCards: legacyCards, showcaseCards: [] }
+  }
+}
+
+function parseExperienceConfig(raw: string | null | undefined): {
+  subtitle: string
+  images: string[]
+} {
+  if (!raw) return { subtitle: "", images: [] }
+
+  try {
+    const parsed = JSON.parse(raw)
+    const subtitle = String(parsed?.subtitle || "").trim()
+    const images = Array.isArray(parsed?.images)
+      ? parsed.images.map((img: any) => String(img || "").trim()).filter(Boolean)
+      : []
+
+    return { subtitle, images }
+  } catch {
+    return {
+      subtitle: "",
+      images: [],
+    }
+  }
+}
+
+const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  Star,
+  Sparkles,
+  Music2,
+  UtensilsCrossed,
+  ShieldCheck,
+  GlassWater,
+  Gem,
+}
 
 function switchTemporalInputType(input: HTMLInputElement, kind: "date" | "time") {
   if (input.type !== "text") return
@@ -412,9 +505,19 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
   const nextImage = () => setCurrentImage((prev) => (prev + 1) % images.length)
   const prevImage = () => setCurrentImage((prev) => (prev - 1 + images.length) % images.length)
 
-  const highlightsList = event.highlights
-    ? event.highlights.split("|").map((h) => h.trim()).filter(Boolean)
-    : []
+  const highlightsConfig = parseHighlightsConfig(event.highlights)
+  const experienceConfig = parseExperienceConfig(event.experience)
+  const whyChooseCards = highlightsConfig.whyChooseCards
+  const showcaseCards = highlightsConfig.showcaseCards
+  const fullDescriptionParagraphs = (event.description || event.experience || "")
+    .split("\n")
+    .map((p) => p.trim())
+    .filter(Boolean)
+  const experienceImages = [
+    experienceConfig.images[0] || images[0]?.url || "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1000",
+    experienceConfig.images[1] || images[1]?.url || "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=600",
+    experienceConfig.images[2] || images[2]?.url || "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=600",
+  ]
 
   return (
     <div className="bg-white pt-24 lg:pt-28 2xl:pt-36">
@@ -515,7 +618,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
       </div>
 
     {/* Why Choose Section */}
-{highlightsList.length > 0 && (
+{whyChooseCards.length > 0 && (
   <section className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-28 text-center">
     {/* Header */}
     <h2 className="text-3xl lg:text-4xl 2xl:text-7xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">
@@ -527,10 +630,8 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
 
     {/* Feature Cards Grid */}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 2xl:gap-10">
-      {highlightsList.map((highlight, i) => {
-        const parts = highlight.split(":");
-        const title = parts[0]?.trim();
-        const desc = parts[1]?.trim() || "";
+      {whyChooseCards.map((card, i) => {
+        const Icon = ICON_MAP[card.icon] || Star
 
         return (
           <div
@@ -539,17 +640,16 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
           >
             {/* Icon Container */}
             <div className="w-12 h-12 bg-mist-200 rounded-lg flex items-center justify-center mb-6">
-              {/* Using a generic Star or Check icon to match the aesthetic */}
-              <Star size={24} className="text-mist-600" />
+              <Icon size={24} className="text-mist-600" />
             </div>
 
             {/* Content */}
               <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-3 2xl:mb-5">
-              {title}
+              {card.title}
             </h3>
-            {desc && (
+            {card.description && (
               <p className="text-mist-600 text-sm 2xl:text-2xl leading-relaxed">
-                {desc}
+                {card.description}
               </p>
             )}
           </div>
@@ -560,7 +660,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
 )}
 
       {/* The Experience Section */}
-{event.experience && (
+{fullDescriptionParagraphs.length > 0 && (
   <section className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-28 flex flex-col lg:flex-row items-center gap-12 2xl:gap-20 bg-white">
     
     {/* Left Side: Bento Image Grid */}
@@ -568,7 +668,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
       {/* Main Large Image */}
       <div className="w-2/3 h-[450px] lg:h-[500px]">
         <img
-          src={images[0]?.url || "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1000"}
+          src={experienceImages[0]}
           alt={event.name}
           className="w-full h-full object-cover rounded-3xl"
         />
@@ -578,14 +678,14 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
       <div className="w-1/3 flex flex-col gap-4">
         <div className="h-3/5">
           <img
-            src={images[1]?.url || "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=600"}
+            src={experienceImages[1]}
             alt="Interior Details"
             className="w-full h-full object-cover rounded-3xl"
           />
         </div>
         <div className="h-2/5">
           <img
-            src={images[2]?.url || "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=600"}
+            src={experienceImages[2]}
             alt="Atmosphere"
             className="w-full h-full object-cover rounded-3xl"
           />
@@ -600,21 +700,14 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
       </h2>
 
       <h3 className="text-lg 2xl:text-3xl font-semibold text-mist-500 mb-6 2xl:mb-8">
-        Modern luxury meets classic elegance
+        {experienceConfig.subtitle || "Modern luxury meets classic elegance"}
       </h3>
 
       <div className="text-mist-600 2xl:text-2xl leading-relaxed mb-8 2xl:mb-10 max-w-xl 2xl:max-w-4xl space-y-4 2xl:space-y-6">
-        {event.experience.split("\n").filter(Boolean).map((para, i) => (
+        {fullDescriptionParagraphs.map((para, i) => (
           <p key={i}>{para}</p>
         ))}
       </div>
-
-      {event.dressCode && (
-        <div className="mb-8 p-6 2xl:p-10 bg-[#f5f5f5] rounded-3xl border border-mist-100">
-          <h4 className="text-sm 2xl:text-xl font-bold text-[#1a1a1a] uppercase tracking-wider mb-2">Dress Code</h4>
-          <p className="text-sm 2xl:text-2xl text-mist-600">{event.dressCode}</p>
-        </div>
-      )}
 
       <button 
         onClick={() => document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" })}
@@ -627,69 +720,27 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
   </section>
 )}
 
-<section className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-28">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 2xl:gap-10 max-w-[1840px] mx-auto">
-          {/* Column 1 */}
-          <div className="flex flex-col gap-6">
-            <div className="h-[220px] sm:h-[300px] lg:h-[350px]">
-              <img
-                src="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?q=80&w=800"
-                alt="Delilah Atmosphere"
-                className="w-full h-full object-cover rounded-3xl"
-              />
-            </div>
-            <div className="bg-[#f5f5f5] p-6 sm:p-8 2xl:p-14 rounded-3xl flex-grow">
-              <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">Dress for the Occasion</h3>
-              <p className="text-mist-500 text-sm 2xl:text-xl leading-relaxed">
-                Delilah's attire is upscale casual chic. Collared shirts are recommended.
-                No athletic apparel, shorts, swimwear, flip-flops, or slides. Arrive stylish
-                and ready to enjoy an elegant night out.
-              </p>
-            </div>
+{showcaseCards.length > 0 && (
+  <section className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-28">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 2xl:gap-10 max-w-[1840px] mx-auto">
+      {showcaseCards.map((card, idx) => (
+        <div key={idx} className="flex flex-col gap-6">
+          <div className={`h-[220px] sm:h-[300px] ${idx === 1 ? "lg:h-[400px] md:order-2" : "lg:h-[350px]"}`}>
+            <img
+              src={card.imageUrl || `https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&v=${idx}`}
+              alt={card.title || `${event.name} showcase ${idx + 1}`}
+              className="w-full h-full object-cover rounded-3xl"
+            />
           </div>
-
-          {/* Column 2 */}
-          <div className="flex flex-col gap-6">
-            <div className="h-[220px] sm:h-[300px] lg:h-[400px] md:order-2">
-              <img
-                src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800"
-                alt="Delilah Bar"
-                className="w-full h-full object-cover rounded-3xl"
-              />
-            </div>
-            <div className="bg-[#f5f5f5] p-6 sm:p-8 2xl:p-14 rounded-3xl md:order-1">
-              <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">Culinary Excellence</h3>
-              <p className="text-mist-500 text-sm 2xl:text-xl leading-relaxed">
-                Indulge in upscale American cuisine crafted to perfection. Signature dishes
-                and curated cocktails elevate your night, complementing live performances
-                and the sophisticated ambiance. Every bite and sip is designed to enhance
-                your Delilah experience.
-              </p>
-            </div>
+          <div className={`bg-[#f5f5f5] p-6 sm:p-8 2xl:p-14 rounded-3xl flex-grow ${idx === 1 ? "md:order-1" : ""}`}>
+            <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">{card.title}</h3>
+            <p className="text-mist-500 text-sm 2xl:text-xl leading-relaxed">{card.description}</p>
           </div>
-
-          {/* Column 3 */}
-          <div className="flex flex-col gap-6">
-            <div className="h-[220px] sm:h-[300px] lg:h-[350px]">
-              <img
-                src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800"
-                alt="Live Entertainment"
-                className="w-full h-full object-cover rounded-3xl"
-              />
-            </div>
-            <div className="bg-[#f5f5f5] p-6 sm:p-8 2xl:p-14 rounded-3xl flex-grow">
-              <h3 className="text-xl 2xl:text-3xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">Live Entertainment & Performances</h3>
-              <p className="text-mist-500 text-sm 2xl:text-xl leading-relaxed">
-                Enjoy live performers, DJs, and surprise acts throughout the evening.
-                After dinner, lounge-style bottle service brings a VIP touch to your night.
-                Every visit to Delilah promises a seamless blend of luxury, excitement,
-                and entertainment.
-              </p>
-            </div>
-          </div>
-
         </div>
-      </section>
+      ))}
+    </div>
+  </section>
+)}
       <section className="py-16 2xl:py-28 px-6 sm:px-12 lg:px-20 2xl:px-32 bg-white">
         <div className="">
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { notifyAdmin } from '@/lib/email'
 
 function generateBookingNumber(type: string) {
   const prefix = type === 'villa' ? 'VL' : type === 'event' ? 'EV' : 'CR'
@@ -70,6 +71,15 @@ export async function POST(request: NextRequest) {
 
     const documentsJson = docUrls ? JSON.stringify(docUrls) : null
 
+    // Check if user docs are already verified
+    const freshUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: { driverLicenseStatus: true, insuranceStatus: true },
+    })
+    const docsVerified = freshUser &&
+      freshUser.driverLicenseStatus === "VERIFIED" &&
+      freshUser.insuranceStatus === "VERIFIED"
+
     if (type === 'villa') {
       if (!villaId || !checkIn || !checkOut) {
         return NextResponse.json({ error: 'Villa, check-in, and check-out are required' }, { status: 400 })
@@ -89,6 +99,7 @@ export async function POST(request: NextRequest) {
           adminNotes: adminNotes || null,
           documents: documentsJson,
           source: 'manual',
+          documentStatus: docsVerified ? "VERIFIED" : "PENDING",
         },
         include: { villa: true, user: { select: { name: true, email: true, phone: true } } },
       })
@@ -117,6 +128,7 @@ export async function POST(request: NextRequest) {
           specialRequests: notes || null,
           documents: documentsJson,
           source: 'manual',
+          documentStatus: docsVerified ? "VERIFIED" : "PENDING",
         },
         include: { event: true },
       })
@@ -159,6 +171,7 @@ export async function POST(request: NextRequest) {
         adminNotes: adminNotes || null,
         documents: documentsJson,
         source: 'manual',
+        documentStatus: docsVerified ? "VERIFIED" : "PENDING",
       },
       include: { car: { include: { brand: true, images: { take: 1, orderBy: { isPrimary: 'desc' } } } }, user: { select: { name: true, email: true, phone: true } } },
     })

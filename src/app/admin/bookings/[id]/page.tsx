@@ -47,7 +47,18 @@ interface BookingDetail {
   car?: { name: string; brand: { name: string }; images?: { url: string }[] }
   villa?: { name: string; images?: { url: string }[] }
   event?: { name: string } | null
-  user?: { name: string | null; email: string; phone: string | null }
+  user?: {
+    name: string | null
+    email: string
+    phone: string | null
+    id?: string
+    driverLicense?: string | null
+    driverLicenseStatus?: string
+    insurance?: string | null
+    insuranceStatus?: string
+    passport?: string | null
+    passportStatus?: string
+  }
   customerName?: string
   customerEmail?: string
   customerPhone?: string
@@ -77,6 +88,20 @@ function getAuthDaysRemaining(createdAt: string): number {
   const now = new Date()
   const daysSince = Math.floor((now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24))
   return Math.max(0, 29 - daysSince)
+}
+
+interface DocEntry { url: string | null; number: string | null; expiry: string | null }
+function parseDoc(raw: string | null | undefined): DocEntry | null {
+  if (!raw) return null
+  try { return JSON.parse(raw) as DocEntry }
+  catch { return { url: raw, number: null, expiry: null } }
+}
+
+const USER_DOC_STATUS_COLORS: Record<string, string> = {
+  VERIFIED: "bg-green-100 text-green-700",
+  PENDING: "bg-yellow-100 text-yellow-700",
+  REJECTED: "bg-red-100 text-red-600",
+  NONE: "bg-mist-100 text-mist-500",
 }
 
 export default function BookingDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -514,6 +539,50 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
               )}
             </div>
           </div>
+
+          {/* Customer Documents */}
+          {booking.user && (
+            <div className="bg-white border border-mist-200 rounded-xl p-5">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-semibold text-mist-900">Customer Documents</h3>
+                {booking.user.id && (
+                  <a href={`/admin/customers/${booking.user.id}`} className="text-xs text-blue-600 hover:underline">View Profile</a>
+                )}
+              </div>
+              <div className="space-y-4">
+                {[
+                  { label: "Driver's License", doc: parseDoc(booking.user.driverLicense), status: booking.user.driverLicenseStatus || "NONE" },
+                  { label: "Insurance", doc: parseDoc(booking.user.insurance), status: booking.user.insuranceStatus || "NONE" },
+                  { label: "Passport / ID", doc: parseDoc(booking.user.passport), status: booking.user.passportStatus || "NONE" },
+                ].map(({ label, doc, status }) => (
+                  <div key={label} className="border border-mist-100 rounded-lg overflow-hidden">
+                    <div className="px-3 py-2 border-b border-mist-100 flex items-center justify-between bg-mist-50">
+                      <span className="text-xs font-semibold text-mist-600 uppercase tracking-wide">{label}</span>
+                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${USER_DOC_STATUS_COLORS[status] ?? USER_DOC_STATUS_COLORS.NONE}`}>
+                        {status === "NONE" ? "Not submitted" : status}
+                      </span>
+                    </div>
+                    {doc?.url ? (
+                      <a href={doc.url} target="_blank" rel="noopener noreferrer" className="block bg-mist-50 p-2">
+                        {doc.url.toLowerCase().endsWith(".pdf") ? (
+                          <div className="flex items-center justify-center h-20">
+                            <FileText size={20} className="text-blue-500 mr-2" />
+                            <span className="text-xs text-blue-600 underline">View PDF</span>
+                          </div>
+                        ) : (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={doc.url} alt={label} className="max-h-28 mx-auto object-contain rounded" />
+                        )}
+                      </a>
+                    ) : (
+                      <p className="text-xs text-mist-400 p-3 text-center">{status === "NONE" ? "Not submitted" : "No file"}</p>
+                    )}
+                    {doc?.number && <p className="text-[10px] text-mist-500 px-3 py-1">#{doc.number}{doc.expiry ? ` • Exp: ${doc.expiry}` : ""}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Admin Notes */}
           <div className="bg-white border border-mist-200 rounded-xl p-5">

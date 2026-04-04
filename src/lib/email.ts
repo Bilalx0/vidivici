@@ -26,3 +26,16 @@ export async function sendEmail({ to, subject, html, attachments }: SendEmailOpt
     attachments,
   })
 }
+
+export async function notifyAdmin(subject: string, html: string) {
+  const adminEmail = process.env.ADMIN_EMAIL
+  if (!adminEmail) {
+    console.warn("ADMIN_EMAIL not configured, skipping admin notification")
+    return
+  }
+  try {
+    await sendEmail({ to: adminEmail, subject: `[Vidi Vici] ${subject}`, html })
+  } catch (err) {
+    console.error("Failed to send admin notification:", err)
+  }
+}

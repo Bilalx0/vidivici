@@ -14,7 +14,7 @@ export async function GET(
       where: { id },
       include: {
         car: { include: { brand: true, images: { take: 1, orderBy: { isPrimary: 'desc' } } } },
-        user: { select: { name: true, email: true, phone: true } },
+        user: { select: { name: true, email: true, phone: true, id: true, driverLicense: true, driverLicenseStatus: true, insurance: true, insuranceStatus: true, passport: true, passportStatus: true } },
       },
     })
     if (carBooking) {
@@ -26,7 +26,7 @@ export async function GET(
       where: { id },
       include: {
         villa: { include: { images: { take: 1, orderBy: { isPrimary: 'desc' } } } },
-        user: { select: { name: true, email: true, phone: true } },
+        user: { select: { name: true, email: true, phone: true, id: true, driverLicense: true, driverLicenseStatus: true, insurance: true, insuranceStatus: true, passport: true, passportStatus: true } },
       },
     })
     if (villaBooking) {

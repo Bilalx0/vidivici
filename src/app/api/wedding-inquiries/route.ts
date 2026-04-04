@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { notifyAdmin } from '@/lib/email'
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,6 +24,19 @@ export async function POST(request: NextRequest) {
         specialRequests: specialRequests || null,
       },
     })
+
+    notifyAdmin(
+      `New Wedding/Event Inquiry`,
+      `<h2>New Wedding/Event Inquiry</h2>
+      <p><strong>Name:</strong> ${firstName}${lastName ? ` ${lastName}` : ""}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ""}
+      <p><strong>Event Type:</strong> ${eventType}</p>
+      <p><strong>Event Date:</strong> ${eventDate}</p>
+      <p><strong>Guests:</strong> ${guestCount || "N/A"}</p>
+      ${specialRequests ? `<p><strong>Special Requests:</strong> ${specialRequests}</p>` : ""}
+      <p><a href="${process.env.NEXTAUTH_URL || "http://localhost:3000"}/admin/messages">View in Admin →</a></p>`
+    )
 
     return NextResponse.json(inquiry, { status: 201 })
   } catch (error) {

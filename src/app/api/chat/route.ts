@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { notifyAdmin } from "@/lib/email"
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY!
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
@@ -406,6 +407,15 @@ export async function POST(request: NextRequest) {
           userId: userId || null,
         },
       })
+      // Notify admin of new conversation
+      notifyAdmin(
+        "New AI Conversation Started",
+        `<h2>New Chat Conversation</h2>
+        <p>A visitor has started a new conversation with Mark (AI concierge).</p>
+        <p><strong>Visitor ID:</strong> ${visitorId || "anonymous"}</p>
+        <p><strong>User ID:</strong> ${userId || "Not logged in"}</p>
+        <p><a href="${process.env.NEXTAUTH_URL || "http://localhost:3000"}/admin/conversations">View in Admin →</a></p>`
+      )
     }
     // If session exists but has no userId yet and user is now logged in, link it
     if (session && userId && !session.userId) {

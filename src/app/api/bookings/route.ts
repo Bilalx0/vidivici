@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { auth } from '@/lib/auth'
+import { notifyAdmin } from '@/lib/email'
 
 export async function GET(request: NextRequest) {
   try {
@@ -51,9 +52,19 @@ export async function POST(request: NextRequest) {
     else if (days >= 7) discount = 0.15
     const totalPrice = car.pricePerDay * days * (1 - discount)
 
+    // Check if user's documents are already verified
+    const userId = (session.user as any).id
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { name: true, email: true, driverLicenseStatus: true, insuranceStatus: true, passportStatus: true },
+    })
+    const docsVerified = user &&
+      user.driverLicenseStatus === "VERIFIED" &&
+      user.insuranceStatus === "VERIFIED"
+
     const booking = await prisma.booking.create({
       data: {
-        userId: (session.user as any).id,
+        userId,
         carId,
         startDate: start,
         endDate: end,
@@ -65,9 +76,22 @@ export async function POST(request: NextRequest) {
         isOneWay: isOneWay || false,
         totalPrice,
         notes,
+        documentStatus: docsVerified ? "VERIFIED" : "PENDING",
       },
       include: { car: { include: { brand: true } } },
     })
+
+    // Notify admin
+    notifyAdmin(
+      `New Car Booking #${booking.bookingNumber}`,
+      `<h2>New Car Booking</h2>
+      <p><strong>Customer:</strong> ${user?.name || user?.email || "Unknown"}</p>
+      <p><strong>Car:</strong> ${booking.car.brand.name} ${booking.car.name}</p>
+      <p><strong>Dates:</strong> ${start.toLocaleDateString()} – ${end.toLocaleDateString()}</p>
+      <p><strong>Total:</strong> $${totalPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+      <p><strong>Documents:</strong> ${docsVerified ? "Pre-verified ✓" : "Pending review"}</p>
+      <p><a href="${process.env.NEXTAUTH_URL || "http://localhost:3000"}/admin/bookings/${booking.id}">View Booking →</a></p>`
+    )
 
     return NextResponse.json(booking, { status: 201 })
   } catch (error) {

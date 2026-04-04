@@ -111,7 +111,7 @@ export default function DocumentsPage() {
 
   return (
     <div className="overflow-hidden">
-      <div className="px-4 sm:px-6 2xl:px-10 py-10 sm:py-12 2xl:py-16 border-b-2 border-mist-300 font-medium flex items-center justify-between">
+      <div className="hidden lg:flex px-4 sm:px-6 2xl:px-10 py-10 sm:py-12 2xl:py-16 border-b-2 border-mist-300 font-medium items-center justify-between">
         <h1 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900">Documents</h1>
       </div>
 

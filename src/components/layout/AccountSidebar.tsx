@@ -17,9 +17,10 @@ interface AccountSidebarProps {
   name: string | null | undefined
   email: string | null | undefined
   profileImage: string | null
+  onNavClick?: () => void
 }
 
-export default function AccountSidebar({ name, email, profileImage }: AccountSidebarProps) {
+export default function AccountSidebar({ name, email, profileImage, onNavClick }: AccountSidebarProps) {
   const pathname = usePathname()
   const initials = (name || email || "U").charAt(0).toUpperCase()
 
@@ -49,6 +50,7 @@ export default function AccountSidebar({ name, email, profileImage }: AccountSid
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={() => onNavClick?.()}
                 className={`flex items-center justify-between px-6 py-4 my-2 text-sm border-b border-mist-100 transition-colors ${
                   isActive
                     ? "bg-mist-900 text-white font-semibold"

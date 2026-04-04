@@ -37,8 +37,8 @@ export default function AddDocumentForm({ title, numberLabel, uploadLabel, onSub
   return (
     <div className="bg-white rounded-2xl border border-mist-200 shadow-xl p-6 sm:p-8 w-full max-w-xl mx-auto">
 
-      {/* Title */}
-      <h2 className="text-xl font-bold text-mist-900 mb-6">{title}</h2>
+      {/* Title — hidden on mobile where layout header shows it */}
+      <h2 className="hidden lg:block text-xl font-bold text-mist-900 mb-6">{title}</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
 

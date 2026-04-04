@@ -710,91 +710,103 @@ function ReservationContent() {
 
             {step === 2 && (
               <div className="space-y-6">
-                <h2 className="text-lg font-semibold text-mist-900">Complete Payment</h2>
-                <div className="space-y-3">
-                  <div className="rounded-xl border border-mist-200 bg-mist-50 p-3 sm:p-4">
-                    <div className={`rounded-md border ${paymentMethod === "card" ? "border-blue-500" : "border-mist-200"}`}>
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod("card")}
-                        className={`w-full flex items-center justify-between rounded-md px-3 py-2.5 text-sm transition-colors ${paymentMethod === "card" ? "bg-blue-50 text-mist-900" : "bg-white text-mist-700 hover:bg-mist-50"}`}
-                      >
-                        <span className="flex items-center gap-2.5">
-                          <span className={`h-4 w-4 rounded-full border-2 ${paymentMethod === "card" ? "border-blue-600" : "border-mist-300"} flex items-center justify-center`}>
-                            {paymentMethod === "card" && <span className="h-2 w-2 rounded-full bg-blue-600" />}
-                          </span>
-                          Credit card
+                <h2 className="text-xl font-bold text-mist-900">Card Info</h2>
+                <div className="space-y-4">
+                  <div className="rounded-xl border border-mist-200 overflow-hidden">
+                    {/* Credit Card Option */}
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod("card")}
+                      className={`w-full flex items-center justify-between px-4 py-3.5 text-sm transition-colors ${paymentMethod === "card" ? "bg-blue-50/60 border-b border-mist-200" : "bg-white hover:bg-mist-50"}`}
+                    >
+                      <span className="flex items-center gap-3">
+                        <span className={`h-5 w-5 rounded-full border-2 ${paymentMethod === "card" ? "border-blue-600" : "border-mist-300"} flex items-center justify-center shrink-0`}>
+                          {paymentMethod === "card" && <span className="h-2.5 w-2.5 rounded-full bg-blue-600" />}
                         </span>
-                        <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-mist-400">
-                          <span className="rounded bg-white border border-mist-200 px-1.5 py-0.5 text-blue-700">Visa</span>
-                          <span className="rounded bg-white border border-mist-200 px-1.5 py-0.5 text-cyan-700">Amex</span>
-                          <span className="rounded bg-white border border-mist-200 px-1.5 py-0.5 text-orange-700">MC</span>
+                        <span className="font-medium text-mist-900">Credit card</span>
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <span className="rounded bg-[#1a1f71] px-2 py-0.5 text-[10px] font-bold text-white tracking-wider leading-tight">VISA</span>
+                        <span className="rounded bg-[#2e77bc] px-1.5 py-0.5 text-[10px] font-bold text-white tracking-wider leading-tight">AMEX</span>
+                        <span className="flex items-center justify-center w-6 h-5">
+                          <svg viewBox="0 0 24 16" className="w-6 h-4">
+                            <circle cx="9" cy="8" r="7" fill="#EB001B" />
+                            <circle cx="15" cy="8" r="7" fill="#F79E1B" />
+                            <path d="M12 2.4a7 7 0 0 1 0 11.2A7 7 0 0 1 12 2.4z" fill="#FF5F00" />
+                          </svg>
                         </span>
-                      </button>
+                        <span className="rounded-full bg-mist-200 text-mist-500 text-[10px] font-semibold w-5 h-5 flex items-center justify-center">+5</span>
+                      </span>
+                    </button>
 
-                      {paymentMethod === "card" && (
-                        <div className="space-y-3 border-t border-mist-200 bg-white p-3 sm:p-4">
-                          <div>
-                            <label className="mb-1 block text-xs text-mist-500">Name on Card</label>
-                            <input type="text" disabled placeholder="Name on card" className="w-full rounded-md border border-mist-200 bg-mist-50 px-3 py-2.5 text-sm text-mist-400 placeholder:text-mist-300" />
-                          </div>
-                          <div>
-                            <label className="mb-1 block text-xs text-mist-500">Card Number</label>
-                            <input type="text" disabled placeholder="1234 1234 1234 1234" className="w-full rounded-md border border-mist-200 bg-mist-50 px-3 py-2.5 text-sm text-mist-400 placeholder:text-mist-300" />
-                          </div>
-                          <div className="grid grid-cols-2 gap-3">
-                            <div>
-                              <label className="mb-1 block text-xs text-mist-500">Expiration Date</label>
-                              <input type="text" disabled placeholder="MM/YY" className="w-full rounded-md border border-mist-200 bg-mist-50 px-3 py-2.5 text-sm text-mist-400 placeholder:text-mist-300" />
-                            </div>
-                            <div>
-                              <label className="mb-1 block text-xs text-mist-500">Security Code</label>
-                              <input type="text" disabled placeholder="CVV" className="w-full rounded-md border border-mist-200 bg-mist-50 px-3 py-2.5 text-sm text-mist-400 placeholder:text-mist-300" />
-                            </div>
-                          </div>
-                          <div>
-                            <label className="mb-1 block text-xs text-mist-500">Billing Address</label>
-                            <input type="text" disabled placeholder="Enter billing address" className="w-full rounded-md border border-mist-200 bg-mist-50 px-3 py-2.5 text-sm text-mist-400 placeholder:text-mist-300" />
-                          </div>
-                          <div className="grid grid-cols-2 gap-3">
-                            <div>
-                              <label className="mb-1 block text-xs text-mist-500">Country</label>
-                              <input type="text" disabled placeholder="United States" className="w-full rounded-md border border-mist-200 bg-mist-50 px-3 py-2.5 text-sm text-mist-400 placeholder:text-mist-300" />
-                            </div>
-                            <div>
-                              <label className="mb-1 block text-xs text-mist-500">ZIP Code</label>
-                              <input type="text" disabled placeholder="ZIP code" className="w-full rounded-md border border-mist-200 bg-mist-50 px-3 py-2.5 text-sm text-mist-400 placeholder:text-mist-300" />
-                            </div>
+                    {paymentMethod === "card" && (
+                      <div className="space-y-4 bg-white px-4 py-5">
+                        <div>
+                          <label className="mb-1.5 block text-xs font-medium text-mist-700">Name on Card</label>
+                          <input type="text" disabled placeholder="MM/YY" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                        </div>
+                        <div>
+                          <label className="mb-1.5 block text-xs font-medium text-mist-700">Card Number</label>
+                          <div className="relative">
+                            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center gap-0.5">
+                              <span className="w-4 h-3 rounded-sm bg-mist-200" />
+                            </span>
+                            <input type="text" disabled placeholder="1234 1234 1234 1234" className="w-full rounded-lg border border-mist-200 bg-white pl-10 pr-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
                           </div>
                         </div>
-                      )}
-                    </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="mb-1.5 block text-xs font-medium text-mist-700">Expiration Date</label>
+                            <input type="text" disabled placeholder="MM/YY" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                          </div>
+                          <div>
+                            <label className="mb-1.5 block text-xs font-medium text-mist-700">Security Code</label>
+                            <input type="text" disabled placeholder="CVV" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="mb-1.5 block text-xs font-medium text-mist-700">Billing Address</label>
+                          <input type="text" disabled placeholder="Enter billing address" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="mb-1.5 block text-xs font-medium text-mist-700">Country</label>
+                            <input type="text" disabled placeholder="United States" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                          </div>
+                          <div>
+                            <label className="mb-1.5 block text-xs font-medium text-mist-700">ZIP Code</label>
+                            <input type="text" disabled placeholder="ZIP code" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
-                    <div className="mt-3 rounded-md border border-mist-200 bg-white">
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod("paypal")}
-                        className={`w-full flex items-center gap-2.5 rounded-md px-3 py-2.5 text-sm transition-colors ${paymentMethod === "paypal" ? "bg-blue-50 text-mist-900" : "text-mist-700 hover:bg-mist-50"}`}
-                      >
-                        <span className={`h-4 w-4 rounded-full border ${paymentMethod === "paypal" ? "border-blue-600" : "border-mist-300"} flex items-center justify-center`}>
-                          {paymentMethod === "paypal" && <span className="h-2 w-2 rounded-full bg-blue-600" />}
-                        </span>
-                        PayPal
-                      </button>
-                    </div>
+                    {/* Divider between options */}
+                    <div className="border-t border-mist-200" />
+
+                    {/* PayPal Option */}
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod("paypal")}
+                      className={`w-full flex items-center gap-3 px-4 py-3.5 text-sm transition-colors ${paymentMethod === "paypal" ? "bg-blue-50/60" : "bg-white hover:bg-mist-50"}`}
+                    >
+                      <span className={`h-5 w-5 rounded-full border-2 ${paymentMethod === "paypal" ? "border-blue-600" : "border-mist-300"} flex items-center justify-center shrink-0`}>
+                        {paymentMethod === "paypal" && <span className="h-2.5 w-2.5 rounded-full bg-blue-600" />}
+                      </span>
+                      <span className="font-medium text-mist-900">PayPal</span>
+                    </button>
                   </div>
 
                   <p className="text-xs text-mist-400 leading-relaxed">
                     By placing this order, I agree to the{" "}
-                    <Link href="/terms" className="text-blue-600 hover:underline">Terms & Conditions</Link> &{" "}
+                    <Link href="/terms" className="text-blue-600 hover:underline">Terms &amp; Conditions</Link> &{" "}
                     <Link href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>.
                   </p>
                   <p className="text-xs text-mist-400 leading-relaxed">
                     {paymentMethod === "card"
-                      ? "We will temporarily reserve the funds on your credit card with a pre-authorization. Your card will only be charged after the reservation is confirmed by our team and the contract is signed."
+                      ? "We will temporarily reserve the funds on your credit card with a pre-authorization. Your credit card will only be charged after the reservation gets confirmed by the Sales Team."
                       : "We will temporarily authorize the funds via PayPal. Your payment will only be charged after the reservation is confirmed by our team and the contract is signed."}
                   </p>
-                  <p className="text-xs text-mist-500">Safe and Secure SSL Encrypted</p>
 
                   {paymentMethod === "paypal" && mode === "car" && selectedCar && (
                     <PayPalBookingButton
@@ -856,7 +868,7 @@ function ReservationContent() {
                     <button
                       type="button"
                       disabled
-                      className="w-full rounded-md bg-mist-200 py-3 text-sm font-semibold text-mist-500 cursor-not-allowed"
+                      className="w-full rounded-lg bg-mist-200 py-3 text-sm font-semibold text-mist-500 cursor-not-allowed"
                     >
                       Place Order
                     </button>

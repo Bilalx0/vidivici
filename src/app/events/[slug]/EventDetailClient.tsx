@@ -323,6 +323,19 @@ export function VenueBookingForm() {
                       required
                     />
                   </Field>
+                   <Field label="Last Name">
+                    <input
+                      type="text"
+                      placeholder="Enter your last name"
+                      value={form.lastName}
+                      onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                      className={inputClass}
+                    />
+                  </Field>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                 
                   <Field label="Email Address">
                     <input
                       type="email"
@@ -331,18 +344,6 @@ export function VenueBookingForm() {
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       className={inputClass}
                       required
-                    />
-                  </Field>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <Field label="Last Name">
-                    <input
-                      type="text"
-                      placeholder="Enter your last name"
-                      value={form.lastName}
-                      onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-                      className={inputClass}
                     />
                   </Field>
                   <Field label="Phone Number">

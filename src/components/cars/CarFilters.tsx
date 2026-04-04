@@ -28,8 +28,19 @@ export default function CarFilters({ onHide, hideBrand, hideCategory }: { onHide
     fetch("/api/categories").then(r => r.ok ? r.json() : []).then(setCategories).catch(() => {})
   }, [])
 
-  const applyFilters = () => {
+  // Build base params that define the current page context (make / category from URL)
+  const contextMake = searchParams.get("make") || ""
+  const contextCategory = searchParams.get("category") || ""
+
+  const buildContextParams = () => {
     const params = new URLSearchParams()
+    if (contextMake) params.set("make", contextMake)
+    if (contextCategory && hideCategory) params.set("category", contextCategory)
+    return params
+  }
+
+  const applyFilters = () => {
+    const params = buildContextParams()
     if (selectedBrand) params.set("brand", selectedBrand)
     if (selectedCategory) params.set("category", selectedCategory)
     if (minPrice) params.set("minPrice", minPrice)
@@ -43,7 +54,9 @@ export default function CarFilters({ onHide, hideBrand, hideCategory }: { onHide
     setSelectedCategory("")
     setMinPrice("")
     setMaxPrice("")
-    router.push("/cars")
+    const params = buildContextParams()
+    const qs = params.toString()
+    router.push(qs ? `/cars?${qs}` : "/cars")
   }
 
   return (

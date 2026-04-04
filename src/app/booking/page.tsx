@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
 import {
-  ChevronLeft,
+  ArrowLeft,
   ChevronDown,
   Minus,
   Plus,
@@ -94,7 +94,7 @@ function calcCarPricing(
   const driverTotal = needDriver ? driverDays * driverHours * 45 : 0
   const preTax = subtotal - discountAmount + driverTotal
   const tax = Math.round(preTax * 0.085)
-  const qualifiesForReducedDeposit = needDriver && (days >= 15 || driverAvailability === "full")
+  const qualifiesForReducedDeposit = days >= 15 || driverAvailability === "full"
   const securityDeposit = qualifiesForReducedDeposit ? reducedDeposit : defaultDeposit
   const total = preTax + tax + securityDeposit
   const payNow = securityDeposit
@@ -524,14 +524,14 @@ function ReservationContent() {
     <div className="bg-white min-h-screen pt-24 pb-16">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         {step > 1 && (
-          <div className="mb-4">
+          <div className="mb-10">
             <button
               type="button"
               onClick={() => setStep((prev) => (prev > 1 ? ((prev - 1) as 1 | 2 | 3) : prev))}
-              className="inline-flex items-center gap-2 rounded-md border border-mist-300 bg-white px-5 py-2 text-sm font-medium cursor-pointer text-mist-600 transition-colors hover:border-mist-400 hover:bg-mist-50 focus:outline-none focus:ring-2 focus:ring-mist-300"
+              className="inline-flex h-10 w-10 items-center justify-center"
+              aria-label="Back"
             >
-              <ChevronLeft size={18} />
-              Back
+              <ArrowLeft size={25} />
             </button>
           </div>
         )}
@@ -743,7 +743,7 @@ function ReservationContent() {
                       <div className="space-y-4 bg-white px-4 py-5">
                         <div>
                           <label className="mb-1.5 block text-xs font-medium text-mist-700">Name on Card</label>
-                          <input type="text" disabled placeholder="MM/YY" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                          <input type="text" placeholder="Enter cardholder name" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400" />
                         </div>
                         <div>
                           <label className="mb-1.5 block text-xs font-medium text-mist-700">Card Number</label>
@@ -751,31 +751,70 @@ function ReservationContent() {
                             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center gap-0.5">
                               <span className="w-4 h-3 rounded-sm bg-mist-200" />
                             </span>
-                            <input type="text" disabled placeholder="1234 1234 1234 1234" className="w-full rounded-lg border border-mist-200 bg-white pl-10 pr-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              placeholder="1234 1234 1234 1234"
+                              maxLength={19}
+                              onChange={(e) => {
+                                const digits = e.target.value.replace(/\D/g, "").slice(0, 16)
+                                e.target.value = digits.replace(/(\d{4})(?=\d)/g, "$1 ")
+                              }}
+                              className="w-full rounded-lg border border-mist-200 bg-white pl-10 pr-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400 tracking-wider"
+                            />
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <label className="mb-1.5 block text-xs font-medium text-mist-700">Expiration Date</label>
-                            <input type="text" disabled placeholder="MM/YY" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              placeholder="MM/YY"
+                              maxLength={5}
+                              onChange={(e) => {
+                                let v = e.target.value.replace(/\D/g, "").slice(0, 4)
+                                if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2)
+                                e.target.value = v
+                              }}
+                              className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                            />
                           </div>
                           <div>
                             <label className="mb-1.5 block text-xs font-medium text-mist-700">Security Code</label>
-                            <input type="text" disabled placeholder="CVV" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              placeholder="CVV"
+                              maxLength={3}
+                              onChange={(e) => {
+                                e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3)
+                              }}
+                              className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                            />
                           </div>
                         </div>
                         <div>
                           <label className="mb-1.5 block text-xs font-medium text-mist-700">Billing Address</label>
-                          <input type="text" disabled placeholder="Enter billing address" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                          <input type="text" placeholder="Enter billing address" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400" />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <label className="mb-1.5 block text-xs font-medium text-mist-700">Country</label>
-                            <input type="text" disabled placeholder="United States" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                            <input type="text" placeholder="United States" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400" />
                           </div>
                           <div>
                             <label className="mb-1.5 block text-xs font-medium text-mist-700">ZIP Code</label>
-                            <input type="text" disabled placeholder="ZIP code" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-400 placeholder:text-mist-300 focus:outline-none" />
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              placeholder="ZIP code"
+                              maxLength={5}
+                              onChange={(e) => {
+                                e.target.value = e.target.value.replace(/\D/g, "").slice(0, 5)
+                              }}
+                              className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                            />
                           </div>
                         </div>
                       </div>
@@ -1306,7 +1345,7 @@ function CarSelectStep({
 
         <h2 className="text-lg font-semibold text-mist-900 mb-4">Customer Info</h2>
         <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">First Name <span className="text-red-400">*</span></label>
               <input type="text" placeholder="Enter first name" value={firstName} onChange={(e) => setFirstName(e.target.value)}
@@ -1318,7 +1357,7 @@ function CarSelectStep({
                 className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid  grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Email Address</label>
               <input type="email" placeholder="Enter email address" value={email} onChange={(e) => setEmail(e.target.value)}
@@ -1330,7 +1369,7 @@ function CarSelectStep({
                 className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-2 sm:gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
             <div>
               <label className="text-xs text-mist-500 block mb-1.5">Drivers License</label>
               <input

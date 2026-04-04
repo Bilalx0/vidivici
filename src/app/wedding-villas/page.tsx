@@ -695,15 +695,18 @@ function WeddingVillasContent() {
         <SlidersHorizontal size={14} />
         {showFilters ? "Hide Filter" : "Show Filter"}
       </button>
-      <select
-        value={sort}
-        onChange={(e) => handleSortChange(e.target.value)}
-        className="bg-neutral-100 border border-mist-200 text-mist-600 text-sm px-3 py-2 2xl:px-6 2xl:py-4 rounded-lg focus:border-mist-400 focus:outline-none"
-      >
-        <option value="popular">Sort by: Most Popular</option>
-        <option value="price-asc">Price: Low to High</option>
-        <option value="price-desc">Price: High to Low</option>
-      </select>
+      <div className="relative shrink-0">
+        <select
+          value={sort}
+          onChange={(e) => handleSortChange(e.target.value)}
+          className="appearance-none bg-neutral-100 border border-mist-200 text-mist-600 text-sm px-3 py-2 pr-9 2xl:px-6 2xl:py-4 2xl:pr-12 rounded-lg focus:border-mist-400 focus:outline-none"
+        >
+          <option value="popular">Sort by: Most Popular</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select>
+        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-mist-500 2xl:right-4" />
+      </div>
     </div>
 
     {showFilters && (

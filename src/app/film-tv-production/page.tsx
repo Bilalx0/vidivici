@@ -663,15 +663,18 @@ function FilmTVContent() {
               <SlidersHorizontal size={14} />
               {showFilters ? "Hide Filter" : "Show Filter"}
             </button>
-            <select
-              value={sort}
-              onChange={(e) => handleSortChange(e.target.value)}
-              className="bg-neutral-100 border border-mist-200 text-mist-600 text-sm 2xl:text-xl px-3 2xl:px-6 py-2 2xl:py-4 rounded-lg 2xl:rounded-xl focus:border-mist-400 focus:outline-none"
-            >
-              <option value="newest">Sort by: Newest</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-            </select>
+            <div className="relative shrink-0">
+              <select
+                value={sort}
+                onChange={(e) => handleSortChange(e.target.value)}
+                className="appearance-none bg-neutral-100 border border-mist-200 text-mist-600 text-sm 2xl:text-xl px-3 2xl:px-6 py-2 2xl:py-4 pr-9 2xl:pr-12 rounded-lg 2xl:rounded-xl focus:border-mist-400 focus:outline-none"
+              >
+                <option value="newest">Sort by: Newest</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-mist-500 2xl:right-4" />
+            </div>
           </div>
 
           {showFilters && (

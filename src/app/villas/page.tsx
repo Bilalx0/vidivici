@@ -8,7 +8,7 @@ import WhyChooseUs from "@/components/home/WhyChooseUs"
 import FAQ from "@/components/home/FAQ"
 import Reviews from "@/components/home/Reviews"
 import Contact from "@/components/home/Contact"
-import { SlidersHorizontal, BedDouble, Users, Maximize2, Heart, ArrowUpRight, ChevronRight, RotateCcw, X } from "lucide-react"
+import { SlidersHorizontal, BedDouble, Users, Maximize2, Heart, ArrowUpRight, ChevronRight, RotateCcw, X, ChevronDown } from "lucide-react"
 
 interface VillaFromAPI {
   id: string
@@ -144,15 +144,18 @@ function VillasContent() {
               <SlidersHorizontal size={14} />
               {showFilters ? "Hide Filter" : "Show Filter"}
             </button>
-            <select
-              value={sort}
-              onChange={(e) => handleSortChange(e.target.value)}
-              className="bg-neutral-100 border border-mist-200 text-mist-600 text-sm 2xl:text-lg px-3 2xl:px-5 py-2 2xl:py-3 rounded-lg 2xl:rounded-xl focus:border-mist-400 focus:outline-none"
-            >
-              <option value="newest">Sort by: Newest</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-            </select>
+            <div className="relative shrink-0">
+              <select
+                value={sort}
+                onChange={(e) => handleSortChange(e.target.value)}
+                className="appearance-none bg-neutral-100 border border-mist-200 text-mist-600 text-sm 2xl:text-lg px-3 2xl:px-5 py-2 2xl:py-3 pr-9 2xl:pr-12 rounded-lg 2xl:rounded-xl focus:border-mist-400 focus:outline-none"
+              >
+                <option value="newest">Sort by: Newest</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+              </select>
+              <ChevronDown size={16} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-mist-500 2xl:right-4" />
+            </div>
           </div>
 
           {showFilters && (

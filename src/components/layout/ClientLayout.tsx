@@ -30,6 +30,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     !carStaticPages.has(segments[1].toLowerCase());
 
   const isVillaSlugPage = segments[0] === "villas" && segments.length === 2;
+  const isBlogSlugPage = segments[0] === "blog" && segments.length === 2;
 
   const isEventSlugPage =
     segments[0] === "events" &&
@@ -73,7 +74,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   }
 
   // Car/Villa detail: no ChatBot
-  if (isCarSlugPage || isVillaSlugPage) {
+  if (isCarSlugPage || isVillaSlugPage || isBlogSlugPage) {
     return (
       <SessionProvider>
         <AccountHeader />

@@ -27,6 +27,7 @@ export default async function VillaDetailPage({ params }: { params: Promise<{ sl
     slug: villa.slug,
     description: villa.description,
     shortDescription: villa.shortDescription,
+    detailHeading: (villa as unknown as { detailHeading?: string | null }).detailHeading ?? null,
     location: villa.location,
     address: villa.address,
     bedrooms: villa.bedrooms,

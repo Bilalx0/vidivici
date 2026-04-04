@@ -459,6 +459,7 @@ interface CarDetail {
   categorySlug: string
   description: string | null
   shortDescription: string | null
+  detailHeading?: string | null
   pricePerDay: number
   originalPrice?: number | null
   year: number | null
@@ -590,7 +591,10 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
   const securityDeposit = Math.round(car.pricePerDay * 2)
   const total = preTax + tax + securityDeposit
 
-  const originalDayRate = car.originalPrice ?? Math.round(car.pricePerDay * 1.2)
+  const hasOriginalPrice =
+    typeof car.originalPrice === "number" && Number.isFinite(car.originalPrice) && car.originalPrice > 0
+  const detailHeading =
+    car.detailHeading?.trim() || `Rent a ${car.name} in ${car.location}`
 
   const handleNext = () => {
     const params = new URLSearchParams({
@@ -796,7 +800,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                     className="w-full flex items-center justify-between mb-2"
                   >
                     <h2 className="text-base 2xl:text-xl font-bold text-mist-900 text-left">
-                      Rent a {car.name} in {car.location}
+                      {detailHeading}
                     </h2>
                     <ChevronDown
                       size={16}
@@ -839,8 +843,11 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                     <span className="text-3xl 2xl:text-5xl font-bold text-mist-900">
                       ${car.pricePerDay.toLocaleString()}
                     </span>
-                    {car.originalPrice ? (
-                      <span className="text-sm 2xl:text-lg text-mist-400 line-through">${car.originalPrice.toLocaleString()}</span>
+                    {hasOriginalPrice ? (
+                      <>
+                        <span className="text-sm 2xl:text-lg text-mist-400 line-through">${car.originalPrice!.toLocaleString()}</span>
+                        <span className="text-sm 2xl:text-lg text-mist-400">USD / day</span>
+                      </>
                     ) : (
                       <span className="text-sm 2xl:text-lg text-mist-400">USD / day</span>
                     )}
@@ -1057,10 +1064,10 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
               ${car.pricePerDay.toLocaleString()}
             </p>
             <p className="text-xs sm:text-sm text-mist-500 leading-tight">
-              {car.originalPrice ? (
-                <><span className="line-through">${car.originalPrice.toLocaleString()}</span>/day</>
+              {hasOriginalPrice ? (
+                <><span className="line-through">${car.originalPrice!.toLocaleString()}</span> USD / day</>
               ) : (
-                <span>/day</span>
+                <span>USD / day</span>
               )}
             </p>
           </div>
@@ -1115,8 +1122,11 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                 <span className="text-3xl font-bold text-mist-900">
                   ${car.pricePerDay.toLocaleString()}
                 </span>
-                {car.originalPrice ? (
-                  <span className="text-sm text-mist-400 line-through">${car.originalPrice.toLocaleString()}</span>
+                {hasOriginalPrice ? (
+                  <>
+                    <span className="text-sm text-mist-400 line-through">${car.originalPrice!.toLocaleString()}</span>
+                    <span className="text-sm text-mist-400">USD / day</span>
+                  </>
                 ) : (
                   <span className="text-sm text-mist-400">USD / day</span>
                 )}

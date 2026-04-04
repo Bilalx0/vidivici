@@ -88,6 +88,7 @@ model Car {
   categoryId       String
   description      String?    @db.Text
   shortDescription String?
+  detailHeading    String?
   pricePerDay      Float
   originalPrice    Float?
   year             Int?
@@ -272,6 +273,7 @@ model Villa {
   slug             String       @unique
   description      String?      @db.Text
   shortDescription String?
+  detailHeading    String?
   location         String       @default("Los Angeles")
   address          String?
   bedrooms         Int          @default(4)

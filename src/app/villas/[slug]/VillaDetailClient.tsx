@@ -22,6 +22,7 @@ interface Villa {
   slug: string
   description: string | null
   shortDescription: string | null
+  detailHeading?: string | null
   location: string
   address: string | null
   bedrooms: number
@@ -130,6 +131,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
   const [eventSuccess, setEventSuccess] = useState(false)
   const [productionSubmitting, setProductionSubmitting] = useState(false)
   const [productionSuccess, setProductionSuccess] = useState(false)
+  const [mobileSuccessModal, setMobileSuccessModal] = useState<null | "event" | "production">(null)
 
   const handleCheckInDateChange = (value: string) => {
     setCheckInDate(value)
@@ -162,6 +164,9 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
       if (!res.ok) throw new Error()
       setEventSuccess(true)
       setEventForm({ firstName: "", lastName: "", email: "", phone: "", eventType: "", eventDate: "", guestCount: "", addOns: [], specialRequests: "" })
+      if (typeof window !== "undefined" && window.innerWidth < 1024) {
+        setMobileSuccessModal("event")
+      }
     } catch {
       alert("Failed to submit. Please try again.")
     } finally {
@@ -189,6 +194,9 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
       if (!res.ok) throw new Error()
       setProductionSuccess(true)
       setProductionForm({ firstName: "", lastName: "", email: "", phone: "", projectType: "", shootDate: "", crewSize: "", specialRequests: "" })
+      if (typeof window !== "undefined" && window.innerWidth < 1024) {
+        setMobileSuccessModal("production")
+      }
     } catch {
       alert("Failed to submit. Please try again.")
     } finally {
@@ -243,6 +251,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
   const amenitiesList = villa.amenities ? villa.amenities.split(",").map((a) => a.trim()).filter(Boolean).map(parseAmenity) : []
 
   const formatSqft = (sqft: number) => sqft >= 1000 ? `${(sqft / 1000).toFixed(1)}k` : sqft.toString()
+  const detailHeading = villa.detailHeading?.trim() || `Rent a ${villa.name}`
 
   // Toggle event add-ons
   const toggleEventAddon = (addon: string) => {
@@ -460,7 +469,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
               <div className="pt-6 border-t border-mist-200">
 
                 {/* Title + Description */}
-                <h2 className="text-xl 2xl:text-3xl font-bold text-mist-900 mb-3 2xl:mb-5">Rent a {villa.name}</h2>
+                <h2 className="text-xl 2xl:text-3xl font-bold text-mist-900 mb-3 2xl:mb-5">{detailHeading}</h2>
 
                 {villa.description && (
                   <div className="mb-5">
@@ -777,12 +786,6 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                 {activeTab === "Event" && (
                   <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg">
                     <h3 className="text-xl 2xl:text-3xl font-semibold text-mist-900 text-center">Request a Quote for Your Event</h3>
-                    {eventSuccess && (
-                      <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                        <p className="text-green-700 font-medium text-sm">Your inquiry has been submitted! We&apos;ll be in touch shortly.</p>
-                        <button onClick={() => setEventSuccess(false)} className="text-xs text-green-600 underline mt-1">Submit another</button>
-                      </div>
-                    )}
 
 
                     {/* First Name & Last Name */}
@@ -908,14 +911,18 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                     </div>
 
                     {/* Request Quote Button */}
-                    {!eventSuccess && (
-                      <button
-                        onClick={handleEventSubmit}
-                        disabled={eventSubmitting}
-                        className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 2xl:py-5 rounded-md font-semibold text-sm 2xl:text-lg tracking-wide disabled:opacity-60"
-                      >
-                        {eventSubmitting ? "Submitting..." : "Request Quote"}
-                      </button>
+                    <button
+                      onClick={handleEventSubmit}
+                      disabled={eventSubmitting}
+                      className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 2xl:py-5 rounded-md font-semibold text-sm 2xl:text-lg tracking-wide disabled:opacity-60"
+                    >
+                      {eventSubmitting ? "Submitting..." : "Request Quote"}
+                    </button>
+                    {eventSuccess && (
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                        <p className="text-green-700 font-medium text-sm">Your inquiry has been submitted! We&apos;ll be in touch shortly.</p>
+                        <button onClick={() => setEventSuccess(false)} className="text-xs text-green-600 underline mt-1">Submit another</button>
+                      </div>
                     )}
                   </div>
                 )}
@@ -923,12 +930,6 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                 {activeTab === "Production" && (
                   <div className="bg-white border border-mist-300 rounded-lg p-5 2xl:p-8 space-y-5 2xl:space-y-7 shadow-lg">
                     <h3 className="text-xl 2xl:text-3xl font-semibold text-mist-900 text-center">Film &amp; TV Production House Inquiry</h3>
-                    {productionSuccess && (
-                      <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                        <p className="text-green-700 font-medium text-sm">Your inquiry has been submitted! We&apos;ll be in touch shortly.</p>
-                        <button onClick={() => setProductionSuccess(false)} className="text-xs text-green-600 underline mt-1">Submit another</button>
-                      </div>
-                    )}
 
 
                     {/* First Name & Last Name */}
@@ -1035,14 +1036,18 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                     </div>
 
                     {/* Request Quote Button */}
-                    {!productionSuccess && (
-                      <button
-                        onClick={handleProductionSubmit}
-                        disabled={productionSubmitting}
-                        className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 2xl:py-5 rounded-md font-semibold text-sm 2xl:text-lg tracking-wide disabled:opacity-60"
-                      >
-                        {productionSubmitting ? "Submitting..." : "Request Quote"}
-                      </button>
+                    <button
+                      onClick={handleProductionSubmit}
+                      disabled={productionSubmitting}
+                      className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 2xl:py-5 rounded-md font-semibold text-sm 2xl:text-lg tracking-wide disabled:opacity-60"
+                    >
+                      {productionSubmitting ? "Submitting..." : "Request Quote"}
+                    </button>
+                    {productionSuccess && (
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                        <p className="text-green-700 font-medium text-sm">Your inquiry has been submitted! We&apos;ll be in touch shortly.</p>
+                        <button onClick={() => setProductionSuccess(false)} className="text-xs text-green-600 underline mt-1">Submit another</button>
+                      </div>
                     )}
                   </div>
                 )}
@@ -1329,12 +1334,6 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
             {activeTab === "Event" && (
               <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-5 shadow-lg">
                 <h3 className="text-lg font-semibold text-mist-900 text-center">Request a Quote for Your Event</h3>
-                {eventSuccess && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                    <p className="text-green-700 font-medium text-sm">Your inquiry has been submitted! We&apos;ll be in touch shortly.</p>
-                    <button onClick={() => setEventSuccess(false)} className="text-xs text-green-600 underline mt-1">Submit another</button>
-                  </div>
-                )}
                 <div className="grid grid-cols-2 gap-3 border-t border-mist-300 pt-6">
                   <div>
                     <label className="text-xs text-mist-500 block mb-1.5">First Name</label>
@@ -1450,27 +1449,19 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                   />
                 </div>
 
-                {!eventSuccess && (
-                  <button
-                    onClick={handleEventSubmit}
-                    disabled={eventSubmitting}
-                    className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide disabled:opacity-60"
-                  >
-                    {eventSubmitting ? "Submitting..." : "Request Quote"}
-                  </button>
-                )}
+                <button
+                  onClick={handleEventSubmit}
+                  disabled={eventSubmitting}
+                  className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide disabled:opacity-60"
+                >
+                  {eventSubmitting ? "Submitting..." : "Request Quote"}
+                </button>
               </div>
             )}
 
             {activeTab === "Production" && (
               <div className="bg-white border border-mist-300 rounded-lg p-5 space-y-5 shadow-lg">
                 <h3 className="text-lg font-semibold text-mist-900 text-center">Film &amp; TV Production House Inquiry</h3>
-                {productionSuccess && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                    <p className="text-green-700 font-medium text-sm">Your inquiry has been submitted! We&apos;ll be in touch shortly.</p>
-                    <button onClick={() => setProductionSuccess(false)} className="text-xs text-green-600 underline mt-1">Submit another</button>
-                  </div>
-                )}
                 <div className="grid grid-cols-2 gap-3 border-t border-mist-300 pt-6">
                   <div>
                     <label className="text-xs text-mist-500 block mb-1.5">First Name</label>
@@ -1568,17 +1559,39 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                   />
                 </div>
 
-                {!productionSuccess && (
-                  <button
-                    onClick={handleProductionSubmit}
-                    disabled={productionSubmitting}
-                    className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide disabled:opacity-60"
-                  >
-                    {productionSubmitting ? "Submitting..." : "Request Quote"}
-                  </button>
-                )}
+                <button
+                  onClick={handleProductionSubmit}
+                  disabled={productionSubmitting}
+                  className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide disabled:opacity-60"
+                >
+                  {productionSubmitting ? "Submitting..." : "Request Quote"}
+                </button>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {mobileSuccessModal && (
+        <div className="lg:hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl text-center">
+            <h3 className="text-lg font-semibold text-mist-900 mb-2">Submitted Successfully</h3>
+            <p className="text-sm text-mist-600">
+              {mobileSuccessModal === "event"
+                ? "Your event inquiry has been submitted. We will contact you shortly."
+                : "Your production inquiry has been submitted. We will contact you shortly."}
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                if (mobileSuccessModal === "event") setEventSuccess(false)
+                if (mobileSuccessModal === "production") setProductionSuccess(false)
+                setMobileSuccessModal(null)
+              }}
+              className="mt-5 w-full rounded-md bg-mist-900 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-mist-700"
+            >
+              OK
+            </button>
           </div>
         </div>
       )}

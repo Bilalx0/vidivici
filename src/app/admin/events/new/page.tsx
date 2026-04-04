@@ -5,6 +5,107 @@ import { useRouter, useSearchParams } from "next/navigation"
 import toast, { Toaster } from "react-hot-toast"
 import ImageManager, { ExistingImage } from "@/components/admin/ImageManager"
 
+type WhyChooseCard = {
+  title: string
+  description: string
+  icon: string
+}
+
+type ShowcaseCard = {
+  title: string
+  description: string
+  imageUrl: string
+}
+
+const ICON_OPTIONS = [
+  "Star",
+  "Sparkles",
+  "Music2",
+  "UtensilsCrossed",
+  "ShieldCheck",
+  "GlassWater",
+  "Gem",
+]
+
+const DEFAULT_WHY_CHOOSE: WhyChooseCard[] = [
+  { title: "VIP Atmosphere", description: "Exclusive ambiance and curated service.", icon: "Star" },
+]
+
+const DEFAULT_SHOWCASE: ShowcaseCard[] = [
+  { title: "", description: "", imageUrl: "" },
+  { title: "", description: "", imageUrl: "" },
+  { title: "", description: "", imageUrl: "" },
+]
+
+function parseHighlightsConfig(raw: string | null | undefined): {
+  whyChooseCards: WhyChooseCard[]
+  showcaseCards: ShowcaseCard[]
+} {
+  if (!raw) {
+    return { whyChooseCards: DEFAULT_WHY_CHOOSE, showcaseCards: DEFAULT_SHOWCASE }
+  }
+
+  try {
+    const parsed = JSON.parse(raw)
+    const whyChooseCards = Array.isArray(parsed?.whyChooseCards)
+      ? parsed.whyChooseCards.map((item: any) => ({
+          title: String(item?.title || ""),
+          description: String(item?.description || ""),
+          icon: String(item?.icon || "Star"),
+        }))
+      : []
+
+    const showcaseCards = Array.isArray(parsed?.showcaseCards)
+      ? parsed.showcaseCards.map((item: any) => ({
+          title: String(item?.title || ""),
+          description: String(item?.description || ""),
+          imageUrl: String(item?.imageUrl || ""),
+        }))
+      : []
+
+    return {
+      whyChooseCards: whyChooseCards.length > 0 ? whyChooseCards : DEFAULT_WHY_CHOOSE,
+      showcaseCards: showcaseCards.length > 0 ? showcaseCards : DEFAULT_SHOWCASE,
+    }
+  } catch {
+    const legacy = raw
+      .split("|")
+      .map((v) => v.trim())
+      .filter(Boolean)
+      .map((v) => {
+        const [title, description] = v.split(":")
+        return {
+          title: (title || "").trim(),
+          description: (description || "").trim(),
+          icon: "Star",
+        }
+      })
+
+    return {
+      whyChooseCards: legacy.length > 0 ? legacy : DEFAULT_WHY_CHOOSE,
+      showcaseCards: DEFAULT_SHOWCASE,
+    }
+  }
+}
+
+function parseExperienceConfig(raw: string | null | undefined): {
+  subtitle: string
+  images: string[]
+} {
+  if (!raw) return { subtitle: "", images: ["", "", ""] }
+
+  try {
+    const parsed = JSON.parse(raw)
+    const subtitle = String(parsed?.subtitle || "")
+    const images = Array.isArray(parsed?.images)
+      ? [0, 1, 2].map((i) => String(parsed.images[i] || ""))
+      : ["", "", ""]
+    return { subtitle, images }
+  } catch {
+    return { subtitle: "", images: ["", "", ""] }
+  }
+}
+
 const EVENT_CATEGORIES = [
   "Nightlife",
   "Lounge & Dining",
@@ -48,6 +149,12 @@ function EventForm() {
   })
   const [existingImages, setExistingImages] = useState<ExistingImage[]>([])
   const [newFiles, setNewFiles] = useState<File[]>([])
+  const [whyChooseCards, setWhyChooseCards] = useState<WhyChooseCard[]>(DEFAULT_WHY_CHOOSE)
+  const [showcaseCards, setShowcaseCards] = useState<ShowcaseCard[]>(DEFAULT_SHOWCASE)
+  const [experienceSubtitle, setExperienceSubtitle] = useState("")
+  const [experienceImages, setExperienceImages] = useState<string[]>(["", "", ""])
+  const [uploadingExperienceIndex, setUploadingExperienceIndex] = useState<number | null>(null)
+  const [uploadingShowcaseIndex, setUploadingShowcaseIndex] = useState<number | null>(null)
 
   useEffect(() => {
     const loadData = async () => {
@@ -72,6 +179,13 @@ function EventForm() {
               isAvailable: event.isAvailable ?? true,
               isFeatured: event.isFeatured ?? false,
             })
+            const highlightsConfig = parseHighlightsConfig(event.highlights)
+            setWhyChooseCards(highlightsConfig.whyChooseCards)
+            setShowcaseCards(highlightsConfig.showcaseCards)
+
+            const experienceConfig = parseExperienceConfig(event.experience)
+            setExperienceSubtitle(experienceConfig.subtitle)
+            setExperienceImages(experienceConfig.images)
             if (event.images) setExistingImages(event.images)
           } else {
             toast.error("Failed to load event data")
@@ -121,6 +235,14 @@ function EventForm() {
       const payload = {
         ...form,
         capacity: parseInt(form.capacity) || 200,
+        highlights: JSON.stringify({
+          whyChooseCards: whyChooseCards.filter((c) => c.title.trim() || c.description.trim()),
+          showcaseCards: showcaseCards.filter((c) => c.title.trim() || c.description.trim() || c.imageUrl.trim()),
+        }),
+        experience: JSON.stringify({
+          subtitle: experienceSubtitle,
+          images: experienceImages,
+        }),
         images: isEditing || allImages.length > 0 ? allImages : undefined,
       }
 
@@ -145,6 +267,45 @@ function EventForm() {
       toast.error("An unexpected error occurred")
     } finally {
       setSubmitting(false)
+    }
+  }
+
+  const uploadSingleImage = async (file: File): Promise<string> => {
+    const formData = new FormData()
+    formData.append("files", file)
+    const uploadRes = await fetch("/api/upload", { method: "POST", body: formData })
+    if (!uploadRes.ok) throw new Error("Upload failed")
+    const data = await uploadRes.json()
+    const url = data?.urls?.[0]
+    if (!url) throw new Error("No URL returned")
+    return String(url)
+  }
+
+  const handleExperienceImageUpload = async (index: number, file?: File) => {
+    if (!file) return
+    setUploadingExperienceIndex(index)
+    try {
+      const url = await uploadSingleImage(file)
+      setExperienceImages((prev) => prev.map((v, i) => (i === index ? url : v)))
+      toast.success(`Experience image ${index + 1} uploaded`)
+    } catch {
+      toast.error("Failed to upload experience image")
+    } finally {
+      setUploadingExperienceIndex(null)
+    }
+  }
+
+  const handleShowcaseImageUpload = async (index: number, file?: File) => {
+    if (!file) return
+    setUploadingShowcaseIndex(index)
+    try {
+      const url = await uploadSingleImage(file)
+      setShowcaseCards((prev) => prev.map((c, i) => (i === index ? { ...c, imageUrl: url } : c)))
+      toast.success(`Showcase image ${index + 1} uploaded`)
+    } catch {
+      toast.error("Failed to upload showcase image")
+    } finally {
+      setUploadingShowcaseIndex(null)
     }
   }
 
@@ -205,9 +366,9 @@ function EventForm() {
         </div>
 
         {/* Details */}
-        <div className="bg-white border border-mist-200 rounded-xl p-6">
+        <div className="bg-white rounded-xl p-6">
           <h2 className="text-lg font-semibold text-mist-900 mb-4">Event Details</h2>
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
               <label className="text-xs text-mist-400 block mb-1">Short Description</label>
               <input type="text" value={form.shortDescription} onChange={(e) => setForm({ ...form, shortDescription: e.target.value })} className={inputClass} placeholder="Brief tagline for the event" />
@@ -221,14 +382,141 @@ function EventForm() {
               <input type="text" value={form.dressCode} onChange={(e) => setForm({ ...form, dressCode: e.target.value })} className={inputClass} placeholder="e.g., Collared shirts, no athletic apparel" />
             </div>
             <div>
-              <label className="text-xs text-mist-400 block mb-1">Highlights (pipe-separated: Title: Description)</label>
-              <textarea rows={4} value={form.highlights} onChange={(e) => setForm({ ...form, highlights: e.target.value })} className={`${inputClass} resize-none`}
-                placeholder="Upscale Ambiance & Design: A sophisticated West Hollywood space | Signature DJ Sets: Immerse yourself in deep house | VIP & Private Experiences: Private tables and bottle service" />
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-xs text-mist-400 block mb-1">Why Choose Cards</label>
+                <button
+                  type="button"
+                  onClick={() => setWhyChooseCards((prev) => [...prev, { title: "", description: "", icon: "Star" }])}
+                  className="text-xs px-3 py-1.5 rounded bg-mist-100 text-mist-700 hover:bg-mist-200"
+                >
+                  Add Card
+                </button>
+              </div>
+              <div className="space-y-2.5">
+                {whyChooseCards.map((card, idx) => (
+                  <div key={idx} className="grid grid-cols-1 md:grid-cols-12 gap-2.5 items-center bg-mist-50 rounded-lg p-3">
+                    <input
+                      type="text"
+                      value={card.title}
+                      onChange={(e) => setWhyChooseCards((prev) => prev.map((c, i) => i === idx ? { ...c, title: e.target.value } : c))}
+                      className={`${inputClass} md:col-span-3`}
+                      placeholder="Card title"
+                    />
+                    <input
+                      type="text"
+                      value={card.description}
+                      onChange={(e) => setWhyChooseCards((prev) => prev.map((c, i) => i === idx ? { ...c, description: e.target.value } : c))}
+                      className={`${inputClass} md:col-span-6`}
+                      placeholder="Card description"
+                    />
+                    <select
+                      value={card.icon}
+                      onChange={(e) => setWhyChooseCards((prev) => prev.map((c, i) => i === idx ? { ...c, icon: e.target.value } : c))}
+                      className={`${inputClass} md:col-span-2`}
+                    >
+                      {ICON_OPTIONS.map((icon) => <option key={icon} value={icon}>{icon}</option>)}
+                    </select>
+                    <button
+                      type="button"
+                      onClick={() => setWhyChooseCards((prev) => prev.length > 1 ? prev.filter((_, i) => i !== idx) : prev)}
+                      className="text-xs px-3 py-2 rounded bg-white text-mist-600 hover:bg-mist-100 md:col-span-1"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
+
             <div>
-              <label className="text-xs text-mist-400 block mb-1">The Experience (paragraphs, newline-separated)</label>
-              <textarea rows={5} value={form.experience} onChange={(e) => setForm({ ...form, experience: e.target.value })} className={`${inputClass} resize-none`}
-                placeholder="Describe the full event experience here. Each paragraph on a new line." />
+              <label className="text-xs text-mist-400 block mb-1">Experience Section Subtitle (line below main heading)</label>
+              <input
+                type="text"
+                value={experienceSubtitle}
+                onChange={(e) => setExperienceSubtitle(e.target.value)}
+                className={inputClass}
+                placeholder="e.g., Modern luxury meets classic elegance"
+              />
+            </div>
+
+            <div>
+              <label className="text-xs text-mist-400 block mb-1">Experience Section Images (3)</label>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {[0, 1, 2].map((idx) => (
+                  <div key={idx} className="space-y-2 bg-mist-50 rounded-lg p-3">
+                    <p className="text-xs text-mist-400">Image {idx + 1}</p>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleExperienceImageUpload(idx, e.target.files?.[0])}
+                        className="block w-full text-xs text-mist-500 file:mr-2 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-2.5 file:py-1.5 file:text-xs file:text-mist-700 hover:file:bg-mist-50"
+                      />
+                      {uploadingExperienceIndex === idx && (
+                        <span className="text-xs text-mist-400">Uploading...</span>
+                      )}
+                    </div>
+                    {experienceImages[idx] && (
+                      <p className="text-xs text-mist-500 truncate">{experienceImages[idx]}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-xs text-mist-400 block mb-1">Showcase Cards (Image + Text section)</label>
+                <button
+                  type="button"
+                  onClick={() => setShowcaseCards((prev) => [...prev, { title: "", description: "", imageUrl: "" }])}
+                  className="text-xs px-3 py-1.5 rounded bg-mist-100 text-mist-700 hover:bg-mist-200"
+                >
+                  Add Showcase Card
+                </button>
+              </div>
+              <div className="space-y-2.5">
+                {showcaseCards.map((card, idx) => (
+                  <div key={idx} className="grid grid-cols-1 md:grid-cols-12 gap-2.5 items-center bg-mist-50 rounded-lg p-3">
+                    <input
+                      type="text"
+                      value={card.title}
+                      onChange={(e) => setShowcaseCards((prev) => prev.map((c, i) => i === idx ? { ...c, title: e.target.value } : c))}
+                      className={`${inputClass} md:col-span-3`}
+                      placeholder="Card title"
+                    />
+                    <input
+                      type="text"
+                      value={card.description}
+                      onChange={(e) => setShowcaseCards((prev) => prev.map((c, i) => i === idx ? { ...c, description: e.target.value } : c))}
+                      className={`${inputClass} md:col-span-5`}
+                      placeholder="Card description"
+                    />
+                    <div className="md:col-span-2">
+                      <p className="text-xs text-mist-400 mb-1">Image Upload</p>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleShowcaseImageUpload(idx, e.target.files?.[0])}
+                        className="block w-full text-xs text-mist-500 file:mr-2 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-2.5 file:py-1.5 file:text-xs file:text-mist-700 hover:file:bg-mist-50"
+                      />
+                      {uploadingShowcaseIndex === idx && (
+                        <span className="text-xs text-mist-400">Uploading...</span>
+                      )}
+                      {card.imageUrl && (
+                        <p className="text-xs text-mist-500 truncate mt-1">{card.imageUrl}</p>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowcaseCards((prev) => prev.length > 1 ? prev.filter((_, i) => i !== idx) : prev)}
+                      className="text-xs px-3 py-2 rounded bg-white text-mist-600 hover:bg-mist-100 md:col-span-1"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

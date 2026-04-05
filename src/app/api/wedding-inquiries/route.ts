@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
       <p><strong>Event Date:</strong> ${eventDate}</p>
       <p><strong>Guests:</strong> ${guestCount || "N/A"}</p>
       ${specialRequests ? `<p><strong>Special Requests:</strong> ${specialRequests}</p>` : ""}
-      <p><a href="${process.env.NEXTAUTH_URL || "http://localhost:3000"}/admin/messages">View in Admin →</a></p>`
+      <p><a href="${process.env.NEXTAUTH_URL || "http://localhost:3000"}/admin/inquiries">View in Admin →</a></p>`
     )
 
     return NextResponse.json(inquiry, { status: 201 })

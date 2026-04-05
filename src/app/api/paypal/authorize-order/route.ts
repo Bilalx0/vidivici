@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { authorizePayPalOrder } from "@/lib/paypal"
+import { notifyAdmin } from "@/lib/email"
 
 export async function POST(request: NextRequest) {
   try {
@@ -59,8 +60,24 @@ export async function POST(request: NextRequest) {
           paypalOrderId: orderId,
           paypalAuthorizationId: authorizationId,
         },
-        include: { car: { include: { brand: true } } },
+        include: { car: { include: { brand: true } }, user: true },
       })
+
+      const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000"
+      const carName = `${booking.car.brand?.name ?? ""} ${booking.car.name}`.trim()
+      await notifyAdmin(
+        `New Car Booking #${booking.id} — ${carName}`,
+        `<h2>New Car Booking Received</h2>
+        <p><strong>Booking ID:</strong> ${booking.id}</p>
+        <p><strong>Customer:</strong> ${booking.user?.name ?? "N/A"} (${booking.user?.email ?? "N/A"})</p>
+        <p><strong>Car:</strong> ${carName}</p>
+        <p><strong>Pickup:</strong> ${start.toDateString()}</p>
+        <p><strong>Return:</strong> ${end.toDateString()}</p>
+        <p><strong>Duration:</strong> ${days} day${days !== 1 ? "s" : ""}</p>
+        <p><strong>Total:</strong> $${totalPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+        <p><strong>Payment Status:</strong> AUTHORIZED (PayPal)</p>
+        <p><a href="${baseUrl}/admin/bookings/${booking.id}">View Booking in Admin</a></p>`
+      ).catch(console.error)
     } else if (bookingType === "villa") {
       const session = await auth()
       if (!session?.user) {
@@ -92,8 +109,24 @@ export async function POST(request: NextRequest) {
           paypalOrderId: orderId,
           paypalAuthorizationId: authorizationId,
         },
-        include: { villa: true },
+        include: { villa: true, user: true },
       })
+
+      const villaBaseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000"
+      await notifyAdmin(
+        `New Villa Booking #${booking.id} — ${booking.villa.name}`,
+        `<h2>New Villa Booking Received</h2>
+        <p><strong>Booking ID:</strong> ${booking.id}</p>
+        <p><strong>Customer:</strong> ${booking.user?.name ?? "N/A"} (${booking.user?.email ?? "N/A"})</p>
+        <p><strong>Villa:</strong> ${booking.villa.name}</p>
+        <p><strong>Check-in:</strong> ${start.toDateString()}</p>
+        <p><strong>Check-out:</strong> ${end.toDateString()}</p>
+        <p><strong>Nights:</strong> ${nights}</p>
+        <p><strong>Guests:</strong> ${bookingData.guests || 1}</p>
+        <p><strong>Total:</strong> $${totalPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+        <p><strong>Payment Status:</strong> AUTHORIZED (PayPal)</p>
+        <p><a href="${villaBaseUrl}/admin/villas/bookings/${booking.id}">View Booking in Admin</a></p>`
+      ).catch(console.error)
     } else if (bookingType === "event") {
       booking = await prisma.eventBooking.create({
         data: {

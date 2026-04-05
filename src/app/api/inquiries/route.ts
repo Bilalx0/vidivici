@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
       ${subject ? `<p><strong>Subject:</strong> ${subject}</p>` : ""}
       ${message ? `<p><strong>Message:</strong></p><blockquote style="border-left:3px solid #dbb241;padding-left:12px;color:#555;">${message}</blockquote>` : ""}
       ${data ? `<p><strong>Details:</strong> ${JSON.stringify(data)}</p>` : ""}
-      <p><a href="${process.env.NEXTAUTH_URL || "http://localhost:3000"}/admin/messages">View in Admin →</a></p>`
+      <p><a href="${process.env.NEXTAUTH_URL || "http://localhost:3000"}/admin/inquiries">View in Admin →</a></p>`
     )
 
     return NextResponse.json(inquiry, { status: 201 })

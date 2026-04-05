@@ -125,7 +125,7 @@ export async function POST(request: NextRequest) {
         <p><strong>Guests:</strong> ${bookingData.guests || 1}</p>
         <p><strong>Total:</strong> $${totalPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
         <p><strong>Payment Status:</strong> AUTHORIZED (PayPal)</p>
-        <p><a href="${villaBaseUrl}/admin/villas/bookings/${booking.id}">View Booking in Admin</a></p>`
+        <p><a href="${villaBaseUrl}/admin/bookings/${booking.id}">View Booking in Admin</a></p>`
       ).catch(console.error)
     } else if (bookingType === "event") {
       booking = await prisma.eventBooking.create({

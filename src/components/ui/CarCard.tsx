@@ -13,7 +13,7 @@ function StatPill({ icon, label, value }) {
   );
 }
 
-export default function CarCard({ car, discountBadgeText }) {
+export default function CarCard({ car, discountBadgeText = undefined }) {
   const [liked, setLiked] = useState(car.liked || false);
 
   return (

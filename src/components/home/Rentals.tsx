@@ -80,7 +80,7 @@ export const cars = [
 
 const CARD_WIDTH = 270 + 20;
 
-export default function ExoticCarRentals({ showHeader = true, discountBadgeText }) {
+export default function ExoticCarRentals({ showHeader = true, discountBadgeText = undefined }) {
   const trackRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [canLeft, setCanLeft] = useState(false);

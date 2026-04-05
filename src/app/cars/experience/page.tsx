@@ -35,7 +35,7 @@ export default function ExperiencePage() {
           </svg>
         </a>
       </div>
-      <Rentals showHeader={false} />
+      <Rentals showHeader={false} discountBadgeText={undefined}/>
 
       <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-24 flex flex-col lg:flex-row items-start gap-10 2xl:gap-16">
 

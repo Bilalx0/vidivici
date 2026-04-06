@@ -836,7 +836,7 @@ function ReservationContent() {
                           disabled
                           className="w-full rounded-lg bg-mist-900 py-3 text-sm font-semibold text-white opacity-40 cursor-not-allowed"
                         >
-                          Place Order — Coming Soon
+                          Place Order
                         </button>
                       </div>
                     )}
@@ -884,38 +884,6 @@ function ReservationContent() {
                         notes: needDriver ? `Driver: ${driverHours}hr/day × ${actualDriverDays} days` : undefined,
                       }}
                       totalPrice={carPricing.total}
-                      onSuccess={(id) => {
-                        setBookingId(id.slice(-6).toUpperCase())
-                        setStep(3)
-                      }}
-                      onError={(msg) => alert(msg)}
-                    />
-                  )}
-
-                  {paymentMethod === "paypal" && mode === "villa" && selectedVilla && (
-                    <PayPalBookingButton
-                      bookingType="villa"
-                      bookingData={{
-                        villaId: selectedVilla.id,
-                        checkIn: startDate,
-                        checkOut: endDate,
-                        guests: guestCount,
-                        notes: [
-                          `Check-in time: ${startTime || "N/A"}`,
-                          `Check-out time: ${endTime || "N/A"}`,
-                          `Customer: ${firstName || ""} ${lastName || ""}`.trim(),
-                          `Email: ${email || "N/A"}`,
-                          `Phone: ${phone || "N/A"}`,
-                          [
-                            villaAirportTransfer ? "Airport Transfer (Luxury SUV)" : null,
-                            villaPrivateChef ? "Private Chef" : null,
-                            villaSecurityService ? "Security Service" : null,
-                          ].filter(Boolean).length
-                            ? `Add-ons: ${[villaAirportTransfer ? "Airport Transfer (Luxury SUV)" : null, villaPrivateChef ? "Private Chef" : null, villaSecurityService ? "Security Service" : null].filter(Boolean).join(", ")}`
-                            : "Add-ons: None",
-                        ].join("\n"),
-                      }}
-                      totalPrice={villaPricing.total}
                       onSuccess={(id) => {
                         setBookingId(id.slice(-6).toUpperCase())
                         setStep(3)

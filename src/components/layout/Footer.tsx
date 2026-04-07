@@ -207,16 +207,16 @@ export default function Footer() {
 
                   { label: "Villas", href: "/villas" },
                   { label: "Events", href: "/events" },
-                  { label: "Airport Transfer", href: "/airport-transfer" },
-                  { label: "Wedding Car Rental", href: "/cars/wedding" },
+                  { label: "Airport Transfer", href: "/cars/airport_transfer" },
+                  { label: "Wedding Car Rental", href: "/cars/wedding_car_rental" },
 
-                  { label: "Luxury Car Rental" },
-                  { label: "Corporate Car Rental" },
-                  { label: "Prom Car Rental" },
-                  { label: "Film, TV & Video Car Rental" },
-                  { label: "Film, TV & Video House Rental" },
-                  { label: "Ballroom" },
-                  { label: "Fifa World Cup 2026" },
+                  { label: "Luxury Car Rental", href: "/cars/luxury_car_rental" },
+                  { label: "Corporate Car Rental", href: "/cars/corporate_car_rental" },
+                  { label: "Prom Car Rental", href: "/cars/prom_car_rental" },
+                  { label: "Film, TV & Video Car Rental", href: "/cars/film_tv_car_rental" },
+                  { label: "Film, TV & Video House Rental", href: "/film-tv-production" },
+                  { label: "Ballroom", href: "/events/ballroom" },
+                  { label: "Fifa World Cup 2026", href:"/fifa-world-cup" },
                 ]}
           />
 

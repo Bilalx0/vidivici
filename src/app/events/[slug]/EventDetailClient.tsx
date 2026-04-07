@@ -42,6 +42,7 @@ import {
   Globe,
   Building2,
 } from "lucide-react"
+import * as LucideIcons from "lucide-react"
 import WhyChooseUs from "@/components/home/WhyChooseUs"
 import Reviews from "@/components/home/Reviews"
 import FAQ from "@/components/home/FAQ"
@@ -104,6 +105,22 @@ type ShowcaseCard = {
   title: string
   description: string
   imageUrl: string
+}
+
+function DynamicIcon({ name, size = 24, className = "" }: {
+  name: string
+  size?: number
+  className?: string
+}) {
+  const Icon = (LucideIcons as Record<string, unknown>)[name] as
+    | React.ComponentType<{ size?: number; className?: string }>
+    | undefined
+  if (!Icon) {
+    // Fallback to Star if icon name is invalid
+    const { Star } = LucideIcons
+    return <Star size={size} className={className} />
+  }
+  return <Icon size={size} className={className} />
 }
 
 function parseHighlightsConfig(raw: string | null | undefined): {
@@ -577,9 +594,9 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
         <div className="flex items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base 2xl:text-xl text-mist-500">
             <Link href="/" className="hover:text-mist-700">Los Angeles</Link>
-            <span>&gt;</span>
+           <ChevronRight size={14} className="text-mist-400" />
             <Link href="/events" className="hover:text-mist-700">Events</Link>
-            <span>&gt;</span>
+            <ChevronRight size={14} className="text-mist-400" />
             <span className="text-mist-700 font-medium">{event.name}</span>
           </div>
           <div className="flex flex-nowrap items-center gap-4 sm:gap-5">
@@ -682,7 +699,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
           {/* Feature Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 2xl:gap-10">
             {whyChooseCards.map((card, i) => {
-              const Icon = ICON_MAP[card.icon] || Star
+              
 
               return (
                 <div
@@ -691,7 +708,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
                 >
                   {/* Icon Container */}
                   <div className="w-12 h-12 bg-mist-200 rounded-lg flex items-center justify-center mb-6">
-                    <Icon size={24} className="text-mist-600" />
+                    <DynamicIcon name={card.icon} size={24} className="text-mist-600" />
                   </div>
 
                   {/* Content */}

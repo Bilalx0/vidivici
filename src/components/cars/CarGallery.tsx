@@ -35,6 +35,15 @@ export default function CarGallery({ images }: CarGalleryProps) {
   const lightboxRef = useRef<HTMLDivElement | null>(null)
   const zoomScrollRef = useRef<HTMLDivElement | null>(null)
 
+  const [aspectRatio, setAspectRatio] = useState<string>("16/9")
+
+const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+  const img = e.currentTarget
+  const ratio = img.naturalWidth / img.naturalHeight
+  setAspectRatio(`${img.naturalWidth}/${img.naturalHeight}`)
+}
+
+
   // ─── sync thumb strips whenever activeIndex changes ───────────────────────
  useEffect(() => {
   const scrollThumbs = (ref: React.RefObject<HTMLDivElement>) => {
@@ -63,6 +72,7 @@ export default function CarGallery({ images }: CarGalleryProps) {
     setActiveIndex(clamped)
     setZoom(1)
     setZoomMode(false)
+    setAspectRatio("16/9")
   }
 
   const prev = () => goTo(activeIndex - 1)
@@ -178,13 +188,14 @@ export default function CarGallery({ images }: CarGalleryProps) {
       <div className="w-full">
 
         {/* MAIN IMAGE */}
-        <div className="relative rounded-2xl overflow-hidden
-                      
-                        mb-3 bg-mist-100">
+      <div
+  className="relative rounded-2xl overflow-hidden mb-3 bg-black w-full"
+  style={{ aspectRatio: "3/2" }}
+>
           <img
             src={images[activeIndex].url}
             alt={images[activeIndex].alt || "Car image"}
-            className="w-full h-full object-contain cursor-zoom-in"
+            className="w-full h-full object-cover cursor-zoom-in"
             onClick={openLightbox}
           />
           <button

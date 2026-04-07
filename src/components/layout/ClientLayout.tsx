@@ -24,13 +24,23 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const carStaticPages = new Set(["experience", "extraordinary", "insurance", "longterm"]);
   const eventStaticPages = new Set(["ballroom"]);
 
-  const isCarSlugPage =
-    segments[0] === "cars" &&
-    segments.length === 2 &&
-    !carStaticPages.has(segments[1].toLowerCase());
+  const isHyphenSlug = (slug: string) => slug.includes("-") && !slug.includes("_");
 
-  const isVillaSlugPage = segments[0] === "villas" && segments.length === 2;
-  const isBlogSlugPage = segments[0] === "blog" && segments.length === 2;
+const isCarSlugPage =
+  segments[0] === "cars" &&
+  segments.length === 2 &&
+  !carStaticPages.has(segments[1].toLowerCase()) &&
+  isHyphenSlug(segments[1]);  // ← added
+
+const isVillaSlugPage =
+  segments[0] === "villas" &&
+  segments.length === 2 &&
+  isHyphenSlug(segments[1]);  // ← added
+
+const isBlogSlugPage =
+  segments[0] === "blog" &&
+  segments.length === 2 &&
+  isHyphenSlug(segments[1]);  // ← added
 
   const isEventSlugPage =
     segments[0] === "events" &&

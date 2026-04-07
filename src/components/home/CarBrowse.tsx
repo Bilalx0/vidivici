@@ -21,12 +21,12 @@ const carMakes = [
 ];
 
 const carTypes = [
-  { name: "SUV", logo: "/type1.png" },
-  { name: "Sports", logo: "/type2.png" },
+  { name: "Sports", logo: "/type1.png" },
+  { name: "Sedan", logo: "/type2.png" },
   { name: "Luxury", logo: "/type3.png" },
-  { name: "Convertible", logo: "/type4.png" },
-  { name: "Sedan", logo: "/type5.png" },
-  { name: "Electric", logo: "/type6.png" },
+  { name: "Electric", logo: "/type4.png" },
+  { name: "SUV", logo: "/type5.png" },
+  { name: "Convertible", logo: "/type6.png" },
 ];
 
 function BrowseCard({ 

@@ -135,7 +135,7 @@ export default function LoginPage() {
                 disabled={loading}
                 className="w-full bg-mist-900 text-white py-3 2xl:py-4 rounded-lg 2xl:rounded-xl font-semibold text-sm 2xl:text-base hover:bg-mist-800 transition-colors disabled:opacity-50 mt-1 2xl:mt-3"
               >
-                {loading ? "Signing in..." : "Sign Up"}
+                {loading ? "Signing in..." : "Sign In"}
               </button>
 
               <Turnstile onVerify={setTurnstileToken} onExpire={() => setTurnstileToken("")} />

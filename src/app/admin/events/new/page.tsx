@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import toast, { Toaster } from "react-hot-toast"
 import ImageManager, { ExistingImage } from "@/components/admin/ImageManager"
+import IconPickerInput from "@/components/ui/IconPickerInput"
 
 type WhyChooseCard = {
   title: string
@@ -17,38 +18,7 @@ type ShowcaseCard = {
   imageUrl: string
 }
 
-const ICON_OPTIONS = [
-  "Star",
-  "Sparkles",
-  "Music2",
-  "UtensilsCrossed",
-  "ShieldCheck",
-  "GlassWater",
-  "Gem",
-  "Crown",
-  "Wine",
-  "PartyPopper",
-  "Camera",
-  "Mic2",
-  "Palette",
-  "Theater",
-  "Martini",
-  "Flame",
-  "Zap",
-  "Trophy",
-  "Clapperboard",
-  "ChefHat",
-  "Landmark",
-  "Castle",
-  "Trees",
-  "Sun",
-  "Moon",
-  "Firework",
-  "Ticket",
-  "Award",
-  "Globe",
-  "Building2",
-]
+
 
 const DEFAULT_WHY_CHOOSE: WhyChooseCard[] = [
   { title: "VIP Atmosphere", description: "Exclusive ambiance and curated service.", icon: "Star" },
@@ -73,18 +43,18 @@ function parseHighlightsConfig(raw: string | null | undefined): {
     const parsed = JSON.parse(raw)
     const whyChooseCards = Array.isArray(parsed?.whyChooseCards)
       ? parsed.whyChooseCards.map((item: any) => ({
-          title: String(item?.title || ""),
-          description: String(item?.description || ""),
-          icon: String(item?.icon || "Star"),
-        }))
+        title: String(item?.title || ""),
+        description: String(item?.description || ""),
+        icon: String(item?.icon || "Star"),
+      }))
       : []
 
     const showcaseCards = Array.isArray(parsed?.showcaseCards)
       ? parsed.showcaseCards.map((item: any) => ({
-          title: String(item?.title || ""),
-          description: String(item?.description || ""),
-          imageUrl: String(item?.imageUrl || ""),
-        }))
+        title: String(item?.title || ""),
+        description: String(item?.description || ""),
+        imageUrl: String(item?.imageUrl || ""),
+      }))
       : []
 
     const descriptionUnderWhyChoose = String(parsed?.descriptionUnderWhyChoose || "")
@@ -455,13 +425,19 @@ function EventForm() {
                       className={`${inputClass} md:col-span-6`}
                       placeholder="Card description"
                     />
-                    <select
-                      value={card.icon}
-                      onChange={(e) => setWhyChooseCards((prev) => prev.map((c, i) => i === idx ? { ...c, icon: e.target.value } : c))}
-                      className={`${inputClass} md:col-span-2`}
-                    >
-                      {ICON_OPTIONS.map((icon) => <option key={icon} value={icon}>{icon}</option>)}
-                    </select>
+                    <div className="md:col-span-2">
+                      <IconPickerInput
+                        value={card.icon}
+                        onChange={(iconName) =>
+                          setWhyChooseCards((prev) =>
+                            prev.map((c, i) => i === idx ? { ...c, icon: iconName } : c)
+                          )
+                        }
+                        inputClassName={`${inputClass} h-full`}
+                        placeholder="Pick icon"
+                      />
+                    </div>
+
                     <button
                       type="button"
                       onClick={() => setWhyChooseCards((prev) => prev.length > 1 ? prev.filter((_, i) => i !== idx) : prev)}

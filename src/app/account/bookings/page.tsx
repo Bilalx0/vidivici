@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { Calendar, MapPin, ImageOff } from "lucide-react"
 
 const TABS = ["All", "Upcoming", "Ongoing", "Completed", "Cancelled"]
@@ -103,15 +104,20 @@ export default function MyBookingsPage() {
               Start exploring our premium cars, villas, and events.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-              {["Explore Cars", "Explore Villas", "Explore Events"].map((label) => (
-                <button
-                  key={label}
-                  className="px-5 py-2 rounded-full text-sm font-medium text-mist-500 bg-white border border-mist-200 hover:border-mist-400 hover:text-mist-900 transition-colors"
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
+  {[
+    { label: "Explore Cars", href: "/cars" },
+    { label: "Explore Villas", href: "/villas" },
+    { label: "Explore Events", href: "/events" }
+  ].map((item) => (
+    <Link
+      key={item.label}
+      href={item.href}
+      className="px-5 py-2 rounded-full text-sm font-medium text-mist-500 bg-white border border-mist-200 hover:border-mist-400 hover:text-mist-900 transition-colors"
+    >
+      {item.label}
+    </Link>
+  ))}
+</div>
           </div>
 
         ) : (

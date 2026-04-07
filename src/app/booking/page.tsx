@@ -11,6 +11,7 @@ import {
   Plus,
   Info,
   CheckCircle,
+  X,
   MapPin,
 } from "lucide-react"
 import PayPalBookingButton from "@/components/booking/PayPalBookingButton"
@@ -284,7 +285,9 @@ function ReservationContent() {
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [driverLicenseUrl, setDriverLicenseUrl] = useState("")
+  const [driverLicenseFileName, setDriverLicenseFileName] = useState("")
   const [insuranceUrl, setInsuranceUrl] = useState("")
+  const [insuranceFileName, setInsuranceFileName] = useState("")
   const [uploadingLicense, setUploadingLicense] = useState(false)
   const [uploadingInsurance, setUploadingInsurance] = useState(false)
   const [villaIdDocumentName, setVillaIdDocumentName] = useState("")
@@ -442,8 +445,14 @@ function ReservationContent() {
         .then((profile) => {
           if (profile) {
             if (profile.phone && !phone) setPhone(profile.phone)
-            if (profile.driverLicense && !driverLicenseUrl) setDriverLicenseUrl(profile.driverLicense)
-            if (profile.insurance && !insuranceUrl) setInsuranceUrl(profile.insurance)
+            if (profile.driverLicense && !driverLicenseUrl) {
+              setDriverLicenseUrl(profile.driverLicense)
+              setDriverLicenseFileName(getUploadedFileName(profile.driverLicense))
+            }
+            if (profile.insurance && !insuranceUrl) {
+              setInsuranceUrl(profile.insurance)
+              setInsuranceFileName(getUploadedFileName(profile.insurance))
+            }
           }
         })
         .catch(() => { })
@@ -454,6 +463,7 @@ function ReservationContent() {
   /* ---- File upload helper ---- */
   const handleDocUpload = async (file: File, type: "license" | "insurance") => {
     const setter = type === "license" ? setDriverLicenseUrl : setInsuranceUrl
+    const setFileName = type === "license" ? setDriverLicenseFileName : setInsuranceFileName
     const setLoading = type === "license" ? setUploadingLicense : setUploadingInsurance
     setLoading(true)
     try {
@@ -465,6 +475,7 @@ function ReservationContent() {
       const url = data.urls?.[0]
       if (url) {
         setter(url)
+        setFileName(file.name)
         // Save to profile
         fetch("/api/account/profile", {
           method: "PUT",
@@ -556,10 +567,10 @@ function ReservationContent() {
             }}
             disabled={(isFlowLockedFromDetails && sourceMode !== "car") || (step >= 2 && mode !== "car")}
             className={`flex-1 py-2.5 text-center text-sm font-medium transition-colors ${mode === "car"
-                ? "bg-mist-900 text-white"
-                : ((isFlowLockedFromDetails && sourceMode !== "car") || step >= 2)
-                  ? "text-mist-300 bg-mist-50 cursor-not-allowed"
-                  : "text-mist-400 bg-mist-50 hover:bg-mist-100"
+              ? "bg-mist-900 text-white"
+              : ((isFlowLockedFromDetails && sourceMode !== "car") || step >= 2)
+                ? "text-mist-300 bg-mist-50 cursor-not-allowed"
+                : "text-mist-400 bg-mist-50 hover:bg-mist-100"
               }`}
           >
             Car
@@ -572,10 +583,10 @@ function ReservationContent() {
             }}
             disabled={(isFlowLockedFromDetails && sourceMode !== "villa") || (step >= 2 && mode !== "villa")}
             className={`flex-1 py-2.5 text-center text-sm font-medium transition-colors ${mode === "villa"
-                ? "bg-mist-900 text-white"
-                : ((isFlowLockedFromDetails && sourceMode !== "villa") || step >= 2)
-                  ? "text-mist-300 bg-mist-50 cursor-not-allowed"
-                  : "text-mist-400 bg-mist-50 hover:bg-mist-100"
+              ? "bg-mist-900 text-white"
+              : ((isFlowLockedFromDetails && sourceMode !== "villa") || step >= 2)
+                ? "text-mist-300 bg-mist-50 cursor-not-allowed"
+                : "text-mist-400 bg-mist-50 hover:bg-mist-100"
               }`}
           >
             Villa
@@ -655,8 +666,12 @@ function ReservationContent() {
                 setPhone={setPhone}
                 driverLicenseUrl={driverLicenseUrl}
                 setDriverLicenseUrl={setDriverLicenseUrl}
+                driverLicenseFileName={driverLicenseFileName}
+                setDriverLicenseFileName={setDriverLicenseFileName}
                 insuranceUrl={insuranceUrl}
                 setInsuranceUrl={setInsuranceUrl}
+                insuranceFileName={insuranceFileName}
+                setInsuranceFileName={setInsuranceFileName}
                 uploadingLicense={uploadingLicense}
                 uploadingInsurance={uploadingInsurance}
                 onDocUpload={handleDocUpload}
@@ -994,6 +1009,7 @@ function CarSelectStep({
   firstName, setFirstName, lastName, setLastName,
   email, setEmail, phone, setPhone,
   driverLicenseUrl, setDriverLicenseUrl, insuranceUrl, setInsuranceUrl,
+  driverLicenseFileName, setDriverLicenseFileName, insuranceFileName, setInsuranceFileName,
   uploadingLicense, uploadingInsurance, onDocUpload,
   deliveryType, setDeliveryType,
   deliveryAddress, setDeliveryAddress,
@@ -1032,7 +1048,10 @@ function CarSelectStep({
   lastName: string; setLastName: (v: string) => void
   email: string; setEmail: (v: string) => void
   phone: string; setPhone: (v: string) => void
-  driverLicenseUrl: string; setDriverLicenseUrl: (v: string) => void; insuranceUrl: string; setInsuranceUrl: (v: string) => void
+  driverLicenseUrl: string; setDriverLicenseUrl: (v: string) => void
+  driverLicenseFileName: string; setDriverLicenseFileName: (v: string) => void
+  insuranceUrl: string; setInsuranceUrl: (v: string) => void
+  insuranceFileName: string; setInsuranceFileName: (v: string) => void
   uploadingLicense: boolean; uploadingInsurance: boolean
   onDocUpload: (file: File, type: "license" | "insurance") => void
   deliveryType: "pickup" | "delivery"
@@ -1049,8 +1068,8 @@ function CarSelectStep({
   const [calendarOpen, setCalendarOpen] = useState(false)
   const customerInfoRef = useRef<HTMLDivElement | null>(null)
   const didAutoScrollRef = useRef(false)
-const licenseInputRef = useRef<HTMLInputElement>(null)
-const insuranceInputRef = useRef<HTMLInputElement>(null)
+  const licenseInputRef = useRef<HTMLInputElement>(null)
+  const insuranceInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (!autoScrollToCustomerInfo || didAutoScrollRef.current) return
@@ -1205,9 +1224,19 @@ const insuranceInputRef = useRef<HTMLInputElement>(null)
           <div className="space-y-5 pl-0.5">
             <div>
               <p className="text-xs text-mist-500 mb-2">Driver Hours per Day</p>
-              <input type="range" min={1} max={16} value={driverHours} onChange={(e) => setDriverHours(Number(e.target.value))} className="w-full accent-mist-900" />
+              <input
+                type="range"
+                min={5}
+                max={15}
+                step={1}
+                value={driverHours}
+                onChange={(e) => setDriverHours(Number(e.target.value))}
+                className="w-full accent-mist-500"
+              />
               <div className="flex justify-between text-[10px] text-mist-400 mt-1">
-                <span>0 hr</span><span>{driverHours} hr</span><span>16 hr</span>
+                <span>5 hr</span>
+                <span>{driverHours} hr</span>
+                <span>15 hr</span>
               </div>
             </div>
             <div>
@@ -1373,51 +1402,87 @@ const insuranceInputRef = useRef<HTMLInputElement>(null)
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                {/* Driver License Upload */}
                 <div>
                   <label className="text-xs text-mist-500 block mb-1.5">Drivers License <span className="text-red-400">*</span></label>
-                 <input
-  id="license-upload"
-  ref={licenseInputRef}
-  type="file"
-  accept="image/*,.pdf"
-  className="w-full border border-neutral-300 rounded-md px-3 py-2 text-sm text-mist-700 file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700"
-  onChange={(e) => { const f = e.target.files?.[0]; if (f) onDocUpload(f, "license") }} />
+                  <div className="relative h-11">
+                    {!driverLicenseUrl ? (
+                      <input
+                        ref={licenseInputRef}
+                        type="file"
+                        accept="image/*,.pdf"
+                        className="w-full h-full border border-neutral-300 rounded-md px-3 py-[4px] text-sm text-mist-700 focus:border-neutral-400 focus:outline-none file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700 file:cursor-pointer"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          if (f) onDocUpload(f, "license");
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center border border-neutral-300 rounded-md px-3 bg-white">
+                        <span className="text-sm text-mist-700 truncate flex-1">{driverLicenseFileName}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setDriverLicenseUrl("");
+                            setDriverLicenseFileName("");
+                            if (licenseInputRef.current) licenseInputRef.current.value = "";
+                          }}
+                          className="flex-shrink-0 ml-2 text-mist-700 hover:text-mist-600 transition-colors"
+                          aria-label="Remove file"
+                        >
+                          <X size={18} strokeWidth={2.5} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
                   {uploadingLicense && <p className="mt-1 text-xs text-mist-400">Uploading...</p>}
                   {driverLicenseUrl && (
-                    <div>
-                      <a
-                        href={driverLicenseUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="mt-1 inline-block text-xs text-mist-600 underline"
-                      >
-                        View uploaded license
-                      </a>
-                      <button
-  type="button"
-  onClick={() => {
-    setDriverLicenseUrl("");
-    if (licenseInputRef.current) licenseInputRef.current.value = "";
-  }}
-  className="text-xs text-red-500 hover:text-red-600 underline"
->
-  Remove
-</button>
-                    </div>
+                    <a
+                      href={driverLicenseUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-1 inline-block text-xs text-mist-600 underline"
+                    >
+                      View uploaded license
+                    </a>
                   )}
                 </div>
+
+                {/* Insurance Upload */}
                 <div>
                   <label className="text-xs text-mist-500 block mb-1.5">Insurance <span className="text-red-400">*</span></label>
-                  <input
-  id="insurance-upload"
-  ref={insuranceInputRef}
-  type="file"
-  accept="image/*,.pdf"
-  className="w-full border border-neutral-300 rounded-md px-3 py-2 text-sm text-mist-700 file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700"
-  onChange={(e) => { const f = e.target.files?.[0]; if (f) onDocUpload(f, "insurance") }} />
+                  <div className="relative h-11">
+                    {!insuranceUrl ? (
+                      <input
+                        ref={insuranceInputRef}
+                        type="file"
+                        accept="image/*,.pdf"
+                        className="w-full h-full border border-neutral-300 rounded-md px-3 py-[4px] text-sm text-mist-700 focus:border-neutral-400 focus:outline-none file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700 file:cursor-pointer"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          if (f) onDocUpload(f, "insurance");
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center border border-neutral-300 rounded-md px-3 bg-white">
+                        <span className="text-sm text-mist-700 truncate flex-1">{insuranceFileName}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setInsuranceUrl("");
+                            setInsuranceFileName("");
+                            if (insuranceInputRef.current) insuranceInputRef.current.value = "";
+                          }}
+                          className="flex-shrink-0 ml-2 text-mist-700 hover:text-mist-600 transition-colors"
+                          aria-label="Remove file"
+                        >
+                          <X size={18} strokeWidth={2.5} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
                   {uploadingInsurance && <p className="mt-1 text-xs text-mist-400">Uploading...</p>}
-                {insuranceUrl && (
-                  <>
+                  {insuranceUrl && (
                     <a
                       href={insuranceUrl}
                       target="_blank"
@@ -1426,18 +1491,7 @@ const insuranceInputRef = useRef<HTMLInputElement>(null)
                     >
                       View uploaded insurance
                     </a>
-                    <button
-  type="button"
-  onClick={() => {
-    setInsuranceUrl("");
-    if (insuranceInputRef.current) insuranceInputRef.current.value = "";
-  }}
-  className="text-xs text-red-500 hover:text-red-600 underline"
->
-  Remove
-</button>
-                  </>
-                )}
+                  )}
                 </div>
               </div>
             </div>
@@ -1568,7 +1622,7 @@ function VillaSelectStep({
     <div className="space-y-8">
       {/* Villa Info */}
       <div>
-        <h2 className="text-3xl font-semibold text-mist-900 mb-4">Villa Info</h2>
+        <h2 className="text-lg font-semibold text-mist-900 mb-4">Villa Info</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="text-xs text-mist-500 block mb-1.5">Villa Name</label>
@@ -1611,7 +1665,7 @@ function VillaSelectStep({
 
       {/* Stay Details */}
       <div>
-        <h2 className="text-3xl font-semibold text-mist-900 mb-4">Stay Details</h2>
+        <h2 className="text-lg font-semibold text-mist-900 mb-4">Stay Details</h2>
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-2 sm:gap-3">
             <div>
@@ -1693,7 +1747,7 @@ function VillaSelectStep({
 
       {/* Add-Ons */}
       <div>
-        <h2 className="text-3xl font-semibold text-mist-900 mb-1">Add-Ons <span className="text-base italic text-mist-500 font-normal">(optional)</span></h2>
+        <h2 className="text-lg font-semibold text-mist-900 mb-1">Add-Ons <span className="text-xs italic text-mist-500 font-normal">(optional)</span></h2>
         <div className="space-y-3 mt-4">
           <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 py-3 cursor-pointer hover:border-mist-400 transition">
             <div className="flex items-center gap-2.5">
@@ -1740,7 +1794,7 @@ function VillaSelectStep({
       <div ref={customerInfoRef} className="border-t border-mist-200 pt-8 scroll-mt-28">
         {showCustomerInfo && (
           <>
-            <h2 className="text-3xl font-semibold text-mist-900 mb-4">Customer Info</h2>
+            <h2 className="text-lg font-semibold text-mist-900 mb-4">Customer Info</h2>
             <div className="space-y-3">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
@@ -1790,41 +1844,68 @@ function VillaSelectStep({
 
               <div>
                 <label className="text-xs text-mist-500 block mb-1.5">Upload ID / Passport <span className="text-red-400">*</span></label>
-                <input
-                  type="file"
-                  accept="image/*,.pdf"
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0]
-                    if (!file) return
-                    setVillaIdDocumentName(file.name)
-                    setUploadingVillaId(true)
-                    try {
-                      const fd = new FormData()
-                      fd.append("files", file)
-                      const res = await fetch("/api/upload", { method: "POST", body: fd })
-                      if (!res.ok) throw new Error()
-                      const data = await res.json()
-                      const url = data.urls?.[0]
-                      if (url) {
-                        setVillaIdDocumentUrl(url)
-                        fetch("/api/account/profile", {
-                          method: "PUT",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({ passport: url }),
-                        }).catch(() => { })
-                      }
-                    } catch {
-                      alert("Upload failed. Please try again.")
-                      setVillaIdDocumentName("")
-                    } finally {
-                      setUploadingVillaId(false)
-                    }
-                  }}
-                  className="w-full text-sm text-mist-500 file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700 hover:file:bg-mist-50"
-                />
+                <div className="relative h-11">
+                  {!villaIdDocumentUrl ? (
+                    <input
+                      id="villa-id-upload"
+                      type="file"
+                      accept="image/*,.pdf"
+                      className="w-full h-full border border-neutral-300 rounded-md px-3 py-[4px] text-sm text-mist-700 focus:border-neutral-400 focus:outline-none file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700 file:cursor-pointer"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0]
+                        if (!file) return
+                        setVillaIdDocumentName(file.name)
+                        setUploadingVillaId(true)
+                        try {
+                          const fd = new FormData()
+                          fd.append("files", file)
+                          const res = await fetch("/api/upload", { method: "POST", body: fd })
+                          if (!res.ok) throw new Error()
+                          const data = await res.json()
+                          const url = data.urls?.[0]
+                          if (url) {
+                            setVillaIdDocumentUrl(url)
+                            fetch("/api/account/profile", {
+                              method: "PUT",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ passport: url }),
+                            }).catch(() => { })
+                          }
+                        } catch {
+                          alert("Upload failed. Please try again.")
+                          setVillaIdDocumentName("")
+                        } finally {
+                          setUploadingVillaId(false)
+                        }
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center border border-neutral-300 rounded-md px-3 bg-white">
+                      <span className="text-sm text-mist-700 truncate flex-1">{villaIdDocumentName}</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setVillaIdDocumentUrl("");
+                          setVillaIdDocumentName("");
+                          const input = document.getElementById("villa-id-upload") as HTMLInputElement;
+                          if (input) input.value = "";
+                        }}
+                        className="flex-shrink-0 ml-2 text-mist-500 hover:text-mist-600 transition-colors"
+                        aria-label="Remove file"
+                      >
+                        <X size={18} strokeWidth={2.5} />
+                      </button>
+                    </div>
+                  )}
+                </div>
                 {uploadingVillaId && <p className="mt-1 text-xs text-mist-400">Uploading...</p>}
                 {villaIdDocumentUrl && (
-                  <a href={villaIdDocumentUrl} target="_blank" rel="noreferrer" className="mt-1 inline-block text-xs text-mist-600 underline">
+                  <a
+                    href={villaIdDocumentUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-1 inline-block text-xs text-mist-600 underline"
+                  >
                     View uploaded document
                   </a>
                 )}

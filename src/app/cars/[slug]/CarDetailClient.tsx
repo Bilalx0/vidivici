@@ -531,7 +531,7 @@ function switchTemporalInputType(input: HTMLInputElement, kind: "date" | "time")
     input.focus()
     if (typeof (input as HTMLInputElement & { showPicker?: () => void }).showPicker === "function") {
       try {
-        ;(input as HTMLInputElement & { showPicker: () => void }).showPicker()
+        ; (input as HTMLInputElement & { showPicker: () => void }).showPicker()
       } catch {
         // Safari can block showPicker; focus fallback still works.
       }
@@ -896,7 +896,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                   {/* Need a Driver */}
                   <div className="space-y-3 2xl:space-y-4">
                     <p className="text-[15px] 2xl:text-xl font-bold text-mist-500">
-                      Need a Driver? 
+                      Need a Driver?
                     </p>
 
                     <label className="flex items-center justify-between border border-mist-200 rounded-md px-3 2xl:px-5 py-3 2xl:py-4 cursor-pointer hover:border-mist-400 transition">
@@ -934,16 +934,16 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                         <p className="text-xs 2xl:text-base text-mist-500">Driver Hours per Day</p>
                         <input
                           type="range"
-                          min={1}
-                          max={16}
+                          min={5}
+                          max={15}
                           value={driverHours}
                           onChange={(e) => setDriverHours(Number(e.target.value))}
                           className="w-full accent-mist-500"
                         />
-                        <div className="flex justify-between text-[10px] 2xl:text-base text-mist-400">
-                          <span>0 hr</span>
+                        <div className="flex justify-between text-[10px] text-mist-400">
+                          <span>5 hr</span>
                           <span className="font-medium text-mist-600">{driverHours} hr</span>
-                          <span>16 hr</span>
+                          <span>15 hr</span>
                         </div>
                       </div>
 
@@ -1203,16 +1203,16 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                     <p className="text-xs text-mist-500">Driver Hours per Day</p>
                     <input
                       type="range"
-                      min={1}
-                      max={16}
+                      min={5}
+                      max={15}
                       value={driverHours}
                       onChange={(e) => setDriverHours(Number(e.target.value))}
                       className="w-full accent-mist-500"
                     />
-                    <div className="flex justify-between text-[10px] text-mist-400">
-                      <span>0 hr</span>
+                    <div className="flex justify-between text-[10px] 2xl:text-base text-mist-400">
+                      <span>5 hr</span>
                       <span className="font-medium text-mist-600">{driverHours} hr</span>
-                      <span>16 hr</span>
+                      <span>15 hr</span>
                     </div>
                   </div>
 
@@ -1320,20 +1320,20 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
         </div>
       )}
 
-        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 pt-16 2xl:pt-24 flex items-center justify-between gap-4">
-          <h2 className="text-2xl sm:text-4xl 2xl:text-5xl font-bold text-mist-900 tracking-tight">
-            You may also like
-          </h2>
-          <a
-            href="#"
-            className="flex items-center gap-1 text-sm font-medium text-mist-500 bg-mist-100 rounded-md px-4 py-2 hover:bg-mist-50 transition-colors duration-150 whitespace-nowrap shrink-0"
-          >
-            View all
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7 17 17 7M7 7h10v10" />
-            </svg>
-          </a>
-        </div>
+      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 pt-16 2xl:pt-24 flex items-center justify-between gap-4">
+        <h2 className="text-2xl sm:text-4xl 2xl:text-5xl font-bold text-mist-900 tracking-tight">
+          You may also like
+        </h2>
+        <a
+          href="#"
+          className="flex items-center gap-1 text-sm font-medium text-mist-500 bg-mist-100 rounded-md px-4 py-2 hover:bg-mist-50 transition-colors duration-150 whitespace-nowrap shrink-0"
+        >
+          View all
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7 17 17 7M7 7h10v10" />
+          </svg>
+        </a>
+      </div>
       <Rentals showHeader={false} discountBadgeText={undefined} />
       <WhyChooseUs />
       <Reviews />

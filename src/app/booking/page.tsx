@@ -304,7 +304,16 @@ function ReservationContent() {
   const [isOneWay, setIsOneWay] = useState(false)
   const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal">("paypal")
 
-  /* ---- Pay step state (removed - now using PayPal) ---- */
+  /* ---- Credit card form state ---- */
+  const [cardName, setCardName] = useState("")
+  const [cardNumber, setCardNumber] = useState("")
+  const [cardExpiry, setCardExpiry] = useState("")
+  const [cardCvv, setCardCvv] = useState("")
+  const [cardBillingAddress, setCardBillingAddress] = useState("")
+  const [cardCountry, setCardCountry] = useState("")
+  const [cardZip, setCardZip] = useState("")
+  const [placingOrder, setPlacingOrder] = useState(false)
+  const [cardError, setCardError] = useState("")
 
   const today = new Date().toISOString().split("T")[0]
 
@@ -611,6 +620,70 @@ function ReservationContent() {
     }
   }
 
+  const handlePlaceOrder = async () => {
+    setCardError("")
+    if (!cardName.trim()) { setCardError("Please enter the name on your card."); return }
+    const digits = cardNumber.replace(/\s/g, "")
+    if (digits.length < 13) { setCardError("Please enter a valid card number."); return }
+    if (cardExpiry.length < 5) { setCardError("Please enter a valid expiration date."); return }
+    if (cardCvv.length < 3) { setCardError("Please enter your security code."); return }
+    setPlacingOrder(true)
+    try {
+      let res: Response
+      if (mode === "car" && selectedCar) {
+        res = await fetch("/api/bookings", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            carId: selectedCar.id,
+            startDate,
+            endDate,
+            pickupLocation: selectedCar.location,
+            dropoffLocation: selectedCar.location,
+            deliveryType,
+            deliveryAddress: deliveryType === "delivery" ? deliveryAddress : undefined,
+            returnAddress: deliveryType === "delivery" ? (isOneWay ? returnAddress : deliveryAddress) : undefined,
+            isOneWay,
+            notes: needDriver ? `Driver: ${driverHours}hr/day × ${actualDriverDays} days` : undefined,
+          }),
+        })
+      } else if (mode === "villa" && selectedVilla) {
+        res = await fetch("/api/villa-bookings", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            villaId: selectedVilla.id,
+            checkIn: startDate,
+            checkOut: endDate,
+            guests: guestCount,
+            notes: [
+              `Check-in time: ${startTime || "N/A"}`,
+              `Check-out time: ${endTime || "N/A"}`,
+              `Customer: ${firstName || ""} ${lastName || ""}`.trim(),
+              `Email: ${email || "N/A"}`,
+              `Phone: ${phone || "N/A"}`,
+              [villaAirportTransfer ? "Airport Transfer (Luxury SUV)" : null, villaPrivateChef ? "Private Chef" : null, villaSecurityService ? "Security Service" : null].filter(Boolean).length
+                ? `Add-ons: ${[villaAirportTransfer ? "Airport Transfer (Luxury SUV)" : null, villaPrivateChef ? "Private Chef" : null, villaSecurityService ? "Security Service" : null].filter(Boolean).join(", ")}`
+                : "Add-ons: None",
+            ].join("\n"),
+          }),
+        })
+      } else {
+        setCardError("No booking data. Please go back and select a vehicle.")
+        setPlacingOrder(false)
+        return
+      }
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || "Failed to create booking")
+      setBookingId((data.id || "").slice(-6).toUpperCase())
+      setStep(3)
+    } catch (err: any) {
+      setCardError(err.message || "Something went wrong. Please try again.")
+    } finally {
+      setPlacingOrder(false)
+    }
+  }
+
   const vehicleName = mode === "car" ? (selectedCar?.name || "Car") : (selectedVilla?.name || "Villa")
   const hasVehicle = mode === "car" ? !!selectedCar : !!selectedVilla
   const canProceed = hasVehicle
@@ -851,7 +924,13 @@ function ReservationContent() {
                       <div className="space-y-4 bg-white px-4 py-5">
                         <div>
                           <label className="mb-1.5 block text-xs font-medium text-mist-700">Name on Card</label>
-                          <input type="text" placeholder="Enter cardholder name" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400" />
+                          <input
+                            type="text"
+                            placeholder="Enter cardholder name"
+                            value={cardName}
+                            onChange={(e) => setCardName(e.target.value)}
+                            className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                          />
                         </div>
                         <div>
                           <label className="mb-1.5 block text-xs font-medium text-mist-700">Card Number</label>
@@ -864,9 +943,10 @@ function ReservationContent() {
                               inputMode="numeric"
                               placeholder="1234 1234 1234 1234"
                               maxLength={19}
+                              value={cardNumber}
                               onChange={(e) => {
                                 const digits = e.target.value.replace(/\D/g, "").slice(0, 16)
-                                e.target.value = digits.replace(/(\d{4})(?=\d)/g, "$1 ")
+                                setCardNumber(digits.replace(/(\d{4})(?=\d)/g, "$1 "))
                               }}
                               className="w-full rounded-lg border border-mist-200 bg-white pl-10 pr-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400 tracking-wider"
                             />
@@ -880,10 +960,11 @@ function ReservationContent() {
                               inputMode="numeric"
                               placeholder="MM/YY"
                               maxLength={5}
+                              value={cardExpiry}
                               onChange={(e) => {
                                 let v = e.target.value.replace(/\D/g, "").slice(0, 4)
                                 if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2)
-                                e.target.value = v
+                                setCardExpiry(v)
                               }}
                               className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
                             />
@@ -895,21 +976,32 @@ function ReservationContent() {
                               inputMode="numeric"
                               placeholder="CVV"
                               maxLength={3}
-                              onChange={(e) => {
-                                e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3)
-                              }}
+                              value={cardCvv}
+                              onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 3))}
                               className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
                             />
                           </div>
                         </div>
                         <div>
                           <label className="mb-1.5 block text-xs font-medium text-mist-700">Billing Address</label>
-                          <input type="text" placeholder="Enter billing address" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400" />
+                          <input
+                            type="text"
+                            placeholder="Enter billing address"
+                            value={cardBillingAddress}
+                            onChange={(e) => setCardBillingAddress(e.target.value)}
+                            className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                          />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <label className="mb-1.5 block text-xs font-medium text-mist-700">Country</label>
-                            <input type="text" placeholder="United States" className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400" />
+                            <input
+                              type="text"
+                              placeholder="United States"
+                              value={cardCountry}
+                              onChange={(e) => setCardCountry(e.target.value)}
+                              className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                            />
                           </div>
                           <div>
                             <label className="mb-1.5 block text-xs font-medium text-mist-700">ZIP Code</label>
@@ -918,18 +1010,22 @@ function ReservationContent() {
                               inputMode="numeric"
                               placeholder="ZIP code"
                               maxLength={5}
-                              onChange={(e) => {
-                                e.target.value = e.target.value.replace(/\D/g, "").slice(0, 5)
-                              }}
+                              value={cardZip}
+                              onChange={(e) => setCardZip(e.target.value.replace(/\D/g, "").slice(0, 5))}
                               className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
                             />
                           </div>
                         </div>
+                        {cardError && (
+                          <p className="text-sm text-red-500">{cardError}</p>
+                        )}
                         <button
                           type="button"
-                          className="w-full rounded-lg bg-mist-900 py-3 text-sm font-semibold text-white hover:bg-mist-800 transition-colors"
+                          onClick={handlePlaceOrder}
+                          disabled={placingOrder}
+                          className="w-full rounded-lg bg-mist-900 py-3 text-sm font-semibold text-white hover:bg-mist-800 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                          Place Order
+                          {placingOrder ? "Processing…" : "Place Order"}
                         </button>
                       </div>
                     )}

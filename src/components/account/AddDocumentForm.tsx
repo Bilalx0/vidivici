@@ -85,7 +85,7 @@ export default function AddDocumentForm({ title, numberLabel, uploadLabel, onSub
           className="w-full border-2 border-dashed border-blue-300 rounded-2xl py-10 flex flex-col items-center gap-3 hover:bg-blue-50/40 transition-colors group"
         >
           {preview ? (
-            <img src={preview} alt="Preview" className="h-24 object-contain rounded-lg" />
+            <img src={preview} alt="Preview" loading="lazy" className="h-24 object-contain rounded-lg" />
           ) : (
             <>
               <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center group-hover:scale-105 transition-transform">

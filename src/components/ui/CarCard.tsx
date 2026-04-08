@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Heart, Users, Gauge, Zap, ArrowUpRight } from "lucide-react";
 
 function StatPill({ icon, label, value }) {
@@ -28,10 +29,12 @@ export default function CarCard({ car, discountBadgeText = undefined }) {
             <span role="img" aria-label="fire" className=" ">🔥</span> <p>{discountBadgeText}</p>
           </div>
         )}
-        <img
+        <Image
           src={car.image}
           alt={car.name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1536px) 320px, 500px"
+          className="object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]"
         />
         <button
           onClick={(e) => { e.stopPropagation(); setLiked((p) => !p); }}

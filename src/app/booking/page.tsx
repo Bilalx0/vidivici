@@ -2163,7 +2163,7 @@ function CarSummaryCard({
       <div className="flex gap-4">
         <div className="w-24 h-16 bg-mist-100 rounded-xl overflow-hidden shrink-0">
           {car.image ? (
-            <img src={car.image} alt={car.name} className="w-full h-full object-cover" />
+            <img src={car.image} alt={car.name} loading="lazy" className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-xs text-mist-400">No image</div>
           )}
@@ -2289,7 +2289,7 @@ function VillaSummaryCard({
       <div className="flex gap-4">
         <div className="w-24 h-16 bg-mist-100 rounded-xl overflow-hidden shrink-0">
           {villa.image ? (
-            <img src={villa.image} alt={villa.name} className="w-full h-full object-cover" />
+            <img src={villa.image} alt={villa.name} loading="lazy" className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-xs text-mist-400">No image</div>
           )}

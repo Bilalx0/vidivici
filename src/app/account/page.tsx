@@ -169,7 +169,7 @@ export default function PersonalInfoPage() {
           <div className="w-28 2xl:w-40 h-28 2xl:h-40 rounded-full border-4 2xl:border-6 border-white shadow-md overflow-hidden bg-mist-200 flex items-center justify-center">
             {form.image ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={form.image} alt="Profile" className="w-full h-full object-cover" />
+              <img src={form.image} alt="Profile" loading="lazy" className="w-full h-full object-cover" />
             ) : (
               <span className="text-3xl 2xl:text-5xl font-bold text-mist-400">{initials}</span>
             )}

@@ -64,7 +64,7 @@ function WishlistCarCard({ item }: { item: WishlistItem }) {
       <div className="relative h-56 2xl:h-[350px] overflow-hidden p-3 2xl:p-5">
         <Link href={`/cars/${car.slug}`} className="block w-full h-full">
           {img ? (
-            <img src={img} alt={car.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]" />
+            <img src={img} alt={car.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]" />
           ) : (
             <div className="w-full h-full rounded-2xl 2xl:rounded-[30px] flex items-center justify-center bg-mist-100">
               <ImageOff size={32} className="text-mist-300" />
@@ -116,7 +116,7 @@ function WishlistVillaCard({ item }: { item: WishlistItem }) {
       <div className="relative h-56 2xl:h-[350px] overflow-hidden p-3 2xl:p-5">
         <Link href={`/villas/${villa.slug}`} className="block w-full h-full">
           {img ? (
-            <img src={img} alt={villa.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]" />
+            <img src={img} alt={villa.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]" />
           ) : (
             <div className="w-full h-full bg-mist-100 flex items-center justify-center text-mist-400 text-sm rounded-2xl">No Image</div>
           )}
@@ -180,7 +180,7 @@ function WishlistEventCard({ item }: { item: WishlistItem }) {
       <div className="relative h-56 2xl:h-[350px] overflow-hidden p-3 2xl:p-5">
         <Link href={`/events/${event.slug}`} className="block w-full h-full">
           {img ? (
-            <img src={img} alt={event.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]" />
+            <img src={img} alt={event.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]" />
           ) : (
             <div className="w-full h-full bg-mist-100 flex items-center justify-center text-mist-400 text-sm 2xl:text-lg rounded-2xl 2xl:rounded-[30px]">No Image</div>
           )}

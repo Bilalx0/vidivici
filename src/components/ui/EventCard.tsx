@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Heart, Users, Shirt, Banknote, ArrowUpRight } from "lucide-react";
 
 function StatPill({ icon, label, value }) {
@@ -22,10 +23,12 @@ export default function EventCard({ event }) {
 
       {/* Image - Height scaled for the 7869px verticality */}
       <div className="relative h-56 2xl:h-80 overflow-hidden p-3 2xl:p-5">
-        <img
+        <Image
           src={event.image}
           alt={event.name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1536px) 320px, 500px"
+          className="object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]"
         />
         <button
           onClick={(e) => { e.stopPropagation(); setLiked((p) => !p); }}

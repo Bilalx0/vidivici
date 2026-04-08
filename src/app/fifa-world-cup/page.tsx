@@ -99,7 +99,7 @@ function EventSlider() {
                 <div key={event.id} className="flex-shrink-0 w-[270px] 2xl:w-[320px] bg-white rounded-2xl overflow-hidden border border-mist-100 group">
                   <div className="relative h-44 2xl:h-52 overflow-hidden">
                     {img ? (
-                      <img src={img} alt={event.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <img src={img} alt={event.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                     ) : (
                       <div className="w-full h-full bg-mist-100 flex items-center justify-center text-mist-400 text-sm">No Image</div>
                     )}
@@ -156,6 +156,7 @@ function GalleryBentoGrid() {
               <img
                 src={img.src}
                 alt={img.alt}
+                loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
@@ -239,6 +240,7 @@ function BigImageSlider() {
                   <img
                     src={slide.image}
                     alt={slide.title}
+                    loading="lazy"
                     className="w-full h-full object-cover"
                   />
                   
@@ -257,9 +259,10 @@ function BigImageSlider() {
 
                   {/* Image/FIFA Badge Branding */}
                   <div className="absolute bottom-12 2xl:bottom-20 right-12 2xl:right-20 w-20 h-20 flex items-center justify-center">
-                     <img 
-                       src="/fifa-logo.png" 
-                       alt="FIFA 2026" 
+                     <img
+                       src="/fifa-logo.png"
+                       alt="FIFA 2026"
+                       loading="lazy"
                        className="w-14 h-14 object-contain"
                      />
                   </div>
@@ -349,6 +352,7 @@ function FifaContent() {
               <img
                 src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=700&q=80"
                 alt="SoFi Stadium"
+                loading="lazy"
                 className="w-full h-[320px] 2xl:h-[400px] object-cover"
               />
             </div>

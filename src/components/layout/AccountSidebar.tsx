@@ -33,7 +33,7 @@ export default function AccountSidebar({ name, email, profileImage, onNavClick }
           <div className="w-20 h-20 rounded-full bg-mist-100 flex items-center justify-center text-2xl font-bold text-mist-400 mb-4 overflow-hidden ring-2 ring-mist-100">
             {profileImage ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
+              <img src={profileImage} alt="Profile" loading="lazy" className="w-full h-full object-cover" />
             ) : (
               <span>{initials}</span>
             )}

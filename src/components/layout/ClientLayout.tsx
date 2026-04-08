@@ -5,9 +5,10 @@ import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 
+import dynamic from "next/dynamic";
 import Header from "./Header";
 import Footer from "./Footer";
-import ChatBot from "@/components/ChatBot";
+const ChatBot = dynamic(() => import("@/components/ChatBot"), { ssr: false });
 
 import AccountHeader from "./AccountHeader";
 import AccountFooter from "./AccountFooter";

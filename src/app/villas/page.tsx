@@ -563,7 +563,7 @@ function VillaListCard({ villa, wishlisted: initialWishlisted }: { villa: VillaF
       <div className="relative h-56 2xl:h-[350px] overflow-hidden p-3 2xl:p-5">
         <Link href={`/villas/${villa.slug}`} className="block w-full h-full">
           {image ? (
-            <img src={image} alt={villa.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]" />
+            <img src={image} alt={villa.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]" />
           ) : (
             <div className="w-full h-full bg-mist-100 flex items-center justify-center text-mist-400 text-sm rounded-2xl">No Image</div>
           )}

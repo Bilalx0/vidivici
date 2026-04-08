@@ -522,6 +522,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                       <img
                         src={item.icon}
                         alt=""
+                        loading="lazy"
                         className="w-5 h-5 2xl:w-6 2xl:h-6 object-contain shrink-0"
                       />
                       <span className="text-sm 2xl:text-lg text-mist-700">{item.name}</span>
@@ -1035,7 +1036,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                     <div className="relative flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer">
                       <div className="relative h-56 overflow-hidden">
                         {rv.image ? (
-                          <img src={rv.image} alt={rv.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                          <img src={rv.image} alt={rv.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                         ) : (
                           <div className="w-full h-full bg-mist-100 flex items-center justify-center text-mist-400 text-sm">No Image</div>
                         )}

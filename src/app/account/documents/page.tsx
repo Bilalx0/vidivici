@@ -130,7 +130,7 @@ export default function DocumentsPage() {
                   </a>
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={item.doc.url} alt={item.type} className="w-full h-full object-contain" />
+                  <img src={item.doc.url} alt={item.type} loading="lazy" className="w-full h-full object-contain" />
                 )
               ) : (
                 <span className="text-xs text-mist-400">No image uploaded</span>

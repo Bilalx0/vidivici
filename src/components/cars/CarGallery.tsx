@@ -195,6 +195,7 @@ const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
           <img
             src={images[activeIndex].url}
             alt={images[activeIndex].alt || "Car image"}
+            loading="lazy"
             className="w-full h-full object-cover cursor-zoom-in"
             onClick={openLightbox}
           />
@@ -250,7 +251,7 @@ const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
                                 : "border-transparent hover:border-gray-300"
                               }`}
                 >
-                  <img src={img.url} alt={img.alt || ""} className="w-full h-full object-cover" />
+                  <img src={img.url} alt={img.alt || ""} loading="lazy" className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -357,6 +358,7 @@ const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
                   src={images[activeIndex].url}
                   alt={images[activeIndex].alt || ""}
                   draggable={false}
+                  loading="lazy"
                   className="select-none"
                   style={{
   width: "100%",
@@ -417,7 +419,7 @@ const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
                                   : "opacity-40 hover:opacity-75"
                                 }`}
                   >
-                    <img src={img.url} alt="" className="w-full h-full object-cover" draggable={false} />
+                    <img src={img.url} alt="" loading="lazy" className="w-full h-full object-cover" draggable={false} />
                   </button>
                 ))}
               </div>

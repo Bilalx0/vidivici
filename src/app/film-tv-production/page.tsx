@@ -127,7 +127,7 @@ function VillaListCard({ villa }: { villa: VillaFromAPI }) {
     <div className="relative flex flex-col bg-white rounded-2xl 2xl:rounded-3xl overflow-hidden shadow-xl border border-mist-200 hover:shadow-md transition-all duration-300 group cursor-pointer">
       <div className="relative h-56 2xl:h-[350px] overflow-hidden p-3 2xl:p-5">
         {image ? (
-          <img src={image} alt={villa.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]" />
+          <img src={image} alt={villa.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]" />
         ) : (
           <div className="w-full h-full bg-mist-100 flex items-center justify-center text-mist-400 text-sm 2xl:text-lg rounded-2xl 2xl:rounded-[30px]">No Image</div>
         )}
@@ -778,13 +778,13 @@ function FilmTVContent() {
           {/* 2x2 Image Grid */}
           <div className="grid grid-cols-3 grid-rows-2 gap-3 w-full">
             <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600&q=80" alt="Camera equipment"
-              className="col-span-2 row-span-1 w-full h-52 object-cover rounded-2xl" />
+              loading="lazy" className="col-span-2 row-span-1 w-full h-52 object-cover rounded-2xl" />
             <img src="https://images.unsplash.com/photo-1578022761797-b8636ac1773c?w=600&q=80" alt="Studio lights"
-              className="col-span-1 row-span-1 w-full h-52 object-cover rounded-2xl" />
+              loading="lazy" className="col-span-1 row-span-1 w-full h-52 object-cover rounded-2xl" />
             <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80" alt="Film crew"
-              className="col-span-1 row-span-1 w-full h-52 object-cover rounded-2xl" />
+              loading="lazy" className="col-span-1 row-span-1 w-full h-52 object-cover rounded-2xl" />
             <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80" alt="Production set"
-              className="col-span-2 row-span-1 w-full h-52 object-cover rounded-2xl" />
+              loading="lazy" className="col-span-2 row-span-1 w-full h-52 object-cover rounded-2xl" />
           </div>
         </div>
       </section>
@@ -802,6 +802,7 @@ function FilmTVContent() {
               src="/Vector 7.png"
               alt=""
               aria-hidden="true"
+              loading="lazy"
               className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none  rotate-180"
             />
 
@@ -810,6 +811,7 @@ function FilmTVContent() {
               src="/Vector 7.png"
               alt=""
               aria-hidden="true"
+              loading="lazy"
               className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180"
             />
 

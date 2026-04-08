@@ -294,6 +294,7 @@ export function VenueBookingForm() {
               src="/Vector 7.png"
               alt=""
               aria-hidden="true"
+              loading="lazy"
               className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none  rotate-180"
             />
           
@@ -614,7 +615,7 @@ function EventTypesCarousel() {
           <div ref={scrollRef} className="flex gap-5 2xl:gap-10 overflow-x-auto scrollbar-hide scroll-smooth pb-2" style={{ scrollbarWidth: "none" }}>
             {EVENT_TYPES.map((et) => (
               <div key={et.title} className="flex-shrink-0 w-[280px] 2xl:w-[420px] relative rounded-2xl 2xl:rounded-3xl overflow-hidden group cursor-pointer h-56 2xl:h-[360px]">
-                <img src={et.image} alt={et.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <img src={et.image} alt={et.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
                   <h3 className="text-sm 2xl:text-2xl font-bold text-white mb-0.5 2xl:mb-2">{et.title}</h3>
@@ -677,6 +678,7 @@ export default function BallroomPage() {
           <img
             src={HERO_IMAGE}
             alt="Delilah Los Angeles Interior"
+            loading="lazy"
             className="w-full h-full object-cover"
           />
 
@@ -711,6 +713,7 @@ export default function BallroomPage() {
             <img
               src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1000"
               alt="The Trinity Building Exterior"
+              loading="lazy"
               className="w-full h-full object-cover rounded-[2rem] shadow-sm"
             />
           </div>
@@ -718,6 +721,7 @@ export default function BallroomPage() {
             <img
               src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=600"
               alt="Historic Ballroom Interior"
+              loading="lazy"
               className="w-full h-full object-cover rounded-[2rem] shadow-sm"
             />
           </div>
@@ -814,9 +818,10 @@ export default function BallroomPage() {
                 <div key={index} className="min-w-full md:min-w-[33.333%] px-3">
                   <div className="relative h-[450px] 2xl:h-[560px] rounded-2xl 2xl:rounded-3xl overflow-hidden group cursor-pointer">
                     {/* Image */}
-                    <img 
-                      src={event.image} 
+                    <img
+                      src={event.image}
                       alt={event.title}
+                      loading="lazy"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     
@@ -884,6 +889,7 @@ export default function BallroomPage() {
               src="/Vector 7.png"
               alt=""
               aria-hidden="true"
+              loading="lazy"
               className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none  rotate-180"
             />
 
@@ -892,6 +898,7 @@ export default function BallroomPage() {
               src="/Vector 7.png"
               alt=""
               aria-hidden="true"
+              loading="lazy"
               className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180"
             />
 

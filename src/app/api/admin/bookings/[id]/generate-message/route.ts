@@ -8,7 +8,7 @@ const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
-    if (!session?.user || (session.user as any).role !== "ADMIN") {
+    if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 

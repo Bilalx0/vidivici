@@ -2,12 +2,23 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Eye, EyeOff } from "lucide-react"
 import Turnstile from "@/components/Turnstile"
+import { Suspense } from "react"
 
 export default function RegisterPage() {
+  return (
+    <Suspense fallback={null}>
+      <RegisterContent />
+    </Suspense>
+  )
+}
+
+function RegisterContent() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl") || ""
   const [form, setForm] = useState({ name: "", email: "", password: "" })
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
@@ -41,7 +52,7 @@ export default function RegisterPage() {
         throw new Error(data.error || "Registration failed")
       }
 
-      router.push("/login")
+      router.push(callbackUrl ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login")
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -170,7 +181,7 @@ export default function RegisterPage() {
             {/* Sign in link */}
             <p className="text-center text-sm 2xl:text-base text-mist-400 mt-6 2xl:mt-8">
               Already have an account?{" "}
-              <Link href="/login" className="text-mist-900 font-semibold hover:underline">
+              <Link href={callbackUrl ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login"} className="text-mist-900 font-semibold hover:underline">
                 Sign in
               </Link>
             </p>

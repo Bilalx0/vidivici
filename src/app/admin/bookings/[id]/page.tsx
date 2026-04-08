@@ -111,6 +111,17 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
   const [loading, setLoading] = useState(true)
   const [adminNotes, setAdminNotes] = useState("")
   const [actionLoading, setActionLoading] = useState("")
+  const [editing, setEditing] = useState(false)
+  const [editForm, setEditForm] = useState({
+    startDate: "",
+    endDate: "",
+    startTime: "",
+    endTime: "",
+    pickupLocation: "",
+    dropoffLocation: "",
+    totalPrice: 0,
+    guests: 1,
+  })
 
   const fetchBooking = async () => {
     try {
@@ -127,6 +138,55 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
   }
 
   useEffect(() => { fetchBooking() }, [id])
+
+  const startEditing = () => {
+    if (!booking) return
+    setEditForm({
+      startDate: booking.startDate?.split("T")[0] || "",
+      endDate: booking.endDate?.split("T")[0] || "",
+      startTime: booking.startTime || "",
+      endTime: booking.endTime || "",
+      pickupLocation: booking.pickupLocation || "",
+      dropoffLocation: booking.dropoffLocation || "",
+      totalPrice: booking.totalPrice || 0,
+      guests: booking.guests || 1,
+    })
+    setEditing(true)
+  }
+
+  const saveEdits = async () => {
+    if (!booking) return
+    setActionLoading("edit")
+    try {
+      const payload: Record<string, unknown> = { bookingType: booking.bookingType }
+      if (editForm.startDate) payload.startDate = editForm.startDate
+      if (editForm.endDate) payload.endDate = editForm.endDate
+      payload.startTime = editForm.startTime
+      payload.endTime = editForm.endTime
+      if (booking.bookingType === "car") {
+        payload.pickupLocation = editForm.pickupLocation
+        payload.dropoffLocation = editForm.dropoffLocation
+      }
+      if (booking.bookingType === "villa") {
+        payload.guests = editForm.guests
+      }
+      payload.totalPrice = editForm.totalPrice
+
+      const res = await fetch(`/api/admin/bookings/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      if (!res.ok) throw new Error()
+      toast.success("Booking details updated")
+      setEditing(false)
+      fetchBooking()
+    } catch {
+      toast.error("Failed to update booking")
+    } finally {
+      setActionLoading("")
+    }
+  }
 
   const updateBooking = async (field: string, value: string) => {
     if (!booking) return
@@ -300,6 +360,23 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
 
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-3 mb-8">
+        {!isCancelled && (
+          <button
+            onClick={editing ? saveEdits : startEditing}
+            disabled={actionLoading === "edit"}
+            className={`text-sm font-medium px-4 py-2 rounded flex items-center gap-2 ${editing ? "bg-emerald-600 hover:bg-emerald-700 text-white" : "bg-mist-900 hover:bg-mist-800 text-white"}`}
+          >
+            {actionLoading === "edit" ? "Saving..." : editing ? "✓ Save Changes" : "✎ Edit Details"}
+          </button>
+        )}
+        {editing && (
+          <button
+            onClick={() => setEditing(false)}
+            className="text-sm font-medium px-4 py-2 rounded bg-mist-100 text-mist-600 hover:bg-mist-200"
+          >
+            Cancel Edit
+          </button>
+        )}
         {booking.status === "PENDING" && !isCancelled && (
           <button
             onClick={confirmBooking}
@@ -384,6 +461,50 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
               <h3 className="font-semibold text-mist-900">Booking Info</h3>
               <MoreHorizontal size={16} className="text-mist-400" />
             </div>
+            {editing ? (
+              <div className="space-y-3 text-sm">
+                <div className="flex items-center gap-2"><span className="text-mist-500">Type:</span><span className="bg-mist-100 text-mist-700 px-2 py-0.5 rounded text-xs font-medium">{typeBadge}</span></div>
+                <p className="font-medium text-mist-900">{booking.itemName}</p>
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1">Start Date</label>
+                  <input type="date" value={editForm.startDate} onChange={e => setEditForm(f => ({ ...f, startDate: e.target.value }))} className="w-full bg-white border border-mist-200 text-sm px-3 py-2 rounded focus:border-black focus:outline-none" />
+                </div>
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1">End Date</label>
+                  <input type="date" value={editForm.endDate} onChange={e => setEditForm(f => ({ ...f, endDate: e.target.value }))} className="w-full bg-white border border-mist-200 text-sm px-3 py-2 rounded focus:border-black focus:outline-none" />
+                </div>
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1">Start Time</label>
+                  <input type="time" value={editForm.startTime} onChange={e => setEditForm(f => ({ ...f, startTime: e.target.value }))} className="w-full bg-white border border-mist-200 text-sm px-3 py-2 rounded focus:border-black focus:outline-none" />
+                </div>
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1">End Time</label>
+                  <input type="time" value={editForm.endTime} onChange={e => setEditForm(f => ({ ...f, endTime: e.target.value }))} className="w-full bg-white border border-mist-200 text-sm px-3 py-2 rounded focus:border-black focus:outline-none" />
+                </div>
+                {booking.bookingType === "car" && (
+                  <>
+                    <div>
+                      <label className="text-xs text-mist-500 block mb-1">Pickup Location</label>
+                      <input type="text" value={editForm.pickupLocation} onChange={e => setEditForm(f => ({ ...f, pickupLocation: e.target.value }))} className="w-full bg-white border border-mist-200 text-sm px-3 py-2 rounded focus:border-black focus:outline-none" />
+                    </div>
+                    <div>
+                      <label className="text-xs text-mist-500 block mb-1">Dropoff Location</label>
+                      <input type="text" value={editForm.dropoffLocation} onChange={e => setEditForm(f => ({ ...f, dropoffLocation: e.target.value }))} className="w-full bg-white border border-mist-200 text-sm px-3 py-2 rounded focus:border-black focus:outline-none" />
+                    </div>
+                  </>
+                )}
+                {booking.bookingType === "villa" && (
+                  <div>
+                    <label className="text-xs text-mist-500 block mb-1">Guests</label>
+                    <input type="number" min={1} value={editForm.guests} onChange={e => setEditForm(f => ({ ...f, guests: Number(e.target.value) }))} className="w-full bg-white border border-mist-200 text-sm px-3 py-2 rounded focus:border-black focus:outline-none" />
+                  </div>
+                )}
+                <div>
+                  <label className="text-xs text-mist-500 block mb-1">Total Price ($)</label>
+                  <input type="number" step="0.01" value={editForm.totalPrice} onChange={e => setEditForm(f => ({ ...f, totalPrice: Number(e.target.value) }))} className="w-full bg-white border border-mist-200 text-sm px-3 py-2 rounded focus:border-black focus:outline-none" />
+                </div>
+              </div>
+            ) : (
             <div className="space-y-3 text-sm">
               <div className="flex items-center gap-2"><span className="text-mist-500">Type:</span><span className="bg-mist-100 text-mist-700 px-2 py-0.5 rounded text-xs font-medium">{typeBadge}</span></div>
               <p className="font-medium text-mist-900">{booking.itemName}</p>
@@ -405,6 +526,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
                 <span className={`text-xs px-2 py-0.5 rounded font-medium ${docColors[booking.documentStatus || "PENDING"] || docColors.PENDING}`}>{booking.documentStatus || "Pending"}</span>
               </div>
             </div>
+            )}
           </div>
 
           {/* Add-Ons (Car only) */}

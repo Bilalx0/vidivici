@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight, ChevronDown, BedDouble, Users, Bath, Maximize2, MapPin, Plane, ChefHat, Shield, CreditCard, Sparkles, Percent, Bed, Tag, Share2, Bookmark } from "lucide-react"
@@ -144,6 +144,14 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
   const [airportTransfer, setAirportTransfer] = useState(false)
   const [privateChef, setPrivateChef] = useState(false)
   const [securityService, setSecurityService] = useState(false)
+  const [bookedRanges, setBookedRanges] = useState<{ start: string; end: string }[]>([])
+
+  useEffect(() => {
+    fetch(`/api/villas/${villa.id}/availability`)
+      .then((r) => (r.ok ? r.json() : { bookedRanges: [] }))
+      .then((data) => setBookedRanges(data.bookedRanges || []))
+      .catch(() => {})
+  }, [villa.id])
 
   const [eventSubmitting, setEventSubmitting] = useState(false)
   const [eventSuccess, setEventSuccess] = useState(false)
@@ -1085,6 +1093,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
         onEndDateChange={handleCheckOutDateChange}
         startLabel="check-in"
         endLabel="check-out"
+        bookedRanges={bookedRanges}
       />
 
       {/* Mobile Full-Screen Booking Popup */}

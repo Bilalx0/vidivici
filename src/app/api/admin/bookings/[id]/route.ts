@@ -64,7 +64,8 @@ export async function PUT(
   try {
     const { id } = await params
     const body = await request.json()
-    const { bookingType, status, paymentStatus, documentStatus, contractStatus, adminNotes, notes } = body
+    const { bookingType, status, paymentStatus, documentStatus, contractStatus, adminNotes, notes,
+      startDate, endDate, startTime, endTime, pickupLocation, dropoffLocation, totalPrice, guests } = body
 
     const updateData: any = {}
     if (status) updateData.status = status
@@ -73,6 +74,13 @@ export async function PUT(
     if (contractStatus) updateData.contractStatus = contractStatus
     if (adminNotes !== undefined) updateData.adminNotes = adminNotes
     if (notes !== undefined) updateData.notes = notes
+    if (startDate) updateData.startDate = new Date(startDate)
+    if (endDate) updateData.endDate = new Date(endDate)
+    if (startTime !== undefined) updateData.startTime = startTime
+    if (endTime !== undefined) updateData.endTime = endTime
+    if (pickupLocation !== undefined) updateData.pickupLocation = pickupLocation
+    if (dropoffLocation !== undefined) updateData.dropoffLocation = dropoffLocation
+    if (totalPrice !== undefined) updateData.totalPrice = totalPrice
 
     // Void PayPal authorization when cancelling
     if (status === 'CANCELLED') {
@@ -102,9 +110,20 @@ export async function PUT(
     }
 
     if (bookingType === 'villa') {
+      const villaUpdate: any = {}
+      if (status) villaUpdate.status = status
+      if (paymentStatus) villaUpdate.paymentStatus = paymentStatus
+      if (documentStatus) villaUpdate.documentStatus = documentStatus
+      if (contractStatus) villaUpdate.contractStatus = contractStatus
+      if (adminNotes !== undefined) villaUpdate.adminNotes = adminNotes
+      if (notes !== undefined) villaUpdate.notes = notes
+      if (startDate) villaUpdate.checkIn = new Date(startDate)
+      if (endDate) villaUpdate.checkOut = new Date(endDate)
+      if (totalPrice !== undefined) villaUpdate.totalPrice = totalPrice
+      if (guests !== undefined) villaUpdate.guests = guests
       const booking = await prisma.villaBooking.update({
         where: { id },
-        data: updateData,
+        data: villaUpdate,
         include: { villa: true, user: { select: { name: true, email: true, phone: true } } },
       })
       return NextResponse.json({ ...booking, bookingType: 'villa' })

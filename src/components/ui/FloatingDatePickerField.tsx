@@ -74,6 +74,7 @@ interface DateRangeCalendarPopupProps {
   minDate?: string
   startLabel?: string
   endLabel?: string
+  bookedRanges?: { start: string; end: string }[]
 }
 
 export default function DateRangeCalendarPopup({
@@ -86,6 +87,7 @@ export default function DateRangeCalendarPopup({
   minDate,
   startLabel = "start date",
   endLabel = "end date",
+  bookedRanges = [],
 }: DateRangeCalendarPopupProps) {
   const [isMobile, setIsMobile] = useState(false)
   const [hoveredDay, setHoveredDay] = useState<Date | undefined>()
@@ -98,6 +100,22 @@ export default function DateRangeCalendarPopup({
   const headerText = selectingEnd ? `Select ${endLabel}` : `Select ${startLabel}`
   const startDisplay = fromDate ? format(fromDate, "MMM d, yyyy") : startLabel
   const endDisplay = toDate ? format(toDate, "MMM d, yyyy") : endLabel
+
+  /* Build set of booked dates from ranges */
+  const bookedDates = useMemo(() => {
+    const dates: Date[] = []
+    for (const range of bookedRanges) {
+      const s = parseLocalDate(range.start)
+      const e = parseLocalDate(range.end)
+      if (!s || !e) continue
+      const cur = new Date(s)
+      while (cur <= e) {
+        dates.push(new Date(cur))
+        cur.setDate(cur.getDate() + 1)
+      }
+    }
+    return dates
+  }, [bookedRanges])
 
   /* Hover preview: only when selecting end & hovered day is AFTER start */
   const previewEnd =
@@ -117,14 +135,18 @@ export default function DateRangeCalendarPopup({
     } else if (fromDate) {
       m.selectedOnly = fromDate
     }
+    if (bookedDates.length > 0) {
+      m.booked = bookedDates
+    }
     return m
-  }, [fromDate, toDate, previewEnd])
+  }, [fromDate, toDate, previewEnd, bookedDates])
 
   const modifiersClassNames = {
     rangeStart: "rdp-range_start",
     rangeEnd: "rdp-range_end",
     rangeMiddle: "rdp-range_middle",
     selectedOnly: "rdp-custom-selected",
+    booked: "rdp-booked",
   }
 
   /* responsive */
@@ -289,6 +311,14 @@ export default function DateRangeCalendarPopup({
           .rdp-range-popup-mobile .rdp-month_caption {
             padding: 0.5rem 0;
           }
+          /* Booked dates */
+          .rdp-range-popup .rdp-booked .rdp-day_button {
+            background-color: #1a1a1a !important;
+            color: #fff !important;
+            border-radius: var(--rdp-day_button-border-radius);
+            cursor: not-allowed;
+            opacity: 0.85;
+          }
         `}</style>
         <div className={`${isMobile ? "rdp-range-popup rdp-range-popup-mobile overflow-y-auto flex-1 px-4 py-3" : "rdp-range-popup"}`}>
           <DayPicker
@@ -301,7 +331,10 @@ export default function DateRangeCalendarPopup({
             numberOfMonths={isMobile ? 6 : 2}
             showOutsideDays={!isMobile}
             startMonth={minParsed}
-            disabled={minParsed ? { before: minParsed } : undefined}
+            disabled={[
+              ...(minParsed ? [{ before: minParsed }] : []),
+              ...bookedDates,
+            ]}
           />
         </div>
       </div>

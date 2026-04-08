@@ -402,7 +402,7 @@
 
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import CarGallery from "@/components/cars/CarGallery"
@@ -561,7 +561,15 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
   const [calendarOpen, setCalendarOpen] = useState(false)
   const [discountsOpen, setDiscountsOpen] = useState(true);
   const [showMore, setShowMore] = useState(false);
+  const [bookedRanges, setBookedRanges] = useState<{ start: string; end: string }[]>([])
   const today = new Date().toISOString().split("T")[0]
+
+  useEffect(() => {
+    fetch(`/api/cars/${car.id}/availability`)
+      .then((r) => (r.ok ? r.json() : { bookedRanges: [] }))
+      .then((data) => setBookedRanges(data.bookedRanges || []))
+      .catch(() => {})
+  }, [car.id])
 
   const days: number =
     startDate && endDate
@@ -1094,6 +1102,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
         minDate={today}
         startLabel="start date"
         endLabel="end date"
+        bookedRanges={bookedRanges}
       />
 
       {/* Mobile Full-Screen Booking Popup */}

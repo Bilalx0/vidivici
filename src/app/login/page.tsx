@@ -3,12 +3,23 @@
 import Link from "next/link"
 import { useState } from "react"
 import { signIn } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Eye, EyeOff } from "lucide-react"
 import Turnstile from "@/components/Turnstile"
+import { Suspense } from "react"
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginContent />
+    </Suspense>
+  )
+}
+
+function LoginContent() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl") || "/account"
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -45,7 +56,7 @@ export default function LoginPage() {
       setError("Invalid email or password")
       setLoading(false)
     } else {
-      router.push("/account")
+      router.push(callbackUrl)
       router.refresh()
     }
   }
@@ -162,7 +173,7 @@ export default function LoginPage() {
             {/* Sign up link */}
             <p className="text-center text-sm 2xl:text-base text-mist-400 mt-6 2xl:mt-8">
               Already have an account?{" "}
-              <Link href="/register" className="text-mist-900 font-semibold hover:underline">
+              <Link href={callbackUrl !== "/account" ? `/register?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/register"} className="text-mist-900 font-semibold hover:underline">
                 Sign up
               </Link>
             </p>

@@ -86,85 +86,83 @@ export default function Testimonials() {
       
       {/* Header */}
       <div className="text-center mb-10 2xl:mb-24 sm:px-16 lg:px-20 px-6">
-        <h2 className="text-3xl 2xl:text-7xl font-bold text-mist-900 tracking-tight">
+        <h2 className="text-3xl 2xl:text-6xl font-bold text-mist-900 tracking-tight">
           What Our Customers Are Saying
         </h2>
-        <p className="mt-3 2xl:mt-8 text-sm 2xl:text-2xl text-mist-500 max-w-md 2xl:max-w-4xl mx-auto leading-relaxed">
+        <p className="mt-3 2xl:mt-8 text-sm 2xl:text-xl text-mist-500 max-w-md 2xl:max-w-3xl mx-auto leading-relaxed">
           From first-class service to unforgettable moments, our clients share why Vidi Vici is
           their choice for luxury in Los Angeles.
         </p>
       </div>
 
-      <div className="relative">
-        {/* Navigation Buttons */}
-        <button
-          onClick={() => scroll(-1)}
-          disabled={!canLeft}
-          className="absolute left-3 2xl:left-10 top-1/2 -translate-y-1/2 z-20 w-9 h-9 2xl:w-12 2xl:h-12 rounded-full bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all disabled:opacity-20"
-        >
-          <ChevronLeft className="text-mist-700 w-4 h-4 2xl:w-6 2xl:h-6" strokeWidth={2.5} />
-        </button>
+    <div className="relative">
+  {/* Navigation Buttons */}
+  <button
+    onClick={() => scroll(-1)}
+    disabled={!canLeft}
+    className="absolute left-3 2xl:left-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 2xl:w-10 2xl:h-10 rounded-full bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all disabled:opacity-20"
+  >
+    <ChevronLeft className="text-mist-700 w-4 h-4 2xl:w-5 2xl:h-5" strokeWidth={2.5} />
+  </button>
 
-        <button
-          onClick={() => scroll(1)}
-          disabled={!canRight}
-          className="absolute right-3 2xl:right-10 top-1/2 -translate-y-1/2 z-20 w-9 h-9 2xl:w-12 2xl:h-12 rounded-full bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all disabled:opacity-20"
-        >
-          <ChevronRight className="text-mist-700 w-4 h-4 2xl:w-6 2xl:h-6" strokeWidth={2.5} />
-        </button>
+  <button
+    onClick={() => scroll(1)}
+    disabled={!canRight}
+    className="absolute right-3 2xl:right-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 2xl:w-10 2xl:h-10 rounded-full bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all disabled:opacity-20"
+  >
+    <ChevronRight className="text-mist-700 w-4 h-4 2xl:w-5 2xl:h-5" strokeWidth={2.5} />
+  </button>
 
-        {/* Carousel Track */}
-        <div
-          ref={trackRef}
-          className="flex gap-4 2xl:gap-10 overflow-x-auto px-14 2xl:px-40 pb-4 no-scrollbar"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          {reviews.map((r) => (
-            <div
-              key={r.id}
-              /* FIX: Removed style-jsx and variable reference. 
-                 Using Tailwind's arbitrary width for 2xl.
-              */
-              className="flex-shrink-0 bg-white border border-mist-100 rounded-2xl 2xl:rounded-[40px] shadow-sm p-5 2xl:p-12 flex flex-col justify-between w-[300px] 2xl:w-[550px]"
-            >
-              <p className="text-[13px] 2xl:text-2xl text-mist-500 leading-relaxed italic">
-                "{r.text}"
-              </p>
-              
-              <div className="flex items-center gap-3 2xl:gap-6 mt-5 2xl:mt-12 pt-4 2xl:pt-10 border-t border-mist-100">
-                <img
-                  src={r.avatar}
-                  alt={r.name}
-                  className="w-9 h-9 2xl:w-20 2xl:h-20 rounded-full object-cover flex-shrink-0"
-                />
-                <div>
-                  <p className="text-[13px] 2xl:text-2xl font-normal text-mist-900 leading-none">
-                    {r.name}
-                  </p>
-                  <Stars rating={r.rating} />
-                </div>
-              </div>
-            </div>
-          ))}
-          {/* Spacer for end of scroll */}
-          <div className="w-8 2xl:w-40 flex-shrink-0" />
+  {/* Carousel Track */}
+  <div
+    ref={trackRef}
+    className="flex gap-4 2xl:gap-6 overflow-x-auto px-14 2xl:px-20 pb-4 no-scrollbar"
+    style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+  >
+    {reviews.map((r) => (
+      <div
+        key={r.id}
+        className="flex-shrink-0 bg-white border border-mist-100 rounded-2xl 2xl:rounded-3xl shadow-sm p-5 2xl:p-8 flex flex-col justify-between w-[300px] 2xl:w-[480px]"
+      >
+        <p className="text-[13px] 2xl:text-xl text-mist-500 leading-relaxed italic">
+          "{r.text}"
+        </p>
+        
+        <div className="flex items-center gap-3 2xl:gap-4 mt-5 2xl:mt-8 pt-4 2xl:pt-6 border-t border-mist-100">
+          <img
+            src={r.avatar}
+            alt={r.name}
+            className="w-9 h-9 2xl:w-12 2xl:h-12 rounded-full object-cover flex-shrink-0"
+          />
+          <div>
+            <p className="text-[13px] 2xl:text-base font-normal text-mist-900 leading-none">
+              {r.name}
+            </p>
+            <div className="2xl:scale-75 2xl:origin-left">
+  <Stars rating={r.rating} />
+</div>
+          </div>
         </div>
       </div>
+    ))}
+    <div className="w-8 2xl:w-12 flex-shrink-0" />
+  </div>
+</div>
 
-      {/* Pagination Dots */}
-      <div className="flex justify-center gap-2 2xl:gap-4 mt-6 2xl:mt-16">
-        {reviews.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => scrollToIndex(i)}
-            className={`rounded-full transition-all duration-300 ${
-              i === activeIndex
-                ? "w-5 h-2 2xl:w-12 2xl:h-4 bg-mist-900"
-                : "w-2 h-2 2xl:w-4 2xl:h-4 bg-mist-300 hover:bg-mist-500"
-            }`}
-          />
-        ))}
-      </div>
+{/* Pagination Dots */}
+<div className="flex justify-center gap-2 2xl:gap-3 mt-6 2xl:mt-10">
+  {reviews.map((_, i) => (
+    <button
+      key={i}
+      onClick={() => scrollToIndex(i)}
+      className={`rounded-full transition-all duration-300 ${
+        i === activeIndex
+          ? "w-5 h-2 2xl:w-7 2xl:h-2.5 bg-mist-900"
+          : "w-2 h-2 2xl:w-2.5 2xl:h-2.5 bg-mist-300 hover:bg-mist-500"
+      }`}
+    />
+  ))}
+</div>
     </section>
   );
 }

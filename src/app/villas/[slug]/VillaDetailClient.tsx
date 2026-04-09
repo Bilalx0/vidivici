@@ -535,7 +535,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
             </div>
 
             {/* Right Column — Booking Sidebar */}
-            <div className="hidden lg:block lg:w-[380px] 2xl:w-[500px] flex-shrink-0">
+            <div className="hidden lg:block lg:w-[380px] 2xl:w-[600px] flex-shrink-0">
               <div className="lg:sticky lg:top-24">
                 {/* Header - Always visible */}
                 <div className="mb-8 2xl:mb-12">

@@ -35,15 +35,15 @@ export default function AddDocumentForm({ title, numberLabel, uploadLabel, onSub
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-mist-200 shadow-xl p-6 sm:p-8 w-full max-w-xl mx-auto">
+    <div className="bg-white rounded-2xl 2xl:rounded-3xl border border-mist-200 shadow-xl p-6 sm:p-8 2xl:p-12 w-full max-w-xl 2xl:max-w-3xl mx-auto">
 
       {/* Title — hidden on mobile where layout header shows it */}
-      <h2 className="hidden lg:block text-xl font-bold text-mist-900 mb-6">{title}</h2>
+      <h2 className="hidden lg:block text-xl 2xl:text-3xl font-bold text-mist-900 mb-6 2xl:mb-10">{title}</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 2xl:space-y-8">
 
         {/* Number + Expiration row */}
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col sm:flex-row gap-3 2xl:gap-6">
 
           {/* Number input */}
           <input
@@ -51,13 +51,13 @@ export default function AddDocumentForm({ title, numberLabel, uploadLabel, onSub
             value={number}
             onChange={(e) => setNumber(e.target.value)}
             placeholder={numberLabel}
-            className="flex-1 border-2 border-mist-200 rounded-xl px-4 py-3 text-sm text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition"
+            className="flex-1 border-2 border-mist-200 rounded-xl 2xl:rounded-2xl px-4 2xl:px-6 py-3 2xl:py-5 text-sm 2xl:text-xl text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition"
           />
 
           {/* Expiration date selects */}
-          <div className="flex-1 border-2 border-mist-200 rounded-xl px-4 py-2.5 flex flex-col gap-0.5">
-            <span className="text-[10px] text-mist-400 font-medium">Expiration date</span>
-            <div className="flex items-center gap-1">
+          <div className="flex-1 border-2 border-mist-200 rounded-xl 2xl:rounded-2xl px-4 2xl:px-6 py-2.5 2xl:py-5 flex flex-col gap-0.5 2xl:gap-1">
+            <span className="text-[10px] 2xl:text-lg text-mist-400 font-medium">Expiration date</span>
+            <div className="flex items-center gap-1 2xl:gap-2">
               {[
                 { value: month, set: setMonth, options: MONTHS },
                 { value: day,   set: setDay,   options: DAYS   },
@@ -67,7 +67,7 @@ export default function AddDocumentForm({ title, numberLabel, uploadLabel, onSub
                   key={i}
                   value={sel.value}
                   onChange={(e) => sel.set(e.target.value)}
-                  className="flex-1 text-xs text-mist-600 bg-transparent outline-none cursor-pointer"
+                  className="flex-1 text-xs 2xl:text-xl text-mist-600 bg-transparent outline-none cursor-pointer"
                 >
                   {sel.options.map((o) => (
                     <option key={o} value={o}>{o}</option>
@@ -82,18 +82,18 @@ export default function AddDocumentForm({ title, numberLabel, uploadLabel, onSub
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          className="w-full border-2 border-dashed border-blue-300 rounded-2xl py-10 flex flex-col items-center gap-3 hover:bg-blue-50/40 transition-colors group"
+          className="w-full border-2 border-dashed border-blue-300 rounded-2xl 2xl:rounded-3xl py-10 2xl:py-20 flex flex-col items-center gap-3 2xl:gap-6 hover:bg-blue-50/40 transition-colors group"
         >
           {preview ? (
-            <img src={preview} alt="Preview" loading="lazy" className="h-24 object-contain rounded-lg" />
+            <img src={preview} alt="Preview" loading="lazy" className="h-24 2xl:h-40 object-contain rounded-lg 2xl:rounded-2xl" />
           ) : (
             <>
-              <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Camera size={22} className="text-blue-400" />
+              <div className="w-12 2xl:w-20 h-12 2xl:h-20 rounded-full bg-blue-50 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <Camera size={22} className="text-blue-400 2xl:w-8 2xl:h-8" />
               </div>
               <div className="text-center">
-                <p className="text-sm font-semibold text-mist-700">{uploadLabel}</p>
-                <p className="text-xs text-mist-400 mt-0.5">(jpg, jpeg, png, pdf)</p>
+                <p className="text-sm 2xl:text-2xl font-semibold text-mist-700">{uploadLabel}</p>
+                <p className="text-xs 2xl:text-xl text-mist-400 mt-0.5 2xl:mt-2">(jpg, jpeg, png, pdf)</p>
               </div>
             </>
           )}
@@ -110,7 +110,7 @@ export default function AddDocumentForm({ title, numberLabel, uploadLabel, onSub
         {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-mist-900 text-white text-sm font-semibold py-3 rounded-xl hover:bg-mist-700 transition-colors"
+          className="w-full bg-mist-900 text-white text-sm 2xl:text-xl font-semibold py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors"
         >
           Save Document
         </button>

@@ -25,7 +25,7 @@ export default function AddIdPassportPage() {
 
   return (
     <div className="overflow-hidden">
-      <div className="py-16 px-7 sm:px-10 lg:px-16">
+      <div className="py-16 2xl:py-24 px-7 sm:px-10 lg:px-16 2xl:px-24">
         <AddDocumentForm
           title="Add ID / Passport"
           numberLabel="ID / Passport Number"

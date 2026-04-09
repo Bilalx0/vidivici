@@ -560,7 +560,7 @@ function VillaListCard({ villa, wishlisted: initialWishlisted }: { villa: VillaF
     <div className="relative flex flex-col bg-white rounded-2xl 2xl:rounded-3xl overflow-hidden shadow-xl border border-mist-200 hover:shadow-md transition-all duration-300 group cursor-pointer">
 
       {/* Image */}
-      <div className="relative h-56 2xl:h-[350px] overflow-hidden p-3 2xl:p-5">
+      <div className="relative h-56 2xl:h-[350px] overflow-hidden p-3 2xl:m-5">
         <Link href={`/villas/${villa.slug}`} className="block w-full h-full">
           {image ? (
             <img src={image} alt={villa.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-[30px]" />
@@ -571,52 +571,52 @@ function VillaListCard({ villa, wishlisted: initialWishlisted }: { villa: VillaF
         <button
           onClick={toggleWishlist}
           disabled={toggling}
-          className={`absolute top-5 right-5 2xl:top-8 2xl:right-8 w-8 h-8 2xl:w-14 2xl:h-14 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${
+          className={`absolute top-5 right-5 w-8 h-8 2xl:w-12 2xl:h-12 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${
             wishlisted
               ? "bg-mist-700 text-red-500"
               : "bg-mist-700 text-mist-100 hover:bg-white hover:text-red-400"
           }`}
         >
-          <Heart size={13} className="2xl:w-6 2xl:h-6" fill={wishlisted ? "currentColor" : "none"} strokeWidth={2} />
+          <Heart size={13} className="2xl:w-4 2xl:h-4" fill={wishlisted ? "currentColor" : "none"} strokeWidth={2} />
         </button>
       </div>
 
       {/* Body */}
       <div className="flex flex-col gap-2 2xl:gap-5 px-6 2xl:px-10 pt-3.5 2xl:pt-6 pb-4 2xl:pb-8">
-        <p className="text-xs 2xl:text-lg text-mist-400 font-medium tracking-wide uppercase truncate">
+        <p className="text-xs 2xl:text-base text-mist-400 font-medium tracking-wide uppercase truncate">
           Luxury Villa for Rent | {villa.location}
         </p>
-        <h3 className="text-lg sm:text-xl 2xl:text-4xl font-semibold text-mist-900 leading-snug -mt-0.5">{villa.name}</h3>
+        <h3 className="text-lg sm:text-xl 2xl:text-3xl font-semibold text-mist-900 leading-snug -mt-0.5">{villa.name}</h3>
 
         <div className="flex items-center justify-between py-3 2xl:py-4">
           <div className="flex flex-col items-center gap-0.5 2xl:gap-2">
-            <div className="text-mist-600"><BedDouble size={12} className="2xl:w-5 2xl:h-5" /></div>
-            <span className="text-xs 2xl:text-xl text-mist-900 font-semibold">Bedrooms</span>
-            <span className="text-[10px] 2xl:text-base text-mist-600">{villa.bedrooms}</span>
+            <div className="text-mist-600 2xl:scale-150"><BedDouble size={12} /></div>
+            <span className="text-xs 2xl:text-base text-mist-900 font-semibold">Bedrooms</span>
+            <span className="text-[10px] 2xl:text-sm text-mist-600">{villa.bedrooms}</span>
           </div>
           <div className="w-px h-8 2xl:h-14 bg-mist-100" />
           <div className="flex flex-col items-center gap-0.5 2xl:gap-2">
-            <div className="text-mist-600"><Users size={12} className="2xl:w-5 2xl:h-5" /></div>
-            <span className="text-xs 2xl:text-xl text-mist-900 font-semibold">Guests</span>
-            <span className="text-[10px] 2xl:text-base text-mist-600">{villa.guests}</span>
+            <div className="text-mist-600 2xl:scale-150"><Users size={12} /></div>
+            <span className="text-xs 2xl:text-base text-mist-900 font-semibold">Guests</span>
+            <span className="text-[10px] 2xl:text-sm text-mist-600">{villa.guests}</span>
           </div>
           <div className="w-px h-8 2xl:h-14 bg-mist-100" />
           <div className="flex flex-col items-center gap-0.5 2xl:gap-2">
-            <div className="text-mist-600"><Maximize2 size={12} className="2xl:w-5 2xl:h-5" /></div>
-            <span className="text-xs 2xl:text-xl text-mist-900 font-semibold">Sq.ft</span>
-            <span className="text-[10px] 2xl:text-base text-mist-600">{formatSqft(villa.sqft)}</span>
+            <div className="text-mist-600 2xl:scale-150"><Maximize2 size={12} /></div>
+            <span className="text-xs 2xl:text-base text-mist-900 font-semibold">Sq.ft</span>
+            <span className="text-[10px] 2xl:text-sm text-mist-600">{formatSqft(villa.sqft)}</span>
           </div>
         </div>
 
-        <div className="h-px bg-mist-100 mt-0.5" />
+        <div className="h-px bg-mist-100 mt-0.5 2xl:mt-0" />
 
-        <div className="flex items-center justify-between mt-0.5">
-          <Link href={`/villas/${villa.slug}`} className="flex items-center gap-1 2xl:gap-3 text-sm 2xl:text-2xl text-mist-500 hover:text-mist-900 transition-colors">
+        <div className="flex items-center justify-between mt-0.5 2xl:mt-0">
+          <Link href={`/villas/${villa.slug}`} className="flex items-center gap-1 2xl:gap-3 text-sm 2xl:text-xl text-mist-500 hover:text-mist-900 transition-colors">
             View Details <ArrowUpRight size={11} className="2xl:w-5 2xl:h-5" strokeWidth={2.5} />
           </Link>
           <div className="flex flex-col items-end">
-            <span className="text-base 2xl:text-3xl font-semibold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
-            <span className="text-[10px] 2xl:text-lg text-mist-400">/night</span>
+            <span className="text-base 2xl:text-2xl font-semibold text-mist-900">${villa.pricePerNight.toLocaleString()}</span>
+            <span className="text-[10px] 2xl:text-base text-mist-400">/night</span>
           </div>
         </div>
       </div>

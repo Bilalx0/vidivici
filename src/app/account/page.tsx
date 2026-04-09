@@ -140,14 +140,14 @@ export default function PersonalInfoPage() {
     setForm((f) => ({ ...f, [key]: e.target.value }))
 
   const inputCls = (disabled = false) =>
-    `w-full px-3 py-2.5 rounded-lg text-sm border outline-none transition-colors placeholder:text-mist-400 ${
+    `w-full px-3 py-2.5 2xl:px-6 2xl:py-5 rounded-lg 2xl:rounded-xl text-sm 2xl:text-xl border outline-none transition-colors placeholder:text-mist-400 ${
       disabled || !editing
         ? "bg-mist-50 border-mist-200 text-mist-700 cursor-default"
         : "bg-white border-mist-300 text-mist-900 focus:border-mist-500 focus:ring-1 focus:ring-mist-400"
     }`
 
   const selectCls = () =>
-    `px-2 py-2.5 rounded-lg text-sm border outline-none transition-colors bg-white appearance-none cursor-pointer ${
+    `px-2 2xl:px-4 py-2.5 2xl:py-5 rounded-lg 2xl:rounded-xl text-sm 2xl:text-xl border outline-none transition-colors bg-white appearance-none cursor-pointer ${
       !editing
         ? "bg-mist-50 border-mist-200 text-mist-700 cursor-default pointer-events-none"
         : "border-mist-300 text-mist-900 focus:border-mist-500 focus:ring-1 focus:ring-mist-400"
@@ -244,12 +244,12 @@ export default function PersonalInfoPage() {
                 />
               </div>
               {/* Phone with flag */}
-              <div className="flex items-center border rounded-lg overflow-hidden transition-colors
+              <div className="flex items-center border rounded-lg 2xl:rounded-xl overflow-hidden transition-colors
                 bg-white border-mist-300 focus-within:border-mist-500 focus-within:ring-1 focus-within:ring-mist-400
                 disabled:bg-mist-50">
-                <div className="flex items-center gap-1 px-3 border-r border-mist-200 shrink-0">
-                  <span className="text-base">🇺🇸</span>
-                  <svg className="w-3 h-3 text-mist-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center gap-1 px-3 2xl:px-5 border-r border-mist-200 shrink-0">
+                  <span className="text-base 2xl:text-2xl">🇺🇸</span>
+                  <svg className="w-3 2xl:w-5 h-3 2xl:h-5 text-mist-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
@@ -259,7 +259,7 @@ export default function PersonalInfoPage() {
                   value={form.phone}
                   disabled={!editing}
                   onChange={set("phone")}
-                  className="flex-1 px-3 py-2.5 text-sm outline-none bg-transparent text-mist-900 placeholder:text-mist-400 disabled:cursor-default disabled:bg-mist-50"
+                  className="flex-1 px-3 2xl:px-5 py-2.5 2xl:py-5 text-sm 2xl:text-xl outline-none bg-transparent text-mist-900 placeholder:text-mist-400 disabled:cursor-default disabled:bg-mist-50"
                 />
               </div>
             </div>
@@ -322,18 +322,18 @@ export default function PersonalInfoPage() {
                   Don&apos;t send me special offers &amp; marketing promotions
                 </label>
 
-                <div className="flex gap-2 ml-auto">
+                <div className="flex gap-2 2xl:gap-4 ml-auto">
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-6 py-2 bg-mist-700 hover:bg-mist-800 text-white rounded-lg text-sm font-semibold transition disabled:opacity-50"
+                    className="px-6 2xl:px-10 py-2 2xl:py-4 bg-mist-700 hover:bg-mist-800 text-white rounded-lg 2xl:rounded-xl text-sm 2xl:text-xl font-semibold transition disabled:opacity-50"
                   >
                     {loading ? "Saving..." : "Save"}
                   </button>
                   <button
                     type="button"
                     onClick={() => { setEditing(false); fetchProfile() }}
-                    className="px-5 py-2 border border-mist-300 text-mist-700 rounded-lg text-sm font-medium hover:border-mist-500 transition"
+                    className="px-5 2xl:px-8 py-2 2xl:py-4 border border-mist-300 text-mist-700 rounded-lg 2xl:rounded-xl text-sm 2xl:text-xl font-medium hover:border-mist-500 transition"
                   >
                     Cancel
                   </button>

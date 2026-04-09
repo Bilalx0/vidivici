@@ -84,7 +84,22 @@ export default function MyBookingsPage() {
       {/* ── Body ────────────────────────────────────────────── */}
       <div className="py-10 sm:py-12 2xl:py-16 px-4 sm:px-6 lg:px-10 2xl:px-14">
 
-       
+        {/* Tabs */}
+        <div className="flex flex-wrap gap-2 2xl:gap-4 mb-10 2xl:mb-16">
+          {TABS.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-5 2xl:px-8 py-2 2xl:py-4 rounded-full text-sm 2xl:text-xl font-medium border transition-colors ${
+                activeTab === tab
+                  ? "bg-mist-500 text-white"
+                  : "bg-white text-mist-600 border-mist-200 hover:border-mist-400"
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
 
         {/* Content */}
         {loading ? (
@@ -122,22 +137,6 @@ export default function MyBookingsPage() {
 
         ) : (
           <div className="space-y-5 2xl:space-y-7">
-             {/* Tabs */}
-        <div className="flex flex-wrap gap-2 mb-10">
-          {TABS.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2 rounded-full text-sm font-medium border transition-colors ${
-                activeTab === tab
-                  ? "bg-mist-500 text-white"
-                  : "bg-white text-mist-600 border-mist-200 hover:border-mist-400"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
             {filtered.map((booking) => {
               const img = booking.car.images?.[0]?.url
               const isConfirmed = booking.status === "CONFIRMED"

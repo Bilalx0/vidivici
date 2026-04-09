@@ -19,14 +19,14 @@ export default function AboutPage() {
         heading={"Experience Unmatched Luxury"}
         description="Vidi Vici Rental connects enthusiasts and travelers with the finest cars, villas, and event spaces in Los Angeles"
         image="/banner2.png"
-        height="h-96"
+        height="h-96 2xl:h-[700px]"
         overlay="bg-black/60"
         searchBar={false}
       />
 
       {/* About Vidi Vici */}
-      <section className="w-full bg-white sm:px-16 lg:px-20 px-6 py-40 2xl:py-64 2xl:px-40">
-        <div className="flex flex-col md:flex-row items-center gap-12 2xl:gap-20 2xl:max-w-[1800px] 2xl:mx-auto">
+      <section className="w-full bg-white sm:px-16 lg:px-20 px-6 py-40 2xl:py-64 2xl:px-32">
+        <div className="flex flex-col md:flex-row items-center gap-12 2xl:gap-20 ">
 
           {/* Left text */}
           <div className="flex-1 flex flex-col gap-5 2xl:gap-8">
@@ -97,7 +97,7 @@ export default function AboutPage() {
             Our dedicated support team is available 24/7 to assist you with
             bookings, inquiries, or custom requests.
           </p>
-          <button className="mt-2 bg-mist-800 text-white text-base 2xl:text-2xl px-7 2xl:px-12 py-3 2xl:py-6 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200">
+          <button className="mt-2 bg-mist-800 text-white text-base 2xl:text-xl px-7 2xl:px-10 py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200">
             Reserve Now
           </button>
         </div>

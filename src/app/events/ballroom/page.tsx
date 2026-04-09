@@ -176,6 +176,8 @@ const GALLERY_IMAGES = [
   "https://images.unsplash.com/photo-1574790398664-0cb03be48335?w=600&q=80",
 ]
 
+import MultiStepBookingForm from "@/components/events/MultiStepBookingForm"
+
 const BUDGET_OPTIONS = ["Under $5,000", "$5,000 - $15,000", "$15,000 - $30,000", "$30,000 - $50,000", "$50,000+"]
 const ADD_ONS = ["Chauffeur / Party Bus", "Security / Bodyguard"]
 const VENUE_OPTIONS = ["Trinity Ballroom", "Delilah Los Angeles", "The Majestic Downtown"]
@@ -242,304 +244,6 @@ const AmenityBadge = ({ icon: Icon, text }) => (
 );
 
 /* ================================================================== */
-/*  Booking Form                                                       */
-/* ================================================================== */
-export function VenueBookingForm() {
-  const router = useRouter();
-  const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    clubVenue: "Trinity Ballroom",
-    bookingDate: "",
-    guestsTotal: "",
-    budget: "",
-    addOns: [] as string[],
-    specialRequests: "",
-  });
-
-  const [submitting, setSubmitting] = useState(false);
-
-  const isFormValid = !!(form.firstName && form.email && form.bookingDate);
-
-  const toggleAddOn = (addon: string) => {
-    setForm((f) => ({
-      ...f,
-      addOns: f.addOns.includes(addon)
-        ? f.addOns.filter((a) => a !== addon)
-        : [...f.addOns, addon],
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isFormValid) return;
-    setSubmitting(true);
-    sessionStorage.setItem("vipBookingData", JSON.stringify(form));
-    router.push("/events/vip-booking");
-  };
-
-  // Reusable input class (matches ContactForm exactly)
-  const inputClass = "w-full border border-mist-300 rounded-xl px-4 py-3 text-sm text-mist-900 placeholder-mist-400 focus:outline-none focus:border-mist-400 transition-colors duration-200 bg-white";
-
-  return (
-    <section className="w-full bg-white py-12 2xl:py-24 sm:px-16 lg:px-20 2xl:px-32 px-6 " id="booking-form">
-     
-      <div className="border border-mist-200 rounded-3xl 2xl:rounded-[40px] overflow-hidden gap-8 2xl:gap-14 sm:p-8 2xl:sm:p-14 px-4 py-6 2xl:px-8 2xl:py-10 flex flex-col md:flex-row shadow-sm">
-
-        {/* Left Panel - Info */}
-        <div className="bg-mist-100 px-4 sm:px-8 2xl:sm:px-12 py-8 2xl:py-12 md:w-1/3 flex-shrink-0 flex flex-col gap-8 2xl:gap-12 relative overflow-hidden rounded-2xl 2xl:rounded-3xl">
-           <img
-              src="/Vector 7.png"
-              alt=""
-              aria-hidden="true"
-              loading="lazy"
-              className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none  rotate-180"
-            />
-          
-          <div className="relative z-10">
-            <h3 className="text-xl md:text-2xl 2xl:text-4xl font-bold text-mist-900 leading-snug mb-3 2xl:mb-5">
-              Have questions or want to book your luxury experience?
-            </h3>
-            <p className="text-sm 2xl:text-xl text-mist-600 leading-relaxed">
-              Our team is here to assist you with cars, villas, and VIP events in Los Angeles.
-            </p>
-          </div>
-
-          <div className="border-t border-mist-300"></div>
-
-          <div className="relative z-10 flex flex-col gap-6">
-            <ContactInfo icon={<Phone size={16} />} label="Phone" value="(310) 555-0991" />
-            <ContactInfo icon={<Mail size={16} />} label="Email" value="admin@vidivicitrental.com" />
-            <ContactInfo icon={<MapPin size={16} />} label="Address" value="851 S Grand Ave, Los Angeles CA 90017" />
-            <ContactInfo icon={<Clock size={16} />} label="Working Hours" value="Mon–Sun: 8 AM – 8 PM" />
-          </div>
-        </div>
-
-        {/* Right Panel - Form */}
-        <div className="flex-1">
-              <h2 className="text-3xl md:text-4xl 2xl:text-6xl font-bold text-mist-900 mb-8 2xl:mb-12 tracking-tight">
-                VIP Venue Booking
-              </h2>
-
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6 2xl:gap-10">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <Field label="First Name">
-                    <input
-                      type="text"
-                      placeholder="Enter your first name"
-                      value={form.firstName}
-                      onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-                      className={inputClass}
-                      required
-                    />
-                  </Field>
-                  <Field label="Email Address">
-                    <input
-                      type="email"
-                      placeholder="Enter your email"
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className={inputClass}
-                      required
-                    />
-                  </Field>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <Field label="Last Name">
-                    <input
-                      type="text"
-                      placeholder="Enter your last name"
-                      value={form.lastName}
-                      onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-                      className={inputClass}
-                    />
-                  </Field>
-                  <Field label="Phone Number">
-                    <div className="flex items-center border border-mist-300 rounded-xl overflow-hidden focus-within:border-mist-400 transition-colors duration-200 bg-white">
-                      <span className="px-4 py-3 2xl:px-8 2xl:py-6 text-sm 2xl:text-3xl border-r border-mist-300 bg-mist-50 flex items-center gap-2 text-mist-600 flex-shrink-0">
-                        🇺🇸
-                      </span>
-                      <input
-                        type="tel"
-                        inputMode="tel"
-                        placeholder="Enter your phone number"
-                        value={form.phone}
-                        onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                        className="flex-1 px-4 py-3 2xl:px-8 2xl:py-6 text-sm text-mist-900 placeholder-mist-400 outline-none bg-white"
-                      />
-                    </div>
-                  </Field>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <Field label="Selected Venue">
-                    <div className="relative">
-                      <select
-                        value={form.clubVenue}
-                        onChange={(e) => setForm({ ...form, clubVenue: e.target.value })}
-                        className={`${inputClass} appearance-none cursor-pointer pr-12`}
-                      >
-                        {VENUE_OPTIONS.map((venue) => (
-                          <option key={venue} value={venue}>{venue}</option>
-                        ))}
-                      </select>
-                      <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-mist-500" />
-                    </div>
-                  </Field>
-                  <Field label="Booking Date">
-                    <input
-                      type={form.bookingDate ? "date" : "text"}
-                      onPointerDown={(e) => switchTemporalInputType(e.currentTarget, "date")}
-                      onFocus={(e) => switchTemporalInputType(e.currentTarget, "date")}
-                      onBlur={(e) => { if (!form.bookingDate) e.currentTarget.type = "text" }}
-                      value={form.bookingDate}
-                      onChange={(e) => setForm({ ...form, bookingDate: e.target.value })}
-                      placeholder="Select booking date"
-                      className={`${inputClass} ios-temporal-input`}
-                      required
-                    />
-                  </Field>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <Field label="Guests (Total)">
-                    <input
-                      type="text"
-                      placeholder="e.g. 6 guests - 4M / 2F"
-                      value={form.guestsTotal}
-                      onChange={(e) => setForm({ ...form, guestsTotal: e.target.value })}
-                      className={inputClass}
-                    />
-                  </Field>
-                  <Field label="Budget Range">
-                    <div className="relative">
-                      <select
-                        value={form.budget}
-                        onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                        className={`${inputClass} appearance-none cursor-pointer pr-12`}
-                      >
-                        <option value="">Select range</option>
-                        {BUDGET_OPTIONS.map((b) => <option key={b} value={b}>{b}</option>)}
-                      </select>
-                      <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-mist-500" />
-                    </div>
-                  </Field>
-                </div>
-
-                <Field label="Add-Ons">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1">
-                    {ADD_ONS.map((addon) => (
-                      <button
-                        key={addon}
-                        type="button"
-                        onClick={() => toggleAddOn(addon)}
-                        className={`w-full px-4 2xl:px-6 py-3 2xl:py-5 rounded-2xl text-sm 2xl:text-xl font-medium border transition-all flex items-center gap-4 ${form.addOns.includes(addon)
-                            ? "bg-white text-mist-900 border-mist-300"
-                            : "bg-white text-mist-700 border-mist-200 hover:border-mist-300"
-                          }`}
-                      >
-                        <span
-                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${form.addOns.includes(addon)
-                              ? "border-blue-500"
-                              : "border-mist-400"
-                            }`}
-                        >
-                          {form.addOns.includes(addon) && <span className="w-3 h-3 rounded-full bg-blue-500" />}
-                        </span>
-                        {addon}
-                      </button>
-                    ))}
-                  </div>
-                </Field>
-
-                <Field label="Special Requests">
-                  <textarea
-                    placeholder="Catering needs, AV requirements, etc..."
-                    value={form.specialRequests}
-                    onChange={(e) => setForm({ ...form, specialRequests: e.target.value })}
-                    rows={4}
-                    className={`${inputClass} resize-none`}
-                  />
-                </Field>
-
-                <button
-                  type="submit"
-                  disabled={submitting || !isFormValid}
-                  className="w-full bg-mist-900 text-white font-medium py-4 2xl:py-6 rounded-xl 2xl:rounded-2xl hover:bg-mist-800 transition-colors disabled:opacity-50 mt-2 text-base 2xl:text-2xl"
-                >
-                  Submit Booking Request
-                </button>
-              </form>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="flex flex-col gap-2 2xl:gap-4">
-      <label className="text-xs 2xl:text-sm font-semibold text-mist-700 uppercase tracking-wide">{label}</label>
-      {children}
-    </div>
-  );
-}
-
-function ContactInfo({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
-  return (
-    <div className="flex items-start gap-4 2xl:gap-6">
-      <div className="w-8 h-8 2xl:w-12 2xl:h-12 rounded-md bg-white flex items-center justify-center text-mist-600 flex-shrink-0 mt-0.5">
-        {icon}
-      </div>
-      <div>
-        <p className="text-sm 2xl:text-xl font-bold text-mist-900">{label}</p>
-        <p className="text-sm 2xl:text-lg text-mist-600 leading-relaxed">{value}</p>
-      </div>
-    </div>
-  );
-}
-
-function EventTypesCarousel() {
-  const scrollRef = useRef<HTMLDivElement>(null)
-
-  const scroll = (dir: "left" | "right") => {
-    if (!scrollRef.current) return
-    scrollRef.current.scrollBy({ left: dir === "left" ? -340 : 340, behavior: "smooth" })
-  }
-
-  return (
-    <section className="bg-white py-14 2xl:py-24 px-6 sm:px-16 lg:px-20 2xl:px-32">
-      <div className="max-w-[1840px] mx-auto">
-        <h2 className="text-2xl 2xl:text-6xl font-bold text-mist-900 text-center mb-10 2xl:mb-16">Perfect for Every Prestigious Event</h2>
-        <div className="relative">
-          <button onClick={() => scroll("left")} className="absolute -left-4 2xl:-left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 2xl:w-12 2xl:h-12 bg-white border border-mist-200 rounded-full flex items-center justify-center shadow-sm hover:bg-mist-50 transition-colors">
-            <ChevronLeft size={18} />
-          </button>
-          <div ref={scrollRef} className="flex gap-5 2xl:gap-10 overflow-x-auto scrollbar-hide scroll-smooth pb-2" style={{ scrollbarWidth: "none" }}>
-            {EVENT_TYPES.map((et) => (
-              <div key={et.title} className="flex-shrink-0 w-[280px] 2xl:w-[420px] relative rounded-2xl 2xl:rounded-3xl overflow-hidden group cursor-pointer h-56 2xl:h-[360px]">
-                <img src={et.image} alt={et.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="text-sm 2xl:text-2xl font-bold text-white mb-0.5 2xl:mb-2">{et.title}</h3>
-                  <p className="text-[11px] 2xl:text-lg text-white/70 line-clamp-2">{et.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <button onClick={() => scroll("right")} className="absolute -right-4 2xl:-right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 2xl:w-12 2xl:h-12 bg-white border border-mist-200 rounded-full flex items-center justify-center shadow-sm hover:bg-mist-50 transition-colors">
-            <ChevronRight size={18} />
-          </button>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ================================================================== */
 /*  Ballroom Page                                                      */
 /* ================================================================== */
 export default function BallroomPage() {
@@ -593,16 +297,16 @@ export default function BallroomPage() {
 
           {/* Hero Content */}
           <div className="absolute bottom-12 2xl:bottom-20 left-12 2xl:left-20 right-12 2xl:right-20">
-            <h1 className="text-5xl lg:text-6xl 2xl:text-8xl font-bold text-white mb-4 2xl:mb-6 tracking-tight">
+            <h1 className="text-5xl lg:text-6xl 2xl:text-7xl font-bold text-white mb-4 2xl:mb-6 tracking-tight">
               Delilah Los Angeles
             </h1>
-            <p className="text-lg lg:text-xl 2xl:text-3xl text-white/90 mb-10 2xl:mb-14 max-w-2xl 2xl:max-w-5xl leading-relaxed">
+            <p className="text-lg lg:text-xl 2xl:text-2xl text-white/90 mb-10 2xl:mb-14 max-w-2xl 2xl:max-w-5xl leading-relaxed">
               Roaring &apos;20s vibes with American cuisine &<br /> Art Deco elegance
             </p>
 
             <button
               onClick={() => { }}
-              className="bg-white text-black px-10 2xl:px-14 py-4 2xl:py-6 rounded-xl 2xl:rounded-2xl text-base 2xl:text-2xl font-bold hover:bg-mist-100 transition-all transform hover:scale-105 shadow-xl"
+              className="bg-white text-black px-10 2xl:px-12 py-4 2xl:py-5 rounded-xl 2xl:rounded-xl text-base 2xl:text-xl hover:bg-mist-100 transition-all transform hover:scale-105 shadow-xl"
             >
               Reserve Now
             </button>
@@ -615,7 +319,7 @@ export default function BallroomPage() {
     
         {/* Left Side: Vertical Image Stack */}
         <div className="w-full lg:w-1/2 flex flex-col gap-6">
-          <div className="h-[350px] lg:h-[400px]">
+          <div className="h-[350px] lg:h-[400px] 2xl:h-[480px]">
             <img
               src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1000"
               alt="The Trinity Building Exterior"
@@ -623,7 +327,7 @@ export default function BallroomPage() {
               className="w-full h-full object-cover rounded-[2rem] shadow-sm"
             />
           </div>
-          <div className="h-[250px] lg:h-[300px]">
+          <div className="h-[250px] lg:h-[300px] 2xl:h-[480px]">
             <img
               src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=600"
               alt="Historic Ballroom Interior"
@@ -635,7 +339,7 @@ export default function BallroomPage() {
 
         {/* Right Side: Historical Content */}
         <div className="w-full lg:w-1/2">
-          <h2 className="text-4xl lg:text-5xl 2xl:text-7xl font-bold text-[#1a1a1a] leading-tight mb-8 2xl:mb-12">
+          <h2 className="text-4xl lg:text-5xl 2xl:text-6xl font-bold text-mist-900 leading-tight mb-8 2xl:mb-12">
             A Landmark Born <br /> in 1914 — Reborn <br /> for Today
           </h2>
 
@@ -667,13 +371,13 @@ export default function BallroomPage() {
         </div>
       </section>
 
-    <section className="max-w-[1840px] mx-auto px-6 sm:px-16 lg:px-20 2xl:px-32 py-20 2xl:py-32 bg-white font-sans">
+    <section className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-20 2xl:py-32 bg-white">
       {/* Header Section */}
       <div className="text-center mb-16 2xl:mb-24 max-w-2xl 2xl:max-w-5xl mx-auto">
-        <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-[#1a1a1a] mb-6 2xl:mb-8">
+        <h2 className="text-4xl md:text-5xl 2xl:text-6xl font-bold text-[#1a1a1a] mb-6 2xl:mb-8">
           Why Choose the Trinity Ballroom
         </h2>
-        <p className="text-lg 2xl:text-2xl text-mist-500 leading-relaxed">
+        <p className="text-lg 2xl:text-xl text-mist-500 leading-relaxed">
           A rare blend of heritage, elegance, and scale—crafted for extraordinary events.
         </p>
       </div>
@@ -694,7 +398,7 @@ export default function BallroomPage() {
         <section className="py-20 2xl:py-32 bg-white overflow-hidden">
       <div className="px-6 ">
         {/* Header */}
-        <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-center text-[#1a1a1a] mb-12 2xl:mb-20">
+        <h2 className="text-4xl md:text-5xl 2xl:text-6xl font-bold text-center text-[#1a1a1a] mb-12 2xl:mb-20">
           Perfect for Every Prestigious Event
         </h2>
 
@@ -768,10 +472,10 @@ export default function BallroomPage() {
     <section className="max-w-[1840px] mx-auto px-6 sm:px-16 lg:px-20 2xl:px-32 py-20 2xl:py-32 bg-white">
       {/* Header */}
       <div className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">
+        <h2 className="text-4xl md:text-5xl 2xl:text-6xl font-bold text-[#1a1a1a] mb-4 2xl:mb-6">
           Venue Features & Amenities
         </h2>
-        <p className="text-mist-500 text-base 2xl:text-2xl max-w-xl 2xl:max-w-5xl mx-auto leading-relaxed">
+        <p className="text-mist-500 text-base 2xl:text-xl max-w-xl 2xl:max-w-5xl mx-auto leading-relaxed">
           Designed to honor its historic roots while supporting world-class modern events.
         </p>
       </div>
@@ -810,13 +514,13 @@ export default function BallroomPage() {
 
 
             {/* Content */}
-            <h2 className="text-3xl sm:text-4xl 2xl:text-7xl font-bold text-mist-900 leading-tight mb-4 2xl:mb-8">
+            <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 leading-tight mb-4 2xl:mb-8">
               Host Your Event at the <br /> Trinity Ballroom
             </h2>
             <p className="text-sm 2xl:text-2xl text-mist-600 max-w-sm 2xl:max-w-3xl mx-auto leading-relaxed mb-8 2xl:mb-12">
               Secure your table, VIP services, or private experience today and make your evening truly extraordinary.
             </p>
-            <button className="bg-mist-900 text-white text-sm 2xl:text-2xl font-semibold px-7 2xl:px-12 py-3.5 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors">
+            <button className="bg-mist-900 text-white text-sm 2xl:text-xl px-7 2xl:px-12 py-3.5 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors">
               Request a Quote
             </button>
 
@@ -824,7 +528,7 @@ export default function BallroomPage() {
         </div>
       </section>
     <section className="py-20 2xl:py-32 bg-white">
-      <div className="max-w-[1840px] mx-auto px-6 sm:px-16 lg:px-20 2xl:px-32">
+      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32">
         
         {/* Simple Header */}
         <div className="mb-16">
@@ -857,8 +561,12 @@ export default function BallroomPage() {
     </section>
     
       <FAQ />
-      {/* VIP Venue Booking Form */}
-      <VenueBookingForm />
+      {/* VIP Venue Booking Form - Multi-step with PayPal */}
+      <MultiStepBookingForm
+        venueOptions={VENUE_OPTIONS}
+        venueName="Trinity Ballroom"
+        eventName="Trinity Ballroom Event"
+      />
 
       {/* Reusable Sections */}
       

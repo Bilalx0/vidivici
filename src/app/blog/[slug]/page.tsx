@@ -49,10 +49,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="bg-white min-h-screen w-full">
-      <section className="w-full px-6 sm:px-16 lg:px-20 2xl:px-40 pt-24 2xl:pt-32 pb-16 2xl:pb-28">
-        <div className="mx-auto w-full max-w-4xl 2xl:max-w-5xl">
+      <section className="w-full px-6 sm:px-16 lg:px-20 2xl:px-38 pt-24 2xl:pt-32 pb-16 2xl:pb-28">
+        <div className="">
         {/* Breadcrumb */}
-        <nav className="flex flex-wrap items-center gap-1.5 text-xs sm:text-sm text-mist-400 mb-6 2xl:mb-10">
+        <nav className="flex flex-wrap items-center gap-1.5 text-xs sm:text-sm 2xl
+        
+        
+        
+        
+        text-mist-400 mb-6 2xl:mb-10">
           <Link href="/" className="hover:text-mist-600 transition-colors">Home</Link>
           <ChevronRight size={14} />
           <Link href="/blog" className="hover:text-mist-600 transition-colors">Blog</Link>

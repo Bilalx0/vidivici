@@ -144,7 +144,7 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
               >
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-1.5 px-3.5 py-2 2xl:px-6 2xl:py-4 text-[13.5px] 2xl:text-[22px] font-medium tracking-[0.04em] rounded-md transition-colors
+                  className={`flex items-center gap-1.5 px-3.5 py-2 2xl:px-6 2xl:py-4 text-[13.5px] 2xl:text-[20px] font-medium tracking-[0.04em] rounded-md transition-colors
                   ${isLightMode
                       ? "text-mist-900 hover:text-mist-700"
                       : "text-white/90 hover:text-white"
@@ -173,7 +173,7 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
                                 key={make}
                                 href={`/cars?make=${encodeURIComponent(make)}`}
                                 onClick={() => setOpenDropdown(null)}
-                                className="py-1.5 2xl:py-2 text-[13.5px] 2xl:text-[17px] text-mist-700 hover:text-mist-900 transition-colors"
+                                className="py-1.5 2xl:py-2 text-[13.5px] 2xl:text-[18px] text-mist-700 hover:text-mist-900 transition-colors"
                               >
                                 {make}
                               </Link>
@@ -191,7 +191,7 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
                                 key={cat}
                                 href={`/cars?category=${encodeURIComponent(cat)}`}
                                 onClick={() => setOpenDropdown(null)}
-                                className="py-1.5 2xl:py-2 text-[13.5px] 2xl:text-[17px] text-mist-700 hover:text-mist-900 transition-colors"
+                                className="py-1.5 2xl:py-2 text-[13.5px] 2xl:text-[18px] text-mist-700 hover:text-mist-900 transition-colors"
                               >
                                 {cat}
                               </Link>
@@ -222,7 +222,7 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
           {/* LOGO */}
           <div className="flex justify-center flex-shrink-0">
             <Link href="/">
-              <div className="relative w-10 h-10 2xl:w-20 2xl:h-20">
+              <div className="relative w-10 h-10 2xl:w-16 2xl:h-16">
                 {/* Switch logo based on background if you have a dark version */}
                 <Image
                   src={isLightMode ? "/Logo 2.png" : "/Logo.png"}
@@ -237,9 +237,9 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
           {/* RIGHT ACTIONS */}
           <div className="hidden sm:flex items-center justify-end gap-2.5 2xl:gap-6 flex-1">
             
-            <button className={`hidden md:block px-4 py-2 2xl:px-8 2xl:py-4 text-[13px] 2xl:text-[18px] border rounded-lg 2xl:rounded-xl transition
+            <button className={`hidden md:block px-4 py-2 2xl:px-8 2xl:py-4 cursor-pointer text-[13px] 2xl:text-[18px] border rounded-lg 2xl:rounded-xl transition
               ${isLightMode
-                ? "text-mist-700 border-mist-200 hover:bg-mist-100"
+                ? "text-mist-700 border-mist-300 hover:bg-mist-200"
                 : "text-white/80 border-white/20 hover:border-white/50 hover:bg-white/5"}`}>
               Become a Partner
             </button>
@@ -258,7 +258,7 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
               href={session?.user ? "/account" : "/login"}
               className={`flex items-center justify-center w-9 h-9 2xl:w-16 2xl:h-16 rounded-full border transition
                 ${isLightMode
-                  ? "border-mist-200 text-mist-900 hover:bg-mist-100"
+                  ? "border-mist-300 text-mist-900 hover:bg-mist-200"
                   : "border-white/20 text-white hover:bg-white/5"}`}
             >
               <div >

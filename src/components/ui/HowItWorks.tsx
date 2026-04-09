@@ -7,12 +7,12 @@ const steps = [
 
 export default function HowItWorks() {
     return (
-        <section className="w-full bg-white px-4 sm:px-8 md:px-12 lg:px-20 pb-20 md:pb-28 pt-64 md:pt-72">
+        <section className="w-full bg-white px-4 sm:px-8 md:px-12 lg:px-20 pb-20 md:pb-28 pt-64 md:pt-72 2xl:pt-[450px]">
 
             {/* Heading */}
             <div className="text-center mb-12 md:mb-20">
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">How It Works</h2>
-                <p className="mt-4 text-sm sm:text-base text-gray-500 max-w-xl mx-auto leading-relaxed">
+                <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-gray-900">How It Works</h2>
+                <p className="mt-4 text-sm sm:text-base 2xl:text-xl text-gray-500 max-w-xl mx-auto leading-relaxed">
                     Partner with Vidi Vici Rental in four easy steps and start earning from your luxury
                     assets with ease and confidence.
                 </p>
@@ -38,16 +38,16 @@ export default function HowItWorks() {
                                 <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-gray-900 text-white flex items-center justify-center text-lg font-bold shadow-md shrink-0">
                                     {step.number}
                                 </div>
-                                <div className="mt-5 max-w-[160px]">
-                                    <p className="font-semibold text-gray-900 text-sm lg:text-base">{step.title}</p>
-                                    <p className="text-xs lg:text-sm text-gray-500 mt-2 leading-relaxed">{step.description}</p>
+                                <div className="mt-5 max-w-[160px] 2xl:max-w-[200px]">
+                                    <p className="font-semibold text-gray-900 text-sm lg:text-base 2xl:text-xl">{step.title}</p>
+                                    <p className="text-xs lg:text-sm 2xl:text-lg text-gray-500 mt-2 leading-relaxed">{step.description}</p>
                                 </div>
                             </div>
                         ) : (
                             <div key={step.number} className="flex flex-col items-center text-center justify-end pb-8">
-                                <div className="max-w-[160px] mb-5">
-                                    <p className="text-xs lg:text-sm text-gray-500 leading-relaxed">{step.description}</p>
-                                    <p className="font-semibold text-gray-900 text-sm lg:text-base mt-2">{step.title}</p>
+                                <div className="max-w-[160px] 2xl:max-w-[200px] mb-5">
+                                    <p className="text-xs lg:text-sm 2xl:text-lg text-gray-500 leading-relaxed">{step.description}</p>
+                                    <p className="font-semibold text-gray-900 text-sm lg:text-base 2xl:text-xl mt-2">{step.title}</p>
                                 </div>
                                 <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-gray-900 text-white flex items-center justify-center text-lg font-bold shadow-md shrink-0">
                                     {step.number}

@@ -132,7 +132,7 @@ export default function Hero() {
       `}</style>
 
       <section
-        className="relative w-full min-h-screen 2xl:min-h-[1200px] flex flex-col items-center justify-center overflow-hidden"
+        className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden"
       >
         {/* Background image */}
         <div
@@ -150,22 +150,22 @@ export default function Hero() {
         />
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-3xl 2xl:max-w-7xl mx-auto mt-20 2xl:mt-32">
+        <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-3xl 2xl:max-w-7xl 3xl:max-w-[1800px] mx-auto mt-20 2xl:mt-56 3xl:mt-40">
 
-          <h1 className="hero-title text-white font-semibold mb-5 2xl:mb-12 text-3xl sm:text-5xl 2xl:text-8xl leading-snug 2xl:leading-[1.1]">
+          <h1 className="hero-title text-white font-semibold mb-5 2xl:mb-12 3xl:mb-16 text-3xl sm:text-5xl 2xl:text-[5rem] leading-snug 2xl:leading-[1.1] 3xl:leading-[1.1]">
             Experience Luxury Like Never Before with Vidi Vici
           </h1>
 
-          <p className="hero-sub text-mist-300 font-extralight leading-relaxed mb-10 2xl:mb-20 text-base sm:text-xl 2xl:text-3xl px-0 sm:px-8 2xl:px-24">
+          <p className="hero-sub text-mist-300 font-extralight leading-relaxed mb-10 2xl:mb-12 3xl:mb-28 text-base sm:text-xl 2xl:text-3xl 3xl:text-5xl px-0 sm:px-8 2xl:px-36 3xl:px-40">
             Exotic cars and luxury villas in Los Angeles, curated for those who
             demand the extraordinary.
           </p>
 
           {/* Search bar */}
-          <div className="hero-search w-full max-w-lg 2xl:max-w-4xl relative" ref={wrapperRef}>
+          <div className="hero-search w-full max-w-lg 2xl:max-w-4xl 3xl:max-w-[1200px] relative" ref={wrapperRef}>
             <form onSubmit={handleSubmit}>
               <div
-                className="flex items-center gap-3 2xl:gap-6 px-5 py-3 2xl:px-10 2xl:py-5 rounded-2xl 2xl:rounded-3xl border border-white/40 transition-all duration-300 focus-within:border-white/60"
+                className="flex items-center gap-3 2xl:gap-6 3xl:gap-8 px-5 py-3 2xl:px-10 2xl:py-5 3xl:px-14 3xl:py-7 rounded-2xl 2xl:rounded-3xl 3xl:rounded-[32px] border border-white/40 transition-all duration-300 focus-within:border-white/60"
                 style={{
                   background: "rgba(255, 255, 255, 0.22)",
                   backdropFilter: "blur(100px) saturate(200%)",
@@ -174,7 +174,7 @@ export default function Hero() {
                 }}
               >
                 <button type="submit" className="shrink-0 text-white/70 hover:text-white transition-colors">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="2xl:w-10 2xl:h-10">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="2xl:w-8 2xl:h-8 3xl:w-14 3xl:h-14">
                     <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" strokeWidth="1.5" />
                     <path d="M13.5 13.5L17 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
@@ -185,10 +185,10 @@ export default function Hero() {
                   onChange={e => setQuery(e.target.value)}
                   onFocus={() => results.length > 0 && setOpen(true)}
                   placeholder="Search cars, villas, or events..."
-                  className="flex-1 bg-transparent placeholder:text-white/60 text-white tracking-wide outline-none border-none text-sm sm:text-base 2xl:text-2xl search-input"
+                  className="flex-1 bg-transparent placeholder:text-white/60 text-white tracking-wide outline-none border-none text-sm sm:text-base 2xl:text-2xl 3xl:text-3xl search-input"
                 />
                 {loading && (
-                  <svg className="animate-spin shrink-0 text-white/60 w-4 h-4 2xl:w-7 2xl:h-7" viewBox="0 0 24 24" fill="none">
+                  <svg className="animate-spin shrink-0 text-white/60 w-4 h-4 2xl:w-7 2xl:h-7 3xl:w-10 3xl:h-10" viewBox="0 0 24 24" fill="none">
                     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeDasharray="31.4" strokeDashoffset="10" />
                   </svg>
                 )}
@@ -198,7 +198,7 @@ export default function Hero() {
             {/* Dropdown */}
             {open && results.length > 0 && (
               <div
-                className="absolute mt-2 w-full max-w-lg 2xl:max-w-4xl rounded-2xl overflow-hidden z-50"
+                className="absolute mt-2 w-full max-w-lg 2xl:max-w-4xl 3xl:max-w-[1200px] rounded-2xl 3xl:rounded-3xl overflow-hidden z-50"
                 style={{
                   background: "rgba(10, 10, 15, 0.92)",
                   backdropFilter: "blur(40px)",
@@ -211,28 +211,28 @@ export default function Hero() {
                     key={r.id}
                     href={hrefFor(r)}
                     onClick={() => { setOpen(false); setQuery("") }}
-                    className="flex items-center gap-3 px-4 py-3 hover:bg-white/10 transition-colors group"
+                    className="flex items-center gap-3 2xl:gap-4 3xl:gap-6 px-4 py-3 2xl:px-6 2xl:py-4 3xl:px-8 3xl:py-5 hover:bg-white/10 transition-colors group"
                   >
                     {r.imageUrl ? (
-                      <div className="relative w-10 h-10 rounded-lg overflow-hidden shrink-0">
+                      <div className="relative w-10 h-10 2xl:w-12 2xl:h-12 3xl:w-16 3xl:h-16 rounded-lg overflow-hidden shrink-0">
                         <Image src={r.imageUrl} alt={r.name} fill className="object-cover" />
                       </div>
                     ) : (
                       <div className="w-10 h-10 rounded-lg bg-white/10 shrink-0" />
                     )}
                     <div className="flex-1 text-left min-w-0">
-                      <p className="text-white text-sm font-medium truncate">{r.name}</p>
-                      <p className="text-white/50 text-xs truncate">{r.subtitle}</p>
+                      <p className="text-white text-sm 2xl:text-base 3xl:text-xl font-medium truncate">{r.name}</p>
+                      <p className="text-white/50 text-xs 2xl:text-sm 3xl:text-base truncate">{r.subtitle}</p>
                     </div>
-                    <span className="text-xs text-white/30 shrink-0 bg-white/10 px-2 py-0.5 rounded-full">
+                    <span className="text-xs 2xl:text-sm 3xl:text-base text-white/30 shrink-0 bg-white/10 2xl:bg-white/15 3xl:bg-white/20 px-2 py-0.5 2xl:px-3 2xl:py-1 3xl:px-4 3xl:py-1.5 rounded-full">
                       {labelFor(r.type)}
                     </span>
                   </Link>
                 ))}
-                <div className="border-t border-white/10 px-4 py-2">
+                <div className="border-t border-white/10 px-4 py-2 2xl:px-6 2xl:py-3 3xl:px-8 3xl:py-4">
                   <button
                     onClick={() => { setOpen(false); router.push(`/cars?search=${encodeURIComponent(query)}`) }}
-                    className="text-xs text-white/50 hover:text-white/80 transition-colors"
+                    className="text-xs 2xl:text-sm 3xl:text-base text-white/50 hover:text-white/80 transition-colors"
                   >
                     See all results for &ldquo;{query}&rdquo; →
                   </button>

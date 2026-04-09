@@ -39,22 +39,21 @@ function BrowseCard({
   onClick: (name: string) => void 
 }) {
 
-const logoSizeClass = isType
-  ? "w-36 h-20 sm:w-36 sm:h-20 2xl:w-72 2xl:h-40"
-  : "w-36 h-20 sm:w-36 sm:h-20 2xl:w-72 2xl:h-40";
+  const logoSizeClass = isType
+    ? "w-36 h-20 sm:w-36 sm:h-20 2xl:w-48 2xl:h-28"
+    : "w-36 h-20 sm:w-36 sm:h-20 2xl:w-48 2xl:h-28";
 
-const logoScaleClass = isType
-  ? "scale-[1.35] sm:scale-[1.35] 2xl:scale-150"
-  : "scale-100 2xl:scale-110";
-
+  const logoScaleClass = isType
+    ? "scale-[1.35] sm:scale-[1.35] 2xl:scale-[1.4]"
+    : "scale-100 2xl:scale-105";
 
   return (
     <button
       onClick={() => onClick(item.name)}
-      className={`flex flex-col items-center justify-center gap-4 2xl:gap-10
-      py-5 px-7 sm:py-7 sm:px-10 2xl:py-16 2xl:px-28 my-4 rounded-2xl border shrink-0
+      className={`flex flex-col items-center justify-center gap-4 2xl:gap-6
+      py-5 px-7 sm:py-7 sm:px-10 2xl:py-10 2xl:px-16 my-4 rounded-2xl border shrink-0
       transition-all duration-300 border-mist-200 bg-white
-      hover:border-black hover:scale-105 group shadow-sm hover:shadow-xl   `} 
+      hover:border-black hover:scale-105 group shadow-sm hover:shadow-xl`} 
     >
       <div className={`relative transition-transform duration-500 group-hover:scale-110 ${logoSizeClass}`}>
         <Image
@@ -65,7 +64,7 @@ const logoScaleClass = isType
         />
       </div>
 
-      <span className="text-[10px] sm:text-xs 2xl:text-2xl font-bold uppercase tracking-[0.2em] text-mist-400 group-hover:text-black">
+      <span className="text-[10px] sm:text-xs 2xl:text-sm font-bold uppercase tracking-[0.2em] text-mist-400 group-hover:text-black">
         {item.name}
       </span>
     </button>
@@ -107,15 +106,15 @@ export default function CarBrowseSection() {
   };
 
   return (
-    <section className="w-full bg-[#fcfcfc] py-16 sm:py-24 2xl:py-48 overflow-hidden">
+    <section className="w-full bg-[#fcfcfc] py-16 sm:py-24 2xl:py-32 overflow-hidden">
       
-      {/* Buttons Container - Now two separate independent buttons */}
-      <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto px-6 mb-16 2xl:mb-32 flex flex-row items-center justify-center gap-4 2xl:gap-12">
+      {/* Buttons Container */}
+      <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto px-6 mb-16 2xl:mb-20 flex flex-row items-center justify-center gap-4 2xl:gap-8">
         
         {/* Button: Browse by Make */}
         <button
           onClick={() => setActiveTab("make")}
-          className={`px-7 py-2.5 2xl:px-14 2xl:py-5 text-xs sm:text-sm 2xl:text-lg font-semibold uppercase tracking-widest rounded-xl 2xl:rounded-2xl border-2 transition-all duration-300 ${
+          className={`px-7 py-2.5 2xl:px-10 2xl:py-3 text-xs sm:text-sm 2xl:text-base font-semibold uppercase tracking-widest rounded-xl 2xl:rounded-2xl border-2 transition-all duration-300 ${
             !isType
               ? "bg-black border-black text-white shadow-2xl scale-105"
               : "bg-white border-mist-200 text-mist-400 hover:border-black hover:text-black"
@@ -127,7 +126,7 @@ export default function CarBrowseSection() {
         {/* Button: Browse by Type */}
         <button
           onClick={() => setActiveTab("type")}
-          className={`px-7 py-2.5 2xl:px-14 2xl:py-5 text-xs sm:text-sm 2xl:text-lg font-semibold uppercase tracking-widest rounded-xl 2xl:rounded-2xl border-2 transition-all duration-300 ${
+          className={`px-7 py-2.5 2xl:px-10 2xl:py-3 text-xs sm:text-sm 2xl:text-base font-semibold uppercase tracking-widest rounded-xl 2xl:rounded-2xl border-2 transition-all duration-300 ${
             isType
               ? "bg-black border-black text-white shadow-2xl scale-105"
               : "bg-white border-mist-200 text-mist-400 hover:border-black hover:text-black"
@@ -143,18 +142,18 @@ export default function CarBrowseSection() {
         <button
           type="button"
           onClick={() => scrollMarquee("left")}
-          className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full 2xl:w-12 2xl:h-12 bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all"
+          className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full 2xl:w-10 2xl:h-10 bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all"
           aria-label="Scroll left"
         >
-          <ChevronLeft size={16} strokeWidth={2.5} className="text-mist-700 2xl:w-6 2xl:h-6" />
+          <ChevronLeft size={16} strokeWidth={2.5} className="text-mist-700 2xl:w-5 2xl:h-5" />
         </button>
         <button
           type="button"
           onClick={() => scrollMarquee("right")}
-          className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full 2xl:w-12 2xl:h-12 bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all"
+          className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full 2xl:w-10 2xl:h-10 bg-white border border-mist-200 shadow-md flex items-center justify-center hover:bg-mist-50 transition-all"
           aria-label="Scroll right"
         >
-          <ChevronRight size={16} strokeWidth={2.5} className="text-mist-700 2xl:w-6 2xl:h-6" />
+          <ChevronRight size={16} strokeWidth={2.5} className="text-mist-700 2xl:w-5 2xl:h-5" />
         </button>
 
         <div ref={marqueeRef} className="marquee">
@@ -194,7 +193,7 @@ export default function CarBrowseSection() {
 
         @media (min-width: 1900px) {
           .marquee-track {
-            gap: 64px;
+            gap: 40px;
           }
         }
 

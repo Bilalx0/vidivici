@@ -89,48 +89,48 @@ export default function PaymentMethodsPage() {
 
             {/* Card Info */}
             <div>
-              <h2 className="text-xl font-bold text-mist-900 mb-5">Card Info</h2>
-              <div className="mb-4">
-                <label className="text-xs font-medium text-mist-500 block mb-1.5">Name on card</label>
+              <h2 className="text-xl 2xl:text-3xl font-bold text-mist-900 mb-5 2xl:mb-8">Card Info</h2>
+              <div className="mb-4 2xl:mb-6">
+                <label className="text-xs 2xl:text-xl font-medium text-mist-500 block mb-1.5 2xl:mb-3">Name on card</label>
                 <input
                   type="text" value={name} onChange={(e) => setName(e.target.value)}
                   placeholder="Name on card" required
-                  className="w-full border border-mist-200 rounded-xl px-4 py-3 text-sm text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition"
+                  className="w-full border border-mist-200 rounded-xl 2xl:rounded-2xl px-4 2xl:px-6 py-3 2xl:py-5 text-sm 2xl:text-xl text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition"
                 />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 2xl:gap-8">
                 <div>
-                  <label className="text-xs font-medium text-mist-500 block mb-1.5">Card number</label>
+                  <label className="text-xs 2xl:text-xl font-medium text-mist-500 block mb-1.5 2xl:mb-3">Card number</label>
                   <div className="relative">
                     <input
                       type="text" value={cardNumber}
                       onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
                       placeholder="1234 1234 1234 1234" required
-                      className="w-full border border-mist-200 rounded-xl pl-9 pr-4 py-3 text-sm text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition"
+                      className="w-full border border-mist-200 rounded-xl 2xl:rounded-2xl pl-9 2xl:pl-12 pr-4 2xl:pr-6 py-3 2xl:py-5 text-sm 2xl:text-xl text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition"
                     />
-                    <CreditCard size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-mist-300" />
+                    <CreditCard size={14} className="absolute left-3 2xl:left-4 top-1/2 -translate-y-1/2 text-mist-300 2xl:w-5 2xl:h-5" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-mist-500 block mb-1.5">Expiration date</label>
+                  <label className="text-xs 2xl:text-xl font-medium text-mist-500 block mb-1.5 2xl:mb-3">Expiration date</label>
                   <input
                     type="text" value={expiry}
                     onChange={(e) => setExpiry(formatExpiry(e.target.value))}
                     placeholder="MM/YY" required
-                    className="w-full border border-mist-200 rounded-xl px-4 py-3 text-sm text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition"
+                    className="w-full border border-mist-200 rounded-xl 2xl:rounded-2xl px-4 2xl:px-6 py-3 2xl:py-5 text-sm 2xl:text-xl text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-mist-500 block mb-1.5">Security code</label>
+                  <label className="text-xs 2xl:text-xl font-medium text-mist-500 block mb-1.5 2xl:mb-3">Security code</label>
                   <div className="relative">
                     <input
                       type="password" value={cvv}
                       onChange={(e) => setCvv(e.target.value.slice(0, 4))}
                       placeholder="CVV" required
-                      className="w-full border border-mist-200 rounded-xl px-4 py-3 text-sm text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition pr-10"
+                      className="w-full border border-mist-200 rounded-xl 2xl:rounded-2xl px-4 2xl:px-6 py-3 2xl:py-5 text-sm 2xl:text-xl text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition pr-10 2xl:pr-14"
                     />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-4 bg-mist-200 rounded-sm flex items-center justify-center">
-                      <div className="w-2 h-2 bg-mist-400 rounded-full" />
+                    <div className="absolute right-3 2xl:right-4 top-1/2 -translate-y-1/2 w-5 2xl:w-7 h-4 2xl:h-6 bg-mist-200 rounded-sm flex items-center justify-center">
+                      <div className="w-2 2xl:w-3 h-2 2xl:h-3 bg-mist-400 rounded-full" />
                     </div>
                   </div>
                 </div>
@@ -139,21 +139,21 @@ export default function PaymentMethodsPage() {
 
             {/* Billing Address */}
             <div>
-              <h2 className="text-xl font-bold text-mist-900 mb-5">Billing Address</h2>
-              <div className="mb-4">
-                <label className="text-xs font-medium text-mist-500 block mb-1.5">Billing address</label>
+              <h2 className="text-xl 2xl:text-3xl font-bold text-mist-900 mb-5 2xl:mb-8">Billing Address</h2>
+              <div className="mb-4 2xl:mb-6">
+                <label className="text-xs 2xl:text-xl font-medium text-mist-500 block mb-1.5 2xl:mb-3">Billing address</label>
                 <input
                   type="text" value={address} onChange={(e) => setAddress(e.target.value)}
                   placeholder="Enter billing address" required
-                  className="w-full border border-mist-200 rounded-xl px-4 py-3 text-sm text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition"
+                  className="w-full border border-mist-200 rounded-xl 2xl:rounded-2xl px-4 2xl:px-6 py-3 2xl:py-5 text-sm 2xl:text-xl text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition"
                 />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 2xl:gap-8">
                 <div>
-                  <label className="text-xs font-medium text-mist-500 block mb-1.5">Country</label>
+                  <label className="text-xs 2xl:text-xl font-medium text-mist-500 block mb-1.5 2xl:mb-3">Country</label>
                   <select
                     value={country} onChange={(e) => setCountry(e.target.value)}
-                    className="w-full border border-mist-200 rounded-xl px-4 py-3 text-sm text-mist-700 focus:border-mist-400 focus:outline-none transition bg-white"
+                    className="w-full border border-mist-200 rounded-xl 2xl:rounded-2xl px-4 2xl:px-6 py-3 2xl:py-5 text-sm 2xl:text-xl text-mist-700 focus:border-mist-400 focus:outline-none transition bg-white"
                   >
                     {["United States","United Kingdom","Canada","Australia","Germany","France","Other"].map((c) => (
                       <option key={c}>{c}</option>
@@ -161,18 +161,18 @@ export default function PaymentMethodsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-mist-500 block mb-1.5">Zip code</label>
+                  <label className="text-xs 2xl:text-xl font-medium text-mist-500 block mb-1.5 2xl:mb-3">Zip code</label>
                   <input
                     type="text" value={zip} onChange={(e) => setZip(e.target.value)}
                     placeholder="Zip code" required
-                    className="w-full border border-mist-200 rounded-xl px-4 py-3 text-sm text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition"
+                    className="w-full border border-mist-200 rounded-xl 2xl:rounded-2xl px-4 2xl:px-6 py-3 2xl:py-5 text-sm 2xl:text-xl text-mist-700 placeholder-mist-300 focus:border-mist-400 focus:outline-none transition"
                   />
                 </div>
               </div>
             </div>
 
             {/* Terms */}
-            <p className="text-xs text-mist-400 leading-relaxed">
+            <p className="text-xs 2xl:text-xl text-mist-400 leading-relaxed">
               By adding the card, I agree to the{" "}
               <Link href="/terms" className="text-blue-500 hover:underline">Terms & Conditions</Link>
               {" "}and{" "}
@@ -180,12 +180,12 @@ export default function PaymentMethodsPage() {
             </p>
 
             {/* Footer: buttons + payment icons */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 pt-1">
-              <div className="flex items-center gap-3">
-                <button type="submit" className="bg-mist-900 text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-mist-700 transition-colors">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 2xl:gap-8 pt-1">
+              <div className="flex items-center gap-3 2xl:gap-6">
+                <button type="submit" className="bg-mist-900 text-white text-sm 2xl:text-xl font-semibold px-6 2xl:px-10 py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors">
                   Add Card
                 </button>
-                <button type="button" onClick={resetForm} className="text-sm text-mist-600 border border-mist-200 px-6 py-3 rounded-xl hover:bg-mist-50 transition-colors">
+                <button type="button" onClick={resetForm} className="text-sm 2xl:text-xl text-mist-600 border border-mist-200 px-6 2xl:px-10 py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-50 transition-colors">
                   Cancel
                 </button>
               </div>

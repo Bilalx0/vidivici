@@ -9,14 +9,14 @@ export default function PrivacyPage() {
                     description=""
                     searchBar={false}
                     image="/banner5.png"
-                    height="h-96"
+                    height="h-96 2xl:h-[700px]"
                   />
-    
+
     <div className="w-full bg-white">
       </div>
 
       {/* Content Section */}
-      <div className="sm:px-16 lg:px-20 px-6 py-16">
+      <div className="sm:px-16 lg:px-20 px-6 py-16 2xl:py-32 2xl:px-48">
         <Section title="Introduction">
           <p>
             Vidi Vici Rental operates this website and store, including all related information, content, features, tools, products, and
@@ -195,11 +195,11 @@ export default function PrivacyPage() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="mb-10">
-      <h2 className="text-2xl font-bold text-mist-900 mb-4 pb-3 border-b border-mist-200">
+    <div className="mb-10 2xl:mb-16">
+      <h2 className="text-2xl 2xl:text-5xl font-bold text-mist-900 mb-4 2xl:mb-8 pb-3 2xl:pb-6 border-b border-mist-200">
         {title}
       </h2>
-      <div className="flex flex-col gap-4 text-base text-mist-700 leading-relaxed">
+      <div className="flex flex-col gap-4 2xl:gap-8 text-base 2xl:text-2xl text-mist-700 leading-relaxed">
         {children}
       </div>
     </div>
@@ -208,7 +208,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function BoldItem({ label, text }: { label: string; text: string }) {
   return (
-    <li className="list-none text-base text-mist-700 leading-relaxed">
+    <li className="list-none text-base 2xl:text-2xl text-mist-700 leading-relaxed">
       <span className="font-semibold text-mist-900">{label}</span> {text}
     </li>
   );
@@ -217,16 +217,16 @@ function BoldItem({ label, text }: { label: string; text: string }) {
 function NumberedGroup({ number, title, children }: { number: number; title: string; children: React.ReactNode }) {
   return (
     <div className="">
-      <p className="text-sm font-semibold text-mist-900 mb-3">{number}. {title}</p>
-      <ul className="flex flex-col gap-2">{children}</ul>
+      <p className="text-sm 2xl:text-2xl font-semibold text-mist-900 mb-3 2xl:mb-6">{number}. {title}</p>
+      <ul className="flex flex-col gap-2 2xl:gap-5">{children}</ul>
     </div>
   );
 }
 
 function Bullet({ text }: { text: string }) {
   return (
-    <li className="flex items-start gap-3 text-sm text-mist-700 leading-relaxed list-none">
-      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-mist-400 flex-shrink-0" />
+    <li className="flex items-start gap-3 2xl:gap-6 text-sm 2xl:text-2xl text-mist-700 leading-relaxed list-none">
+      <span className="mt-1.5 2xl:mt-3 w-1.5 2xl:w-4 h-1.5 2xl:h-4 rounded-full bg-mist-400 flex-shrink-0" />
       {text}
     </li>
   );

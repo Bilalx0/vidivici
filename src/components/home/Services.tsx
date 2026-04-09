@@ -43,7 +43,7 @@ export default function LuxuryServices() {
 
         {/* Left — heading + subtitle */}
         <div className="w-full lg:w-64 2xl:w-96 shrink-0 lg:pt-6 2xl:pt-8 text-center lg:text-left">
-          <h2 className="sm:text-4xl text-3xl 2xl:text-6xl font-bold leading-tight text-mist-900 mb-5 2xl:mb-7 mx-auto lg:mx-0">
+          <h2 className="sm:text-4xl text-3xl 2xl:text-5xl font-bold leading-tight text-mist-900 mb-5 2xl:mb-7 mx-auto lg:mx-0">
             Our Luxury Services
           </h2>
           <p className="text-sm 2xl:text-xl text-mist-500 leading-relaxed font-normal max-w-xs mx-auto lg:mx-0">

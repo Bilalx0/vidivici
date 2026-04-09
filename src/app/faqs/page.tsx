@@ -114,7 +114,7 @@ export default function FAQPage() {
       <section className="w-full min-h-screen">
         <div className="bg-mist-200 py-16 2xl:py-28 px-6 sm:px-16 lg:px-20 2xl:px-32">
           {/* Heading */}
-          <h2 className="text-3xl 2xl:text-7xl font-bold text-mist-900 text-center tracking-tight mb-12 2xl:mb-20">
+          <h2 className="text-3xl 2xl:text-6xl font-bold text-mist-900 text-center tracking-tight mb-12 2xl:mb-20">
             Frequently Asked Questions
           </h2>
 
@@ -124,7 +124,7 @@ export default function FAQPage() {
               <button
                 key={cat}
                 onClick={() => { setActiveCategory(cat); setOpenId(null); }}
-                className={`px-4 2xl:px-8 py-2 2xl:py-4 rounded-lg 2xl:rounded-xl text-[12.5px] 2xl:text-xl font-semibold transition-all duration-200 ${activeCategory === cat
+                className={`px-4 py-2 2xl:py-3 2xl-px-6 rounded-lg 2xl:rounded-xl text-[12.5px] 2xl:text-xl transition-all duration-200 ${activeCategory === cat
                   ? "bg-mist-900 text-white"
                   : "bg-white border border-mist-200 text-mist-600 hover:border-mist-400"
                   }`}
@@ -136,7 +136,7 @@ export default function FAQPage() {
         </div>
 
         {/* Accordion */}
-        <div className="flex flex-col gap-3 2xl:gap-5 mx-auto max-w-3xl 2xl:max-w-6xl px-6 sm:px-16 lg:px-20 2xl:px-32 py-20 2xl:py-28">
+        <div className="flex flex-col gap-3 2xl:gap-5 px-6 sm:px-16 lg:px-20 2xl:px-56 py-20 2xl:py-28">
           {filtered.map((faq) => {
             const isOpen = openId === faq.id;
             return (
@@ -148,7 +148,7 @@ export default function FAQPage() {
                   onClick={() => setOpenId(isOpen ? null : faq.id)}
                   className="w-full flex items-center justify-between px-5 2xl:px-8 py-4 2xl:py-6 text-left"
                 >
-                  <span className="text-[14px] 2xl:text-[1.65rem] font-semibold text-mist-900 pr-4 leading-snug">
+                  <span className="text-[14px] 2xl:text-[1.65rem] text-mist-900 pr-4 leading-snug">
                     {faq.question}
                   </span>
                   <span

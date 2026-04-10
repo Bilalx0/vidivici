@@ -126,7 +126,7 @@ export default function Villa({ showHeader = true }) {
   };
 
   return (
-    <section className="w-full py-16">
+    <section className="w-full mt-16 2xl:mt-48">
       <div className="">
 
         {/* Header */}

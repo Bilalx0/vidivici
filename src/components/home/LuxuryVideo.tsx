@@ -10,7 +10,7 @@ export default function LuxuryVideo() {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <section className="relative w-full bg-[#eeeeed] py-16 2xl:py-64 px-6 overflow-visible">
+    <section className="relative w-full bg-[#eeeeed] py-16 2xl:py-64 px-6 mt-16 2xl:mt-48 overflow-visible">
 
       {/* Left side vector decoration */}
       <img

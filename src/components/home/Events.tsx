@@ -135,7 +135,7 @@ export default function ExclusiveNightlife({ showHeader = true }) {
   }, []);
 
   return (
-    <section className="bg-white w-full py-16 overflow-hidden">
+    <section className="bg-white w-full mt-16 2xl:mt-48 overflow-hidden">
 
       {/* Header */}
       {showHeader && (

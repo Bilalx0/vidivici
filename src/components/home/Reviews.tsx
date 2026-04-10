@@ -82,7 +82,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="w-full bg-white py-16 2xl:py-48 overflow-hidden">
+    <section className="w-full bg-white mt-16 2xl:mt-48 overflow-hidden">
       
       {/* Header */}
       <div className="text-center mb-10 2xl:mb-24 sm:px-16 lg:px-20 px-6">

@@ -106,10 +106,10 @@ export default function CarBrowseSection() {
   };
 
   return (
-    <section className="w-full bg-[#fcfcfc] py-16 sm:py-24 2xl:py-32 overflow-hidden">
+    <section className="w-full bg-[#fcfcfc] mt-16 2xl:mt-48 overflow-hidden">
       
       {/* Buttons Container */}
-      <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto px-6 mb-16 2xl:mb-20 flex flex-row items-center justify-center gap-4 2xl:gap-8">
+      <div className="px-6 mb-16 2xl:mb-20 flex flex-row items-center justify-center gap-4 2xl:gap-8">
         
         {/* Button: Browse by Make */}
         <button

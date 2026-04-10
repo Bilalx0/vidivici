@@ -27,7 +27,7 @@ export default function WhyChooseUs({ bg = "#f0f0ee" }: { bg?: string }) {
   return (
     <section
       /* Increased vertical padding to 2xl:py-64 to account for the massive 7k height */
-      className="w-full px-6 sm:px-16 lg:px-20 2xl:px-32 py-20 2xl:py-48 relative overflow-visible"
+      className="w-full px-6 sm:px-16 lg:px-20 2xl:px-32 py-20 2xl:py-36 relative overflow-visible"
       style={{ backgroundColor: bg }}
     >
       {/* Background Vectors - Scaled up for 2xl */}

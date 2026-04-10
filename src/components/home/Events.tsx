@@ -139,14 +139,14 @@ export default function ExclusiveNightlife({ showHeader = true }) {
 
       {/* Header */}
       {showHeader && (
-        <div className="flex items-center justify-between mb-8 px-6 sm:px-16 lg:px-20 2xl:px-32 gap-4 pb-7 2xl:max-w-[1840px]">
+        <div className="flex items-center justify-between mb-8 px-6 sm:px-16 lg:px-20 2xl:px-32 gap-4 pb-7">
           <h2 className="text-2xl sm:text-4xl 2xl:text-5xl font-bold text-mist-900 tracking-tight w-xl">
             Exclusive Nightlife & VIP Experiences
           </h2>
-          <button className="flex items-center gap-2 px-3 sm:px-5 py-1.5 sm:py-2.5 text-sm sm:text-base 2xl:text-2xl 2xl:py-4 2xl:px-8 text-mist-500 bg-mist-200 border border-mist-200 rounded-xl hover:bg-mist-50 hover:border-mist-300 transition-all duration-200 whitespace-nowrap">
-            View all
-            <ArrowUpRight size={15} />
-          </button>
+         <button className="flex items-center gap-2 px-3 sm:px-5 py-1.5 sm:py-2.5 text-sm sm:text-base 2xl:text-xl 2xl:py-4 2xl:px-6 text-mist-500 bg-mist-200 border border-mist-200 rounded-xl hover:bg-mist-50 hover:border-mist-300 transition-all duration-200 whitespace-nowrap">
+      View all
+      <ArrowUpRight size={15} />
+    </button>
         </div>
       )}
 

@@ -39,7 +39,7 @@ const ArrowIcon = () => (
 export default function LuxuryServices() {
   return (
     <section className="bg-[#f0f0ee] w-full py-16 2xl:py-24 sm:px-16 lg:px-20 px-6 2xl:px-32">
-      <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16 2xl:gap-24 2xl:max-w-[1840px] 2xl:mx-auto">
+      <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16 2xl:gap-40 ">
 
         {/* Left — heading + subtitle */}
         <div className="w-full lg:w-64 2xl:w-96 shrink-0 lg:pt-6 2xl:pt-8 text-center lg:text-left">

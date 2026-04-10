@@ -131,7 +131,7 @@ export default function ContactForm() {
 
           {/* Right Panel - Form */}
           <div className="flex-1">
-            <h2 className="text-3xl md:text-4xl 2xl:text-6xl font-bold text-mist-900 mb-8 2xl:mb-12 tracking-tight">
+            <h2 className="text-3xl md:text-4xl 2xl:text-5xl font-bold text-mist-900 mb-8 2xl:mb-12 tracking-tight">
               Get in touch with us
             </h2>
 

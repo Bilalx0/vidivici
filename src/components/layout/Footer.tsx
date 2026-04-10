@@ -62,21 +62,21 @@ export default function Footer() {
         className="absolute right-0 -top-20 2xl:-top-40 h-[45%] sm:h-[70%] 2xl:h-[85%] w-auto object-contain object-right pointer-events-none select-none rotate-180 opacity-30 2xl:opacity-40"
       />
 
-      <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto px-8 2xl:px-20 pt-14 2xl:pt-40 pb-8 2xl:pb-20 relative z-10">
+      <div className="px-8 2xl:px-32 pt-14 2xl:pt-20 pb-8 2xl:pb-12 relative z-10">
 
         {/* Top Branding Section */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 2xl:gap-20 pb-10 2xl:pb-24 border-b border-white/10">
-          <div className="flex items-center gap-6 2xl:gap-12 flex-shrink-0">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 2xl:gap-12 pb-10 2xl:pb-16 border-b border-white/10">
+          <div className="flex items-center gap-6 2xl:gap-8 flex-shrink-0">
             <div className="flex-shrink-0">
-              <Image src="/Logo.png" alt="Vidi Vici Logo" width={80} height={80} className="2xl:w-32 2xl:h-32" />
+              <Image src="/Logo.png" alt="Vidi Vici Logo" width={80} height={80} className="2xl:w-20 2xl:h-20" />
             </div>
             <div>
-              <p className="text-xl sm:text-3xl 2xl:text-6xl font-normal tracking-wide leading-tight">Vidi Vici</p>
-              <p className="text-xs sm:text-base 2xl:text-2xl tracking-[0.5rem] 2xl:tracking-[1.5rem] text-[#EDEDED] uppercase mt-1">Rental</p>
+              <p className="text-xl sm:text-3xl 2xl:text-4xl font-normal tracking-wide leading-tight">Vidi Vici</p>
+              <p className="text-xs sm:text-base 2xl:text-lg tracking-[0.5rem] 2xl:tracking-[1rem] text-[#EDEDED] uppercase mt-1">Rental</p>
             </div>
           </div>
 
-          <p className="text-[13px] 2xl:text-2xl text-mist-300 leading-relaxed max-w-sm 2xl:max-w-2xl lg:text-right">
+          <p className="text-[13px] 2xl:text-lg text-mist-300 leading-relaxed max-w-sm 2xl:max-w-xl lg:text-right">
             Experience the pinnacle of luxury and adventure with our exclusive
             fleet of exotic cars, premium villas, and world-class events —
             crafted for unforgettable moments.
@@ -156,7 +156,7 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-col gap-4 mt-8">
-            <p className="text-[12px] font-normal text-white/80 uppercase tracking-wide">Subscribe for VIP updates & offers</p>
+            <p className="text-[12px] 2xl:text-sm font-normal text-white/80 uppercase tracking-wide">Subscribe for VIP updates & offers</p>
 
             <div className="flex items-center bg-white/10 border border-white/20 rounded-lg px-2 py-1.5 focus-within:border-white/40 transition-colors">
               <input
@@ -164,28 +164,28 @@ export default function Footer() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 min-w-0 bg-transparent border-none outline-none text-white placeholder-white/40 text-[12px] px-3"
+                className="flex-1 min-w-0 bg-transparent border-none outline-none text-white placeholder-white/40 text-[12px] 2xl:text-sm px-3"
               />
-              <button className="bg-white text-mist-900 text-[12px] font-normal px-5 py-2 rounded-md hover:bg-mist-100 transition-colors flex-shrink-0">
+              <button className="bg-white text-mist-900 text-[12px] 2xl:text-sm font-normal px-5 2xl:px-6 py-2 2xl:py-2.5 rounded-md hover:bg-mist-100 transition-colors flex-shrink-0">
                 Subscribe
               </button>
             </div>
 
             <div className="flex items-center gap-3 mt-1">
               {[Facebook, Instagram, Youtube].map((Icon, i) => (
-                <button key={i} className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white transition-all">
-                  <Icon size={16} />
+                <button key={i} className="w-9 h-9 2xl:w-11 2xl:h-11 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white transition-all">
+                  <Icon size={16} className="2xl:w-5 2xl:h-5" />
                 </button>
               ))}
-              <button className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white">
-                <div className="w-4 h-4"><TikTokIcon /></div>
+              <button className="w-9 h-9 2xl:w-11 2xl:h-11 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white">
+                <div className="w-4 h-4 2xl:w-5 2xl:h-5"><TikTokIcon /></div>
               </button>
             </div>
           </div>
         </div>
 
         {/* Links Navigation Grid - Tablet and Up */}
-        <div className="hidden sm:grid sm:grid-cols-3 lg:grid-cols-6 gap-8 2xl:gap-16 py-12 2xl:py-32 border-b border-white/10">
+        <div className="hidden sm:grid sm:grid-cols-3 lg:grid-cols-6 gap-8 2xl:gap-12 py-12 2xl:py-20 border-b border-white/10">
           <FooterCol
             title="Company"
             links={[
@@ -251,43 +251,43 @@ export default function Footer() {
           />
 
           {/* Newsletter & Socials */}
-          <div className="sm:col-span-3 lg:col-span-2 flex flex-col gap-4 2xl:gap-8">
-            <p className="text-[12px] 2xl:text-xl font-normal text-white/80 uppercase tracking-wide">Subscribe for VIP updates & offers</p>
+          <div className="sm:col-span-3 lg:col-span-2 flex flex-col gap-4 2xl:gap-6">
+            <p className="text-[12px] 2xl:text-sm font-normal text-white/80 uppercase tracking-wide">Subscribe for VIP updates & offers</p>
 
-            <div className="flex items-center bg-white/10 border border-white/20 rounded-lg 2xl:rounded-2xl px-2 2xl:px-4 py-1.5 2xl:py-4 focus-within:border-white/40 transition-colors">
+            <div className="flex items-center bg-white/10 border border-white/20 rounded-lg 2xl:rounded-xl px-2 2xl:px-3 py-1.5 2xl:py-2.5 focus-within:border-white/40 transition-colors">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 min-w-0 bg-transparent border-none outline-none text-white placeholder-white/40 text-[12px] 2xl:text-xl px-3"
+                className="flex-1 min-w-0 bg-transparent border-none outline-none text-white placeholder-white/40 text-[12px] 2xl:text-sm px-3"
               />
-              <button className="bg-white text-mist-900 text-[12px] 2xl:text-xl font-normal px-5 2xl:px-10 py-2 2xl:py-4 rounded-md 2xl:rounded-xl hover:bg-mist-100 transition-colors flex-shrink-0">
+              <button className="bg-white text-mist-900 text-[12px] 2xl:text-sm font-normal px-5 2xl:px-6 py-2 2xl:py-2.5 rounded-md 2xl:rounded-lg hover:bg-mist-100 transition-colors flex-shrink-0">
                 Subscribe
               </button>
             </div>
 
-            <div className="flex items-center gap-3 2xl:gap-6 mt-1">
+            <div className="flex items-center gap-3 2xl:gap-4 mt-1">
               {[Facebook, Instagram, Youtube].map((Icon, i) => (
-                <button key={i} className="w-9 h-9 2xl:w-16 2xl:h-16 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white transition-all">
-                  <Icon size={16} className="2xl:w-8 2xl:h-8" />
+                <button key={i} className="w-9 h-9 2xl:w-11 2xl:h-11 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white transition-all">
+                  <Icon size={16} className="2xl:w-5 2xl:h-5" />
                 </button>
               ))}
-              <button className="w-9 h-9 2xl:w-16 2xl:h-16 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white">
-                <div className="w-4 h-4 2xl:w-8 2xl:h-8"><TikTokIcon /></div>
+              <button className="w-9 h-9 2xl:w-11 2xl:h-11 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white">
+                <div className="w-4 h-4 2xl:w-5 2xl:h-5"><TikTokIcon /></div>
               </button>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar: Copyright, Legal, and Payments */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 pt-8 2xl:pt-16">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 pt-8 2xl:pt-12">
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 2xl:gap-10">
-            <p className="text-[12px] 2xl:text-xl text-white/40 text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 2xl:gap-8">
+            <p className="text-[12px] 2xl:text-lg text-white/40 text-center sm:text-left">
               ©2026 <span className="font-normal text-white/60">Vidi Vici.</span> All rights reserved.
             </p>
-            <div className="flex items-center gap-1 text-[11px] 2xl:text-xl text-white/30 italic">
+            <div className="flex items-center gap-1 text-[11px] 2xl:text-lg text-white/30 italic">
               <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
               <span className="mx-1">·</span>
               <a href="/terms" className="hover:text-white transition-colors">Terms</a>
@@ -296,8 +296,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Payment Row - Scaled for 2XL */}
-          <div className="flex items-center gap-2 2xl:gap-6 scale-100 2xl:scale-150 origin-right">
+          {/* Payment Row - Slightly scaled for 2XL */}
+          <div className="flex items-center gap-2 2xl:gap-4 scale-100 2xl:scale-125 origin-right">
             <div className="bg-white rounded px-2 py-1 flex items-center justify-center h-7"><VisaIcon /></div>
             <div className="bg-white rounded px-2 py-1 flex items-center justify-center h-7"><PayPalIcon /></div>
             <div className="bg-[#5A31F4] rounded px-2 py-1 flex items-center justify-center h-7">
@@ -315,9 +315,9 @@ export default function Footer() {
 
 function FooterCol({ title, links }) {
   return (
-    <div className="flex flex-col gap-3 2xl:gap-8">
-      <p className="text-[12px] 2xl:text-xl font-normal text-white/80 uppercase tracking-wide">{title}</p>
-      <ul className="flex flex-col gap-2 2xl:gap-5">
+    <div className="flex flex-col gap-3 2xl:gap-5">
+      <p className="text-[12px] 2xl:text-sm font-normal text-white/80 uppercase tracking-wide">{title}</p>
+      <ul className="flex flex-col gap-2 2xl:gap-3">
         {links.map((link) => {
           const label = typeof link === "string" ? link : link.label;
           const href = typeof link === "string" ? "#" : link.href;

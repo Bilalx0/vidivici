@@ -17,6 +17,8 @@ export default function AdminSettingsPage() {
     facebook: "vidivici",
     youtube: "",
     twitter: "",
+    carTaxPercent: "8.5",
+    villaTaxPercent: "14",
   })
 
   useEffect(() => {
@@ -127,6 +129,22 @@ export default function AdminSettingsPage() {
             <div>
               <label className="text-xs text-mist-500 block mb-1">Twitter</label>
               <input type="text" value={form.twitter} onChange={(e) => setForm({ ...form, twitter: e.target.value })}
+                className="w-full bg-mist-50 border border-mist-200 text-mist-900 text-sm px-4 py-3 rounded focus:border-black focus:outline-none" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white border border-mist-200 rounded-xl p-6">
+          <h2 className="text-lg font-semibold text-mist-900 mb-4">Tax Rates</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="text-xs text-mist-500 block mb-1">Car Tax Rate (%)</label>
+              <input type="number" step="0.1" min="0" max="100" value={form.carTaxPercent} onChange={(e) => setForm({ ...form, carTaxPercent: e.target.value })}
+                className="w-full bg-mist-50 border border-mist-200 text-mist-900 text-sm px-4 py-3 rounded focus:border-black focus:outline-none" />
+            </div>
+            <div>
+              <label className="text-xs text-mist-500 block mb-1">Villa Tax Rate (%)</label>
+              <input type="number" step="0.1" min="0" max="100" value={form.villaTaxPercent} onChange={(e) => setForm({ ...form, villaTaxPercent: e.target.value })}
                 className="w-full bg-mist-50 border border-mist-200 text-mist-900 text-sm px-4 py-3 rounded focus:border-black focus:outline-none" />
             </div>
           </div>

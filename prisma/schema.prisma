@@ -287,6 +287,7 @@ model Villa {
   guests           Int          @default(8)
   sqft             Int          @default(4800)
   pricePerNight    Float
+  originalPrice    Float?
   cleaningFee      Float        @default(0)
   securityDeposit  Float        @default(0)
   amenities        String?      @db.Text

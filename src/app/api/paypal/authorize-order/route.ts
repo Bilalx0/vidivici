@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { authorizePayPalOrder, capturePayPalAuthorization } from "@/lib/paypal"
 import { notifyAdmin } from "@/lib/email"
+import { DEFAULT_VILLA_TAX } from "@/lib/utils"
 
 export async function POST(request: NextRequest) {
   try {
@@ -113,7 +114,9 @@ export async function POST(request: NextRequest) {
 
       const nightsTotal = villa.pricePerNight * nights
       const subtotal = nightsTotal + villa.cleaningFee
-      const tax = subtotal * 0.14
+      const taxSetting = await prisma.siteSettings.findUnique({ where: { key: "villaTaxPercent" } })
+      const villaTaxRate = (parseFloat(taxSetting?.value ?? "") || DEFAULT_VILLA_TAX) / 100
+      const tax = subtotal * villaTaxRate
       const totalPrice = subtotal + tax + villa.securityDeposit
 
       booking = await prisma.villaBooking.create({

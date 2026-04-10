@@ -50,8 +50,6 @@ export default function IconPickerInput({
   const [query, setQuery] = useState("")
   const containerRef = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
-
-  console.log(typeof (LucideIcons as any)["Search"]) // likely "object", not "function"
   
   // Filter icons based on search query
   const filtered = useMemo(() => {

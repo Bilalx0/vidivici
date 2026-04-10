@@ -18,6 +18,8 @@ export default function NewBookingPage() {
   const [villas, setVillas] = useState<VillaOption[]>([])
   const [events, setEvents] = useState<EventOption[]>([])
   const [loading, setLoading] = useState(true)
+  const [carTaxPercent, setCarTaxPercent] = useState(8.5)
+  const [villaTaxPercent, setVillaTaxPercent] = useState(14)
 
   const [dlFile, setDlFile] = useState<File | null>(null)
   const [insuranceFile, setInsuranceFile] = useState<File | null>(null)
@@ -41,6 +43,10 @@ export default function NewBookingPage() {
       fetch("/api/cars?limit=200&all=true").then(r => r.json()).then(d => setCars(d.cars || [])),
       fetch("/api/villas?limit=200").then(r => r.json()).then(d => setVillas(Array.isArray(d) ? d : d.villas || [])),
       fetch("/api/events?limit=200").then(r => r.json()).then(d => setEvents(Array.isArray(d) ? d : d.events || [])),
+      fetch("/api/settings").then(r => r.ok ? r.json() : {}).then((s: any) => {
+        if (s.carTaxPercent) setCarTaxPercent(parseFloat(s.carTaxPercent))
+        if (s.villaTaxPercent) setVillaTaxPercent(parseFloat(s.villaTaxPercent))
+      }),
     ]).catch(() => toast.error("Failed to load data")).finally(() => setLoading(false))
   }, [])
 
@@ -56,7 +62,7 @@ export default function NewBookingPage() {
           const deliveryFee = parseFloat(form.deliveryFee) || 0
           const discount = parseFloat(form.discount) || 0
           const subtotal = base - discount + driverCost + deliveryFee
-          const tax = Math.round(subtotal * 0.085)
+          const tax = Math.round(subtotal * (carTaxPercent / 100))
           setForm(p => ({ ...p, basePrice: base.toString(), driverCost: driverCost.toString(), tax: tax.toString(), totalPrice: (subtotal + tax).toString() }))
         }
       }
@@ -67,7 +73,7 @@ export default function NewBookingPage() {
         const nights = Math.max(1, Math.ceil((new Date(form.checkOut).getTime() - new Date(form.checkIn).getTime()) / 86400000))
         const base = villa.pricePerNight * nights
         const subtotal = base + villa.cleaningFee
-        const tax = Math.round(subtotal * 0.14)
+        const tax = Math.round(subtotal * (villaTaxPercent / 100))
         const total = subtotal + tax + villa.securityDeposit
         setForm(p => ({ ...p, basePrice: base.toString(), tax: tax.toString(), totalPrice: total.toString() }))
       }

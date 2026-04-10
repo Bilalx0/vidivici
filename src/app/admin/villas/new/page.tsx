@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import toast, { Toaster } from "react-hot-toast"
 import ImageManager, { ExistingImage } from "@/components/admin/ImageManager"
 import { AMENITY_ICONS, ICON_KEYS, DEFAULT_ICON_KEY, parseAmenity, serializeAmenities } from "@/lib/amenity-icons"
+import IconPickerInput from "@/components/ui/IconPickerInput"
 import { Plus, Trash2 } from "lucide-react"
 
 interface AmenityRow {
@@ -29,6 +30,7 @@ function VillaForm() {
     guests: "8",
     sqft: "4800",
     pricePerNight: "",
+    originalPrice: "",
     cleaningFee: "0",
     securityDeposit: "0",
     description: "",
@@ -57,6 +59,7 @@ function VillaForm() {
               guests: villa.guests?.toString() || "8",
               sqft: villa.sqft?.toString() || "4800",
               pricePerNight: villa.pricePerNight?.toString() || "",
+              originalPrice: villa.originalPrice?.toString() || "",
               cleaningFee: villa.cleaningFee?.toString() || "0",
               securityDeposit: villa.securityDeposit?.toString() || "0",
               description: villa.description || "",
@@ -124,6 +127,7 @@ function VillaForm() {
         guests: parseInt(form.guests),
         sqft: parseInt(form.sqft),
         pricePerNight: parseFloat(form.pricePerNight),
+        originalPrice: form.originalPrice ? parseFloat(form.originalPrice) : null,
         cleaningFee: parseFloat(form.cleaningFee),
         securityDeposit: parseFloat(form.securityDeposit),
         amenities: serializeAmenities(amenityRows),
@@ -202,8 +206,12 @@ function VillaForm() {
               <input type="text" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} className={inputClass} placeholder="Full address" />
             </div>
             <div>
-              <label className="text-xs text-mist-400 block mb-1">Price Per Night ($) *</label>
+              <label className="text-xs text-mist-400 block mb-1">Discounted Price Per Night ($) *</label>
               <input type="number" required value={form.pricePerNight} onChange={(e) => setForm({ ...form, pricePerNight: e.target.value })} className={inputClass} />
+            </div>
+            <div>
+              <label className="text-xs text-mist-400 block mb-1">Regular Price Per Night ($)</label>
+              <input type="number" value={form.originalPrice} onChange={(e) => setForm({ ...form, originalPrice: e.target.value })} className={inputClass} placeholder="Shown as strikethrough" />
             </div>
             <div>
               <label className="text-xs text-mist-400 block mb-1">Cleaning Fee ($)</label>
@@ -262,12 +270,15 @@ function VillaForm() {
         <div className="bg-white border border-mist-200 rounded-xl p-6">
           <h2 className="text-lg font-semibold text-mist-900 mb-4">Amenities</h2>
           <div className="space-y-3">
-            {amenityRows.map((row, i) => {
-              const IconComp = AMENITY_ICONS[row.iconKey]?.icon
-              return (
+            {amenityRows.map((row, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <div className="w-10 h-10 flex items-center justify-center bg-mist-50 border border-mist-200 rounded">
-                    {IconComp && <IconComp size={18} className="text-mist-900" />}
+                  <div className="w-44">
+                    <IconPickerInput
+                      value={row.iconKey}
+                      onChange={(iconName) => updateAmenity(i, "iconKey", iconName || DEFAULT_ICON_KEY)}
+                      inputClassName="bg-white border border-mist-200 text-mist-900 text-sm px-3 py-2.5 rounded focus:border-black focus:outline-none w-full"
+                      placeholder="Pick icon"
+                    />
                   </div>
                   <input
                     type="text"
@@ -276,21 +287,11 @@ function VillaForm() {
                     placeholder="e.g., Infinity Pool"
                     className="flex-1 bg-white border border-mist-200 text-mist-900 text-sm px-4 py-2.5 rounded focus:border-black focus:outline-none"
                   />
-                  <select
-                    value={row.iconKey}
-                    onChange={(e) => updateAmenity(i, "iconKey", e.target.value)}
-                    className="bg-white border border-mist-200 text-mist-900 text-sm px-3 py-2.5 rounded focus:border-black focus:outline-none w-44"
-                  >
-                    {ICON_KEYS.map((key) => (
-                      <option key={key} value={key}>{AMENITY_ICONS[key].label}</option>
-                    ))}
-                  </select>
                   <button type="button" onClick={() => removeAmenity(i)} className="text-red-500 hover:text-red-400 p-1">
                     <Trash2 size={16} />
                   </button>
                 </div>
-              )
-            })}
+            ))}
           </div>
           <button type="button" onClick={addAmenity} className="mt-3 flex items-center gap-2 text-sm text-mist-900 hover:text-mist-600">
             <Plus size={16} /> Add Amenity

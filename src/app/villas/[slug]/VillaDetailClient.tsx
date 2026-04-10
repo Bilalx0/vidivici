@@ -146,11 +146,16 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
   const [privateChef, setPrivateChef] = useState(false)
   const [securityService, setSecurityService] = useState(false)
   const [bookedRanges, setBookedRanges] = useState<{ start: string; end: string }[]>([])
+  const [villaTaxPercent, setVillaTaxPercent] = useState(14)
 
   useEffect(() => {
     fetch(`/api/villas/${villa.id}/availability`)
       .then((r) => (r.ok ? r.json() : { bookedRanges: [] }))
       .then((data) => setBookedRanges(data.bookedRanges || []))
+      .catch(() => {})
+    fetch("/api/settings")
+      .then((r) => (r.ok ? r.json() : {}))
+      .then((s: any) => { if (s.villaTaxPercent) setVillaTaxPercent(parseFloat(s.villaTaxPercent)) })
       .catch(() => {})
   }, [villa.id])
 
@@ -276,7 +281,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
   const nightsTotal = villa.pricePerNight * days
   const addOnsTotal = (airportTransfer ? 500 : 0)
   const subtotal = nightsTotal + villa.cleaningFee + addOnsTotal
-  const tax = subtotal * 0.14
+  const tax = subtotal * (villaTaxPercent / 100)
   const total = subtotal + tax + villa.securityDeposit
 
   const amenitiesList = villa.amenities ? villa.amenities.split(",").map((a) => a.trim()).filter(Boolean).map(parseAmenity) : []

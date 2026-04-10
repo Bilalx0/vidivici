@@ -562,12 +562,17 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
   const [discountsOpen, setDiscountsOpen] = useState(true);
   const [showMore, setShowMore] = useState(false);
   const [bookedRanges, setBookedRanges] = useState<{ start: string; end: string }[]>([])
+  const [carTaxPercent, setCarTaxPercent] = useState(8.5)
   const today = new Date().toISOString().split("T")[0]
 
   useEffect(() => {
     fetch(`/api/cars/${car.id}/availability`)
       .then((r) => (r.ok ? r.json() : { bookedRanges: [] }))
       .then((data) => setBookedRanges(data.bookedRanges || []))
+      .catch(() => {})
+    fetch("/api/settings")
+      .then((r) => (r.ok ? r.json() : {}))
+      .then((s: any) => { if (s.carTaxPercent) setCarTaxPercent(parseFloat(s.carTaxPercent)) })
       .catch(() => {})
   }, [car.id])
 
@@ -593,7 +598,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
     driverAvailability === "full" ? days : driverDays
   const driverTotal: number =
     needDriver ? actualDriverDays * driverHours * 45 : 0
-  const taxRate = 0.085
+  const taxRate = carTaxPercent / 100
   const preTax = subtotal - discountAmount + driverTotal
   const tax = Math.round(preTax * taxRate)
   const qualifiesForReducedDeposit =

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { notifyAdmin } from "@/lib/email"
+import { DEFAULT_VILLA_TAX } from "@/lib/utils"
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY!
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
@@ -311,7 +312,9 @@ async function bookVilla(params: any) {
   const nights = Math.max(1, Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)))
   const nightsTotal = villa.pricePerNight * nights
   const subtotal = nightsTotal + villa.cleaningFee
-  const tax = subtotal * 0.14
+  const taxSetting = await prisma.siteSettings.findUnique({ where: { key: "villaTaxPercent" } })
+  const villaTaxRate = (parseFloat(taxSetting?.value ?? "") || DEFAULT_VILLA_TAX) / 100
+  const tax = subtotal * villaTaxRate
   const totalPrice = subtotal + tax + villa.securityDeposit
 
   let user = await prisma.user.findFirst({ where: { email: "mark-ai@vidivici.com" } })

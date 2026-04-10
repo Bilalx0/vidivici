@@ -33,3 +33,7 @@ export function getDaysBetween(start: Date, end: Date): number {
   const diff = end.getTime() - start.getTime()
   return Math.ceil(diff / (1000 * 60 * 60 * 24))
 }
+
+// Default tax rates (fallback if settings not loaded)
+export const DEFAULT_CAR_TAX = 8.5
+export const DEFAULT_VILLA_TAX = 14

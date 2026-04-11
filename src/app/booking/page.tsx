@@ -1966,36 +1966,20 @@ function VillaSelectStep({
       <div>
         <h2 className="text-lg font-semibold text-mist-900 mb-4">Stay Details</h2>
         <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-2 sm:gap-3">
-            <div>
-              <DateTriggerField
-                label="Check-in*"
-                value={startDate}
-                onClick={() => setCalendarOpen(true)}
-              />
-            </div>
-            <div className="relative">
-              <div className={`${getTemporalSelectClass()} flex items-center`}>
-                <span className="text-mist-700 text-sm">3:00 PM</span>
-              </div>
-              <span className="pointer-events-none absolute left-3 top-1 text-[10px] text-mist-400 opacity-100">Check-in Time</span>
-            </div>
+          <div>
+            <DateTriggerField
+              label="Check-in* (3:00 PM)"
+              value={startDate}
+              onClick={() => setCalendarOpen(true)}
+            />
           </div>
 
-          <div className="grid grid-cols-2 gap-2 sm:gap-3">
-            <div>
-              <DateTriggerField
-                label="Check-out*"
-                value={endDate}
-                onClick={() => setCalendarOpen(true)}
-              />
-            </div>
-            <div className="relative">
-              <div className={`${getTemporalSelectClass()} flex items-center`}>
-                <span className="text-mist-700 text-sm">11:00 AM</span>
-              </div>
-              <span className="pointer-events-none absolute left-3 top-1 text-[10px] text-mist-400 opacity-100">Check-out Time</span>
-            </div>
+          <div>
+            <DateTriggerField
+              label="Check-out* (11:00 AM)"
+              value={endDate}
+              onClick={() => setCalendarOpen(true)}
+            />
           </div>
         </div>
 

@@ -89,12 +89,16 @@ export async function POST(request: NextRequest) {
     let itemName = ""
     let customerEmail = ""
 
+    // Stores the signed file but does NOT mark contract as signed automatically —
+    // admin reviews the document and manually marks it as signed.
+    let bookingId = ""
     const carBooking = await prisma.booking.findUnique({ where: { contractUploadToken: token }, include: { user: { select: { email: true } }, car: { select: { name: true, brand: { select: { name: true } } } } } })
     if (carBooking) {
       await prisma.booking.update({
         where: { contractUploadToken: token },
-        data: { contractStatus: "SIGNED", signedContractUrl },
+        data: { signedContractUrl },
       })
+      bookingId = carBooking.id
       bookingNumber = carBooking.bookingNumber
       itemName = `${carBooking.car.brand.name} ${carBooking.car.name}`
       customerEmail = carBooking.user.email
@@ -103,8 +107,9 @@ export async function POST(request: NextRequest) {
       if (villaBooking) {
         await prisma.villaBooking.update({
           where: { contractUploadToken: token },
-          data: { contractStatus: "SIGNED", signedContractUrl },
+          data: { signedContractUrl },
         })
+        bookingId = villaBooking.id
         bookingNumber = villaBooking.bookingNumber
         itemName = villaBooking.villa.name
         customerEmail = villaBooking.user.email
@@ -113,8 +118,9 @@ export async function POST(request: NextRequest) {
         if (eventBooking) {
           await prisma.eventBooking.update({
             where: { contractUploadToken: token },
-            data: { contractStatus: "SIGNED", signedContractUrl },
+            data: { signedContractUrl },
           })
+          bookingId = eventBooking.id
           bookingNumber = eventBooking.bookingNumber || eventBooking.id.slice(0, 8)
           itemName = eventBooking.event?.name || eventBooking.clubVenue || "Event"
           customerEmail = eventBooking.email
@@ -126,19 +132,20 @@ export async function POST(request: NextRequest) {
 
     // Notify admin
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://vidivicihospitalitygroup.com"
+    const bookingUrl = `${appUrl}/admin/bookings/${bookingId}`
     await notifyAdmin(
       `Signed Contract Received — Booking #${bookingNumber}`,
       `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #1a1a1a;">Signed Contract Received</h2>
-          <p>A customer has uploaded their signed contract. Please review it in the admin dashboard.</p>
+          <p>A customer has uploaded their signed contract. Please review it and manually mark it as signed once verified.</p>
           <table style="border-collapse: collapse; width: 100%; margin: 16px 0;">
             <tr><td style="padding: 8px; border: 1px solid #eee; color: #555;">Booking #</td><td style="padding: 8px; border: 1px solid #eee;"><strong>${bookingNumber}</strong></td></tr>
             <tr><td style="padding: 8px; border: 1px solid #eee; color: #555;">Item</td><td style="padding: 8px; border: 1px solid #eee;">${itemName}</td></tr>
             <tr><td style="padding: 8px; border: 1px solid #eee; color: #555;">Customer</td><td style="padding: 8px; border: 1px solid #eee;">${customerEmail}</td></tr>
           </table>
           <p style="margin-top: 24px;">
-            <a href="${appUrl}/admin/bookings" style="background: #1a1a1a; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; display: inline-block;">View in Admin Dashboard</a>
+            <a href="${bookingUrl}" style="background: #1a1a1a; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; display: inline-block;">View Booking &amp; Signed Contract</a>
           </p>
         </div>
       `

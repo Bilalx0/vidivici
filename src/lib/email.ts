@@ -15,15 +15,17 @@ interface SendEmailOptions {
   subject: string
   html: string
   attachments?: { filename: string; content: Buffer }[]
+  replyTo?: string
 }
 
-export async function sendEmail({ to, subject, html, attachments }: SendEmailOptions) {
+export async function sendEmail({ to, subject, html, attachments, replyTo }: SendEmailOptions) {
   return transporter.sendMail({
     from: process.env.SMTP_FROM || process.env.SMTP_USER,
     to,
     subject,
     html,
     attachments,
+    replyTo: replyTo || process.env.ADMIN_EMAIL?.split(",")[0]?.trim(),
   })
 }
 

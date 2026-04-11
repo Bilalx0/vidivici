@@ -135,9 +135,9 @@ function LoginContent() {
                   />
                   <span className="text-sm 2xl:text-base text-mist-500">Remember me</span>
                 </label>
-                <span className="text-sm 2xl:text-base text-mist-400 cursor-pointer hover:text-mist-700 transition-colors">
-                  Forget password
-                </span>
+                <Link href="/forgot-password" className="text-sm 2xl:text-base text-mist-400 hover:text-mist-700 transition-colors">
+                  Forgot password?
+                </Link>
               </div>
 
               {/* Submit */}

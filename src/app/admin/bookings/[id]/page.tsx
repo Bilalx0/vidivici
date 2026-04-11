@@ -16,6 +16,7 @@ interface BookingDetail {
   documentStatus?: string
   contractStatus?: string
   contractSentAt?: string
+  signedContractUrl?: string
   paypalOrderId?: string
   paypalAuthorizationId?: string
   totalPrice: number
@@ -937,6 +938,19 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
               </div>
               {booking.contractSentAt && (
                 <p className="text-xs text-mist-400">Contract sent: {formatDate(booking.contractSentAt)}</p>
+              )}
+              {booking.signedContractUrl && (
+                <div className="mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-xs font-semibold text-green-700 mb-1">✅ Signed Contract Received</p>
+                  <a
+                    href={booking.signedContractUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-green-700 underline hover:text-green-900 break-all"
+                  >
+                    Download Signed Contract
+                  </a>
+                </div>
               )}
               {booking.paypalOrderId && (
                 <p className="text-xs text-mist-400">PayPal Order: {booking.paypalOrderId.slice(0, 16)}...</p>

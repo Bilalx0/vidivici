@@ -30,6 +30,8 @@ model User {
   insuranceStatus     String  @default("NONE")
   passport            String?
   passportStatus      String  @default("NONE")
+  passwordResetToken  String?  @unique
+  passwordResetExpiry DateTime?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   bookings      Booking[]
@@ -162,6 +164,8 @@ model Booking {
   paypalAuthorizationId String?
   contractStatus        String        @default("NONE")
   contractSentAt        DateTime?
+  contractUploadToken   String?       @unique
+  signedContractUrl     String?
   notes                 String?       @db.Text
   adminNotes            String?       @db.Text
   documents             String?       @db.Text
@@ -328,6 +332,8 @@ model VillaBooking {
   paypalAuthorizationId String?
   contractStatus        String        @default("NONE")
   contractSentAt        DateTime?
+  contractUploadToken   String?       @unique
+  signedContractUrl     String?
   notes                 String?       @db.Text
   adminNotes            String?       @db.Text
   documents             String?       @db.Text
@@ -408,6 +414,8 @@ model EventBooking {
   paypalAuthorizationId String?
   contractStatus        String   @default("NONE")
   contractSentAt        DateTime?
+  contractUploadToken   String?  @unique
+  signedContractUrl     String?
   adminNotes            String?  @db.Text
   documents             String?  @db.Text
   source                String   @default("website")

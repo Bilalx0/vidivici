@@ -248,7 +248,7 @@ export default function PersonalInfoPage() {
                 bg-white border-mist-300 focus-within:border-mist-500 focus-within:ring-1 focus-within:ring-mist-400
                 disabled:bg-mist-50">
                 <div className="flex items-center gap-1 px-3 2xl:px-5 border-r border-mist-200 shrink-0">
-                  <span className="text-base 2xl:text-2xl">🇺🇸</span>
+                  <svg viewBox="0 0 30 20" className="w-5 h-3.5 2xl:w-7 2xl:h-5 shrink-0 rounded-[2px]" aria-hidden="true"><rect width="30" height="20" fill="#B22234"/><path d="M0,2.31H30M0,5.39H30M0,8.46H30M0,11.54H30M0,14.62H30M0,17.69H30" stroke="#fff" strokeWidth="1.54"/><rect width="12" height="10.77" fill="#3C3B6E"/></svg>
                   <svg className="w-3 2xl:w-5 h-3 2xl:h-5 text-mist-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>

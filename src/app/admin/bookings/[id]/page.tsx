@@ -834,20 +834,6 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
 
         {/* Middle Column */}
         <div className="lg:col-span-1 space-y-6">
-          {/* Booking Info (Center) */}
-          <div className="bg-white border border-mist-200 rounded-xl p-5">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-semibold text-mist-900">Booking Info <span className="text-mist-400 font-normal text-sm">#{bNum}</span></h3>
-              <MoreHorizontal size={16} className="text-mist-400" />
-            </div>
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between"><span className="text-mist-500">Type:</span><span className="font-medium text-mist-900">{typeBadge}</span></div>
-              <p className="font-medium text-mist-900">{booking.itemName}</p>
-              <div className="flex items-center gap-2"><Calendar size={14} className="text-mist-400" /><span>{formatDate(booking.startDate)} {formatTime(booking.startTime)}</span></div>
-              <div className="flex items-center gap-2"><Calendar size={14} className="text-mist-400" /><span>{formatDate(booking.endDate)} {formatTime(booking.endTime)}</span></div>
-            </div>
-          </div>
-
           {/* Pricing */}
           <div className="bg-white border border-mist-200 rounded-xl p-5">
             <div className="flex justify-between items-center mb-4">

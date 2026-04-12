@@ -88,14 +88,34 @@ function calcCarPricing(
   needDriver: boolean,
   driverAvailability: "full" | "select",
   couponPercent = 0,
-  carTaxPercent = 8.5
+  carTaxPercent = 8.5,
+  startTime = "",
+  endTime = ""
 ) {
   const securityHold = 5000
   const subtotal = pricePerDay * days
   const discountPercent = getDiscount(days)
   const discountAmount = Math.round(subtotal * (discountPercent / 100))
   const driverTotal = needDriver ? driverDays * driverHours * 45 : 0
-  const afterDiscount = subtotal - discountAmount + driverTotal
+
+  // Extra hours: when return time is later than pickup time, charge 25% of
+  // the discounted daily rate per extra hour, first hour complimentary.
+  let extraHours = 0
+  let extraHoursCharge = 0
+  if (startTime && endTime) {
+    const [sh, sm] = startTime.split(":").map(Number)
+    const [eh, em] = endTime.split(":").map(Number)
+    const startMin = sh * 60 + (sm || 0)
+    const endMin = eh * 60 + (em || 0)
+    if (endMin > startMin) {
+      extraHours = Math.ceil((endMin - startMin) / 60)
+      const chargeableHours = Math.max(0, extraHours - 1)
+      const discountedDailyRate = pricePerDay * (1 - discountPercent / 100)
+      extraHoursCharge = Math.round(chargeableHours * discountedDailyRate * 0.25)
+    }
+  }
+
+  const afterDiscount = subtotal - discountAmount + driverTotal + extraHoursCharge
   const couponAmount = couponPercent > 0 ? Math.round(afterDiscount * (couponPercent / 100)) : 0
   const preTax = afterDiscount - couponAmount
   const tax = Math.round(preTax * (carTaxPercent / 100))
@@ -103,7 +123,7 @@ function calcCarPricing(
   const total = rentalTotal + 2000 // rental + $2,000 refundable deposit
   const payNowTotal = securityHold // $5,000 authorization hold (no charge)
   const dueAtPickup = Math.max(0, total - securityHold)
-  return { subtotal, discountPercent, discountAmount, couponAmount, couponPercent, driverTotal, tax, securityHold, payNowTotal, dueAtPickup, total, rentalTotal }
+  return { subtotal, discountPercent, discountAmount, couponAmount, couponPercent, driverTotal, extraHours, extraHoursCharge, tax, securityHold, payNowTotal, dueAtPickup, total, rentalTotal }
 }
 
 function calcVillaPricing(villa: VillaData, nights: number, airportTransfer: boolean, couponPercent = 0, villaTaxPercent = 14) {
@@ -618,8 +638,8 @@ function ReservationContent() {
   const actualDriverDays = driverAvailability === "full" ? days : driverDays
 
   const carPricing = useMemo(
-    () => (selectedCar ? calcCarPricing(selectedCar.pricePerDay, days, driverHours, actualDriverDays, needDriver, driverAvailability, couponDiscount, carTaxPercent) : null),
-    [selectedCar, days, driverHours, actualDriverDays, needDriver, driverAvailability, couponDiscount, carTaxPercent]
+    () => (selectedCar ? calcCarPricing(selectedCar.pricePerDay, days, driverHours, actualDriverDays, needDriver, driverAvailability, couponDiscount, carTaxPercent, startTime, endTime) : null),
+    [selectedCar, days, driverHours, actualDriverDays, needDriver, driverAvailability, couponDiscount, carTaxPercent, startTime, endTime]
   )
 
   const villaPricing = useMemo(
@@ -1164,13 +1184,20 @@ function ReservationContent() {
 
                   <Turnstile onVerify={setTurnstileToken} onExpire={() => setTurnstileToken("")} />
 
-                  <p className="text-xs text-mist-400 leading-relaxed">
-                    {mode === "car"
-                      ? "A temporary authorization hold of up to $5,000 will be placed on your card (this includes the $2,000 refundable deposit). No charges will be made at the time of booking. Any remaining balance above $5,000 will be due before or at vehicle delivery."
-                      : (paymentMethod === "card"
+                  {mode === "car" ? (
+                    <ul className="text-xs text-mist-400 leading-relaxed list-disc list-inside space-y-1">
+                      <li>A temporary authorization hold of up to $5,000 will be placed on your card (this includes the $2,000 refundable deposit).</li>
+                      <li>No charges will be made at the time of booking.</li>
+                      <li>Any remaining balance above $5,000 will be due before or at vehicle delivery (card or wire transfer).</li>
+                      <li>After the rental, the final amount will be charged and the $2,000 deposit will be released if no additional charges apply.</li>
+                    </ul>
+                  ) : (
+                    <p className="text-xs text-mist-400 leading-relaxed">
+                      {paymentMethod === "card"
                         ? "We will temporarily reserve the funds on your credit card with a pre-authorization. Your credit card will only be charged after the reservation gets confirmed by the Sales Team."
-                        : "We will temporarily authorize the funds via PayPal. Your payment will only be charged after the reservation is confirmed by our team and the contract is signed.")}
-                  </p>
+                        : "We will temporarily authorize the funds via PayPal. Your payment will only be charged after the reservation is confirmed by our team and the contract is signed."}
+                    </p>
+                  )}
 
                   {paymentMethod === "paypal" && mode === "car" && selectedCar && (
                     <PayPalBookingButton
@@ -2353,6 +2380,12 @@ function CarSummaryCard({
               <span className="text-mist-900 font-medium">-${pricing.discountAmount.toLocaleString()}</span>
             </div>
           )}
+          {pricing.extraHoursCharge > 0 && (
+            <div className="flex justify-between text-mist-500">
+              <span>Extra Hours <span className="text-xs">({pricing.extraHours - 1} hr{pricing.extraHours - 1 > 1 ? "s" : ""} × 25% daily rate)</span></span>
+              <span className="text-mist-900 font-medium">${pricing.extraHoursCharge.toLocaleString()}</span>
+            </div>
+          )}
           {pricing.driverTotal > 0 && (
             <div className="flex justify-between text-mist-500">
               <span>Driver Total <span className="text-xs">({driverHours} hrs x $45/hr × {actualDriverDays} days)</span></span>
@@ -2461,11 +2494,11 @@ function VillaSummaryCard({
 
       <div className="text-xs text-mist-400 border-t border-mist-100 pt-3">
         <p className="font-medium text-mist-600 mb-2">Cancellation Policy</p>
-        <ul className="list-disc list-inside space-y-1">
-          <li>Full refund until 361 days before arrival.</li>
-          <li>10% charge from 61 to 360 days before arrival.</li>
-          <li>50% charge from 31 to 60 days before arrival.</li>
-          <li>100% charge from 0 to 30 days before arrival.</li>
+        <ul className="space-y-1">
+          <li>• Full refund: 361+ days before arrival</li>
+          <li>• 10% charge: 61–360 days before arrival</li>
+          <li>• 50% charge: 31–60 days before arrival</li>
+          <li>• 100% charge: 0–30 days before arrival</li>
         </ul>
       </div>
 
@@ -2524,7 +2557,7 @@ function VillaSummaryCard({
           <div className="flex justify-between text-mist-500">
             <div className="flex flex-col gap-0.5">
             <span className="text-mist-500">Remaining Balance</span>
-          <span className="text-mist-500 text-xs">(Payable via wire tranfer after confirmation)</span>
+          <span className="text-mist-500 text-xs">(Payable via wire transfer after confirmation)</span>
 
             </div>
             <span className="text-mist-900">${pricing.dueAtPickup.toLocaleString()}</span>

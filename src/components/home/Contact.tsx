@@ -167,7 +167,7 @@ export default function ContactForm() {
                 <Field label="Phone">
                   <div className="flex items-center border border-mist-300 rounded-xl 2xl:rounded-2xl overflow-hidden focus-within:border-mist-400 transition-colors duration-200 bg-white">
                     <span className="px-4 py-3 2xl:px-6 2xl:py-5 text-sm 2xl:text-xl border-r border-mist-300 bg-mist-50 flex items-center gap-2 text-mist-600 flex-shrink-0">
-                      🇺🇸
+                      <svg viewBox="0 0 30 20" className="w-5 h-3.5 2xl:w-7 2xl:h-5 shrink-0 rounded-[2px]" aria-hidden="true"><rect width="30" height="20" fill="#B22234"/><path d="M0,2.31H30M0,5.39H30M0,8.46H30M0,11.54H30M0,14.62H30M0,17.69H30" stroke="#fff" strokeWidth="1.54"/><rect width="12" height="10.77" fill="#3C3B6E"/></svg>
                     </span>
                     <input
                       name="phone"

@@ -35,5 +35,5 @@ export function getDaysBetween(start: Date, end: Date): number {
 }
 
 // Default tax rates (fallback if settings not loaded)
-export const DEFAULT_CAR_TAX = 8.5
+export const DEFAULT_CAR_TAX = 9.5
 export const DEFAULT_VILLA_TAX = 14

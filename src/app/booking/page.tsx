@@ -88,7 +88,7 @@ function calcCarPricing(
   needDriver: boolean,
   driverAvailability: "full" | "select",
   couponPercent = 0,
-  carTaxPercent = 8.5
+  carTaxPercent = 9.5
 ) {
   const securityHold = 5000
   const subtotal = pricePerDay * days
@@ -321,7 +321,7 @@ function ReservationContent() {
   const [couponLoading, setCouponLoading] = useState(false)
 
   /* ---- Tax rates (from settings) ---- */
-  const [carTaxPercent, setCarTaxPercent] = useState(8.5)
+  const [carTaxPercent, setCarTaxPercent] = useState(9.5)
   const [villaTaxPercent, setVillaTaxPercent] = useState(14)
 
   /* ---- Credit card form state ---- */

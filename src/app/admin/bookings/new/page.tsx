@@ -18,7 +18,7 @@ export default function NewBookingPage() {
   const [villas, setVillas] = useState<VillaOption[]>([])
   const [events, setEvents] = useState<EventOption[]>([])
   const [loading, setLoading] = useState(true)
-  const [carTaxPercent, setCarTaxPercent] = useState(8.5)
+  const [carTaxPercent, setCarTaxPercent] = useState(9.5)
   const [villaTaxPercent, setVillaTaxPercent] = useState(14)
 
   const [dlFile, setDlFile] = useState<File | null>(null)

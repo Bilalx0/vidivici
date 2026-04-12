@@ -17,7 +17,7 @@ export default function AdminSettingsPage() {
     facebook: "vidivici",
     youtube: "",
     twitter: "",
-    carTaxPercent: "8.5",
+    carTaxPercent: "9.5",
     villaTaxPercent: "14",
   })
 

@@ -82,11 +82,11 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="w-full bg-white mt-16 2xl:mt-48 overflow-hidden">
+    <section className="w-full bg-white mt-24 2xl:mt-48 overflow-hidden">
       
       {/* Header */}
       <div className="text-center mb-10 2xl:mb-24 sm:px-16 lg:px-20 px-6">
-        <h2 className="text-3xl 2xl:text-6xl font-bold text-mist-900 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 tracking-tight">
           What Our Customers Are Saying
         </h2>
         <p className="mt-3 2xl:mt-8 text-sm 2xl:text-xl text-mist-500 max-w-md 2xl:max-w-3xl mx-auto leading-relaxed">

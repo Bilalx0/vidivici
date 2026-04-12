@@ -33,13 +33,11 @@ export default function VillaCard({
 
       {/* Image - Height slightly decreased for 2xl */}
       <div className="relative h-56 2xl:h-[300px] overflow-hidden p-3 2xl:p-4">
-        <Image
-          src={image}
-          alt={name}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1536px) 320px, 450px"
-          className="object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-2xl"
-        />
+          <img
+  src={image}
+  alt={name}
+  className=" w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-3xl"
+/>
         <button
           onClick={(e) => { e.stopPropagation(); setFav((p) => !p); }}
           className={`absolute top-5 right-5 w-8 h-8 2xl:w-11 2xl:h-11 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${

@@ -73,7 +73,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="w-full bg-white py-12 2xl:py-32 sm:px-16 lg:px-20 px-6 2xl:px-32">
+    <section className="w-full bg-white sm:px-16 lg:px-20 px-6 2xl:px-32 mt-24 2xl:mt-48">
       <div className="">
         <div className="border border-mist-200 rounded-3xl 2xl:rounded-[48px] overflow-hidden gap-8 2xl:gap-14 sm:p-8 2xl:p-14 px-4 py-6 flex flex-col md:flex-row shadow-sm">
           

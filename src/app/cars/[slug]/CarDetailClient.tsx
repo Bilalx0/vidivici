@@ -413,12 +413,13 @@ import FAQ from "@/components/home/FAQ"
 import Contact from "@/components/home/Contact"
 import DateRangeCalendarPopup, { DateTriggerField } from "@/components/ui/FloatingDatePickerField"
 import TimeSelectDropdown from "@/components/ui/TimeSelectDropdown"
-import { MapPin, Shield, Clock, DollarSign, Share2, Bookmark, Minus, Plus } from "lucide-react"
+import { MapPin, Shield, Clock, DollarSign, Share2, Bookmark, Minus, Plus, ArrowUpRight} from "lucide-react"
 import {
   AlertCircle,
   Users, Zap, Gauge, Activity, Settings2, Fuel, Calendar, Route,
   Tag, ChevronDown, ChevronUp, ChevronRight,
 } from "lucide-react";
+import RelatedCars from "@/components/ui/RelatedCars"
 
 const car = {
   pricePerDay: 799,
@@ -762,13 +763,13 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                 <button
                   type="button"
                   onClick={() => setDiscountsOpen(!discountsOpen)}
-                  className="w-full flex items-center justify-between mb-3"
+                  className="w-full flex items-center justify-between mb-2 2xl:mb-6"
                 >
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-md bg-blue-50 flex items-center justify-center">
                       <Tag size={13} className="text-blue-500" />
                     </div>
-                    <span className="text-base 2xl:text-xl font-bold text-mist-900">Long-Term Rental Discounts</span>
+                    <span className="text-base 2xl:text-2xl font-bold text-mist-900">Long-Term Rental Discounts</span>
                   </div>
                   {discountsOpen
                     ? <ChevronUp size={16} className="text-mist-400" />
@@ -812,9 +813,9 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                   <button
                     type="button"
                     onClick={() => setShowMore(!showMore)}
-                    className="w-full flex items-center justify-between mb-2"
+                    className="w-full flex items-center justify-between mb-2 2xl:mb-4"
                   >
-                    <h2 className="text-base 2xl:text-xl font-bold text-mist-900 text-left">
+                    <h2 className="text-base 2xl:text-2xl font-bold text-mist-900 text-left">
                       {detailHeading}
                     </h2>
                     <ChevronDown
@@ -823,7 +824,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                     />
                   </button>
 
-                  <p className={`text-sm 2xl:text-lg text-mist-500 leading-relaxed ${showMore ? "" : "line-clamp-3"}`}>
+                  <p className={`text-sm 2xl:text-xl text-mist-500 leading-relaxed ${showMore ? "" : "line-clamp-3"}`}>
                     {car.description}
                   </p>
 
@@ -1334,21 +1335,16 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
         </div>
       )}
 
-      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 pt-16 2xl:pt-24 flex items-center justify-between gap-4">
+      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 flex items-center justify-between gap-4 mt-24 2xl:mt-48 mb-10 2xl:mb-16">
         <h2 className="text-2xl sm:text-4xl 2xl:text-5xl font-bold text-mist-900 tracking-tight">
           You may also like
         </h2>
-        <a
-          href="#"
-          className="flex items-center gap-1 text-sm font-medium text-mist-500 bg-mist-100 rounded-md px-4 py-2 hover:bg-mist-50 transition-colors duration-150 whitespace-nowrap shrink-0"
-        >
-          View all
-          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M7 17 17 7M7 7h10v10" />
-          </svg>
-        </a>
+        <button className="flex items-center gap-2 px-3 sm:px-5 py-1.5 sm:py-2.5 text-sm sm:text-base 2xl:text-xl 2xl:py-4 2xl:px-6 text-mist-500 bg-mist-200 border border-mist-200 rounded-xl hover:bg-mist-50 hover:border-mist-300 transition-all duration-200 whitespace-nowrap">
+            View all
+            <ArrowUpRight size={15} />
+          </button>
       </div>
-      <Rentals showHeader={false} discountBadgeText={undefined} />
+      <RelatedCars showHeader={false} discountBadgeText={undefined} />
       <WhyChooseUs />
       <Reviews />
       <FAQ />

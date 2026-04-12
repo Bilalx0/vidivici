@@ -2,8 +2,11 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+
+
+const NO_MARGIN_PATHS = ["/cars/insurance"];
 
 const carMakes = [
   { name: "Rolls-Royce", logo: "/Mask group-4.png" },
@@ -77,6 +80,7 @@ export default function CarBrowseSection() {
   const marqueeRef = useRef<HTMLDivElement>(null);
   const isType = activeTab === "type";
   const data = isType ? carTypes : carMakes;
+  const pathname = usePathname();
 
   const typeToCategory: Record<string, string> = {
     SUV: "SUV",
@@ -105,8 +109,10 @@ export default function CarBrowseSection() {
     router.push(`/cars?make=${encodeURIComponent(name)}`);
   };
 
+ const noMargin = NO_MARGIN_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
+
   return (
-    <section className="w-full bg-[#fcfcfc] mt-16 2xl:mt-48 overflow-hidden">
+    <section className={`w-full bg-mist-50 py-16 sm:py-24 2xl:py-32 overflow-hidden ${noMargin ? "" : "mt-24 2xl:mt-48"}`}>
       
       {/* Buttons Container */}
       <div className="px-6 mb-16 2xl:mb-20 flex flex-row items-center justify-center gap-4 2xl:gap-8">

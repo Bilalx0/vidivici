@@ -88,7 +88,7 @@ export default function Banner({
   };
 
   return (
-    <div className={`relative w-full ${height} ${get2xlHeight(height)} flex items-center justify-center overflow-hidden`}>
+    <div className={`relative w-full ${height} ${get2xlHeight(height)} flex items-center justify-center overflow-hidden pt-16 2xl:pt-28`}>
       {/* Background image */}
       <img
         src={image}

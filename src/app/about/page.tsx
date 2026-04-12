@@ -25,12 +25,12 @@ export default function AboutPage() {
       />
 
       {/* About Vidi Vici */}
-      <section className="w-full bg-white sm:px-16 lg:px-20 px-6 py-40 2xl:py-64 2xl:px-32">
+      <section className="w-full bg-white sm:px-16 lg:px-20 px-6 my-24 2xl:my-48 2xl:px-32">
         <div className="flex flex-col md:flex-row items-center gap-12 2xl:gap-20 ">
 
           {/* Left text */}
           <div className="flex-1 flex flex-col gap-5 2xl:gap-8">
-            <h2 className="text-4xl 2xl:text-6xl font-bold text-mist-900 tracking-tight">About Vidi Vici</h2>
+            <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 tracking-tight">About Vidi Vici</h2>
             <div className="flex flex-col gap-4 2xl:gap-6 text-base 2xl:text-2xl text-mist-500 leading-relaxed">
               <p>
                 At <span className="font-bold text-mist-900">Vidi Vici Rental</span>, we are driven by a singular passion: to
@@ -69,10 +69,10 @@ export default function AboutPage() {
       <WhyChooseUs bg="white" />
       <ExclusiveCollection />
       <LuxuryVideo />
-      <div className="pb-16 2xl:pb-32 pt-32 2xl:pt-64">
+      <div className="">
       <Reviews />
       </div>
-      <div className="relative w-full bg-[#eeeeed] py-16 2xl:py-32 px-6 2xl:px-40 text-center mt-16 2xl:mt-32">
+      <div className="relative w-full bg-[#eeeeed] py-16 2xl:py-32 px-6 2xl:px-40 text-center mt-24 2xl:mt-48">
            <img
         src="/Vector 7.png"
         alt=""
@@ -90,14 +90,14 @@ export default function AboutPage() {
 
         <div className="relative z-10 max-w-md 2xl:max-w-2xl mx-auto flex flex-col items-center gap-8 2xl:gap-12">
 
-          <h2 className="text-5xl 2xl:text-7xl font-bold text-mist-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 tracking-tight">
             Ready to experience luxury like never before?
           </h2>
-          <p className="text-base 2xl:text-2xl text-mist-500 leading-relaxed">
+          <p className="text-sm 2xl:text-2xl text-mist-500 leading-relaxed">
             Our dedicated support team is available 24/7 to assist you with
             bookings, inquiries, or custom requests.
           </p>
-          <button className="mt-2 bg-mist-800 text-white text-base 2xl:text-xl px-7 2xl:px-10 py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200">
+          <button className="mt-2 bg-mist-900 text-white text-base 2xl:text-xl px-7 2xl:px-10 py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200">
             Reserve Now
           </button>
         </div>

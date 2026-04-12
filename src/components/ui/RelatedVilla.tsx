@@ -126,7 +126,7 @@ export default function Villa({ showHeader = true }) {
   };
 
   return (
-    <section className="w-full mt-24 2xl:mt-48">
+    <section className="w-full">
       <div className="">
 
         {/* Header */}

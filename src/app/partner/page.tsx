@@ -118,7 +118,7 @@ export default function PartnerPage() {
             />
 
             {/* Hero pitch — Your Assets section */}
-            <section className="w-full bg-white sm:px-16 lg:px-20 px-6 py-16 2xl:py-28 2xl:px-32">
+            <section className="w-full bg-white sm:px-16 lg:px-20 px-6 2xl:px-32 mt-24 2xl:mt-48 ">
                 <div className="flex flex-col md:flex-row items-center gap-10 2xl:gap-20 ">
 
                     {/* Left text */}
@@ -128,13 +128,13 @@ export default function PartnerPage() {
                             Luxury Platform.<br />
                             Unlimited Potential.
                         </h2>
-                        <p className="text-base 2xl:text-2xl text-mist-400 leading-relaxed max-w-sm 2xl:max-w-2xl">
-                            At <span className="font-normal text-mist-700">Vidi Vici Rental</span>, we connect owners of luxury cars,
+                        <p className="text-base 2xl:text-2xl text-mist-500 leading-relaxed max-w-sm 2xl:max-w-2xl">
+                            At <span className="font-normal text-mist-800">Vidi Vici Rental</span>, we connect owners of luxury cars,
                             exclusive villas, world-class clubs, and event spaces with high-profile clients seeking
                             unforgettable experiences. By partnering with us, you gain access to an elite marketplace
                             designed to maximize visibility, prestige, and profitability.
                         </p>
-                        <button className="w-fit bg-mist-900 text-white text-base 2xl:text-2xl font-medium px-7 2xl:px-12 py-3 2xl:py-6 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200">
+                        <button className="w-fit bg-mist-900 text-white text-base 2xl:text-xl px-7 2xl:px-12 py-3 2xl:py-6 rounded-xl 2xl:rounded-2xl hover:bg-mist-800 transition-colors duration-200">
                             Apply Now
                         </button>
                     </div>
@@ -154,14 +154,14 @@ export default function PartnerPage() {
             </section>
 
             {/* Why Partner With Us */}
-            <section className="w-full sm:px-16 lg:px-20 px-6 py-16 2xl:py-32 2xl:px-32">
+            <section className="w-full sm:px-16 lg:px-20 px-6 2xl:px-32 mt-24 2xl:mt-48 ">
                 <div className="">
 
                     <div className="text-center mb-12 2xl:mb-20 space-y-6 2xl:space-y-10">
-                        <h2 className="text-4xl 2xl:text-7xl font-bold text-mist-900 tracking-tight">
+                        <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 tracking-tight">
                             Why Partner With Us
                         </h2>
-                        <p className="mt-2 text-base 2xl:text-2xl text-mist-400 max-w-xl 2xl:max-w-4xl mx-auto leading-relaxed">
+                        <p className="mt-2 text-base 2xl:text-2xl text-mist-500 max-w-xl 2xl:max-w-4xl mx-auto leading-relaxed">
                             Unlock the full potential of your luxury assets and reach an elite audience effortlessly.
                         </p>
                     </div>
@@ -180,7 +180,7 @@ export default function PartnerPage() {
                                 <div className="w-10 2xl:w-16 h-10 2xl:h-16 rounded-lg 2xl:rounded-2xl bg-mist-100 border border-mist-100 flex items-center justify-center text-neutral-600">
                                     <span className="2xl:scale-[1.5]">{f.icon}</span>
                                 </div>
-                                <h3 className="text-lg 2xl:text-3xl font-bold text-mist-900">{f.title}</h3>
+                                <h3 className="text-lg sm:text-xl 2xl:text-3xl font-bold text-mist-900">{f.title}</h3>
                                 <p className="text-base 2xl:text-2xl text-mist-400 leading-relaxed">{f.description}</p>
                             </div>
                         ))}
@@ -191,7 +191,7 @@ export default function PartnerPage() {
 
             {/* Who Can Join */}
             <section
-                className="relative w-full sm:px-16 lg:px-20 px-6 pt-16 2xl:pt-28 overflow-visible h-[450px] 2xl:h-[800px]"
+                className="relative w-full sm:px-16 lg:px-20 px-6 pt-16 2xl:pt-28 mt-24 2xl:mt-48  overflow-visible h-[450px] 2xl:h-[800px]"
                 style={{ backgroundColor: "#f0f0ee" }}
             >
                 <img
@@ -208,11 +208,11 @@ export default function PartnerPage() {
                     className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180 "
                 />
 
-                <div className="relative z-10 2xl:max-w-[1800px] 2xl:mx-auto">
+                <div className="relative z-10">
 
                     {/* Heading */}
                     <div className="text-center">
-                        <h2 className="text-4xl 2xl:text-7xl font-bold text-mist-900">
+                        <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-mist-900">
                             Who Can Join
                         </h2>
 
@@ -251,16 +251,16 @@ export default function PartnerPage() {
                 </div>
             </section>
 
-        <HowItWorks />
+            <HowItWorks />
 
             {/* Become a Partner Form */}
-            <section className="w-full sm:px-16 lg:px-28 px-6 py-16 2xl:py-32 2xl:px-48">
+            <section className="w-full sm:px-16 lg:px-28 px-6 mt-32 2xl:mt-56 ">
                 <div className="">
 
                     {/* Heading */}
                     <div className="text-center mb-16 2xl:mb-24">
-                        <h2 className="text-4xl 2xl:text-7xl font-bold text-mist-900 tracking-tight">Become a Partner</h2>
-                        <p className="mt-4 2xl:mt-8 text-base 2xl:text-2xl text-mist-400 leading-relaxed max-w-2xl 2xl:max-w-5xl mx-auto">
+                        <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 tracking-tight">Become a Partner</h2>
+                        <p className="mt-4 2xl:mt-8 text-base 2xl:text-xl text-mist-500 leading-relaxed max-w-2xl 2xl:max-w-3xl mx-auto">
                             Share your vehicles or properties with our vetted clientele. Complete the form below
                             and our team will get back to you shortly.
                         </p>
@@ -276,11 +276,11 @@ export default function PartnerPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 2xl:gap-8">
                                 <div className="flex flex-col gap-1.5 2xl:gap-3">
                                     <label className="text-base 2xl:text-xl font-semibold text-mist-700">Full Name</label>
-                                    <input placeholder="Enter your full name" value={pForm.fullName} onChange={e => setPForm({...pForm, fullName: e.target.value})} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
+                                    <input placeholder="Enter your full name" value={pForm.fullName} onChange={e => setPForm({ ...pForm, fullName: e.target.value })} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
                                 </div>
                                 <div className="flex flex-col gap-1.5 2xl:gap-3">
                                     <label className="text-base 2xl:text-xl font-semibold text-mist-700">Email</label>
-                                    <input type="email" placeholder="Enter your email" value={pForm.email} onChange={e => setPForm({...pForm, email: e.target.value})} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
+                                    <input type="email" placeholder="Enter your email" value={pForm.email} onChange={e => setPForm({ ...pForm, email: e.target.value })} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
                                 </div>
                             </div>
 
@@ -290,14 +290,14 @@ export default function PartnerPage() {
                                     <label className="text-base 2xl:text-xl font-semibold text-mist-700">Phone</label>
                                     <div className="flex items-center border border-mist-200 rounded-xl 2xl:rounded-2xl overflow-hidden focus-within:border-mist-400 transition-colors bg-white">
                                         <span className="px-3 2xl:px-6 py-2.5 2xl:py-5 text-base 2xl:text-2xl border-r border-mist-200 bg-mist-50 text-mist-600 flex-shrink-0">🇺🇸</span>
-                                        <input placeholder="Enter your phone number" value={pForm.phone} onChange={e => setPForm({...pForm, phone: e.target.value})} className="flex-1 px-3 2xl:px-6 py-2.5 2xl:py-5 text-base 2xl:text-xl bg-mist-100 text-mist-900 placeholder-mist-300 outline-none" />
+                                        <input placeholder="Enter your phone number" value={pForm.phone} onChange={e => setPForm({ ...pForm, phone: e.target.value })} className="flex-1 px-3 2xl:px-6 py-2.5 2xl:py-5 text-base 2xl:text-xl bg-mist-100 text-mist-900 placeholder-mist-300 outline-none" />
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-1.5 2xl:gap-3">
-                                        <label className="text-base 2xl:text-xl font-semibold text-mist-700">
-                                            Company <span className="text-mist-300 font-normal">(optional)</span>
+                                    <label className="text-base 2xl:text-xl font-semibold text-mist-700">
+                                        Company <span className="text-mist-300 font-normal">(optional)</span>
                                     </label>
-                                    <input placeholder="Enter your company name" value={pForm.company} onChange={e => setPForm({...pForm, company: e.target.value})} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
+                                    <input placeholder="Enter your company name" value={pForm.company} onChange={e => setPForm({ ...pForm, company: e.target.value })} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
                                 </div>
                             </div>
 
@@ -306,7 +306,7 @@ export default function PartnerPage() {
                                 <div className="flex flex-col gap-1.5 2xl:gap-3">
                                     <label className="text-base 2xl:text-xl font-semibold text-mist-700">What do you want to list?</label>
                                     <div className="relative">
-                                        <select className={`${inputCls} pr-10 appearance-none text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl text-mist-400`} value={pForm.listingType} onChange={e => setPForm({...pForm, listingType: e.target.value})}>
+                                        <select className={`${inputCls} pr-10 appearance-none text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl text-mist-400`} value={pForm.listingType} onChange={e => setPForm({ ...pForm, listingType: e.target.value })}>
                                             <option value="" disabled>Select one</option>
                                             <option>Luxury Car</option>
                                             <option>Villa / Property</option>
@@ -318,7 +318,7 @@ export default function PartnerPage() {
                                 </div>
                                 <div className="flex flex-col gap-1.5 2xl:gap-3">
                                     <label className="text-base 2xl:text-xl font-semibold text-mist-700">Primary Location / City</label>
-                                    <input placeholder="Enter your location" value={pForm.location} onChange={e => setPForm({...pForm, location: e.target.value})} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
+                                    <input placeholder="Enter your location" value={pForm.location} onChange={e => setPForm({ ...pForm, location: e.target.value })} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
                                 </div>
                             </div>
 
@@ -326,11 +326,11 @@ export default function PartnerPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 2xl:gap-8">
                                 <div className="flex flex-col gap-1.5 2xl:gap-3">
                                     <label className="text-base 2xl:text-xl font-semibold text-mist-700">Fleet Size / Bedrooms / Capacity</label>
-                                    <input placeholder="e.g. 6 cars • 12 bedrooms • 260 pax" value={pForm.capacity} onChange={e => setPForm({...pForm, capacity: e.target.value})} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
+                                    <input placeholder="e.g. 6 cars • 12 bedrooms • 260 pax" value={pForm.capacity} onChange={e => setPForm({ ...pForm, capacity: e.target.value })} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
                                 </div>
                                 <div className="flex flex-col gap-1.5 2xl:gap-3">
                                     <label className="text-base 2xl:text-xl font-semibold text-mist-700">Your Rates (daily/weekly/monthly)</label>
-                                    <input placeholder="$1,500/day • $8,500/week • $32,000/month" value={pForm.rates} onChange={e => setPForm({...pForm, rates: e.target.value})} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
+                                    <input placeholder="$1,500/day • $8,500/week • $32,000/month" value={pForm.rates} onChange={e => setPForm({ ...pForm, rates: e.target.value })} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
                                 </div>
                             </div>
 
@@ -338,12 +338,12 @@ export default function PartnerPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 2xl:gap-8">
                                 <div className="flex flex-col gap-1.5 2xl:gap-3">
                                     <label className="text-base 2xl:text-xl font-semibold text-mist-700">Availability Blackout Dates</label>
-                                    <input placeholder="e.g. Available year-round except Aug 5-20" value={pForm.blackoutDates} onChange={e => setPForm({...pForm, blackoutDates: e.target.value})} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
+                                    <input placeholder="e.g. Available year-round except Aug 5-20" value={pForm.blackoutDates} onChange={e => setPForm({ ...pForm, blackoutDates: e.target.value })} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
                                 </div>
                                 <div className="flex flex-col gap-1.5 2xl:gap-3">
                                     <label className="text-base 2xl:text-xl font-semibold text-mist-700">Insurance/Liability Coverage</label>
                                     <div className="relative">
-                                        <select className={`${inputCls} pr-10 appearance-none text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl text-mist-400`} value={pForm.insurance} onChange={e => setPForm({...pForm, insurance: e.target.value})}>
+                                        <select className={`${inputCls} pr-10 appearance-none text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl text-mist-400`} value={pForm.insurance} onChange={e => setPForm({ ...pForm, insurance: e.target.value })}>
                                             <option value="" disabled>Select coverage status</option>
                                             <option>Yes, verified coverage</option>
                                             <option>No coverage yet</option>
@@ -357,7 +357,7 @@ export default function PartnerPage() {
                             {/* Row 6 — full width */}
                             <div className="flex flex-col gap-1.5 2xl:gap-3">
                                 <label className="text-base 2xl:text-xl font-semibold text-mist-700">Website / Instagram</label>
-                                <input placeholder="e.g. yoursite.com, @handle" value={pForm.website} onChange={e => setPForm({...pForm, website: e.target.value})} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
+                                <input placeholder="e.g. yoursite.com, @handle" value={pForm.website} onChange={e => setPForm({ ...pForm, website: e.target.value })} className={`${inputCls} text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`} />
                             </div>
 
                             {/* Textarea */}
@@ -367,14 +367,14 @@ export default function PartnerPage() {
                                     rows={4}
                                     placeholder="Models, specs, amenities, restrictions, preferred clientele, etc."
                                     value={pForm.description}
-                                    onChange={e => setPForm({...pForm, description: e.target.value})}
+                                    onChange={e => setPForm({ ...pForm, description: e.target.value })}
                                     className={`${inputCls} resize-none text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl`}
                                 />
                             </div>
 
                             {/* Checkbox */}
                             <label className="flex items-center gap-2.5 2xl:gap-5 cursor-pointer">
-                                <input type="checkbox" checked={pForm.agreed} onChange={e => setPForm({...pForm, agreed: e.target.checked})} className="w-4 2xl:w-6 h-4 2xl:h-6 rounded border-mist-300 accent-mist-900" />
+                                <input type="checkbox" checked={pForm.agreed} onChange={e => setPForm({ ...pForm, agreed: e.target.checked })} className="w-4 2xl:w-6 h-4 2xl:h-6 rounded border-mist-300 accent-mist-900" />
                                 <span className="text-[12.5px] 2xl:text-lg text-mist-500">I agree to be contacted about my application.</span>
                             </label>
 
@@ -407,18 +407,33 @@ export default function PartnerPage() {
 
             <FAQ />
 
-            <div className="relative w-full bg-[#eeeeed] py-16 2xl:py-32 px-6 2xl:px-40 text-center mt-16 2xl:mt-32">
+            <div className="relative w-full bg-[#eeeeed] py-16 2xl:py-32 px-6 2xl:px-40 text-center mt-24 2xl:mt-48 ">
+
+                {/* Background Vectors - Scaled up for 2xl */}
+      <img
+        src="/Vector 7.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute left-0 top-0 h-full w-auto object-contain object-left pointer-events-none select-none rotate-180 "
+      />
+
+      <img
+        src="/Vector 7.png"
+        alt=""
+        aria-hidden="true"
+        className="hidden md:block absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180 opacity-80"
+      />
 
                 <div className="relative z-10 max-w-md 2xl:max-w-4xl mx-auto flex flex-col items-center gap-8 2xl:gap-12">
 
-                    <h2 className="text-5xl 2xl:text-7xl font-bold text-mist-900 tracking-tight">
+                    <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-mist-900 tracking-tight">
                         Still have questions?
                     </h2>
                     <p className="text-base 2xl:text-2xl text-mist-500 leading-relaxed">
                         Our dedicated support team is available 24/7 to assist you with
                         bookings, inquiries, or custom requests.
                     </p>
-                    <button className="mt-2 bg-mist-800 text-white text-base 2xl:text-2xl px-7 2xl:px-12 py-3 2xl:py-6 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200">
+                    <button className="mt-2 bg-mist-900 text-white text-base 2xl:text-xl px-7 2xl:px-12 py-3 2xl:py-6 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200">
                         Contact Us
                     </button>
                 </div>

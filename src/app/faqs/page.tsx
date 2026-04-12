@@ -114,7 +114,7 @@ export default function FAQPage() {
       <section className="w-full min-h-screen">
         <div className="bg-mist-200 py-16 2xl:py-28 px-6 sm:px-16 lg:px-20 2xl:px-32">
           {/* Heading */}
-          <h2 className="text-3xl 2xl:text-6xl font-bold text-mist-900 text-center tracking-tight mb-12 2xl:mb-20">
+          <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 text-center tracking-tight mb-12 2xl:mb-20">
             Frequently Asked Questions
           </h2>
 
@@ -183,7 +183,7 @@ export default function FAQPage() {
 
           <div className="relative z-10 max-w-md 2xl:max-w-4xl mx-auto flex flex-col items-center gap-8 2xl:gap-10">
 
-            <h2 className="text-4xl 2xl:text-6xl font-bold text-mist-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 tracking-tight">
               Still have questions?
             </h2>
             <p className="text-base 2xl:text-2xl text-mist-500 leading-relaxed">

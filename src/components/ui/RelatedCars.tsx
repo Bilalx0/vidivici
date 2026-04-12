@@ -115,7 +115,7 @@ export default function ExoticCarRentals({ showHeader = true, discountBadgeText 
   };
 
   return (
-    <section className="bg-white w-full mt-24 2xl:mt-48 overflow-hidden">
+    <section className="bg-white w-full overflow-hidden">
 
       {/* Header */}
       {showHeader && (
@@ -169,7 +169,7 @@ export default function ExoticCarRentals({ showHeader = true, discountBadgeText 
             key={i}
             onClick={() => scrollTo(i)}
             className={`rounded-full transition-all duration-300 ${i === activeIndex
-                ? "w-6 h-3 bg-mist-800"
+                  ? "w-6 h-3 bg-mist-800"
                 : "w-2 h-2 2xl:w-3 2xl:h-3 bg-mist-300 hover:bg-mist-400"
               }`}
           />

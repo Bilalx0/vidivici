@@ -340,9 +340,9 @@ export default function ExclusiveCollection() {
   };
 
   return (
-    <section className="w-full py-16 2xl:py-28 overflow-hidden">
+    <section className="w-full mt-24 2xl:mt-48  overflow-hidden">
       <div className="px-6 sm:px-16 lg:px-20 2xl:px-40">
-        <h2 className="text-4xl 2xl:text-7xl font-bold text-mist-900 text-center mb-8 2xl:mb-12">Our Exclusive Collection</h2>
+        <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 text-center mb-8 2xl:mb-12">Our Exclusive Collection</h2>
 
         <div className="flex items-center justify-center gap-2 mb-8 2xl:mb-12">
           {(["All", "Cars", "Villas", "Events"] as CollectionTab[]).map((tab) => (
@@ -387,15 +387,15 @@ export default function ExclusiveCollection() {
         </div>
       </div>
 
-      <div className="flex items-center justify-center gap-2 mt-6">
+      <div className="flex items-center justify-center gap-2  mt-10 2xl:mt-16">
         {Array.from({ length: getCardCount() }).map((_, i) => (
           <button
             key={i}
             onClick={() => scrollTo(i)}
             className={`rounded-full transition-all duration-300 ${
               i === Math.min(activeIndex, maxIndex)
-                ? "w-5 h-2 bg-mist-800"
-                : "w-2 h-2 bg-mist-300 hover:bg-mist-400"
+                ? "w-6 h-3 bg-mist-800"
+                : "w-2 h-2 2xl:w-3 2xl:h-3 bg-mist-300 hover:bg-mist-400"
             }`}
           />
         ))}

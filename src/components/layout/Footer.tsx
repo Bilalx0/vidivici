@@ -13,36 +13,6 @@ const TikTokIcon = () => (
   </svg>
 );
 
-const VisaIcon = () => (
-  <svg width="38" height="12" viewBox="0 0 38 12" fill="none">
-    <text x="0" y="10" fontFamily="Arial" fontSize="11" fontWeight="bold" fontStyle="italic" fill="#1A1F71">VISA</text>
-  </svg>
-);
-
-const PayPalIcon = () => (
-  <svg width="40" height="12" viewBox="0 0 60 16">
-    <text x="0" y="12" fontFamily="Arial" fontSize="11" fontWeight="bold" fontStyle="italic" fill="#003087">Pay</text>
-    <text x="22" y="12" fontFamily="Arial" fontSize="11" fontWeight="bold" fontStyle="italic" fill="#009CDE">Pal</text>
-  </svg>
-);
-
-const GooglePayIcon = () => (
-  <svg width="40" height="12" viewBox="0 0 60 16">
-    <text x="0" y="12" fontFamily="Arial" fontSize="10" fontWeight="700" fill="#5f6368">G</text>
-    <text x="10" y="12" fontFamily="Arial" fontSize="10" fontWeight="700" fill="#4285F4">P</text>
-    <text x="18" y="12" fontFamily="Arial" fontSize="10" fontWeight="700" fill="#EA4335">a</text>
-    <text x="26" y="12" fontFamily="Arial" fontSize="10" fontWeight="700" fill="#FBBC05">y</text>
-  </svg>
-);
-
-const MasterCardIcon = () => (
-  <svg width="30" height="18" viewBox="0 0 30 18">
-    <circle cx="10" cy="9" r="8" fill="#EB001B" />
-    <circle cx="20" cy="9" r="8" fill="#F79E1B" fillOpacity="0.9" />
-    <path d="M15 3.2a8 8 0 0 1 0 11.6A8 8 0 0 1 15 3.2z" fill="#FF5F00" />
-  </svg>
-);
-
 export default function Footer() {
   const NO_MARGIN_PATHS = ["/partner", "/faqs", "/blog", "/contact"];
 
@@ -287,7 +257,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright, Legal, and Payments */}
+        {/* Bottom Bar: Copyright, Legal, and Payment Cards */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 pt-8 2xl:pt-12">
 
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 2xl:gap-8">
@@ -303,15 +273,33 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Payment Row - Slightly scaled for 2XL */}
-          <div className="flex items-center gap-2 2xl:gap-4 scale-100 2xl:scale-125 origin-right">
-            <div className="bg-white rounded px-2 py-1 flex items-center justify-center h-7"><VisaIcon /></div>
-            <div className="bg-white rounded px-2 py-1 flex items-center justify-center h-7"><PayPalIcon /></div>
-            <div className="bg-[#5A31F4] rounded px-2 py-1 flex items-center justify-center h-7">
-              <span className="text-white text-[9px] font-bold tracking-tight">shop</span>
-            </div>
-            <div className="bg-white rounded px-2 py-1 flex items-center justify-center h-7"><GooglePayIcon /></div>
-            <div className="bg-[#252525] rounded px-2 py-1 flex items-center justify-center h-7"><MasterCardIcon /></div>
+          {/* Payment Cards - Using PNG images */}
+          <div className="flex items-center gap-2 2xl:gap-4">
+            <img 
+              src="/card1.png" 
+              alt="Visa" 
+              className="h-5 sm:h-6 2xl:h-9 w-auto object-contain rounded"
+            />
+            <img 
+              src="/card2.png" 
+              alt="PayPal" 
+              className="h-5 sm:h-6 2xl:h-9 w-auto object-contain rounded"
+            />
+            <img 
+              src="/card3.png" 
+              alt="Shop Pay" 
+              className="h-5 sm:h-6 2xl:h-9 w-auto object-contain rounded"
+            />
+            <img 
+              src="/card4.png" 
+              alt="Google Pay" 
+              className="h-5 sm:h-6 2xl:h-9 w-auto object-contain rounded"
+            />
+            <img 
+              src="/card5.png" 
+              alt="Mastercard" 
+              className="h-5 sm:h-6 2xl:h-9 w-auto object-contain rounded"
+            />
           </div>
 
         </div>

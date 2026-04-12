@@ -1040,7 +1040,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                           </div>
                         )}
                         <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
-                          <span>Tax · 8.5%</span>
+                          <span>Tax · 9.5%</span>
                           <span className="text-mist-900 font-medium">${tax.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">

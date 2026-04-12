@@ -38,20 +38,19 @@ export function DateTriggerField({
 
   return (
     <div className="relative cursor-pointer" onClick={onClick}>
-      <div
-        className={`w-full bg-white border border-mist-300 rounded-md px-3 ${desktopLabel ? "2xl:px-5 2xl:text-lg" : ""} text-sm text-mist-700 h-11 2xl:h-13 flex items-end pb-1`}
-      >
+              <div
+className={`w-full bg-white border border-mist-300 rounded-md px-3 ${desktopLabel ? "2xl:px-5 2xl:text-lg 2xl:pb-2" : ""} text-sm text-mist-700 h-11 2xl:h-13 flex items-end pb-1`}>
         {displayValue}
       </div>
       {/* Top label */}
       <span
-        className={`pointer-events-none absolute left-3 ${desktopLabel ? "2xl:left-5" : ""} top-1 ${desktopLabel ? "2xl:top-1.5" : ""} text-[10px] ${desktopLabel ? "2xl:text-xs" : ""} text-mist-400 transition-opacity duration-150 ${hasValue ? "opacity-100" : "opacity-0"}`}
+        className={`pointer-events-none absolute left-3 ${desktopLabel ? "2xl:left-6" : ""} top-1 ${desktopLabel ? "2xl:top-1" : ""} text-[10px] ${desktopLabel ? "2xl:text-base" : ""} text-mist-400 transition-opacity duration-150 ${hasValue ? "opacity-100" : "opacity-0"}`}
       >
         {label}
       </span>
       {/* Center label */}
       <span
-        className={`pointer-events-none absolute left-3 ${desktopLabel ? "2xl:left-5" : ""} top-1/2 -translate-y-1/2 text-sm ${desktopLabel ? "2xl:text-lg" : ""} text-mist-300 transition-opacity duration-150 ${hasValue ? "opacity-0" : "opacity-100"}`}
+        className={`pointer-events-none absolute left-3 ${desktopLabel ? "2xl:left-6" : ""} top-1/2 -translate-y-1/2 text-sm ${desktopLabel ? "2xl:text-xl " : ""} text-mist-300 transition-opacity duration-150 ${hasValue ? "opacity-0" : "opacity-100"}`}
       >
         {label}
       </span>
@@ -204,40 +203,40 @@ export default function DateRangeCalendarPopup({
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 md:p-4"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 md:p-4 2xl:p-8"
       onClick={onClose}
     >
       <div
         className={`bg-white w-full ${isMobile
             ? "h-full flex flex-col"
-            : "rounded-2xl shadow-2xl max-w-[750px] p-6 md:p-8"
+            : "rounded-2xl 2xl:rounded-[2rem] shadow-2xl 2xl:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] max-w-[750px] 2xl:max-w-[1400px] p-6 md:p-8 2xl:p-16"
           }`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Header ── */}
-        <div className={`flex items-start justify-between ${isMobile ? "p-4 pb-3 border-b border-gray-100 shrink-0" : "mb-6"}`}>
+        <div className={`flex items-start justify-between ${isMobile ? "p-4 pb-3 border-b border-gray-100 shrink-0" : "mb-6 2xl:mb-14"}`}>
           <div>
-            <h2 className="text-xl md:text-2xl font-medium text-blue-600">
+            <h2 className="text-xl md:text-2xl 2xl:text-5xl font-medium text-blue-600">
               {headerText}
             </h2>
-            <p className="text-sm text-mist-500 mt-0.5">
+            <p className="text-sm 2xl:text-2xl text-mist-500 mt-0.5 2xl:mt-4">
               {startDisplay} – {endDisplay}
             </p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 2xl:gap-8">
             {(fromDate || toDate) && (
               <button
                 onClick={handleClear}
-                className="text-sm text-mist-700 underline hover:text-mist-900"
+                className="text-sm 2xl:text-xl text-mist-700 underline hover:text-mist-900"
               >
                 Clear dates
               </button>
             )}
             <button
               onClick={onClose}
-              className="text-mist-400 hover:text-mist-600"
+              className="text-mist-400 hover:text-mist-600 2xl:p-3"
             >
-              <X size={22} />
+              <X size={22} className="2xl:w-10 2xl:h-10" />
             </button>
           </div>
         </div>
@@ -274,6 +273,47 @@ export default function DateRangeCalendarPopup({
             color: #000 !important;
             fill: #000 !important;
             stroke: #000 !important;
+          }
+          /* 2XL scaling for calendar - LARGER */
+          @media (min-width: 1536px) {
+            .rdp-range-popup {
+              --rdp-day-width: 64px;
+              --rdp-day-height: 64px;
+            }
+            .rdp-range-popup .rdp-day {
+              width: var(--rdp-day-width) !important;
+              height: var(--rdp-day-height) !important;
+            }
+            .rdp-range-popup .rdp-day_button {
+              width: 60px !important;
+              height: 60px !important;
+              font-size: 22px !important;
+              font-weight: 500 !important;
+            }
+            .rdp-range-popup .rdp-weekday {
+              font-size: 18px !important;
+              padding: 16px 0 !important;
+              font-weight: 600 !important;
+            }
+            .rdp-range-popup .rdp-month_caption {
+              font-size: 32px !important;
+              padding: 20px 0 !important;
+              font-weight: 600 !important;
+            }
+            .rdp-range-popup .rdp-nav_button {
+              width: 56px !important;
+              height: 56px !important;
+            }
+            .rdp-range-popup .rdp-chevron {
+              width: 28px !important;
+              height: 28px !important;
+            }
+            .rdp-range-popup .rdp-months {
+              gap: 3rem !important;
+            }
+            .rdp-range-popup .rdp-month_grid {
+              width: auto !important;
+            }
           }
           /* Mobile: hide nav arrows, stack months vertically, full width */
           .rdp-range-popup-mobile .rdp-nav {

@@ -770,7 +770,7 @@ function ReservationContent() {
 
   return (
     <div className="bg-white min-h-screen pt-24 pb-16">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+      <div className="px-6 sm:px-16 lg:px-20 2xl:px-56 ">
         {step > 1 && (
           <div className="mb-10">
             <button

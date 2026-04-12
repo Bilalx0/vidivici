@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { ChevronLeft, ChevronRight, ChevronDown, BedDouble, Users, Bath, Maximize2, MapPin, Plane, ChefHat, Shield, CreditCard, Sparkles, Percent, Bed, Tag, Share2, Bookmark } from "lucide-react"
+import { ChevronLeft, ChevronRight, ChevronDown, BedDouble, Users, Bath, Maximize2, MapPin, CreditCard, Sparkles, Percent, Tag, Share2, Bookmark, ArrowUpRight } from "lucide-react"
 import { parseAmenity, AMENITY_ICONS } from "@/lib/amenity-icons"
 import WhyChooseUs from "@/components/home/WhyChooseUs"
 import Reviews from "@/components/home/Reviews"
@@ -12,6 +12,7 @@ import HomeVillaSection from "@/components/home/Villa"
 import DateRangeCalendarPopup, { DateTriggerField } from "@/components/ui/FloatingDatePickerField"
 import CarGallery from "@/components/cars/CarGallery" // adjust path as needed
 import Turnstile from "@/components/Turnstile"
+import RelatedVilla from "@/components/ui/RelatedVilla"
 
 interface VillaImage {
   url: string
@@ -334,7 +335,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
           </div>
         </div>
 
-        <div className="pb-16 2xl:pb-24">
+        <div className="">
           <div className="flex flex-col lg:flex-row gap-10 2xl:gap-16">
             {/* Left Column */}
             <div className="flex-1 min-w-0 space-y-8 2xl:space-y-12">
@@ -377,7 +378,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                   <div className="flex items-center gap-2.5">
                     <Sparkles size={30} className="text-mist-400 bg-white p-2 rounded-md flex-shrink-0" />
                     <p className="text-sm 2xl:text-lg text-mist-500">
-                      <span className="font-semibold">Cleaning Fee:</span> ${villa.cleaningFee ?? "950"}
+                      <span className="font-semibold">Cleaning Fee:</span> ${villa.cleaningFee && villa.cleaningFee !== 0 ? villa.cleaningFee : "950"}
                     </p>
                   </div>
                 </div>
@@ -1610,23 +1611,18 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
         </div>
       )}
 
-      <section className="pt-16 2xl:pt-24">
+      <section className="mt-24 2xl:mt-48 mb-10 2xl:mb-16">
         <div className="px-6 sm:px-16 lg:px-20 2xl:px-32  flex items-center justify-between gap-4">
           <h2 className="text-2xl sm:text-4xl 2xl:text-5xl font-bold text-mist-900 tracking-tight">
             You may also like
           </h2>
-          <a
-            href="#"
-            className="flex items-center gap-1 text-sm font-medium text-mist-500 bg-mist-100 rounded-md px-4 py-2 hover:bg-mist-50 transition-colors duration-150 whitespace-nowrap shrink-0"
-          >
-            View all
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7 17 17 7M7 7h10v10" />
-            </svg>
-          </a>
+          <button className="flex items-center gap-2 px-3 sm:px-5 py-1.5 sm:py-2.5 text-sm sm:text-base 2xl:text-xl 2xl:py-4 2xl:px-6 text-mist-500 bg-mist-200 border border-mist-200 rounded-xl hover:bg-mist-50 hover:border-mist-300 transition-all duration-200 whitespace-nowrap">
+                      View all
+                      <ArrowUpRight size={15} />
+                    </button>
         </div>
-        <HomeVillaSection showHeader={false} />
       </section>
+        <RelatedVilla showHeader={false} />
 
       {/* Bottom Sections */}
       <WhyChooseUs />

@@ -8,8 +8,9 @@ import FAQ from "@/components/home/FAQ"
 import Contact from "@/components/home/Contact"
 import CarBrowse from "@/components/home/CarBrowse"
 import Rentals from "@/components/home/Rentals"
+import RelatedCars from "@/components/ui/RelatedCars"
 
-export default function ExperiencePage() {
+export default function PromCarRentalPage() {
   return (
     <div>
       <Banner
@@ -21,9 +22,9 @@ export default function ExperiencePage() {
 
 
       <CarBrowse />
-      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 pt-16 2xl:pt-24 flex items-center justify-between">
+      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 mt-24 2xl:mt-48 mb-16 2xl:mb-24 flex items-center justify-between">
         <h2 className="text-xl sm:text-3xl 2xl:text-6xl font-bold text-mist-900">
-          Luxury Car Rental Los Angeles
+          Prom Luxury Vehicles
         </h2>
         <a
           href="#"
@@ -35,25 +36,25 @@ export default function ExperiencePage() {
           </svg>
         </a>
       </div>
-      <Rentals showHeader={false} discountBadgeText={undefined}/>
+      <RelatedCars showHeader={false} discountBadgeText={undefined}/>
 
-      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-24 flex flex-col lg:flex-row items-start gap-10 2xl:gap-16">
+      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 mt-24 2xl:mt-48 flex flex-col lg:flex-row items-start gap-10 2xl:gap-16">
 
   {/* Left: Text */}
-  <div className="flex-1 max-w-lg">
+  <div className="flex-1 max-w-3xl">
     <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 leading-tight mb-4 2xl:mb-6">
-      Exotic Cars for Hire
+      Luxury Car Rentals For Prom in Los Angeles
     </h2>
-    <p className="text-mist-400 text-sm sm:text-base 2xl:text-2xl leading-relaxed mb-4 2xl:mb-6">
-      Make every drive through Los Angeles an unforgettable experience.
+    <p className="text-mist-500 text-sm sm:text-base 2xl:text-2xl leading-relaxed mb-4 2xl:mb-6">
+      Make your prom night an unforgettable experience.
     </p>
-    <p className="text-mist-400 text-sm sm:text-base 2xl:text-2xl leading-relaxed mb-4 2xl:mb-6">
-      Whether you're cruising down Sunset Boulevard, attending a red-carpet event, or heading to a business meeting — Vidi Vici delivers the perfect combination of performance, comfort, and style.
+    <p className="text-mist-500 text-sm sm:text-base 2xl:text-2xl leading-relaxed mb-4 2xl:mb-6">
+      Whether you're heading to a high school prom, college formal, or special celebration — Vidi Vici delivers the perfect combination of performance, comfort, and style.
     </p>
-    <p className="text-mist-400 text-sm sm:text-base 2xl:text-2xl leading-relaxed">
-      From sleek supercars to ultra-luxury sedans and SUVs, our handpicked fleet ensures you arrive with confidence and class — wherever your destination takes you.
+    <p className="text-mist-500 text-sm sm:text-base 2xl:text-2xl leading-relaxed">
+      From sleek supercars to ultra-luxury sedans and SUVs, our handpicked fleet ensures you arrive with confidence and class — wherever your prom takes you.
     </p>
-    <p className="text-mist-400 text-sm sm:text-base 2xl:text-2xl leading-relaxed mt-4 2xl:mt-6">
+    <p className="text-mist-500 text-sm sm:text-base 2xl:text-2xl leading-relaxed mt-4 2xl:mt-6">
       It's not just about transportation. It's about making an impression that lasts.
     </p>
   </div>

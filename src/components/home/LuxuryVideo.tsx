@@ -10,7 +10,7 @@ export default function LuxuryVideo() {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <section className="relative w-full bg-[#eeeeed] py-16 2xl:py-64 px-6 mt-16 2xl:mt-48 overflow-visible">
+    <section className="relative w-full bg-[#eeeeed] py-16 2xl:pb-44 2xl:pt-36 px-6 mt-24 2xl:mt-48 mb-44 2xl:mb-80  overflow-visible">
 
       {/* Left side vector decoration */}
       <img
@@ -29,8 +29,8 @@ export default function LuxuryVideo() {
       />
 
       {/* Header - Scaled for 2xl */}
-      <div className="relative text-center mb-10 2xl:mb-32 max-w-4xl 2xl:max-w-7xl mx-auto">
-        <h2 className="text-4xl 2xl:text-7xl font-bold text-mist-900 leading-tight">
+      <div className="relative text-center mb-10 2xl:mb-20 max-w-4xl 2xl:max-w-7xl mx-auto">
+        <h2 className="text-4xl md:text-5xl 2xl:text-7xl font-bold text-mist-900 leading-tight">
           Luxury Is a Lifestyle. <br /> Make It Yours.
         </h2>
         <p className="mt-4 2xl:mt-12 text-sm 2xl:text-2xl text-mist-500 leading-relaxed max-w-xl 2xl:max-w-4xl mx-auto">
@@ -44,7 +44,7 @@ export default function LuxuryVideo() {
       </div>
 
       {/* Laptop frame + video - Scaled up to 1200px wide on 2xl screens */}
-     <div className="relative max-w-2xl 2xl:max-w-[950px] mx-auto -mb-32 2xl:-mb-[340px] transition-all duration-500">
+     <div className="relative max-w-2xl 2xl:max-w-[950px] mx-auto -mb-32 2xl:-mb-[325px] transition-all duration-500">
   
   {/* Laptop screen bezel */}
   <div className="rounded-2xl 2xl:rounded-[32px] overflow-hidden shadow-2xl bg-mist-800 p-1 2xl:p-2">

@@ -113,7 +113,7 @@ export default function ContactPage() {
     }
   };
 
-  const inputCls = "w-full border border-mist-200 rounded-md 2xl:rounded-2xl px-4 py-2.5 2xl:px-8 2xl:py-6 text-[13px] 2xl:text-2xl text-mist-900 placeholder-mist-300 outline-none focus:border-mist-400 transition-colors bg-white";
+  const inputCls = "w-full border border-mist-200 text-base 2xl:text-xl py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl px-4 2xl:px-8text-mist-900 placeholder-mist-300 outline-none focus:border-mist-400 transition-colors bg-white";
 
   return (
     <div className="w-full">
@@ -127,9 +127,9 @@ export default function ContactPage() {
       />
 
       <section className="w-full bg-[#F0F1F2] pt-14 pb-96 px-6 sm:px-14 md:px-24 2xl:pt-20 2xl:pb-[600px] 2xl:px-40">
-        <div className="mx-auto py-16 2xl:py-32 2xl:max-w-[1800px]">
+        <div className="mx-auto py-16 2xl:py-32">
           <div className="text-center mb-10 space-y-8 2xl:mb-16 2xl:space-y-12">
-            <h2 className="text-3xl font-bold text-mist-900 2xl:text-6xl">
+            <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 2xl:text-6xl">
               Get in Touch with Vidi Vici
             </h2>
             <p className="mt-2 text-base text-mist-500 leading-relaxed max-w-xl mx-auto 2xl:text-2xl 2xl:max-w-2xl">
@@ -184,10 +184,20 @@ export default function ContactPage() {
                 <Field label="Email">
                   <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="Enter your email" className={inputCls} />
                 </Field>
-                <Field label="Phone Number">
-                  <div className="flex items-center border border-mist-200 rounded-xl 2xl:rounded-2xl overflow-hidden focus-within:border-mist-400 transition-colors bg-white">
-                    <span className="px-3 py-2.5 2xl:px-8 2xl:py-6 text-sm 2xl:text-2xl border-r border-mist-200 bg-mist-50 text-mist-600 flex-shrink-0">🇺🇸 +1</span>
-                    <input name="phone" value={form.phone} onChange={handleChange} placeholder="(555) 555-5555" className="flex-1 px-3 py-2.5 2xl:px-8 2xl:py-6 text-[13px] 2xl:text-2xl text-mist-900 placeholder-mist-300 outline-none" />
+                <Field label="Phone">
+                  <div className="flex items-center border border-mist-200 rounded-xl 2xl:rounded-2xl overflow-hidden focus-within:border-mist-400 transition-colors duration-200 bg-white">
+                    <span className="px-4 py-3 2xl:px-6 2xl:py-5 text-sm 2xl:text-xl border-r border-mist-300 bg-mist-50 flex items-center gap-2 text-mist-600 flex-shrink-0">
+                      🇺🇸
+                    </span>
+                    <input
+                      name="phone"
+                      type="tel"
+                      value={form.phone}
+                      onChange={handleChange}
+                      placeholder="Enter your phone number"
+                      className="text-base 2xl:text-xl py-3 2xl:py-5 px-4 2xl:px-8 text-mist-900 placeholder-mist-300 outline-none focus:border-mist-400 transition-colors bg-white"
+                      required
+                    />
                   </div>
                 </Field>
               </div>
@@ -268,7 +278,7 @@ export default function ContactPage() {
                 <textarea name="notes" value={form.notes} onChange={handleChange} placeholder="Write any special requests or notes here..." rows={4} className={`${inputCls} resize-none`} />
               </Field>
 
-              <button type="submit" disabled={submitting} className="w-full bg-mist-900 text-white text-[14px] 2xl:text-3xl font-semibold py-3.5 2xl:py-8 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200 mt-1 2xl:mt-2 disabled:opacity-50">
+              <button type="submit" disabled={submitting} className="w-full bg-mist-900 text-white text-[14px] 2xl:text-2xl py-3.5 2xl:py-7 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200 mt-1 2xl:mt-2 disabled:opacity-50">
                 {submitting ? "Sending..." : "Send Request"}
               </button>
 

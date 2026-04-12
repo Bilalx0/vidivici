@@ -29,13 +29,11 @@ export default function CarCard({ car, discountBadgeText = undefined }) {
             <span role="img" aria-label="fire" className=" ">🔥</span> <p>{discountBadgeText}</p>
           </div>
         )}
-        <Image
-          src={car.image}
-          alt={car.name}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1536px) 320px, 450px"
-          className="object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-2xl"
-        />
+        <img
+  src={car.image}
+  alt={car.name}
+  className=" w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl 2xl:rounded-3xl"
+/>
         <button
           onClick={(e) => { e.stopPropagation(); setLiked((p) => !p); }}
           className={`absolute top-5 right-5 w-8 h-8 2xl:w-11 2xl:h-11 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${liked

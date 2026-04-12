@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Facebook, Instagram, Youtube } from "lucide-react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 // --- CUSTOM SVG COMPONENTS ---
@@ -43,10 +44,16 @@ const MasterCardIcon = () => (
 );
 
 export default function Footer() {
+  const NO_MARGIN_PATHS = ["/partner", "/faqs", "/blog", "/contact"];
+
   const [email, setEmail] = useState("");
 
+   const pathname = usePathname();
+
+  const noMargin = NO_MARGIN_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
+
   return (
-    <footer className="relative w-full bg-[#1a1a1a] text-white overflow-hidden">
+    <footer className={`relative w-full bg-[#1a1a1a] text-white overflow-hidden ${noMargin ? "" : "mt-24 2xl:mt-48"}`}>
 
       {/* Decorative Vectors - Pinned for 2XL Visibility */}
       <img
@@ -62,7 +69,7 @@ export default function Footer() {
         className="absolute right-0 -top-20 2xl:-top-40 h-[45%] sm:h-[70%] 2xl:h-[85%] w-auto object-contain object-right pointer-events-none select-none rotate-180 opacity-30 2xl:opacity-40"
       />
 
-      <div className="px-8 2xl:px-32 pt-14 2xl:pt-20 pb-8 2xl:pb-12 relative z-10">
+      <div className="sm:px-16 lg:px-20 px-6 2xl:px-32 pt-14 2xl:pt-20 pb-8 2xl:pb-12 relative z-10">
 
         {/* Top Branding Section */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 2xl:gap-12 pb-10 2xl:pb-16 border-b border-white/10">

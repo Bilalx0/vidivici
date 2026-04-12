@@ -11,6 +11,7 @@ import CarBrowse from "@/components/home/CarBrowse"
 import Rentals from "@/components/home/Rentals"
 
 import { Tag, Calendar, RefreshCw, Gauge, HeadphonesIcon, Info, X } from "lucide-react";
+import RelatedCars from "@/components/ui/RelatedCars";
 
 const rows = [
   { duration: "7–13 days", discount: "15% OFF", mileage: "Up to 100 miles/day" },
@@ -83,7 +84,7 @@ export default function LongTermPage() {
       />
 
       <section className="w-full ">
-        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-24">
+        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 mt-24 2xl:mt-48">
           <div className="flex flex-col lg:flex-row items-start justify-between gap-10 2xl:gap-16">
             {/* Left: Text Content */}
             <div className="flex-1">
@@ -92,17 +93,17 @@ export default function LongTermPage() {
                 on Long-Term Luxury Car Rentals in Los Angeles
               </h2>
 
-              <p className="text-mist-400 text-sm sm:text-base 2xl:text-2xl leading-relaxed mb-4 2xl:mb-6">
-                Drive your dream car for a week, a month, or even a year — without the ownership cost.
+              <p className="text-mist-500 text-sm sm:text-base 2xl:text-2xl leading-relaxed mb-4 2xl:mb-6">
+                Drive your dream car for a week, a month, or even a year — without the ownership cost. <span className="hidden 2xl:inline">Enjoy exclusive extended rental rates and flexible mileage plans.</span>
               </p>
-              <p className="text-mist-400 text-sm sm:text-base 2xl:text-2xl leading-relaxed mb-4 2xl:mb-6">
+              <p className="text-mist-500 text-sm sm:text-base 2xl:hidden leading-relaxed mb-4 2xl:mb-6">
                 Whether you're staying short-term or renting in for a longer role, enjoy exclusive extended rental rates and flexible mileage plans.
               </p>
-              <p className="text-mist-400 text-sm sm:text-base 2xl:text-2xl leading-relaxed mb-8 2xl:mb-10">
+              <p className="text-mist-500 text-sm sm:text-base 2xl:text-2xl leading-relaxed mb-8 2xl:mb-10">
                 From 7-day getaways with 15% off to year-long drives saving up to 65%, we've made luxury driving in Los Angeles more accessible than ever.
               </p>
 
-              <button className="bg-mist-900 hover:bg-mist-800 transition-colors duration-200 text-white text-sm 2xl:text-xl font-semibold px-6 2xl:px-10 py-3 2xl:py-5 rounded-md 2xl:rounded-xl">
+              <button className="bg-mist-900 hover:bg-mist-800 transition-colors duration-200 text-white text-sm 2xl:text-xl px-6 2xl:px-10 py-3 2xl:py-5 rounded-md 2xl:rounded-xl">
                 Reserve Now
               </button>
             </div>
@@ -119,15 +120,15 @@ export default function LongTermPage() {
         </div>
       </section>
 
-      <section className="w-full bg-white">
-        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-24">
+      <section className="w-full mt-24 2xl:mt-48">
+        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32">
           {/* Header */}
           <div className="text-center mb-12 2xl:mb-20">
             <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 leading-tight mb-3 2xl:mb-5">
               Why Choose Vidi Vici <br className="hidden sm:block" />
               Long-Term Rentals?
             </h2>
-            <p className="text-mist-400 text-sm sm:text-base 2xl:text-2xl">
+            <p className="text-mist-500 text-sm sm:text-base 2xl:text-2xl">
               Experience comfort, flexibility, and luxury — without the burdens of ownership.
             </p>
           </div>
@@ -146,7 +147,7 @@ export default function LongTermPage() {
                   {feature.title}
                 </h3>
                 {/* Description */}
-                <p className="text-xs 2xl:text-lg text-mist-400 leading-relaxed">
+                <p className="text-xs 2xl:text-lg text-mist-500 leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -157,10 +158,10 @@ export default function LongTermPage() {
 
       <CarBrowse />
 
-      <div className="relative px-6 sm:px-16 lg:px-20 2xl:px-32 py-10 2xl:py-16 flex items-start justify-between gap-4">
+      <div className="relative px-6 sm:px-16 lg:px-20 2xl:px-32  flex items-start justify-between gap-4 mt-24 2xl:mt-48 mb-10 2xl:mb-16">
         {/* Left: Title + Subtitle */}
         <div>
-          <h2 className="text-2xl sm:text-3xl 2xl:text-6xl font-bold text-mist-900 mb-2 2xl:mb-4">
+          <h2 className="text-2xl sm:text-3xl 2xl:text-6xl font-bold text-mist-900 pb-7">
             Our Long-Term Fleet
           </h2>
           <div className="flex items-start gap-2">
@@ -239,9 +240,9 @@ export default function LongTermPage() {
           </svg>
         </a>
       </div>
-      <Rentals showHeader={false} discountBadgeText="Up to 65% OFF" />
+      <RelatedCars showHeader={false} discountBadgeText="Up to 65% OFF" />
       <section className="w-full bg-white">
-        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-24">
+        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 mt-24 2xl:mt-48">
           {/* Heading */}
           <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 text-center leading-tight mb-10 2xl:mb-16">
             The Longer You Drive, The <br className="hidden sm:block" />
@@ -276,8 +277,8 @@ export default function LongTermPage() {
           </div>
         </div>
       </section>
-      <section className="w-full bg-white">
-        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-24">
+      <section className="w-full mt-24 2xl:mt-48">
+        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32">
           <div className="flex flex-col lg:flex-row items-start justify-between gap-10 2xl:gap-16">
             {/* Left: Image */}
             <div className="w-full lg:w-[620px] 2xl:w-[820px] shrink-0 rounded-2xl 2xl:rounded-3xl overflow-hidden h-96 sm:h-64 lg:h-80 2xl:h-[420px] bg-mist-100">
@@ -290,17 +291,17 @@ export default function LongTermPage() {
 
             {/* Right: Text */}
             <div className="flex-1">
-              <h2 className="text-2xl sm:text-3xl 2xl:text-6xl font-bold text-mist-900 leading-tight mb-4 2xl:mb-6">
+              <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 leading-tight mb-4 2xl:mb-6">
                 The Smart Way to Experience LA in Style
               </h2>
-              <p className="text-mist-400 text-base 2xl:text-2xl leading-relaxed mb-3 2xl:mb-5">
+              <p className="text-mist-500 text-base 2xl:text-2xl leading-relaxed mb-3 2xl:mb-5">
                 With Vidi Vici, you're not just renting a car — you're unlocking freedom, comfort, and prestige for as long as you need it.
               </p>
-              <p className="text-mist-400 text-base 2xl:text-2xl leading-relaxed mb-3 2xl:mb-5">
+              <p className="text-mist-500 text-base 2xl:text-2xl leading-relaxed mb-3 2xl:mb-5">
                 Enjoy transparent pricing, premium service, and exclusive long-term discounts —{" "}
                 <span className="font-semibold text-mist-700">up to 65% OFF.</span>
               </p>
-              <p className="text-mist-400 text-base 2xl:text-2xl leading-relaxed">
+              <p className="text-mist-500 text-base 2xl:text-2xl leading-relaxed">
                 The longer you drive, the more you save — and the more luxury you enjoy.
               </p>
             </div>
@@ -308,7 +309,7 @@ export default function LongTermPage() {
         </div>
       </section>
 
-      <div className="relative w-full bg-[#eeeeed] py-16 2xl:py-24 px-6 sm:px-16 lg:px-20 2xl:px-32 text-center my-16 2xl:my-24 overflow-hidden">
+      <div className="relative w-full bg-[#eeeeed] py-16 2xl:py-24 px-6 sm:px-16 lg:px-20 2xl:px-32 text-center overflow-hidden mt-24 2xl:mt-48">
 
         <img
           src="/Vector 7.png"
@@ -325,8 +326,8 @@ export default function LongTermPage() {
           className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180"
         />
         {/* Foreground content */}
-        <div className="relative z-10 max-w-xl 2xl:max-w-5xl mx-auto flex flex-col items-center gap-5 2xl:gap-8">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl 2xl:text-7xl font-bold text-mist-900 leading-tight tracking-tight">
+        <div className="relative z-10 max-w-xl 2xl:max-w-5xl mx-auto flex flex-col items-center gap-5 2xl:gap-8 ">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl 2xl:text-7xl font-bold text-mist-900 leading-tight tracking-tight">
             Start Saving{" "}
             <span className="text-blue-500">Up to 65%</span>{" "}
             on <br className="hidden sm:block" />
@@ -336,7 +337,7 @@ export default function LongTermPage() {
             Choose your dream car, pick your plan, and enjoy premium service —
             all while saving up to 65% on long-term rentals.
           </p>
-          <button className="mt-2 bg-mist-900 text-white text-sm 2xl:text-xl font-semibold px-7 2xl:px-12 py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200">
+          <button className="mt-2 bg-mist-900 text-white text-sm 2xl:text-xl px-7 2xl:px-12 py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200">
             Reserve Now
           </button>
         </div>

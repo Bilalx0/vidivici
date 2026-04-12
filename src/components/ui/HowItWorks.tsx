@@ -7,7 +7,7 @@ const steps = [
 
 export default function HowItWorks() {
     return (
-        <section className="w-full bg-white px-4 sm:px-8 md:px-12 lg:px-20 pb-20 md:pb-28 pt-64 md:pt-72 2xl:pt-[450px]">
+        <section className="w-full bg-white px-4 sm:px-8 md:px-12 lg:px-20 pt-64 md:pt-72 2xl:pt-[450px]">
 
             {/* Heading */}
             <div className="text-center mb-12 md:mb-20">

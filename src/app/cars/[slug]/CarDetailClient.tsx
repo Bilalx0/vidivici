@@ -599,8 +599,22 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
     driverAvailability === "full" ? days : driverDays
   const driverTotal: number =
     needDriver ? actualDriverDays * driverHours * 45 : 0
+
+  // Extra time: when return time differs from pickup time
+  const extraHours = (() => {
+    if (!startTime || !endTime) return 0
+    const [sh, sm] = startTime.split(":").map(Number)
+    const [eh, em] = endTime.split(":").map(Number)
+    const diffMin = (eh * 60 + em) - (sh * 60 + sm)
+    return diffMin > 0 ? Math.ceil(diffMin / 60) : 0
+  })()
+  const freeHours = extraHours > 0 ? 1 : 0
+  const billableExtraHours = Math.max(0, extraHours - freeHours)
+  const effectiveDailyRate = days > 0 ? (subtotal - discountAmount) / days : car.pricePerDay
+  const extraTimeCost = Math.round(billableExtraHours * effectiveDailyRate * 0.25)
+
   const taxRate = carTaxPercent / 100
-  const preTax = subtotal - discountAmount + driverTotal
+  const preTax = subtotal - discountAmount + driverTotal + extraTimeCost
   const tax = Math.round(preTax * taxRate)
   const qualifiesForReducedDeposit =
     needDriver === true && (days >= 15 || driverAvailability === "full")
@@ -1039,6 +1053,12 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                             <span className="text-mist-900 font-medium">${driverTotal.toLocaleString()}</span>
                           </div>
                         )}
+                        {extraTimeCost > 0 && (
+                          <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
+                            <span>Extra Time ({extraHours}h, {freeHours} free)</span>
+                            <span className="text-mist-900 font-medium">${extraTimeCost.toLocaleString()}</span>
+                          </div>
+                        )}
                         <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
                           <span>Tax · {carTaxPercent}%</span>
                           <span className="text-mist-900 font-medium">${tax.toLocaleString()}</span>
@@ -1303,6 +1323,12 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                       <div className="flex justify-between text-mist-500 text-sm">
                         <span>Driver Total · {driverHours}hr × $45 × {actualDriverDays}d</span>
                         <span className="text-mist-900 font-medium">${driverTotal.toLocaleString()}</span>
+                      </div>
+                    )}
+                    {extraTimeCost > 0 && (
+                      <div className="flex justify-between text-mist-500 text-sm">
+                        <span>Extra Time ({extraHours}h, {freeHours} free)</span>
+                        <span className="text-mist-900 font-medium">${extraTimeCost.toLocaleString()}</span>
                       </div>
                     )}
                     <div className="flex justify-between text-mist-500 text-sm">

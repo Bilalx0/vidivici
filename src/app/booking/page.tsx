@@ -88,14 +88,19 @@ function calcCarPricing(
   needDriver: boolean,
   driverAvailability: "full" | "select",
   couponPercent = 0,
-  carTaxPercent = 9.5
+  carTaxPercent = 9.5,
+  extraHours = 0
 ) {
   const securityHold = 5000
   const subtotal = pricePerDay * days
   const discountPercent = getDiscount(days)
   const discountAmount = Math.round(subtotal * (discountPercent / 100))
   const driverTotal = needDriver ? driverDays * driverHours * 45 : 0
-  const afterDiscount = subtotal - discountAmount + driverTotal
+  const freeHours = extraHours > 0 ? 1 : 0
+  const billableExtraHours = Math.max(0, extraHours - freeHours)
+  const effectiveDailyRate = days > 0 ? (subtotal - discountAmount) / days : pricePerDay
+  const extraTimeCost = Math.round(billableExtraHours * effectiveDailyRate * 0.25)
+  const afterDiscount = subtotal - discountAmount + driverTotal + extraTimeCost
   const couponAmount = couponPercent > 0 ? Math.round(afterDiscount * (couponPercent / 100)) : 0
   const preTax = afterDiscount - couponAmount
   const tax = Math.round(preTax * (carTaxPercent / 100))
@@ -103,7 +108,7 @@ function calcCarPricing(
   const total = rentalTotal + 2000 // rental + $2,000 refundable deposit
   const payNowTotal = securityHold // $5,000 authorization hold (no charge)
   const dueAtPickup = Math.max(0, total - securityHold)
-  return { subtotal, discountPercent, discountAmount, couponAmount, couponPercent, driverTotal, tax, securityHold, payNowTotal, dueAtPickup, total, rentalTotal }
+  return { subtotal, discountPercent, discountAmount, couponAmount, couponPercent, driverTotal, extraHours, freeHours, extraTimeCost, tax, securityHold, payNowTotal, dueAtPickup, total, rentalTotal }
 }
 
 function calcVillaPricing(villa: VillaData, nights: number, airportTransfer: boolean, couponPercent = 0, villaTaxPercent = 14) {
@@ -617,9 +622,17 @@ function ReservationContent() {
 
   const actualDriverDays = driverAvailability === "full" ? days : driverDays
 
+  const carExtraHours = useMemo(() => {
+    if (mode !== "car" || !startTime || !endTime) return 0
+    const [sh, sm] = startTime.split(":").map(Number)
+    const [eh, em] = endTime.split(":").map(Number)
+    const diffMin = (eh * 60 + em) - (sh * 60 + sm)
+    return diffMin > 0 ? Math.ceil(diffMin / 60) : 0
+  }, [mode, startTime, endTime])
+
   const carPricing = useMemo(
-    () => (selectedCar ? calcCarPricing(selectedCar.pricePerDay, days, driverHours, actualDriverDays, needDriver, driverAvailability, couponDiscount, carTaxPercent) : null),
-    [selectedCar, days, driverHours, actualDriverDays, needDriver, driverAvailability, couponDiscount, carTaxPercent]
+    () => (selectedCar ? calcCarPricing(selectedCar.pricePerDay, days, driverHours, actualDriverDays, needDriver, driverAvailability, couponDiscount, carTaxPercent, carExtraHours) : null),
+    [selectedCar, days, driverHours, actualDriverDays, needDriver, driverAvailability, couponDiscount, carTaxPercent, carExtraHours]
   )
 
   const villaPricing = useMemo(
@@ -2313,6 +2326,12 @@ function CarSummaryCard({
             <div className="flex justify-between text-mist-500">
               <span>Driver Total <span className="text-xs">({driverHours} hrs x $45/hr × {actualDriverDays} days)</span></span>
               <span className="text-mist-900 font-medium">${pricing.driverTotal.toLocaleString()}</span>
+            </div>
+          )}
+          {pricing.extraTimeCost > 0 && (
+            <div className="flex justify-between text-mist-500">
+              <span>Extra Time <span className="text-xs">({pricing.extraHours}h, {pricing.freeHours} free)</span></span>
+              <span className="text-mist-900 font-medium">${pricing.extraTimeCost.toLocaleString()}</span>
             </div>
           )}
           {pricing.couponAmount > 0 && (

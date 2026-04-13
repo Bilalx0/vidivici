@@ -14,7 +14,7 @@ const TikTokIcon = () => (
 );
 
 export default function Footer() {
-  const NO_MARGIN_PATHS = ["/partner", "/faqs", "/blog", "/contact"];
+  const NO_MARGIN_PATHS = ["/partner", "/faqs", "/blog", "/contact", "/events"];
 
   const [email, setEmail] = useState("");
 

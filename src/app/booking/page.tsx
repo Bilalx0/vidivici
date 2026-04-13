@@ -109,7 +109,7 @@ function calcCarPricing(
 function calcVillaPricing(villa: VillaData, nights: number, airportTransfer: boolean, couponPercent = 0, villaTaxPercent = 14) {
   const cleaningFee = (villa.cleaningFee && villa.cleaningFee !== 0) ? villa.cleaningFee : 950
   const securityDeposit = (villa.securityDeposit && villa.securityDeposit !== 0) ? villa.securityDeposit : 5000
-  
+
   const villaDeposit = 5000
   const nightsTotal = villa.pricePerNight * nights
   const airportTransferFee = airportTransfer ? 500 : 0
@@ -2056,7 +2056,7 @@ function VillaSelectStep({
             onChange={(e) => setGuestCount(Number(e.target.value))}
             className="w-full appearance-none border border-neutral-300 rounded-md px-3 2xl:px-5 pr-8 2xl:pr-10 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 bg-white focus:border-neutral-400 focus:outline-none"
           >
-             <option value="" disabled>Number of Guests</option>
+            <option value="" disabled>Number of Guests</option>
             {Array.from({ length: selectedVilla?.guests }, (_, i) => (
               <option key={i + 1} value={i + 1}>
                 {i + 1} Guest{i > 0 ? "s" : ""}
@@ -2338,20 +2338,27 @@ function CarSummaryCard({
   let billableHours = 0
 
   if (extraHours > 0 && pricing) {
+    // 25% of the FINAL daily price after discount
+    const finalDailyRate = days > 0
+      ? (pricing.subtotal - pricing.discountAmount) / days
+      : car.pricePerDay
+
     if (extraHours <= 1) {
       // 1 hour or less = completely free, don't charge anything
       freeHours = extraHours
       billableHours = 0
       extraTimeCost = 0
-    } else {
+    }
+    else if (extraHours > 4) {
+      // 4+ hours = charge full daily rate
+      freeHours = 0
+      billableHours = extraHours
+      extraTimeCost = Math.round(finalDailyRate)
+    }
+    else {
       // More than 1 hour: first hour free, rest charged at 25% per hour
       freeHours = 1
       billableHours = extraHours - 1
-
-      // 25% of the FINAL daily price after discount
-      const finalDailyRate = days > 0
-        ? (pricing.subtotal - pricing.discountAmount) / days
-        : car.pricePerDay
 
       // Each billable hour = 25% of daily rate
       extraTimeCost = Math.round(billableHours * finalDailyRate * 0.25)
@@ -2409,38 +2416,38 @@ function CarSummaryCard({
       {pricing && days > 0 && (
         <div className="space-y-2 text-sm border-t border-mist-100 pt-3">
           <div className="flex justify-between text-mist-500">
-            <span>Car Total <span className="text-xs">({`$${car.pricePerDay.toLocaleString()} × ${days}d`})</span></span>
+            <span>Car Total <span className="text-[12.75px]">({`$${car.pricePerDay.toLocaleString()} × ${days}d`})</span></span>
             <span className="text-mist-900 font-medium">${pricing.subtotal.toLocaleString()}</span>
           </div>
           {pricing.discountPercent > 0 && (
             <div className="flex justify-between text-mist-500">
-              <span>Long-Term Discount <span className="text-xs">({days} days – {pricing.discountPercent}% OFF)</span></span>
+              <span>Long-Term Discount <span className="text-[12.75px]">({days} days – {pricing.discountPercent}% OFF)</span></span>
               <span className="text-mist-900 font-medium">-${pricing.discountAmount.toLocaleString()}</span>
             </div>
           )}
           {pricing.driverTotal > 0 && (
             <div className="flex justify-between text-mist-500">
-              <span>Driver Total <span className="text-xs">({driverHours} hrs x $45/hr × {actualDriverDays} days)</span></span>
+              <span>Driver Total <span className="text-[12.75px]">({driverHours} hrs x $45/hr × {actualDriverDays} days)</span></span>
               <span className="text-mist-900 font-medium">${pricing.driverTotal.toLocaleString()}</span>
             </div>
           )}
           {pricing.couponAmount > 0 && (
             <div className="flex justify-between text-green-600">
-              <span>Promo Code <span className="text-xs">({pricing.couponPercent}% OFF)</span></span>
+              <span>Promo Code <span className="text-[12.75px]">({pricing.couponPercent}% OFF)</span></span>
               <span>-${pricing.couponAmount.toLocaleString()}</span>
             </div>
           )}
           <div className="flex justify-between text-mist-500">
-            <span>Tax <span className="text-xs">({carTaxPercent}%)</span></span>
+            <span>Tax <span className="text-[12.75px]">({carTaxPercent}%)</span></span>
             <span className="text-mist-900 font-medium">${pricing.tax.toLocaleString()}</span>
           </div>
           <div className="flex justify-between text-mist-500">
-            <span>Security Deposit <span className="text-xs">(Fully Refundable)</span></span>
+            <span>Security Deposit <span className="text-[12.75px]">(Fully Refundable)</span></span>
             <span className="text-mist-900 font-medium">$2,000</span>
           </div>
           {extraTimeCost > 0 && (
             <div className="flex justify-between text-mist-500">
-              <span>Extra Time <span className="text-xs">({extraHours}h, {freeHours} free)</span></span>
+              <span>Extra Time <span className="text-[12.75px]">({extraHours > 4 ? "Full Day Applied" : `${extraHours}h, ${freeHours} free`})</span></span>
               <span className="text-mist-900 font-medium">${extraTimeCost.toLocaleString()}</span>
             </div>
           )}
@@ -2468,7 +2475,7 @@ function CarSummaryCard({
 
           <hr className="border-mist-100" />
           <div className="flex justify-between items-center text-mist-500">
-            <span>Pay Now <span className="text-xs">(Authorize Hold)</span></span>
+            <span>Pay Now <span className="text-[12.75px]">(Authorize Hold)</span></span>
             <span className="text-blue-600 font-medium flex items-center gap-1">
               ${pricing.securityHold.toLocaleString()}
               <span className="relative">
@@ -2591,7 +2598,7 @@ function VillaSummaryCard({
       {pricing && days > 0 && (
         <div className="space-y-2 text-sm border-t border-mist-100 pt-3">
           <div className="flex justify-between text-mist-500">
-            <span>Nightly Rate <span className="text-xs">(${villa.pricePerNight.toLocaleString()} × {days} night{days > 1 ? "s" : ""})</span></span>
+            <span>Nightly Rate <span className="text-[12.75px]">(${villa.pricePerNight.toLocaleString()} × {days} night{days > 1 ? "s" : ""})</span></span>
             <span className="text-mist-900">${pricing.nightsTotal.toLocaleString()}</span>
           </div>
           {villaAirportTransfer && (
@@ -2614,7 +2621,7 @@ function VillaSummaryCard({
           )}
           {pricing.couponAmount > 0 && (
             <div className="flex justify-between text-green-600">
-              <span>Promo Code <span className="text-xs">({pricing.couponPercent}% OFF)</span></span>
+              <span>Promo Code <span className="text-[12.75px]">({pricing.couponPercent}% OFF)</span></span>
               <span>-${pricing.couponAmount.toLocaleString()}</span>
             </div>
           )}
@@ -2625,24 +2632,24 @@ function VillaSummaryCard({
             </div>
           )}
           <div className="flex justify-between text-mist-500">
-            <span>Tax <span className="text-xs">({villaTaxPercent}%)</span></span>
+            <span>Tax <span className="text-[12.75px]">({villaTaxPercent}%)</span></span>
             <span className="text-mist-900">${pricing.tax.toLocaleString()}</span>
           </div>
           {pricing.securityDeposit > 0 && (
             <div className="flex justify-between text-mist-500">
-              <span>Security Deposit <span className="text-xs">(Fully Refundable)</span></span>
+              <span>Security Deposit <span className="text-[12.75px]">(Fully Refundable)</span></span>
               <span className="text-mist-900">${pricing.securityDeposit.toLocaleString()}</span>
             </div>
           )}
           <hr className="border-mist-100" />
           <div className="flex justify-between text-mist-500">
-            <span>Pay Now <span className="text-xs">(Authorize Hold)</span></span>
+            <span>Pay Now <span className="text-[12.75px]">(Authorize Hold)</span></span>
             <span className="text-blue-600 font-medium">${pricing.villaDeposit.toLocaleString()}</span>
           </div>
           <div className="flex justify-between items-center text-mist-500">
             <div className="flex flex-col gap-0.5">
               <span className="text-mist-500">Remaining Balance</span>
-              <span className="text-mist-500 text-xs">(Payable via wire tranfer after confirmation)</span>
+              <span className="text-mist-500 text-[12.75px]">(Payable via wire tranfer after confirmation)</span>
 
             </div>
             <span className="text-mist-900">${pricing.dueAtPickup.toLocaleString()}</span>

@@ -52,7 +52,7 @@ function StepIndicator({ currentStep }: { currentStep: number }) {
   ]
 
   return (
-    <div className="flex items-center justify-center gap-0 w-full max-w-md mx-auto mb-8 2xl:mb-12">
+    <div className="flex items-center justify-center gap-0 w-full max-w-md mx-auto my-12 2xl:my-14">
       {steps.map((s, i) => (
         <div key={s.label} className="flex items-center flex-1 last:flex-none">
           <div className="flex flex-col items-center">
@@ -436,11 +436,12 @@ export default function MultiStepBookingForm({
 
         {/* Right Panel - Multi-step Form */}
         <div className="flex-1">
-          <StepIndicator currentStep={step} />
-
-          <h2 className="text-3xl md:text-4xl 2xl:text-6xl font-bold text-mist-900 my-10 2xl:my-16 tracking-tight">
+          <h2 className="text-3xl md:text-4xl 2xl:text-6xl text-center font-bold text-mist-900 mb-10 2xl:mb-16 mt-5 2xl:mt-10  tracking-tight">
             VIP Venue Booking
           </h2>
+
+          <StepIndicator currentStep={step} />
+
 
           {/* Step 1: Info — completely unchanged */}
           {step === 1 && (
@@ -856,10 +857,7 @@ export default function MultiStepBookingForm({
                   &amp;{" "}
                   <a href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</a>.
                 </p>
-                <p className="text-xs text-mist-400 leading-relaxed">
-                  A $100 service fee will be authorized. You will only be charged after your
-                  reservation is confirmed by our team.
-                </p>
+                
 
                 {/* PayPal buttons — only rendered when paypal method is selected */}
                 {paymentMethod === "paypal" && (

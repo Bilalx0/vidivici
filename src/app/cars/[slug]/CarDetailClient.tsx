@@ -600,53 +600,58 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
   const driverTotal: number =
     needDriver ? actualDriverDays * driverHours * 45 : 0
 
-  // Calculate extra hours (rounded up to nearest 0.5 or full hour)
-  const extraHours = (() => {
-    if (!startTime || !endTime || days === 0) return 0
+ // Calculate extra hours (rounded up to nearest 0.5 or full hour)
+const extraHours = (() => {
+  if (!startTime || !endTime || days === 0) return 0
 
-    const [sh, sm] = startTime.split(":").map(Number)
-    const [eh, em] = endTime.split(":").map(Number)
-    const startMinutes = sh * 60 + sm
-    const endMinutes = eh * 60 + em
+  const [sh, sm] = startTime.split(":").map(Number)
+  const [eh, em] = endTime.split(":").map(Number)
+  const startMinutes = sh * 60 + sm
+  const endMinutes = eh * 60 + em
 
-    // If end time is later than start time, calculate extra hours
-    if (endMinutes > startMinutes) {
-      const diffMinutes = endMinutes - startMinutes
-      // Round up to nearest hour (or keep precise if you want 1.5, 2.5 etc)
-      return Math.ceil(diffMinutes / 60 * 2) / 2 // This gives 1, 1.5, 2, 2.5, etc.
-      // OR if you want full hours only: return Math.ceil(diffMinutes / 60)
-    }
-
-    return 0
-  })()
-
-  // Calculate extra time cost
-  let extraTimeCost = 0
-  let chargeableHours = 0
-  let freeHours = 0
-
-  if (extraHours > 0) {
-    if (extraHours <= 1) {
-      // 1 hour or less = completely free, don't charge anything
-      freeHours = extraHours
-      chargeableHours = 0
-      extraTimeCost = 0
-    } else {
-      // More than 1 hour: first hour free, rest charged at 25% per hour
-      freeHours = 1
-      chargeableHours = extraHours - 1 // This gives 0.5, 1, 1.5, 2, etc.
-
-      // 25% of final daily price after discount, per chargeable hour
-      const finalDailyRate = days > 0
-        ? (car.pricePerDay * (1 - discountPercent / 100))
-        : car.pricePerDay
-
-      // Each chargeable hour = 25% of daily rate
-      // 0.5 hr = 12.5%, 1 hr = 25%, 1.5 hr = 37.5%, 2 hr = 50%, etc.
-      const percentageOfDay = chargeableHours * 0.25 // 25% per hour
-      extraTimeCost = Math.round(finalDailyRate * percentageOfDay)
-    }
+  // If end time is later than start time, calculate extra hours
+  if (endMinutes > startMinutes) {
+    const diffMinutes = endMinutes - startMinutes
+    // Round up to nearest hour (or keep precise if you want 1.5, 2.5 etc)
+    return Math.ceil(diffMinutes / 60 * 2) / 2 // This gives 1, 1.5, 2, 2.5, etc.
+    // OR if you want full hours only: return Math.ceil(diffMinutes / 60)
   }
+
+  return 0
+})()
+
+// Calculate extra time cost
+let extraTimeCost = 0
+let chargeableHours = 0
+let freeHours = 0
+
+if (extraHours > 0) {
+  // Get final daily rate after discount (preserved from original)
+  const finalDailyRate = days > 0
+    ? (car.pricePerDay * (1 - discountPercent / 100))
+    : car.pricePerDay
+
+  if (extraHours <= 1) {
+    // PRESERVED: 1 hour or less = completely free, don't charge anything
+    freeHours = extraHours
+    chargeableHours = 0
+    extraTimeCost = 0
+  } else if (extraHours > 4 ) {
+    //  NEW: 4+ hours = charge full daily rate (no percentage)
+    freeHours = 0
+    chargeableHours = extraHours
+    extraTimeCost = Math.round(finalDailyRate)
+  } else {
+    //  PRESERVED: 1-4 hours: first hour free, rest charged at 25% per hour
+    freeHours = 1
+    chargeableHours = extraHours - 1 // This gives 0.5, 1, 1.5, 2, etc.
+
+    // Each chargeable hour = 25% of daily rate
+    // 0.5 hr = 12.5%, 1 hr = 25%, 1.5 hr = 37.5%, 2 hr = 50%, etc.
+    const percentageOfDay = chargeableHours * 0.25 // 25% per hour
+    extraTimeCost = Math.round(finalDailyRate * percentageOfDay)
+  }
+}
 
 
 
@@ -1075,33 +1080,33 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                       {/* Price breakdown */}
                       <div className="space-y-3 2xl:space-y-4 pt-4 2xl:pt-6 border-t border-mist-200">
                         <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
-                          <span>Car Total · ${car.pricePerDay} × {days}d</span>
+                          <span>Car Total <span className="text-[12.75px]">(${car.pricePerDay} × {days}d)</span></span>
                           <span className="text-mist-900 font-medium">${subtotal.toLocaleString()}</span>
                         </div>
                         {discountPercent > 0 && (
                           <div className="flex justify-between text-green-600 text-sm 2xl:text-lg">
-                            <span>Discount · {days} days – {discountPercent}%</span>
+                            <span>Discount <span className="text-[12.75px]">({days} days – {discountPercent}%)</span></span>
                             <span>-${discountAmount.toLocaleString()}</span>
                           </div>
                         )}
                         {driverTotal > 0 && (
                           <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
-                            <span>Driver Total · {driverHours}hr × $45 × {actualDriverDays}d</span>
+                            <span>Driver Total <span className="text-[12.75px]">({driverHours}hr × $45 × {actualDriverDays}d)</span></span>
                             <span className="text-mist-900 font-medium">${driverTotal.toLocaleString()}</span>
                           </div>
                         )}
                         {extraTimeCost > 0 && (
                           <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
-                            <span>Extra Time <span className="text-xs">({extraHours}h, {freeHours} free)</span></span>
+                            <span>Extra Time <span className="text-[12.75px]">({extraHours > 4 ? "Full Day Applied" : `${extraHours}h, ${freeHours} free`})</span></span>
                             <span className="text-mist-900 font-medium">${extraTimeCost.toLocaleString()}</span>
                           </div>
                         )}
                         <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
-                          <span>Tax · {carTaxPercent}%</span>
+                          <span>Tax <span className="text-[12.75px]">({carTaxPercent}%)</span></span>
                           <span className="text-mist-900 font-medium">${tax.toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
-                          <span>Security Deposit · Fully refundable</span>
+                          <span>Security Deposit <span className="text-[12.75px]">(Fully refundable)</span></span>
                           <span className="text-mist-900 font-medium">${securityDeposit.toLocaleString()}</span>
                         </div>
                         <hr className="border-mist-200" />
@@ -1347,33 +1352,33 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
 
                   <div className="space-y-3 pt-4 border-t border-mist-200">
                     <div className="flex justify-between text-mist-500 text-sm">
-                      <span>Car Total · ${car.pricePerDay} × {days}d</span>
+                      <span>Car Total <span className="text-[12.75px]"> ( ${car.pricePerDay} × {days}d ) </span></span>
                       <span className="text-mist-900 font-medium">${subtotal.toLocaleString()}</span>
                     </div>
                     {discountPercent > 0 && (
                       <div className="flex justify-between text-green-600 text-sm">
-                        <span>Discount · {days} days – {discountPercent}%</span>
+                        <span>Discount <span className="text-[12.75px]">({days} days – {discountPercent}%)</span></span>
                         <span>-${discountAmount.toLocaleString()}</span>
                       </div>
                     )}
                     {driverTotal > 0 && (
                       <div className="flex justify-between text-mist-500 text-sm">
-                        <span>Driver Total · {driverHours}hr × $45 × {actualDriverDays}d</span>
+                        <span>Driver Total <span className="text-[12.75px]">({driverHours}hr × $45 × {actualDriverDays}d)</span></span>
                         <span className="text-mist-900 font-medium">${driverTotal.toLocaleString()}</span>
                       </div>
                     )}
                     {extraTimeCost > 0 && (
                       <div className="flex justify-between text-mist-500 text-sm">
-                        <span>Extra Time <span className="text-xs">({extraHours}h, {freeHours} free)</span></span>
+                        <span>Extra Time <span className="text-[12.75px]">({extraHours > 4 ? "Full Day Applied" : `${extraHours}h, ${freeHours} free`})</span></span>
                         <span className="text-mist-900 font-medium">${extraTimeCost.toLocaleString()}</span>
                       </div>
                     )}
                     <div className="flex justify-between text-mist-500 text-sm">
-                      <span>Tax · {carTaxPercent}%</span>
+                      <span>Tax <span className="text-[12.75px]">({carTaxPercent}%)</span></span>
                       <span className="text-mist-900 font-medium">${tax.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between text-mist-500 text-sm">
-                      <span>Security Deposit · Fully refundable</span>
+                      <span>Security Deposit <span className="text-[12.75px]">(Fully refundable)</span></span>
                       <span className="text-mist-900 font-medium">${securityDeposit.toLocaleString()}</span>
                     </div>
                     <hr className="border-mist-200" />

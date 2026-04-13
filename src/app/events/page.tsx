@@ -88,7 +88,7 @@ function EventCard({ event, wishlisted: initialWishlisted }: { event: EventFromA
     <div className="relative flex flex-col bg-white rounded-3xl 2xl:rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 w-xs 2xl:w-[500px] flex-shrink-0 group cursor-pointer">
 
       {/* Image with padding */}
-      <div className="relative h-56 2xl:h-[350px] overflow-hidden p-3 2xl:m-5">
+      <div className="relative h-56 2xl:h-[350px] overflow-hidden p-3 2xl:p-5">
         <Link href={`/events/${event.slug}`} className="block w-full h-full">
           {image ? (
             <img
@@ -116,7 +116,7 @@ function EventCard({ event, wishlisted: initialWishlisted }: { event: EventFromA
       </div>
 
       {/* Body - increased padding */}
-      <div className="flex flex-col gap-2 2xl:gap-5 px-8 2xl:px-12 pt-3.5 2xl:pt-6 pb-4 2xl:pb-8">
+      <div className="flex flex-col gap-2 2xl:gap-5 px-8 pb-4 2xl:pb-8">
 
         {/* Venue tag */}
         <p className="text-xs 2xl:text-base text-mist-400 font-medium tracking-wide uppercase truncate">
@@ -267,8 +267,8 @@ function EventsContent() {
       />
 
       <section className="w-full">
-        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-32">
-          <div className="flex flex-col lg:flex-row items-start justify-between gap-10 2xl:gap-16 max-w-[1840px] mx-auto">
+        <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 mt-24 2xl:mt-48 ">
+          <div className="flex flex-col lg:flex-row items-start justify-between gap-10 2xl:gap-16">
             {/* Left: Text Content */}
             <div className="flex-1">
               <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 leading-tight mb-5 2xl:mb-8">
@@ -290,7 +290,7 @@ function EventsContent() {
             </div>
 
             {/* Right: Car Image */}
-            <div className="w-full lg:w-[620px] 2xl:w-[860px] flex-shrink-0">
+            <div className="w-full lg:w-[620px] 2xl:w-[800px] flex-shrink-0">
               <img
                 src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80"
                 alt="Luxury sports car"
@@ -300,7 +300,7 @@ function EventsContent() {
           </div>
         </div>
       </section>
-      <section className="relative px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-28 bg-mist-100 overflow-hidden">
+      <section className="relative px-6 sm:px-16 lg:px-20 2xl:px-32 py-16 2xl:py-28 mt-24 2xl:mt-48 bg-mist-100 overflow-hidden">
         <img
           src="/Vector 7.png"
           alt=""
@@ -316,16 +316,16 @@ function EventsContent() {
           className="absolute right-0 top-0 h-full w-auto object-contain object-right pointer-events-none select-none scale-x-[-1] rotate-180 z-0 hidden sm:block"
         />
 
-        <div className="relative z-10 max-w-[1840px] mx-auto">
+        <div className="relative z-10 ">
 
           {/* Header */}
           <div className="text-center mb-12 2xl:mb-20">
-            <h2 className="text-4xl 2xl:text-7xl font-bold text-mist-900 mb-4 2xl:mb-6">
+            <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 mb-4 2xl:mb-6">
               Explore Our Nightlife
               <br />
               Categories
             </h2>
-            <p className="text-mist-600 text-lg 2xl:text-2xl">
+            <p className="text-mist-500 text-lg 2xl:text-2xl">
               Find the perfect experience to match your style and occasion.
             </p>
           </div>
@@ -354,8 +354,8 @@ function EventsContent() {
           </div>
         </div>
       </section>
-      <section className="py-16 2xl:py-32 px-6 sm:px-16 lg:px-20 2xl:px-32 bg-white">
-        <div className="max-w-[1840px] mx-auto">
+      <section className="px-6 sm:px-16 lg:px-20 2xl:px-32 mt-24 2xl:mt-48">
+        <div className="">
 
           {/* Header */}
           <div className="text-center mb-12 2xl:mb-20">
@@ -375,11 +375,11 @@ function EventsContent() {
               <img
                 src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300&q=80"
                 alt="Mixologist"
-                className="w-24 h-24 sm:w-32 sm:h-32 2xl:w-72 2xl:h-72 object-cover rounded-2xl flex-shrink-0"
+                className="w-24 h-24 sm:w-32 sm:h-32 2xl:w-56 2xl:h-56 object-cover rounded-2xl flex-shrink-0"
               />
               <div className="pt-1">
-                <h3 className="text-base 2xl:text-2xl font-bold text-mist-900 mb-1 2xl:mb-3">Chauffeur Services</h3>
-                <p className="text-base 2xl:text-xl text-mist-500 font-normal leading-relaxed">
+                <h3 className="text-base 2xl:text-[26px] font-bold text-mist-900 mb-1 2xl:mb-3">Chauffeur Services</h3>
+                <p className="text-base 2xl:text-2xl text-mist-500 font-normal leading-relaxed">
                  Professional bartenders to craft signature for drinks
                 </p>
               </div>
@@ -390,11 +390,11 @@ function EventsContent() {
               <img
                 src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=300&q=80"
                 alt="Valet Parking"
-                className="w-24 h-24 sm:w-32 sm:h-32 2xl:w-72 2xl:h-72 object-cover rounded-2xl flex-shrink-0"
+                className="w-24 h-24 sm:w-32 sm:h-32 2xl:w-56 2xl:h-56 object-cover rounded-2xl flex-shrink-0"
               />
               <div className="pt-1">
-                <h3 className="text-base 2xl:text-2xl font-bold text-mist-900 mb-1 2xl:mb-3">Security & Bodyguards</h3>
-                <p className="text-base 2xl:text-xl text-mist-500 font-normal leading-relaxed">
+                <h3 className="text-base 2xl:text-[26px] font-bold text-mist-900 mb-1 2xl:mb-3">Security & Bodyguards</h3>
+                <p className="text-base 2xl:text-2xl text-mist-500 font-normal leading-relaxed">
                   Hassle-free parking management for you.
                 </p>
               </div>
@@ -402,10 +402,10 @@ function EventsContent() {
           </div>
         </div>
       </section>
-      <section className="py-16 2xl:py-28">
+      <section className="mt-24 2xl:mt-48">
         {/* Header */}
         <div className="text-center px-6 sm:px-16 lg:px-20 2xl:px-32">
-          <h2 className="text-3xl sm:text-4xl 2xl:text-7xl font-bold text-mist-900 mb-3 2xl:mb-6">
+          <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 mb-3 2xl:mb-6">
             Exclusive Nightlife & VIP Experiences
           </h2>
           <p className="text-base 2xl:text-2xl text-mist-500 leading-relaxed">
@@ -465,7 +465,7 @@ function EventsContent() {
       <Reviews />
       <FAQ />
 
-      <div className="relative w-full bg-[#eeeeed] py-16 2xl:py-24 px-6 sm:px-16 lg:px-20 2xl:px-32 text-center mt-16 2xl:mt-24 overflow-hidden">
+      <div className="relative w-full bg-[#eeeeed] py-16 2xl:py-24 px-6 sm:px-16 lg:px-20 2xl:px-32 text-center mt-24 2xl:mt-48 overflow-hidden">
         <img
           src="/Vector 7.png"
           alt=""
@@ -483,13 +483,13 @@ function EventsContent() {
 
         <div className="relative z-10 max-w-md 2xl:max-w-4xl mx-auto flex flex-col items-center gap-8 2xl:gap-10">
 
-          <h2 className="text-5xl 2xl:text-7xl font-bold text-mist-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 tracking-tight">
             Make Your LA Night Unforgettable
           </h2>
           <p className="text-base 2xl:text-2xl text-mist-500 leading-relaxed">
             Book your next unforgettable LA experience with Vidi Vici — where every night is tailored to perfection.
           </p>
-          <button className="mt-2 bg-mist-800 text-white text-base 2xl:text-2xl px-7 2xl:px-12 py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-700 transition-colors duration-200">
+          <button className="mt-2 bg-mist-900 text-white text-base 2xl:text-xl px-7 2xl:px-12 py-3 2xl:py-5 rounded-xl 2xl:rounded-2xl hover:bg-mist-800 transition-colors duration-200">
             Reserve Now
           </button>
         </div>

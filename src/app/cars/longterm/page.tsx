@@ -327,7 +327,7 @@ export default function LongTermPage() {
         />
         {/* Foreground content */}
         <div className="relative z-10 max-w-xl 2xl:max-w-5xl mx-auto flex flex-col items-center gap-5 2xl:gap-8 ">
-          <h2 className="text-3xl sm:text-4xl lg:text-6xl 2xl:text-7xl font-bold text-mist-900 leading-tight tracking-tight">
+          <h2 className="text-3xl lg:text-4xl 2xl:text-6xl font-bold text-mist-900 leading-tight tracking-tight">
             Start Saving{" "}
             <span className="text-blue-500">Up to 65%</span>{" "}
             on <br className="hidden sm:block" />

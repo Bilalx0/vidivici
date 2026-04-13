@@ -569,7 +569,7 @@ function VillaListCard({ villa, wishlisted: initialWishlisted }: { villa: VillaF
 
   return (
     /* Width slightly decreased to 450px on 2xl for better fit on large screens */
-    <div className="relative flex flex-col bg-white rounded-3xl 2xl:rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 w-xs 2xl:w-[450px] flex-shrink-0 group cursor-pointer">
+    <div className="relative flex flex-col bg-white rounded-3xl 2xl:rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300  flex-shrink-0 group cursor-pointer">
 
       {/* Image - Height slightly decreased for 2xl */}
       <div className="relative h-56 2xl:h-[300px] overflow-hidden p-3 2xl:p-4">
@@ -588,7 +588,7 @@ function VillaListCard({ villa, wishlisted: initialWishlisted }: { villa: VillaF
         <button
           onClick={toggleWishlist}
           disabled={toggling}
-          className={`absolute top-5 right-5 w-8 h-8 2xl:w-11 2xl:h-11 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${
+          className={`absolute top-5 right-5 2xl:top-7 2xl:right-7 w-8 h-8 2xl:w-11 2xl:h-11 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${
             wishlisted
               ? "bg-mist-700 text-red-500"
               : "bg-mist-700 text-mist-100 hover:bg-white hover:text-red-400"

@@ -74,7 +74,7 @@ export default function CarCard({
 
   return (
     /* Width slightly decreased to 450px on 2xl for better fit on large screens */
-    <div className="relative flex flex-col bg-white rounded-3xl 2xl:rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 w-xs 2xl:w-[450px] flex-shrink-0 group cursor-pointer">
+    <div className="relative flex flex-col bg-white rounded-3xl 2xl:rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex-shrink-0 group cursor-pointer">
 
       {/* Image - Height slightly decreased for 2xl */}
       <div className="relative h-56 2xl:h-[300px] overflow-hidden p-3 2xl:p-4">

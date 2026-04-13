@@ -6,7 +6,12 @@ import { useRouter, usePathname } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 
-const NO_MARGIN_PATHS = ["/cars/insurance"];
+const NO_MARGIN_PATHS = ["/cars/insurance", "/cars/airport_transfer",
+"/cars/wedding_car_rental",
+"/cars/luxury_car_rental",
+"/cars/corporate_car_rental",
+"/cars/prom_car_rental",
+"/cars/film_tv_car_rental"];
 
 const carMakes = [
   { name: "Rolls-Royce", logo: "/Mask group-4.png" },

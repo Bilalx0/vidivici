@@ -93,7 +93,7 @@ export default function Footer() {
                   { label: "Prom Car Rental", href: "/cars/prom_car_rental" },
                   { label: "Film, TV & Video Car Rental", href: "/cars/film_tv_car_rental" },
                   { label: "Film, TV & Video House Rental", href: "/film-tv-production" },
-                  { label: "Ballroom", href: "/events/ballroom" },
+                  { label: "Ballroom", href: "/ballroom" },
                   { label: "Fifa World Cup 2026", href:"/fifa-world-cup" },
                 ]}
               />
@@ -192,7 +192,7 @@ export default function Footer() {
                   { label: "Prom Car Rental", href: "/cars/prom_car_rental" },
                   { label: "Film, TV & Video Car Rental", href: "/cars/film_tv_car_rental" },
                   { label: "Film, TV & Video House Rental", href: "/film-tv-production" },
-                  { label: "Ballroom", href: "/events/ballroom" },
+                  { label: "Ballroom", href: "/ballroom" },
                   { label: "Fifa World Cup 2026", href:"/fifa-world-cup" },
                 ]}
           />

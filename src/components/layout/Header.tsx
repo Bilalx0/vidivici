@@ -82,7 +82,7 @@ export default function Header({ forceLight = false }: { forceLight?: boolean } 
 
   const headerRef = useRef(null);
 
-  const forceLightByPath = pathname === "/events/ballroom";
+  const forceLightByPath = pathname === "/ballroom";
 
 
   useEffect(() => {

@@ -264,7 +264,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
   ]
 
   return (
-    <div className="bg-white  pt-24 lg:pt-28 2xl:pt-36">
+    <div className="pt-24 lg:pt-28 2xl:pt-36">
       {/* Breadcrumb (Desktop) */}
       <div className="hidden lg:block px-6 sm:px-16 lg:px-28 2xl:px-32 py-8 2xl:py-12">
         <div className="flex items-center justify-between gap-4">

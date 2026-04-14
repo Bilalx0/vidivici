@@ -431,7 +431,7 @@ export default function MultiStepBookingForm({
   }
 
   return (
-    <section className="w-full bg-white py-12 2xl:py-24 sm:px-16 lg:px-20 2xl:px-32 px-6" id="booking-form">
+    <section className="w-full sm:px-16 lg:px-20 2xl:px-32 px-6 my-24 2xl:my-48" id="booking-form">
       <div className="border border-mist-200 rounded-3xl 2xl:rounded-[40px] overflow-hidden gap-8 2xl:gap-14 sm:p-8 2xl:sm:p-14 px-4 py-6 2xl:px-8 2xl:py-10 flex flex-col md:flex-row shadow-sm">
 
         {/* Right Panel - Multi-step Form */}

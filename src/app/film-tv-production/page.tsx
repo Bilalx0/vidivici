@@ -451,7 +451,7 @@ function ProductionInquiryForm() {
   }
 
   return (
-    <section className="w-full bg-white py-12 2xl:py-24 sm:px-16 lg:px-20 2xl:px-32 px-6" id="inquiry">
+    <section className="w-fullsm:px-16 lg:px-20 2xl:px-32 px-6 mt-24 2xl:mt-48" id="inquiry">
       <div>
         <div className="border border-mist-200 rounded-3xl 2xl:rounded-[40px] overflow-hidden gap-8 2xl:gap-14 sm:p-8 2xl:sm:p-16 px-4 py-6 2xl:px-8 2xl:py-12 flex flex-col md:flex-row shadow-sm">
 
@@ -711,7 +711,7 @@ function FilmTVContent() {
       {/* Listing Section */}
       {/* Listing Section - UPDATED to match villas page */}
       <section className="sm:px-16 lg:px-20 2xl:px-32 px-6">
-        <div className="mt-24 2xl:mt-48 o">
+        <div className="mt-24 2xl:mt-48">
           <h2 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-mist-900 text-center my-20 2xl:my-32">
             Film & TV Production House Rentals
           </h2>
@@ -811,8 +811,8 @@ function FilmTVContent() {
       </section>
 
       {/* About Our Film & TV Houses */}
-      <section className="py-16 2xl:py-28 px-6 sm:px-12 lg:px-20 2xl:px-32 bg-white">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 2xl:gap-20 items-center max-w-[1840px] mx-auto">
+      <section className="px-6 sm:px-12 lg:px-20 2xl:px-32 mt-24 2xl:mt-48">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 2xl:gap-28">
           <div>
             <h2 className="text-3xl sm:text-4xl 2xl:text-6xl  font-bold text-mist-900 leading-tight mb-4 2xl:mb-8">
               About Our Film &amp; TV Houses
@@ -823,31 +823,47 @@ function FilmTVContent() {
               timeless estates. Each space is designed to accommodate
               film crews, photography teams, and creative projects of any scale.
             </p>
-            <ul className="space-y-4">
+            <ul className="space-y-5 2xl:space-y-7">
               {ABOUT_BULLETS.map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-mist-300 flex items-center justify-center">
-                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 6l3 3 5-5" stroke="mist" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
+                <span className="mt-0.5 flex-shrink-0 w-5 h-5 2xl:w-7 2xl:h-7 rounded-full bg-mist-200 flex items-center justify-center">
+  <svg className="w-2.5 h-2.5 2xl:w-3.5 2xl:h-3.5" viewBox="0 0 12 12" fill="none">
+    <path d="M2 6l3 3 5-5" stroke="#6B7280" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+</span>
                   <span className="text-base 2xl:text-2xl text-mist-600 leading-relaxed">{item}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* 2x2 Image Grid */}
-          <div className="grid grid-cols-3 grid-rows-2 gap-3 w-full">
-            <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600&q=80" alt="Camera equipment"
-              loading="lazy" className="col-span-2 row-span-1 w-full h-52 object-cover rounded-2xl" />
-            <img src="https://images.unsplash.com/photo-1578022761797-b8636ac1773c?w=600&q=80" alt="Studio lights"
-              loading="lazy" className="col-span-1 row-span-1 w-full h-52 object-cover rounded-2xl" />
-            <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80" alt="Film crew"
-              loading="lazy" className="col-span-1 row-span-1 w-full h-52 object-cover rounded-2xl" />
-            <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80" alt="Production set"
-              loading="lazy" className="col-span-2 row-span-1 w-full h-52 object-cover rounded-2xl" />
-          </div>
+         {/* 2x2 Image Grid */}
+<div className="grid grid-cols-3 grid-rows-2 gap-3 w-full h-96 2xl:h-[650px]">
+  <img
+    src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600&q=80"
+    alt="Camera equipment"
+    loading="lazy"
+    className="col-span-2 row-span-1 w-full h-full object-cover rounded-2xl"
+  />
+  <img
+    src="https://images.unsplash.com/photo-1578022761797-b8636ac1773c?w=600&q=80"
+    alt="Studio lights"
+    loading="lazy"
+    className="col-span-1 row-span-1 w-full h-full object-cover rounded-2xl"
+  />
+  <img
+    src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80"
+    alt="Film crew"
+    loading="lazy"
+    className="col-span-1 row-span-1 w-full h-full object-cover rounded-2xl"
+  />
+  <img
+    src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80"
+    alt="Production set"
+    loading="lazy"
+    className="col-span-2 row-span-1 w-full h-full object-cover rounded-2xl"
+  />
+</div>
         </div>
       </section>
 

@@ -75,6 +75,56 @@ Important rules:
 - You can search multiple times with different criteria if needed`
 }
 
+// Extract key context from conversation history to preserve important information
+function extractContextMemory(messages: any[]): string {
+  let memory = ""
+  let customerInfo = { name: "", email: "", phone: "" }
+  let currentBookingInfo = ""
+  let recentSearches = ""
+
+  // Look through messages for important information
+  for (const msg of messages) {
+    const content = msg.content.toLowerCase()
+
+    // Extract customer information
+    if (content.includes("name") && content.includes("email")) {
+      const nameMatch = msg.content.match(/name[:\s]+([a-zA-Z\s]+)/i)
+      const emailMatch = msg.content.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/i)
+      if (nameMatch) customerInfo.name = nameMatch[1].trim()
+      if (emailMatch) customerInfo.email = emailMatch[1].trim()
+    }
+
+    // Extract phone numbers
+    const phoneMatch = msg.content.match(/(\+?[\d\s\-\(\)]{10,})/i)
+    if (phoneMatch && phoneMatch[1].replace(/\D/g, '').length >= 10) {
+      customerInfo.phone = phoneMatch[1].trim()
+    }
+
+    // Detect booking confirmations or creation
+    if (content.includes("booking") && (content.includes("created") || content.includes("mk-"))) {
+      currentBookingInfo = msg.content
+    }
+
+    // Capture recent search context (last few car/villa/event mentions)
+    if (msg.role === "assistant" && content.includes("[") && content.includes("](/")) {
+      recentSearches = msg.content // Keep the last assistant message with search results
+    }
+  }
+
+  // Build memory string
+  if (customerInfo.name || customerInfo.email || customerInfo.phone) {
+    memory += `\nKnown Customer: ${customerInfo.name} (${customerInfo.email}) ${customerInfo.phone}`.trim()
+  }
+  if (currentBookingInfo) {
+    memory += `\nActive Booking Context: ${currentBookingInfo.substring(0, 200)}...`
+  }
+  if (recentSearches) {
+    memory += `\nRecent Search Results: ${recentSearches.substring(0, 300)}...`
+  }
+
+  return memory
+}
+
 const tools = [
   {
     type: "function",
@@ -507,10 +557,29 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    const groqMessages = [
+    const allMessages = [
       { role: "system", content: getSystemPrompt() },
       ...messages.map((m: any) => ({ role: m.role === "admin" ? "assistant" : m.role, content: m.content })),
     ]
+
+    // Smart context management with memory preservation
+    let contextMemory = ""
+    let workingMessages = allMessages
+
+    // If context is too long, extract memory from older messages and use sliding window
+    if (allMessages.length > 25) {
+      const olderMessages = allMessages.slice(1, -20) // Messages to be "forgotten" but analyzed
+      contextMemory = extractContextMemory(olderMessages)
+
+      // Keep system prompt + memory + recent 20 messages
+      workingMessages = [
+        {
+          role: "system",
+          content: getSystemPrompt() + (contextMemory ? `\n\nContext from earlier conversation:${contextMemory}` : "")
+        },
+        ...allMessages.slice(-20) // Last 20 messages
+      ]
+    }
 
     // Helper: call Groq with timeout + retry on rate limit
     async function callGroq(body: object, retries = 2): Promise<any> {
@@ -559,10 +628,10 @@ export async function POST(request: NextRequest) {
 
     const groqBody = {
       model: "llama-3.3-70b-versatile",
-      messages: groqMessages,
+      messages: workingMessages,
       tools,
       tool_choice: "auto",
-      temperature: 0.5,
+      temperature: 0.4, // Lower temperature for more consistent responses
       max_tokens: 2048,
     }
 
@@ -626,16 +695,18 @@ export async function POST(request: NextRequest) {
         })
       }
 
-      // Send tool results back to Groq
-      groqMessages.push(assistantMessage)
-      groqMessages.push(...toolResults)
+      // Send tool results back to Groq (maintain context limits)
+      const updatedMessages = [...workingMessages, assistantMessage, ...toolResults]
+      const finalWorkingMessages = updatedMessages.length > 30
+        ? [updatedMessages[0], ...updatedMessages.slice(-29)] // Keep system + last 29 messages
+        : updatedMessages
 
       const followUpData = await callGroq({
         model: "llama-3.3-70b-versatile",
-        messages: groqMessages,
+        messages: finalWorkingMessages,
         tools,
         tool_choice: "auto",
-        temperature: 0.5,
+        temperature: 0.4,
         max_tokens: 2048,
       })
 
@@ -661,7 +732,7 @@ export async function POST(request: NextRequest) {
     // If sanitization removed everything or original content was empty, provide contextual fallback
     if (!aiContent) {
       // Check if this was likely a search request without results
-      const userMessage = groqMessages[groqMessages.length - 1]?.content?.toLowerCase() || ""
+      const userMessage = workingMessages[workingMessages.length - 1]?.content?.toLowerCase() || ""
       if (userMessage.includes("search") || userMessage.includes("find") || userMessage.includes("show")) {
         aiContent = "I'm having trouble processing your search request right now. Could you please be more specific about what you're looking for? For example, tell me the type of car, location, or dates you need."
       } else if (userMessage.includes("book") || userMessage.includes("reserve")) {

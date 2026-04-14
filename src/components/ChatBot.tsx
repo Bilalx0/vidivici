@@ -238,7 +238,7 @@ export default function ChatBot() {
           {userId && historyLoaded && messages.length > 1 && !historyLoading && (
             <div className="bg-amber-50 border-b border-amber-100 px-4 py-2 text-xs text-amber-700 flex-shrink-0 flex items-center gap-2">
               <History size={12} />
-              Your previous conversation has been restored.
+              Continuing your conversation.
             </div>
           )}
 

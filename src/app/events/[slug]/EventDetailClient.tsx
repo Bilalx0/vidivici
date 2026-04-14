@@ -279,6 +279,9 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
             <button className="flex items-center gap-1.5 whitespace-nowrap text-sm sm:text-base 2xl:text-xl text-mist-500 hover:text-mist-700 transition-colors">
               <Share2 size={16} /> Share
             </button>
+            <button className="flex items-center gap-2 text-sm 2xl:text-xl font-medium text-mist-600 hover:text-black transition-colors">
+              <Heart size={18} /> Save
+            </button>
 
           </div>
         </div>

@@ -39,14 +39,26 @@ export default function ChatBot() {
   const bottomRef = useRef<HTMLDivElement>(null)
   const pollRef = useRef<NodeJS.Timeout | null>(null)
 
-  const startNewConversation = useCallback(() => {
+  const startNewConversation = useCallback(async () => {
     setMessages([GREETING])
-    setSessionId(null)
-    setHistoryLoaded(false)
     setPaused(false)
     setInput("")
+
     if (userId) {
-      fetch("/api/chat/sessions/new", { method: "POST" }).catch(() => {})
+      try {
+        const response = await fetch("/api/chat/sessions/new", { method: "POST" })
+        const data = await response.json()
+        if (data.success && data.sessionId) {
+          setSessionId(data.sessionId)
+        } else {
+          setSessionId(null)
+        }
+      } catch (error) {
+        console.error("Failed to create new session:", error)
+        setSessionId(null)
+      }
+    } else {
+      setSessionId(null)
     }
   }, [userId])
 

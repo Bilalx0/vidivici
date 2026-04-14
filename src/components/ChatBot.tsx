@@ -39,6 +39,17 @@ export default function ChatBot() {
   const bottomRef = useRef<HTMLDivElement>(null)
   const pollRef = useRef<NodeJS.Timeout | null>(null)
 
+  const startNewConversation = useCallback(() => {
+    setMessages([GREETING])
+    setSessionId(null)
+    setHistoryLoaded(false)
+    setPaused(false)
+    setInput("")
+    if (userId) {
+      fetch("/api/chat/sessions/new", { method: "POST" }).catch(() => {})
+    }
+  }, [userId])
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
@@ -214,9 +225,20 @@ export default function ChatBot() {
                 </p>
               </div>
             </div>
-            <button onClick={() => setOpen(false)} className="text-mist-400 hover:text-white">
-              <X size={18} />
-            </button>
+            <div className="flex items-center gap-2">
+              {userId && messages.length > 1 && (
+                <button
+                  onClick={startNewConversation}
+                  className="text-mist-400 hover:text-white text-xs px-2 py-1 rounded hover:bg-mist-800"
+                  title="Start new conversation"
+                >
+                  New Chat
+                </button>
+              )}
+              <button onClick={() => setOpen(false)} className="text-mist-400 hover:text-white">
+                <X size={18} />
+              </button>
+            </div>
           </div>
 
           {/* Paused banner */}

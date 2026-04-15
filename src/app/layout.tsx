@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   title: "VIDIVICI | Exotic & Luxury Car Rental Los Angeles",
   description:
     "Premium luxury and exotic car rental in Los Angeles and Miami. Rent Lamborghini, Ferrari, Rolls-Royce, Bentley, Porsche and more.",
+  icons: {
+    icon: "/Logo.png",
+    shortcut: "/Logo.png",
+    apple: "/Logo.png",
+  },
 };
 
 export default function RootLayout({

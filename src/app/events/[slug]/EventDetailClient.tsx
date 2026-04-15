@@ -316,13 +316,13 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
               {event.name}
             </h1>
             {event.shortDescription && (
-              <p className="text-lg lg:text-xl 2xl:text-2xl text-white/90 mb-10 2xl:mb-14 max-w-2xl 2xl:max-w-5xl leading-relaxed">
+              <p className="text-base lg:text-xl 2xl:text-2xl text-white/90 mb-10 2xl:mb-14 max-w-2xl 2xl:max-w-5xl leading-relaxed">
                 {event.shortDescription}
               </p>
             )}
 
             <button
-              className="bg-white text-black px-10 2xl:px-12 py-4 2xl:py-5 rounded-xl 2xl:rounded-xl text-base 2xl:text-xl hover:bg-mist-100 transition-all transform hover:scale-105 shadow-xl"
+              className="bg-white text-black px-5 py-3 sm:px-10 2xl:px-12 sm:py-4 2xl:py-5 rounded-xl 2xl:rounded-xl text-base 2xl:text-xl hover:bg-mist-100 transition-all transform hover:scale-105 shadow-xl"
               onClick={() => document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" })}
             >
               Reserve Now
@@ -354,9 +354,9 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
         <div className="flex items-center">
           <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base 2xl:text-xl text-mist-500">
             <Link href="/" className="hover:text-mist-700">Los Angeles</Link>
-            <span>&gt;</span>
+            <ChevronRight size={14} className="text-mist-400" />
             <Link href="/events" className="hover:text-mist-700">Events</Link>
-            <span>&gt;</span>
+            <ChevronRight size={14} className="text-mist-400" />
             <span className="text-mist-700 font-medium">{event.name}</span>
           </div>
         </div>

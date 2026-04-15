@@ -321,7 +321,7 @@ export default function BallroomPage() {
 
       {/* Hero Section */}
       <div className="px-6 sm:px-16 lg:px-20 2xl:px-32">
-        <div className="relative rounded-[2.5rem] 2xl:rounded-[48px] overflow-hidden h-[500px] lg:h-[600px] 2xl:h-[760px] shadow-2xl">
+        <div className="relative rounded-3xl overflow-hidden h-[450px] lg:h-[550px] 2xl:h-[760px]">
           {/* Main Hero Image */}
           <img
             src={HERO_IMAGE}
@@ -334,17 +334,17 @@ export default function BallroomPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
           {/* Hero Content */}
-          <div className="absolute bottom-12 2xl:bottom-20 left-12 2xl:left-20 right-12 2xl:right-20">
+          <div className="absolute bottom-12 2xl:bottom-20 left-10 2xl:left-20 right-10 2xl:right-20">
             <h1 className="text-3xl sm:text-4xl 2xl:text-6xl font-bold text-white mb-4 2xl:mb-6 tracking-tight">
               Delilah Los Angeles
             </h1>
-            <p className="text-lg lg:text-xl 2xl:text-2xl text-white/90 mb-10 2xl:mb-14 max-w-2xl 2xl:max-w-5xl leading-relaxed">
+            <p className="text-base lg:text-xl 2xl:text-2xl text-white/90 mb-10 2xl:mb-14 max-w-2xl 2xl:max-w-5xl leading-relaxed">
               Roaring &apos;20s vibes with American cuisine &<br /> Art Deco elegance
             </p>
 
             <button
               onClick={() => { }}
-              className="bg-white text-black px-10 2xl:px-12 py-4 2xl:py-5 rounded-xl 2xl:rounded-xl text-base 2xl:text-xl hover:bg-mist-100 transition-all transform hover:scale-105 shadow-xl"
+              className="bg-white text-black px-5 py-3 sm:px-10 2xl:px-12 sm:py-4 2xl:py-5 rounded-xl 2xl:rounded-xl text-base 2xl:text-xl hover:bg-mist-100 transition-all transform hover:scale-105 shadow-xl"
             >
               Reserve Now
             </button>
@@ -357,9 +357,9 @@ export default function BallroomPage() {
         <div className="flex items-center">
           <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base 2xl:text-xl text-mist-500">
             <Link href="/" className="hover:text-mist-700">Los Angeles</Link>
-            <span>&gt;</span>
+            <ChevronRight size={14} className="text-mist-400" />
             <Link href="/events" className="hover:text-mist-700">Events</Link>
-            <span>&gt;</span>
+            <ChevronRight size={14} className="text-mist-400" />
             <span className="text-mist-700 font-medium">Delilah</span>
           </div>
         </div>

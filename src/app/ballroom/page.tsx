@@ -286,7 +286,7 @@ export default function BallroomPage() {
   return (
     <div className="pt-24 lg:pt-28 2xl:pt-36">
       {/* Breadcrumb Section */}
-      <div className="px-6 sm:px-16 lg:px-20 2xl:px-32 py-8 2xl:py-12">
+      <div className="hidden lg:block px-6 sm:px-16 lg:px-20 2xl:px-32 py-8 2xl:py-12">
         <div className="flex items-center justify-between">
           <nav className="flex items-center gap-2 text-sm 2xl:text-xl text-mist-500">
             <Link href="/" className="hover:text-mist-700 transition-colors">Los Angeles</Link>
@@ -306,6 +306,18 @@ export default function BallroomPage() {
           </div>
         </div>
       </div>
+
+      {/* Top Actions (Mobile) */}
+            <div className="lg:hidden px-8 sm:px-16 pb-4">
+              <div className="flex items-center justify-end gap-3">
+                <button className="flex items-center gap-2 text-sm 2xl:text-xl font-medium text-mist-600 hover:text-mist-900 transition-colors">
+              <Share2 size={15} /> Share
+            </button>
+            <button className="flex items-center gap-2 text-sm 2xl:text-xl font-medium text-mist-600 hover:text-mist-900 transition-colors">
+              <Heart size={15} /> Save
+            </button>
+              </div>
+            </div>
 
       {/* Hero Section */}
       <div className="px-6 sm:px-16 lg:px-20 2xl:px-32">
@@ -336,6 +348,19 @@ export default function BallroomPage() {
             >
               Reserve Now
             </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Breadcrumb (Mobile) */}
+      <div className="lg:hidden px-8 sm:px-16 lg:px-28 2xl:px-32 2xl:pb-16 pt-5">
+        <div className="flex items-center">
+          <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base 2xl:text-xl text-mist-500">
+            <Link href="/" className="hover:text-mist-700">Los Angeles</Link>
+            <span>&gt;</span>
+            <Link href="/events" className="hover:text-mist-700">Events</Link>
+            <span>&gt;</span>
+            <span className="text-mist-700 font-medium">Delilah</span>
           </div>
         </div>
       </div>

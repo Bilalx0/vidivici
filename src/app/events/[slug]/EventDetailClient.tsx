@@ -276,8 +276,8 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
             <span className="text-mist-700 font-medium">{event.name}</span>
           </div>
           <div className="flex flex-nowrap items-center gap-4 sm:gap-5">
-            <button className="flex items-center gap-1.5 whitespace-nowrap text-sm sm:text-base 2xl:text-xl text-mist-500 hover:text-mist-700 transition-colors">
-              <Share2 size={16} /> Share
+            <button className="flex items-center gap-2 text-sm 2xl:text-xl font-medium text-mist-600 hover:text-mist-900 transition-colors">
+              <Share2 size={18} /> Share
             </button>
             <button className="flex items-center gap-2 text-sm 2xl:text-xl font-medium text-mist-600 hover:text-black transition-colors">
               <Heart size={18} /> Save
@@ -288,7 +288,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
       </div>
 
       {/* Top Actions (Mobile) */}
-      <div className="lg:hidden px-6 sm:px-16 pb-4">
+      <div className="lg:hidden px-8 sm:px-16 pb-4">
         <div className="flex items-center justify-end gap-3">
           <button className="flex items-center gap-1 text-sm text-mist-500 hover:text-mist-700 transition-colors">
             <Share2 size={15} /> Share
@@ -350,7 +350,7 @@ export default function EventDetailClient({ event, relatedEvents }: { event: Eve
       </div>
 
       {/* Breadcrumb (Mobile) */}
-      <div className="lg:hidden px-6 sm:px-16 lg:px-28 2xl:px-32 2xl:pb-16">
+      <div className="lg:hidden px-8 sm:px-16 lg:px-28 2xl:px-32 2xl:pb-16 pt-5">
         <div className="flex items-center">
           <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base 2xl:text-xl text-mist-500">
             <Link href="/" className="hover:text-mist-700">Los Angeles</Link>

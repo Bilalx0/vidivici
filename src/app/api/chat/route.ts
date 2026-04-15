@@ -7,6 +7,12 @@ const GROQ_API_KEY = process.env.GROQ_API_KEY!
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 const MAX_CONTEXT_MESSAGES = 12
 const MAX_CONTEXT_CHARS = 6000
+const PRIMARY_MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile"
+const FALLBACK_MODEL = process.env.GROQ_FALLBACK_MODEL || "llama-3.1-8b-instant"
+const PRIMARY_MAX_TOKENS = 900
+const FOLLOWUP_MAX_TOKENS = 700
+const FALLBACK_MAX_TOKENS = 500
+const MAX_TOOL_ROUNDS = 2
 
 function getSystemPrompt() {
   const today = new Date().toISOString().split("T")[0]
@@ -149,6 +155,22 @@ function trimConversation(messages: any[]) {
   }
 
   return recentMessages
+}
+
+function parseRetryDelayMs(errorText: string, retryAfterHeader: string | null, attempt: number) {
+  const headerSeconds = retryAfterHeader ? Number(retryAfterHeader) : NaN
+  const headerMs = Number.isFinite(headerSeconds) ? headerSeconds * 1000 : 0
+
+  const bodyMatch = errorText.match(/try again in\s+([\d.]+)s/i)
+  const bodyMs = bodyMatch ? Math.ceil(Number(bodyMatch[1]) * 1000) : 0
+
+  const fallbackMs = 1500 * (attempt + 1)
+  return Math.max(headerMs, bodyMs, fallbackMs)
+}
+
+function isRateLimitError(data: any) {
+  const message = String(data?.error?.message || "").toLowerCase()
+  return data?.error?.code === "rate_limit_exceeded" || message.includes("rate limit")
 }
 
 const tools = [
@@ -626,10 +648,18 @@ export async function POST(request: NextRequest) {
             signal: controller.signal,
           })
           clearTimeout(timeout)
-          if (r.status === 429 && attempt < retries) {
-            // Rate limited — wait briefly then retry
-            await new Promise((resolve) => setTimeout(resolve, 1500 * (attempt + 1)))
-            continue
+          if (r.status === 429) {
+            const errText = await r.text()
+            if (attempt < retries) {
+              const waitMs = parseRetryDelayMs(errText, r.headers.get("retry-after"), attempt)
+              await new Promise((resolve) => setTimeout(resolve, waitMs))
+              continue
+            }
+            try {
+              return JSON.parse(errText)
+            } catch {
+              return { error: { code: "rate_limit_exceeded", message: errText || "Rate limit exceeded" } }
+            }
           }
           if (!r.ok) {
             const errText = await r.text()
@@ -656,15 +686,28 @@ export async function POST(request: NextRequest) {
     }
 
     const groqBody = {
-      model: "llama-3.3-70b-versatile",
+      model: PRIMARY_MODEL,
       messages: workingMessages,
       tools,
       tool_choice: "auto",
       temperature: 0.4, // Lower temperature for more consistent responses
-      max_tokens: 2048,
+      max_tokens: PRIMARY_MAX_TOKENS,
     }
 
     let data = await callGroq(groqBody)
+
+    // If primary model is rate-limited, fall back to a lower-cost model quickly
+    if (isRateLimitError(data)) {
+      data = await callGroq(
+        {
+          ...groqBody,
+          model: FALLBACK_MODEL,
+          max_tokens: FALLBACK_MAX_TOKENS,
+          temperature: 0.3,
+        },
+        1
+      )
+    }
 
     // If Groq returns a tool_use_failed error, try multiple recovery strategies
     if (data?.error?.code === "tool_use_failed") {
@@ -676,7 +719,7 @@ export async function POST(request: NextRequest) {
       if (data?.error?.code === "tool_use_failed") {
         console.warn("Still failing, trying with different model settings...")
         // Strategy 2: Lower temperature + reduce max_tokens
-        data = await callGroq({ ...groqBody, temperature: 0.1, max_tokens: 1024 })
+        data = await callGroq({ ...groqBody, temperature: 0.1, max_tokens: FOLLOWUP_MAX_TOKENS })
       }
 
       if (data?.error?.code === "tool_use_failed") {
@@ -687,7 +730,7 @@ export async function POST(request: NextRequest) {
           tools: undefined,
           tool_choice: undefined,
           temperature: 0.4,
-          max_tokens: 1024
+          max_tokens: FALLBACK_MAX_TOKENS
         })
       }
     }
@@ -699,7 +742,7 @@ export async function POST(request: NextRequest) {
 
     // Handle tool calls (may need multiple rounds)
     let rounds = 0
-    while (assistantMessage.tool_calls && rounds < 3) {
+    while (assistantMessage.tool_calls && rounds < MAX_TOOL_ROUNDS) {
       rounds++
       const toolResults = []
 
@@ -731,15 +774,33 @@ export async function POST(request: NextRequest) {
         : updatedMessages
 
       const followUpData = await callGroq({
-        model: "llama-3.3-70b-versatile",
+        model: PRIMARY_MODEL,
         messages: finalWorkingMessages,
         tools,
         tool_choice: "auto",
         temperature: 0.4,
-        max_tokens: 2048,
+        max_tokens: FOLLOWUP_MAX_TOKENS,
       })
 
       if (!followUpData || !followUpData.choices?.[0]?.message) break
+
+      if (isRateLimitError(followUpData)) {
+        const fallbackFollowUp = await callGroq(
+          {
+            model: FALLBACK_MODEL,
+            messages: finalWorkingMessages,
+            tools,
+            tool_choice: "auto",
+            temperature: 0.3,
+            max_tokens: FALLBACK_MAX_TOKENS,
+          },
+          1
+        )
+        if (!fallbackFollowUp || !fallbackFollowUp.choices?.[0]?.message) break
+        data = fallbackFollowUp
+        assistantMessage = fallbackFollowUp.choices[0].message
+        continue
+      }
 
       data = followUpData
       assistantMessage = data.choices[0].message

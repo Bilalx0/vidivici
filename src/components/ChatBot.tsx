@@ -13,6 +13,9 @@ const GREETING: Message = {
   role: "assistant",
   content: "Hey there! I'm **Mark**, your personal VIDI VICI concierge. Looking for a luxury car, villa, or exclusive event? I can help you find and book the perfect experience. What are you looking for?",
 }
+const TEASER_INITIAL_DELAY_MS = 4000
+const TEASER_REPEAT_MS = 18000
+const TEASER_VISIBLE_MS = 7000
 
 export default function ChatBot() {
   const { data: session } = useSession()
@@ -27,6 +30,7 @@ export default function ChatBot() {
   const [paused, setPaused] = useState(false)
   const [historyLoaded, setHistoryLoaded] = useState(false)
   const [showHistoryNotice, setShowHistoryNotice] = useState(false)
+  const [showTeaser, setShowTeaser] = useState(false)
   const [visitorId] = useState(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("vv_visitor_id")
@@ -40,6 +44,24 @@ export default function ChatBot() {
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const pollRef = useRef<NodeJS.Timeout | null>(null)
+  const teaserIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const teaserShowRef = useRef<NodeJS.Timeout | null>(null)
+  const teaserHideRef = useRef<NodeJS.Timeout | null>(null)
+
+  const clearTeaserTimers = useCallback(() => {
+    if (teaserShowRef.current) clearTimeout(teaserShowRef.current)
+    if (teaserHideRef.current) clearTimeout(teaserHideRef.current)
+    if (teaserIntervalRef.current) clearInterval(teaserIntervalRef.current)
+  }, [])
+
+  const triggerTeaser = useCallback((delayMs: number) => {
+    if (teaserShowRef.current) clearTimeout(teaserShowRef.current)
+    if (teaserHideRef.current) clearTimeout(teaserHideRef.current)
+    teaserShowRef.current = setTimeout(() => {
+      setShowTeaser(true)
+      teaserHideRef.current = setTimeout(() => setShowTeaser(false), TEASER_VISIBLE_MS)
+    }, delayMs)
+  }, [])
 
   const focusInput = useCallback(() => {
     requestAnimationFrame(() => {
@@ -79,6 +101,21 @@ export default function ChatBot() {
   useEffect(() => {
     if (open) focusInput()
   }, [open, focusInput])
+
+  useEffect(() => {
+    if (open) {
+      setShowTeaser(false)
+      clearTeaserTimers()
+      return
+    }
+
+    triggerTeaser(TEASER_INITIAL_DELAY_MS)
+    teaserIntervalRef.current = setInterval(() => {
+      triggerTeaser(0)
+    }, TEASER_REPEAT_MS)
+
+    return () => clearTeaserTimers()
+  }, [open, clearTeaserTimers, triggerTeaser])
 
   // Load chat history for logged-in users
   useEffect(() => {
@@ -246,6 +283,28 @@ export default function ChatBot() {
 
   return (
     <>
+      {!open && showTeaser && (
+        <div className="fixed bottom-40 right-4 sm:right-6 z-50 w-[270px] sm:w-[300px] bg-white border border-mist-200 rounded-2xl shadow-xl px-3 py-3 flex items-start gap-3">
+          <button
+            onClick={() => setOpen(true)}
+            className="flex items-start gap-3 text-left flex-1"
+          >
+            <div className="w-9 h-9 rounded-full bg-[#dbb241] flex items-center justify-center text-black text-xs font-bold flex-shrink-0">M</div>
+            <div className="pr-2">
+              <p className="text-sm font-medium text-mist-900 leading-snug">Hi there, have a question?</p>
+              <p className="text-sm text-mist-600 leading-snug">Text us here.</p>
+            </div>
+          </button>
+          <button
+            onClick={() => setShowTeaser(false)}
+            className="text-mist-400 hover:text-mist-700"
+            aria-label="Close chat teaser"
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
+
       {!open && (
         <button
           onClick={() => setOpen(true)}

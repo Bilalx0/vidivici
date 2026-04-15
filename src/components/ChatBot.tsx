@@ -164,7 +164,7 @@ export default function ChatBot() {
 
     try {
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 60000) // 60 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 90000) // 90 second timeout
 
       const res = await fetch("/api/chat", {
         method: "POST",
@@ -181,8 +181,8 @@ export default function ChatBot() {
       clearTimeout(timeoutId)
 
       if (!res.ok) {
-        const errData = await res.json().catch(() => ({}))
-        const msg = res.status === 503
+        await res.json().catch(() => ({}))
+        const msg = (res.status === 503 || res.status === 429)
           ? "I'm a bit overloaded right now. Please try again in a moment."
           : "Sorry, I'm having trouble connecting right now. Please try again in a moment."
         setMessages((prev) => [...prev, { role: "assistant", content: msg }])

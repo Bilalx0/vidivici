@@ -146,8 +146,8 @@ function VillasContent() {
         }}
       />
 
-      <section className="bg-white py-16 2xl:py-32 px-6 sm:px-16 lg:px-20 2xl:px-32">
-        <div className="max-w-[1840px] mx-auto">
+      <section className="px-6 sm:px-16 lg:px-20 2xl:px-32  mt-24 2xl:mt-48">
+        <div className="">
           <h2 className="text-4xl 2xl:text-7xl font-bold text-mist-900 text-center my-20 2xl:my-32">
            Luxury Villa Rentals
           </h2>
@@ -245,8 +245,8 @@ function VillasContent() {
           </div>
         </div>
       </section>
-      <section className="py-16 2xl:py-32 px-6 sm:px-16 lg:px-20 2xl:px-32 bg-white">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 2xl:gap-20 items-center max-w-[1840px] mx-auto">
+      <section className="px-6 sm:px-16 lg:px-20 2xl:px-32  mt-24 2xl:mt-48">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 2xl:gap-20 items-center">
 
           {/* Left */}
           <div>

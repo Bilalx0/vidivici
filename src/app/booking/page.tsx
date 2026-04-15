@@ -772,23 +772,23 @@ function ReservationContent() {
       : (!!firstName && !!email && !!phone && !!villaIdDocumentUrl))
 
   return (
-    <div className="bg-white min-h-screen pt-24 pb-16">
-      <div className="sm:px-16 lg:px-20 px-6 2xl:px-56">
+    <div className="bg-white min-h-screen pt-24 lg:pt-28 2xl:pt-36 pb-16 2xl:pb-24">
+      <div className="sm:px-16 lg:px-20 px-6 2xl:px-32">
         {step > 1 && (
-          <div className="mb-10">
+          <div className="mb-8 2xl:mb-12">
             <button
               type="button"
               onClick={() => setStep((prev) => (prev > 1 ? ((prev - 1) as 1 | 2 | 3) : prev))}
-              className="inline-flex h-10 w-10 items-center justify-center"
+              className="inline-flex h-10 2xl:h-14 w-10 2xl:w-14 items-center justify-center"
               aria-label="Back"
             >
-              <ArrowLeft size={25} />
+              <ArrowLeft size={22} className="2xl:w-7 2xl:h-7" />
             </button>
           </div>
         )}
 
         {/* Tabs */}
-        <div className="flex gap-0 mb-8 border border-mist-200 rounded-md overflow-hidden max-w-sm mx-auto">
+        <div className="flex gap-0 mb-6 2xl:mb-10 border border-mist-200 rounded-md overflow-hidden max-w-sm 2xl:max-w-md mx-auto">
           <button
             onClick={() => {
               if ((isFlowLockedFromDetails && sourceMode !== "car") || step >= 2) return
@@ -796,7 +796,7 @@ function ReservationContent() {
               setStep(1)
             }}
             disabled={(isFlowLockedFromDetails && sourceMode !== "car") || (step >= 2 && mode !== "car")}
-            className={`flex-1 py-2.5 text-center text-sm font-medium transition-colors ${mode === "car"
+            className={`flex-1 py-2.5 2xl:py-4 text-center text-sm 2xl:text-lg font-medium transition-colors ${mode === "car"
               ? "bg-mist-900 text-white"
               : ((isFlowLockedFromDetails && sourceMode !== "car") || step >= 2)
                 ? "text-mist-300 bg-mist-50 cursor-not-allowed"
@@ -812,7 +812,7 @@ function ReservationContent() {
               setStep(1)
             }}
             disabled={(isFlowLockedFromDetails && sourceMode !== "villa") || (step >= 2 && mode !== "villa")}
-            className={`flex-1 py-2.5 text-center text-sm font-medium transition-colors ${mode === "villa"
+            className={`flex-1 py-2.5 2xl:py-4 text-center text-sm 2xl:text-lg font-medium transition-colors ${mode === "villa"
               ? "bg-mist-900 text-white"
               : ((isFlowLockedFromDetails && sourceMode !== "villa") || step >= 2)
                 ? "text-mist-300 bg-mist-50 cursor-not-allowed"
@@ -824,34 +824,34 @@ function ReservationContent() {
         </div>
 
         {/* Stepper */}
-        <div className="flex items-center justify-center gap-0 mb-10 max-w-md mx-auto">
+        <div className="flex items-center justify-center gap-0 mb-8 2xl:mb-14 max-w-md 2xl:max-w-lg mx-auto">
           <div className="flex flex-col items-center">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${step >= 1 ? "bg-blue-600 text-white" : "bg-mist-200 text-mist-400"
+            <div className={`w-8 2xl:w-10 h-8 2xl:h-10 rounded-full flex items-center justify-center text-sm 2xl:text-base font-semibold ${step >= 1 ? "bg-blue-600 text-white" : "bg-mist-200 text-mist-400"
               }`}>
-              {step > 1 ? <CheckCircle size={16} /> : "1"}
+              {step > 1 ? <CheckCircle size={16} className="2xl:w-5 2xl:h-5" /> : "1"}
             </div>
-            <span className={`text-xs mt-1.5 ${step >= 1 ? "text-blue-600 font-medium" : "text-mist-400"}`}>Select</span>
+            <span className={`text-xs 2xl:text-sm mt-1.5 2xl:mt-2 ${step >= 1 ? "text-blue-600 font-medium" : "text-mist-400"}`}>Select</span>
           </div>
-          <div className={`flex-1 h-0.5 mx-2 -mt-3 ${step >= 2 ? "bg-blue-600" : "bg-mist-200"}`} />
+          <div className={`flex-1 h-0.5 mx-2 2xl:mx-3 -mt-3 2xl:-mt-4 ${step >= 2 ? "bg-blue-600" : "bg-mist-200"}`} />
           <div className="flex flex-col items-center">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${step >= 2 ? "bg-blue-600 text-white" : "bg-mist-200 text-mist-400"
+            <div className={`w-8 2xl:w-10 h-8 2xl:h-10 rounded-full flex items-center justify-center text-sm 2xl:text-base font-semibold ${step >= 2 ? "bg-blue-600 text-white" : "bg-mist-200 text-mist-400"
               }`}>
-              {step > 2 ? <CheckCircle size={16} /> : "2"}
+              {step > 2 ? <CheckCircle size={16} className="2xl:w-5 2xl:h-5" /> : "2"}
             </div>
-            <span className={`text-xs mt-1.5 ${step >= 2 ? "text-blue-600 font-medium" : "text-mist-400"}`}>Pay</span>
+            <span className={`text-xs 2xl:text-sm mt-1.5 2xl:mt-2 ${step >= 2 ? "text-blue-600 font-medium" : "text-mist-400"}`}>Pay</span>
           </div>
-          <div className={`flex-1 h-0.5 mx-2 -mt-3 ${step >= 3 ? "bg-blue-600" : "bg-mist-200"}`} />
+          <div className={`flex-1 h-0.5 mx-2 2xl:mx-3 -mt-3 2xl:-mt-4 ${step >= 3 ? "bg-blue-600" : "bg-mist-200"}`} />
           <div className="flex flex-col items-center">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${step >= 3 ? "bg-blue-600 text-white" : "bg-mist-200 text-mist-400"
+            <div className={`w-8 2xl:w-10 h-8 2xl:h-10 rounded-full flex items-center justify-center text-sm 2xl:text-base font-semibold ${step >= 3 ? "bg-blue-600 text-white" : "bg-mist-200 text-mist-400"
               }`}>
               3
             </div>
-            <span className={`text-xs mt-1.5 ${step >= 3 ? "text-blue-600 font-medium" : "text-mist-400"}`}>Done</span>
+            <span className={`text-xs 2xl:text-sm mt-1.5 2xl:mt-2 ${step >= 3 ? "text-blue-600 font-medium" : "text-mist-400"}`}>Done</span>
           </div>
         </div>
 
         {/* Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 2xl:gap-12">
           {/* LEFT COLUMN */}
           <div className="lg:col-span-3">
             {step === 1 && mode === "car" && (
@@ -967,89 +967,89 @@ function ReservationContent() {
             )}
 
             {step === 2 && (
-              <div className="space-y-6">
-                <h2 className="text-xl font-bold text-mist-900">Card Info</h2>
+              <div className="space-y-6 2xl:space-y-8">
+                <h2 className="text-xl 2xl:text-3xl font-bold text-mist-900">Card Info</h2>
 
                 {/* Coupon Code */}
-                <div className="rounded-xl border border-mist-200 p-4">
-                  <label className="text-sm font-medium text-mist-700 block mb-2">Promo Code</label>
+                <div className="rounded-xl border border-mist-200 p-4 2xl:p-6">
+                  <label className="text-sm 2xl:text-lg font-medium text-mist-700 block mb-2">Promo Code</label>
                   {couponApplied ? (
-                    <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-4 py-3">
+                    <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-4 2xl:px-6 py-3 2xl:py-4">
                       <div>
-                        <span className="text-sm font-semibold text-green-700">{couponApplied}</span>
-                        <span className="text-xs text-green-600 ml-2">{couponDiscount}% OFF applied</span>
+                        <span className="text-sm 2xl:text-lg font-semibold text-green-700">{couponApplied}</span>
+                        <span className="text-xs 2xl:text-sm text-green-600 ml-2">{couponDiscount}% OFF applied</span>
                       </div>
-                      <button type="button" onClick={removeCoupon} className="text-green-600 hover:text-green-800 text-sm font-medium">Remove</button>
+                      <button type="button" onClick={removeCoupon} className="text-green-600 hover:text-green-800 text-sm 2xl:text-base font-medium">Remove</button>
                     </div>
                   ) : (
                     <div>
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 2xl:gap-4">
                         <input
                           type="text"
                           value={couponCode}
                           onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                           placeholder="Enter promo code"
-                          className="flex-1 rounded-lg border border-mist-200 bg-white px-3.5 py-2.5 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400 uppercase tracking-wide"
+                          className="flex-1 rounded-lg border border-mist-200 bg-white px-3.5 2xl:px-5 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400 uppercase tracking-wide"
                         />
                         <button
                           type="button"
                           onClick={applyCoupon}
                           disabled={couponLoading || !couponCode.trim()}
-                          className="px-4 py-2.5 rounded-lg bg-mist-900 text-white text-sm font-medium hover:bg-mist-800 disabled:opacity-40 disabled:cursor-not-allowed"
+                          className="px-4 2xl:px-6 py-2.5 2xl:py-4 rounded-lg bg-mist-900 text-white text-sm 2xl:text-lg font-medium hover:bg-mist-800 disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                           {couponLoading ? "..." : "Apply"}
                         </button>
                       </div>
-                      {couponError && <p className="text-xs text-red-500 mt-1.5">{couponError}</p>}
+                      {couponError && <p className="text-xs 2xl:text-sm text-red-500 mt-1.5 2xl:mt-2">{couponError}</p>}
                     </div>
                   )}
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-4 2xl:space-y-6">
                   <div className="rounded-xl border border-mist-200 overflow-hidden">
                     {/* Credit Card Option */}
                     <button
                       type="button"
                       onClick={() => setPaymentMethod("card")}
-                      className={`w-full flex items-center justify-between px-4 py-3.5 text-sm transition-colors ${paymentMethod === "card" ? "bg-blue-50/60 border-b border-mist-200" : "bg-white hover:bg-mist-50"}`}
+                      className={`w-full flex items-center justify-between px-4 2xl:px-6 py-3.5 2xl:py-5 text-sm 2xl:text-lg transition-colors ${paymentMethod === "card" ? "bg-blue-50/60 border-b border-mist-200" : "bg-white hover:bg-mist-50"}`}
                     >
-                      <span className="flex items-center gap-3">
-                        <span className={`h-5 w-5 rounded-full border-2 ${paymentMethod === "card" ? "border-blue-600" : "border-mist-300"} flex items-center justify-center shrink-0`}>
-                          {paymentMethod === "card" && <span className="h-2.5 w-2.5 rounded-full bg-blue-600" />}
+                      <span className="flex items-center gap-3 2xl:gap-4">
+                        <span className={`h-5 2xl:h-6 w-5 2xl:w-6 rounded-full border-2 2xl:border-[3px] ${paymentMethod === "card" ? "border-blue-600" : "border-mist-300"} flex items-center justify-center shrink-0`}>
+                          {paymentMethod === "card" && <span className="h-2.5 2xl:h-3.5 w-2.5 2xl:w-3.5 rounded-full bg-blue-600" />}
                         </span>
                         <span className="font-medium text-mist-900">Credit card</span>
                       </span>
-                      <span className="flex items-center gap-1.5">
-                        <span className="rounded bg-[#1a1f71] px-2 py-0.5 text-[10px] font-bold text-white tracking-wider leading-tight">VISA</span>
-                        <span className="rounded bg-[#2e77bc] px-1.5 py-0.5 text-[10px] font-bold text-white tracking-wider leading-tight">AMEX</span>
-                        <span className="flex items-center justify-center w-6 h-5">
-                          <svg viewBox="0 0 24 16" className="w-6 h-4">
+                      <span className="flex items-center gap-1.5 2xl:gap-2">
+                        <span className="rounded bg-[#1a1f71] px-2 py-0.5 text-[10px] 2xl:text-xs font-bold text-white tracking-wider leading-tight">VISA</span>
+                        <span className="rounded bg-[#2e77bc] px-1.5 py-0.5 text-[10px] 2xl:text-xs font-bold text-white tracking-wider leading-tight">AMEX</span>
+                        <span className="flex items-center justify-center w-6 2xl:w-8 h-5 2xl:h-6">
+                          <svg viewBox="0 0 24 16" className="w-6 2xl:w-8 h-4 2xl:h-5">
                             <circle cx="9" cy="8" r="7" fill="#EB001B" />
                             <circle cx="15" cy="8" r="7" fill="#F79E1B" />
                             <path d="M12 2.4a7 7 0 0 1 0 11.2A7 7 0 0 1 12 2.4z" fill="#FF5F00" />
                           </svg>
                         </span>
-                        <span className="rounded-full bg-mist-200 text-mist-500 text-[10px] font-semibold w-5 h-5 flex items-center justify-center">+5</span>
+                        <span className="rounded-full bg-mist-200 text-mist-500 text-[10px] 2xl:text-xs font-semibold w-5 2xl:w-6 h-5 2xl:h-6 flex items-center justify-center">+5</span>
                       </span>
                     </button>
 
                     {paymentMethod === "card" && (
-                      <div className="space-y-4 bg-white px-4 py-5">
+                      <div className="space-y-4 2xl:space-y-6 bg-white px-4 2xl:px-6 py-5 2xl:py-8">
                         <div>
-                          <label className="mb-1.5 block text-xs font-medium text-mist-700">Name on Card</label>
+                          <label className="mb-1.5 2xl:mb-2 block text-xs 2xl:text-sm font-medium text-mist-700">Name on Card</label>
                           <input
                             type="text"
                             placeholder="Enter cardholder name"
                             value={cardName}
                             onChange={(e) => setCardName(e.target.value)}
-                            className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                            className="w-full rounded-lg border border-mist-200 bg-white px-3.5 2xl:px-5 py-3 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
                           />
                         </div>
                         <div>
-                          <label className="mb-1.5 block text-xs font-medium text-mist-700">Card Number</label>
+                          <label className="mb-1.5 2xl:mb-2 block text-xs 2xl:text-sm font-medium text-mist-700">Card Number</label>
                           <div className="relative">
-                            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center gap-0.5">
-                              <span className="w-4 h-3 rounded-sm bg-mist-200" />
+                            <span className="absolute left-3.5 2xl:left-5 top-1/2 -translate-y-1/2 flex items-center gap-0.5">
+                              <span className="w-4 2xl:w-5 h-3 2xl:h-4 rounded-sm bg-mist-200" />
                             </span>
                             <input
                               type="text"
@@ -1061,13 +1061,13 @@ function ReservationContent() {
                                 const digits = e.target.value.replace(/\D/g, "").slice(0, 16)
                                 setCardNumber(digits.replace(/(\d{4})(?=\d)/g, "$1 "))
                               }}
-                              className="w-full rounded-lg border border-mist-200 bg-white pl-10 pr-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400 tracking-wider"
+                              className="w-full rounded-lg border border-mist-200 bg-white pl-10 2xl:pl-12 pr-3.5 2xl:pr-5 py-3 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400 tracking-wider"
                             />
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 gap-3 2xl:gap-5">
                           <div>
-                            <label className="mb-1.5 block text-xs font-medium text-mist-700">Expiration Date</label>
+                            <label className="mb-1.5 2xl:mb-2 block text-xs 2xl:text-sm font-medium text-mist-700">Expiration Date</label>
                             <input
                               type="text"
                               inputMode="numeric"
@@ -1079,11 +1079,11 @@ function ReservationContent() {
                                 if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2)
                                 setCardExpiry(v)
                               }}
-                              className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                              className="w-full rounded-lg border border-mist-200 bg-white px-3.5 2xl:px-5 py-3 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
                             />
                           </div>
                           <div>
-                            <label className="mb-1.5 block text-xs font-medium text-mist-700">Security Code</label>
+                            <label className="mb-1.5 2xl:mb-2 block text-xs 2xl:text-sm font-medium text-mist-700">Security Code</label>
                             <input
                               type="text"
                               inputMode="numeric"
@@ -1091,33 +1091,33 @@ function ReservationContent() {
                               maxLength={3}
                               value={cardCvv}
                               onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 3))}
-                              className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                              className="w-full rounded-lg border border-mist-200 bg-white px-3.5 2xl:px-5 py-3 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
                             />
                           </div>
                         </div>
                         <div>
-                          <label className="mb-1.5 block text-xs font-medium text-mist-700">Billing Address</label>
+                          <label className="mb-1.5 2xl:mb-2 block text-xs 2xl:text-sm font-medium text-mist-700">Billing Address</label>
                           <input
                             type="text"
                             placeholder="Enter billing address"
                             value={cardBillingAddress}
                             onChange={(e) => setCardBillingAddress(e.target.value)}
-                            className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                            className="w-full rounded-lg border border-mist-200 bg-white px-3.5 2xl:px-5 py-3 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
                           />
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 gap-3 2xl:gap-5">
                           <div>
-                            <label className="mb-1.5 block text-xs font-medium text-mist-700">Country</label>
+                            <label className="mb-1.5 2xl:mb-2 block text-xs 2xl:text-sm font-medium text-mist-700">Country</label>
                             <input
                               type="text"
                               placeholder="United States"
                               value={cardCountry}
                               onChange={(e) => setCardCountry(e.target.value)}
-                              className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                              className="w-full rounded-lg border border-mist-200 bg-white px-3.5 2xl:px-5 py-3 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
                             />
                           </div>
                           <div>
-                            <label className="mb-1.5 block text-xs font-medium text-mist-700">ZIP Code</label>
+                            <label className="mb-1.5 2xl:mb-2 block text-xs 2xl:text-sm font-medium text-mist-700">ZIP Code</label>
                             <input
                               type="text"
                               inputMode="numeric"
@@ -1125,7 +1125,7 @@ function ReservationContent() {
                               maxLength={5}
                               value={cardZip}
                               onChange={(e) => setCardZip(e.target.value.replace(/\D/g, "").slice(0, 5))}
-                              className="w-full rounded-lg border border-mist-200 bg-white px-3.5 py-3 text-sm text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
+                              className="w-full rounded-lg border border-mist-200 bg-white px-3.5 2xl:px-5 py-3 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-300 focus:outline-none focus:border-mist-400"
                             />
                           </div>
                         </div>
@@ -1136,7 +1136,7 @@ function ReservationContent() {
                           type="button"
                           onClick={handlePlaceOrder}
                           disabled={placingOrder}
-                          className="w-full rounded-lg bg-mist-900 py-3 text-sm font-semibold text-white hover:bg-mist-800 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                          className="w-full rounded-lg bg-mist-900 py-3 2xl:py-5 text-sm 2xl:text-lg font-semibold text-white hover:bg-mist-800 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           {placingOrder ? "Processing…" : "Place Order"}
                         </button>
@@ -1147,19 +1147,31 @@ function ReservationContent() {
                     <div className="border-t border-mist-200" />
 
                     {/* PayPal Option */}
+                    {/* PayPal Option */}
                     <button
                       type="button"
                       onClick={() => setPaymentMethod("paypal")}
-                      className={`w-full flex items-center gap-3 px-4 py-3.5 text-sm transition-colors ${paymentMethod === "paypal" ? "bg-blue-50/60" : "bg-white hover:bg-mist-50"}`}
+                      className={`w-full flex items-center justify-between px-4 2xl:px-6 py-3.5 2xl:py-5 text-sm 2xl:text-lg transition-colors ${paymentMethod === "paypal"
+                          ? "bg-blue-50/60 border-b border-mist-200"
+                          : "bg-white hover:bg-mist-50"
+                        }`}
                     >
-                      <span className={`h-5 w-5 rounded-full border-2 ${paymentMethod === "paypal" ? "border-blue-600" : "border-mist-300"} flex items-center justify-center shrink-0`}>
-                        {paymentMethod === "paypal" && <span className="h-2.5 w-2.5 rounded-full bg-blue-600" />}
+                      <span className="flex items-center gap-3 2xl:gap-4">
+                        <span
+                          className={`h-5 2xl:h-6 w-5 2xl:w-6 rounded-full border-2 2xl:border-[3px] ${paymentMethod === "paypal" ? "border-blue-600" : "border-mist-300"
+                            } flex items-center justify-center shrink-0`}
+                        >
+                          {paymentMethod === "paypal" && (
+                            <span className="h-2.5 2xl:h-3.5 w-2.5 2xl:w-3.5 rounded-full bg-blue-600" />
+                          )}
+                        </span>
+
+                        <span className="font-medium text-mist-900">PayPal</span>
                       </span>
-                      <span className="font-medium text-mist-900">PayPal</span>
                     </button>
                   </div>
 
-                  <p className="text-xs text-mist-400 leading-relaxed">
+                  <p className="text-xs 2xl:text-base text-mist-400 leading-relaxed">
                     By placing this order, I agree to the{" "}
                     <Link href="/terms" className="text-blue-600 hover:underline">Terms &amp; Conditions</Link> &{" "}
                     <Link href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>.
@@ -1167,7 +1179,7 @@ function ReservationContent() {
 
                   <Turnstile onVerify={setTurnstileToken} onExpire={() => setTurnstileToken("")} />
 
-                  <p className="text-xs text-mist-400 leading-relaxed">
+                  <p className="text-xs 2xl:text-base text-mist-400 leading-relaxed">
                     {mode === "car"
                       ? "A temporary authorization hold of up to $5,000 will be placed on your card (this includes the $2,000 refundable deposit). No charges will be made at the time of booking. Any remaining balance above $5,000 will be due before or at vehicle delivery."
                       : (paymentMethod === "card"
@@ -1419,35 +1431,35 @@ function CarSelectStep({
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 2xl:space-y-12">
       {/* Select Vehicle */}
       <div>
-        <h2 className="text-lg font-semibold text-mist-900 mb-4">Select Vehicle</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <h2 className="text-lg 2xl:text-2xl font-semibold text-mist-900 mb-3 2xl:mb-5">Select Vehicle</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 2xl:gap-6">
           <div>
-            <label className="text-xs text-mist-500 block mb-1.5">Make</label>
+            <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Make</label>
             <div className="relative">
               <select
                 value={selectedBrandSlug}
                 onChange={(e) => setSelectedBrandSlug(e.target.value)}
-                className="w-full appearance-none border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8"
+                className="w-full appearance-none border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8"
               >
                 <option value="">Select a make</option>
                 {brands.map((b) => (
                   <option key={b.slug} value={b.slug}>{b.name}</option>
                 ))}
               </select>
-              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none 2xl:w-5 2xl:h-5" />
             </div>
           </div>
           <div>
-            <label className="text-xs text-mist-500 block mb-1.5">Model</label>
+            <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Model</label>
             <div className="relative">
               <select
                 value={selectedCar?.slug || ""}
                 onChange={(e) => onSelectCar(e.target.value)}
                 disabled={!selectedBrandSlug || loadingCars}
-                className="w-full appearance-none border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8 disabled:opacity-50"
+                className="w-full appearance-none border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8 disabled:opacity-50"
               >
                 <option value="">
                   {loadingCars ? "Loading..." : !selectedBrandSlug ? "Select a make first" : "Select a model"}
@@ -1456,7 +1468,7 @@ function CarSelectStep({
                   <option key={c.slug} value={c.slug}>{c.name}</option>
                 ))}
               </select>
-              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none 2xl:w-5 2xl:h-5" />
             </div>
           </div>
         </div>
@@ -1464,15 +1476,16 @@ function CarSelectStep({
 
       {/* When & Where */}
       <div>
-        <h2 className="text-lg font-semibold text-mist-900 mb-4">When & Where</h2>
+        <h2 className="text-lg 2xl:text-2xl font-semibold text-mist-900 mb-3 2xl:mb-5">When & Where</h2>
 
-        <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-3 2xl:space-y-4">
+          <div className="grid grid-cols-2 gap-3 2xl:gap-5">
             <div>
               <DateTriggerField
                 label="Start date*"
                 value={startDate}
                 onClick={() => setCalendarOpen(true)}
+                desktopLabel
               />
             </div>
             <TimeSelectDropdown
@@ -1484,12 +1497,13 @@ function CarSelectStep({
               desktop
             />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 2xl:gap-5">
             <div>
               <DateTriggerField
                 label="End date*"
                 value={endDate}
                 onClick={() => setCalendarOpen(true)}
+                desktopLabel
               />
             </div>
             <TimeSelectDropdown
@@ -1519,19 +1533,19 @@ function CarSelectStep({
 
       {/* Need a Driver */}
       <div>
-        <h2 className="text-lg font-semibold text-mist-900 mb-4">Need a Driver?</h2>
-        <label className="flex items-center gap-2.5 cursor-pointer mb-4">
-          <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${needDriver ? "border-blue-600" : "border-mist-300"}`}>
-            {needDriver && <div className="w-2 h-2 rounded-full bg-blue-600" />}
+        <h2 className="text-lg 2xl:text-2xl font-semibold text-mist-900 mb-3 2xl:mb-5">Need a Driver?</h2>
+        <label className="flex items-center gap-2.5 2xl:gap-3 cursor-pointer mb-3 2xl:mb-5">
+          <div className={`w-4 2xl:w-5 h-4 2xl:h-5 rounded-full border-2 2xl:border-[3px] flex items-center justify-center ${needDriver ? "border-blue-600" : "border-mist-300"}`}>
+            {needDriver && <div className="w-2 2xl:w-2.5 h-2 2xl:h-2.5 rounded-full bg-blue-600" />}
           </div>
           <input type="checkbox" checked={needDriver} onChange={(e) => setNeedDriver(e.target.checked)} className="sr-only" />
-          <span className="text-sm text-mist-600">Yes, I will need a driver ($45/hour)</span>
+          <span className="text-sm 2xl:text-xl text-mist-600">Yes, I will need a driver ($45/hour)</span>
         </label>
 
         {needDriver && (
-          <div className="space-y-5 pl-0.5">
+          <div className="space-y-5 2xl:space-y-7 pl-0.5">
             <div>
-              <p className="text-xs text-mist-500 mb-2">Driver Hours per Day</p>
+              <p className="text-xs 2xl:text-sm text-mist-500 mb-2 2xl:mb-3">Driver Hours per Day</p>
               <input
                 type="range"
                 min={5}
@@ -1539,27 +1553,27 @@ function CarSelectStep({
                 step={1}
                 value={driverHours}
                 onChange={(e) => setDriverHours(Number(e.target.value))}
-                className="w-full accent-mist-500"
+                className="w-full accent-mist-500 h-1.5 2xl:h-2"
               />
-              <div className="flex justify-between text-[10px] text-mist-400 mt-1">
+              <div className="flex justify-between text-[10px] 2xl:text-sm text-mist-400 mt-1 2xl:mt-2">
                 <span>5 hr</span>
                 <span>{driverHours} hr</span>
                 <span>15 hr</span>
               </div>
             </div>
             <div>
-              <p className="text-xs text-mist-500 mb-2">Driver Availability</p>
-              <div className="space-y-2">
-                <label className="flex items-center gap-2.5 cursor-pointer">
-                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${driverAvailability === "full" ? "border-blue-600" : "border-mist-300"}`}>
-                    {driverAvailability === "full" && <div className="w-2 h-2 rounded-full bg-blue-600" />}
+              <p className="text-xs 2xl:text-sm text-mist-500 mb-2 2xl:mb-3">Driver Availability</p>
+              <div className="space-y-2 2xl:space-y-3">
+                <label className="flex items-center gap-2.5 2xl:gap-3 cursor-pointer">
+                  <div className={`w-4 2xl:w-5 h-4 2xl:h-5 rounded-full border-2 2xl:border-[3px] flex items-center justify-center ${driverAvailability === "full" ? "border-blue-600" : "border-mist-300"}`}>
+                    {driverAvailability === "full" && <div className="w-2 2xl:w-2.5 h-2 2xl:h-2.5 rounded-full bg-blue-600" />}
                   </div>
                   <input type="radio" name="driverAvail" checked={driverAvailability === "full"} onChange={() => setDriverAvailability("full")} className="sr-only" />
-                  <span className="text-sm text-mist-600">Full Rental</span>
+                  <span className="text-sm 2xl:text-xl text-mist-600">Full Rental</span>
                 </label>
-                <label className="flex items-center gap-2.5 cursor-pointer">
-                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${driverAvailability === "select" ? "border-blue-600" : "border-mist-300"}`}>
-                    {driverAvailability === "select" && <div className="w-2 h-2 rounded-full bg-blue-600" />}
+                <label className="flex items-center gap-2.5 2xl:gap-3 cursor-pointer">
+                  <div className={`w-4 2xl:w-5 h-4 2xl:h-5 rounded-full border-2 2xl:border-[3px] flex items-center justify-center ${driverAvailability === "select" ? "border-blue-600" : "border-mist-300"}`}>
+                    {driverAvailability === "select" && <div className="w-2 2xl:w-2.5 h-2 2xl:h-2.5 rounded-full bg-blue-600" />}
                   </div>
                   <input type="radio" name="driverAvail" checked={driverAvailability === "select"} onChange={() => setDriverAvailability("select")} className="sr-only" />
                   <span className="text-sm text-mist-600">Select Days</span>
@@ -1591,12 +1605,12 @@ function CarSelectStep({
             <div className="flex flex-row items-center justify-between gap-3 my-8">
               <div className="flex w-fit self-start gap-0 border border-mist-200 rounded-md overflow-hidden">
                 <button type="button" onClick={() => setDeliveryType("pickup")}
-                  className={`px-5 py-2 text-sm font-medium transition-colors ${deliveryType === "pickup" ? "bg-mist-900 text-white" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
+                  className={`px-5 2xl:px-7 py-2 2xl:py-3 text-sm 2xl:text-base font-medium transition-colors ${deliveryType === "pickup" ? "bg-mist-900 text-white" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
                     }`}>
                   Pickup
                 </button>
                 <button type="button" onClick={() => setDeliveryType("delivery")}
-                  className={`px-5 py-2 text-sm font-medium transition-colors ${deliveryType === "delivery" ? "bg-mist-900 text-white" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
+                  className={`px-5 2xl:px-7 py-2 2xl:py-3 text-sm 2xl:text-base font-medium transition-colors ${deliveryType === "delivery" ? "bg-mist-900 text-white" : "text-mist-400 bg-mist-50 hover:bg-mist-100"
                     }`}>
                   Delivery
                 </button>
@@ -1604,35 +1618,35 @@ function CarSelectStep({
               <div className="flex items-center gap-1">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" checked={isOneWay} onChange={(e) => setIsOneWay(e.target.checked)}
-                    className="w-4 h-4 rounded border-mist-300 text-blue-600 focus:ring-blue-500" />
-                  <span className="text-sm text-mist-600">One-way</span>
+                    className="w-4 2xl:w-5 h-4 2xl:h-5 rounded border-mist-300 text-blue-600 focus:ring-blue-500" />
+                  <span className="text-sm 2xl:text-lg text-mist-600">One-way</span>
                 </label>
                 <button
                   type="button"
                   onClick={() => setShowOneWayInfo(true)}
-                  className="inline-flex h-5 w-5 items-center justify-center rounded-full text-mist-400 transition-colors hover:bg-mist-100 hover:text-mist-700"
+                  className="inline-flex h-5 2xl:h-6 w-5 2xl:w-6 items-center justify-center rounded-full text-mist-400 transition-colors hover:bg-mist-100 hover:text-mist-700"
                   aria-label="One-way information"
                 >
-                  <Info size={14} />
+                  <Info size={14} className="2xl:w-5 2xl:h-5" />
                 </button>
               </div>
             </div>
 
             {showOneWayInfo && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl">
-                  <div className="mb-3 flex items-start justify-between gap-3">
-                    <h3 className="text-base font-semibold text-mist-900">About one-way delivery</h3>
+                <div className="w-full max-w-md 2xl:max-w-lg rounded-2xl bg-white p-5 2xl:p-8 shadow-2xl">
+                  <div className="mb-3 2xl:mb-5 flex items-start justify-between gap-3">
+                    <h3 className="text-base 2xl:text-xl font-semibold text-mist-900">About one-way delivery</h3>
                     <button
                       type="button"
                       onClick={() => setShowOneWayInfo(false)}
-                      className="rounded-md px-2 py-1 text-sm text-mist-400 hover:bg-mist-100 hover:text-mist-700"
+                      className="rounded-md px-2 py-1 text-sm 2xl:text-base text-mist-400 hover:bg-mist-100 hover:text-mist-700"
                       aria-label="Close"
                     >
                       x
                     </button>
                   </div>
-                  <p className="text-sm leading-relaxed text-mist-600">
+                  <p className="text-sm 2xl:text-lg leading-relaxed text-mist-600">
                     One-way means your vehicle can be delivered to one address and collected from a different
                     address at the end of your reservation. Additional relocation fees may apply based on
                     distance and scheduling.
@@ -1640,7 +1654,7 @@ function CarSelectStep({
                   <button
                     type="button"
                     onClick={() => setShowOneWayInfo(false)}
-                    className="mt-5 w-full rounded-md bg-mist-900 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-mist-700"
+                    className="mt-5 2xl:mt-7 w-full rounded-md bg-mist-900 py-2.5 2xl:py-4 text-sm 2xl:text-lg font-semibold text-white transition-colors hover:bg-mist-700"
                   >
                     Got it
                   </button>
@@ -1649,77 +1663,77 @@ function CarSelectStep({
             )}
 
             {(deliveryType === "delivery" || (deliveryType === "pickup" && isOneWay)) && (
-              <div className="space-y-3 mb-4">
+              <div className="space-y-3 2xl:space-y-4 mb-4">
                 {deliveryType === "delivery" && !isOneWay ? (
                   <div>
-                    <label className="text-xs text-mist-500 block mb-1.5">Delivery & Return Address</label>
+                    <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Delivery & Return Address</label>
                     <input type="text" placeholder="Delivery & return address" value={deliveryAddress}
                       onChange={(e) => setDeliveryAddress(e.target.value)}
-                      className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
+                      className="w-full border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
                   </div>
                 ) : deliveryType === "delivery" && isOneWay ? (
                   <>
                     <div>
-                      <label className="text-xs text-mist-500 block mb-1.5">Delivery Address</label>
+                      <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Delivery Address</label>
                       <input type="text" placeholder="Delivery address" value={deliveryAddress}
                         onChange={(e) => setDeliveryAddress(e.target.value)}
-                        className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
+                        className="w-full border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
                     </div>
                     <div>
-                      <label className="text-xs text-mist-500 block mb-1.5">Return Address</label>
+                      <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Return Address</label>
                       <input type="text" placeholder="Return address" value={returnAddress}
                         onChange={(e) => setReturnAddress(e.target.value)}
-                        className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
+                        className="w-full border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
                     </div>
                   </>
                 ) : (
                   <div>
-                    <label className="text-xs text-mist-500 block mb-1.5">Return Address</label>
+                    <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Return Address</label>
                     <input type="text" placeholder="Return address" value={returnAddress}
                       onChange={(e) => setReturnAddress(e.target.value)}
-                      className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
+                      className="w-full border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
                   </div>
                 )}
               </div>
             )}
 
-            <h2 className="text-lg font-semibold text-mist-900 mb-4">Customer Info</h2>
-            <div className="space-y-3">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <h2 className="text-lg 2xl:text-2xl font-semibold text-mist-900 mb-3 2xl:mb-5">Customer Info</h2>
+            <div className="space-y-3 2xl:space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 2xl:gap-5">
                 <div>
-                  <label className="text-xs text-mist-500 block mb-1.5">First Name <span className="text-red-400">*</span></label>
+                  <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">First Name <span className="text-red-400">*</span></label>
                   <input type="text" placeholder="Enter first name" value={firstName} onChange={(e) => setFirstName(e.target.value)}
-                    className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
+                    className="w-full border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
                 </div>
                 <div>
-                  <label className="text-xs text-mist-500 block mb-1.5">Last Name</label>
+                  <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Last Name</label>
                   <input type="text" placeholder="Enter last name" value={lastName} onChange={(e) => setLastName(e.target.value)}
-                    className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
+                    className="w-full border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
                 </div>
               </div>
-              <div className="grid  grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid  grid-cols-1 sm:grid-cols-2 gap-3 2xl:gap-5">
                 <div>
-                  <label className="text-xs text-mist-500 block mb-1.5">Email Address</label>
+                  <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Email Address</label>
                   <input type="email" placeholder="Enter email address" value={email} onChange={(e) => setEmail(e.target.value)}
-                    className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
+                    className="w-full border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
                 </div>
                 <div>
-                  <label className="text-xs text-mist-500 block mb-1.5">Phone Number</label>
+                  <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Phone Number</label>
                   <input type="tel" placeholder="Enter phone number" value={phone} onChange={(e) => setPhone(e.target.value)}
-                    className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
+                    className="w-full border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none" />
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                 {/* Driver License Upload */}
                 <div>
-                  <label className="text-xs text-mist-500 block mb-1.5">Drivers License <span className="text-red-400">*</span></label>
-                  <div className="relative h-11">
+                  <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Drivers License <span className="text-red-400">*</span></label>
+                  <div className="relative h-11 2xl:h-14">
                     {!driverLicenseUrl ? (
                       <input
                         ref={licenseInputRef}
                         type="file"
                         accept="image/*,.pdf"
-                        className="w-full h-full border border-neutral-300 rounded-md px-3 py-[4px] text-sm text-mist-700 focus:border-neutral-400 focus:outline-none file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700 file:cursor-pointer"
+                        className="w-full h-full border border-neutral-300 rounded-md px-3 py-[4px] text-sm 2xl:text-base text-mist-700 focus:border-neutral-400 focus:outline-none file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700 file:cursor-pointer"
                         onChange={(e) => {
                           const f = e.target.files?.[0];
                           if (f) onDocUpload(f, "license");
@@ -1727,7 +1741,7 @@ function CarSelectStep({
                       />
                     ) : (
                       <div className="w-full h-full flex items-center border border-neutral-300 rounded-md px-3 bg-white">
-                        <span className="text-sm text-mist-700 truncate flex-1">{driverLicenseFileName}</span>
+                        <span className="text-sm 2xl:text-base text-mist-700 truncate flex-1">{driverLicenseFileName}</span>
                         <button
                           type="button"
                           onClick={() => {
@@ -1738,18 +1752,18 @@ function CarSelectStep({
                           className="flex-shrink-0 ml-2 text-mist-700 hover:text-mist-600 transition-colors"
                           aria-label="Remove file"
                         >
-                          <X size={18} strokeWidth={2.5} />
+                          <X size={18} strokeWidth={2.5} className="2xl:w-6 2xl:h-6" />
                         </button>
                       </div>
                     )}
                   </div>
-                  {uploadingLicense && <p className="mt-1 text-xs text-mist-400">Uploading...</p>}
+                  {uploadingLicense && <p className="mt-1 text-xs 2xl:text-sm text-mist-400">Uploading...</p>}
                   {driverLicenseUrl && (
                     <a
                       href={driverLicenseUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-1 inline-block text-xs text-mist-600 underline"
+                      className="mt-1 inline-block text-xs 2xl:text-sm text-mist-600 underline"
                     >
                       View uploaded license
                     </a>
@@ -1758,14 +1772,14 @@ function CarSelectStep({
 
                 {/* Insurance Upload */}
                 <div>
-                  <label className="text-xs text-mist-500 block mb-1.5">Insurance <span className="text-red-400">*</span></label>
-                  <div className="relative h-11">
+                  <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Insurance <span className="text-red-400">*</span></label>
+                  <div className="relative h-11 2xl:h-14">
                     {!insuranceUrl ? (
                       <input
                         ref={insuranceInputRef}
                         type="file"
                         accept="image/*,.pdf"
-                        className="w-full h-full border border-neutral-300 rounded-md px-3 py-[4px] text-sm text-mist-700 focus:border-neutral-400 focus:outline-none file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700 file:cursor-pointer"
+                        className="w-full h-full border border-neutral-300 rounded-md px-3 py-[4px] text-sm 2xl:text-base text-mist-700 focus:border-neutral-400 focus:outline-none file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700 file:cursor-pointer"
                         onChange={(e) => {
                           const f = e.target.files?.[0];
                           if (f) onDocUpload(f, "insurance");
@@ -1773,7 +1787,7 @@ function CarSelectStep({
                       />
                     ) : (
                       <div className="w-full h-full flex items-center border border-neutral-300 rounded-md px-3 bg-white">
-                        <span className="text-sm text-mist-700 truncate flex-1">{insuranceFileName}</span>
+                        <span className="text-sm 2xl:text-base text-mist-700 truncate flex-1">{insuranceFileName}</span>
                         <button
                           type="button"
                           onClick={() => {
@@ -1784,18 +1798,18 @@ function CarSelectStep({
                           className="flex-shrink-0 ml-2 text-mist-700 hover:text-mist-600 transition-colors"
                           aria-label="Remove file"
                         >
-                          <X size={18} strokeWidth={2.5} />
+                          <X size={18} strokeWidth={2.5} className="2xl:w-6 2xl:h-6" />
                         </button>
                       </div>
                     )}
                   </div>
-                  {uploadingInsurance && <p className="mt-1 text-xs text-mist-400">Uploading...</p>}
+                  {uploadingInsurance && <p className="mt-1 text-xs 2xl:text-sm text-mist-400">Uploading...</p>}
                   {insuranceUrl && (
                     <a
                       href={insuranceUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-1 inline-block text-xs text-mist-600 underline"
+                      className="mt-1 inline-block text-xs 2xl:text-sm text-mist-600 underline"
                     >
                       View uploaded insurance
                     </a>
@@ -1808,7 +1822,7 @@ function CarSelectStep({
       </div>
 
       <button onClick={onNext} disabled={!canProceed}
-        className="w-full bg-mist-900 text-white py-3 rounded-md font-semibold text-sm hover:bg-mist-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+        className="w-full bg-mist-900 text-white py-3 2xl:py-5 rounded-md 2xl:rounded-lg font-semibold text-sm 2xl:text-lg hover:bg-mist-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
         Next
       </button>
     </div>
@@ -1938,10 +1952,10 @@ function VillaSelectStep({
     <div className="space-y-8">
       {/* Villa Info */}
       <div>
-        <h2 className="text-lg font-semibold text-mist-900 mb-4">Villa Info</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <h2 className="text-lg 2xl:text-2xl font-semibold text-mist-900 mb-3 2xl:mb-5">Villa Info</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 2xl:gap-6">
           <div>
-            <label className="text-xs text-mist-500 block mb-1.5">Villa Name</label>
+            <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Villa Name</label>
             <div className="relative">
               <select
                 value={selectedVilla?.slug || ""}
@@ -1949,31 +1963,31 @@ function VillaSelectStep({
                   const v = filteredVillas.find((x) => x.slug === e.target.value) || null
                   setSelectedVilla(v)
                 }}
-                className="w-full appearance-none border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8"
+                className="w-full appearance-none border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8"
               >
                 <option value="">{loadingVillas ? "Loading..." : "Select a villa"}</option>
                 {filteredVillas.map((v) => (
                   <option key={v.slug} value={v.slug}>{v.name}</option>
                 ))}
               </select>
-              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-3 2xl:right-4 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none 2xl:w-5 2xl:h-5" />
             </div>
           </div>
           <div>
-            <label className="text-xs text-mist-500 block mb-1.5">Location</label>
+            <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Location</label>
             <div className="relative">
               <select
                 value={locationFilter}
                 onChange={(e) => { setLocationFilter(e.target.value); setSelectedVilla(null) }}
                 disabled={loadingVillas}
-                className="w-full appearance-none border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8 disabled:opacity-50"
+                className="w-full appearance-none border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 bg-white focus:border-neutral-400 focus:outline-none pr-8 disabled:opacity-50"
               >
                 <option value="">All Locations</option>
                 {locations.map((loc) => (
                   <option key={loc} value={loc}>{loc}</option>
                 ))}
               </select>
-              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none" />
+              <ChevronDown size={14} className="absolute right-3 2xl:right-4 top-1/2 -translate-y-1/2 text-mist-400 pointer-events-none 2xl:w-5 2xl:h-5" />
             </div>
           </div>
         </div>
@@ -1982,7 +1996,7 @@ function VillaSelectStep({
       {/* Stay Details */}
       <div>
         <h2 className="text-lg 2xl:text-2xl font-semibold text-mist-900 mb-4 2xl:mb-6">Stay Details</h2>
-        <div className="space-y-3 2xl:space-y-4 border-t border-mist-300 pt-6 2xl:pt-8">
+        <div className="space-y-3 2xl:space-y-4">
           {/* Check-in date + time */}
           <div className="grid grid-cols-2 gap-3 2xl:gap-5">
             <DateTriggerField
@@ -2113,66 +2127,66 @@ function VillaSelectStep({
       </div>
 
       {/* Customer Info */}
-      <div ref={customerInfoRef} className="border-t border-mist-200 pt-8 scroll-mt-28">
+      <div ref={customerInfoRef} className="scroll-mt-28">
         {showCustomerInfo && (
           <>
-            <h2 className="text-lg font-semibold text-mist-900 mb-4">Customer Info</h2>
-            <div className="space-y-3">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <h2 className="text-lg 2xl:text-2xl font-semibold text-mist-900 mb-3 2xl:mb-5">Customer Info</h2>
+            <div className="space-y-3 2xl:space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 2xl:gap-5">
                 <div>
-                  <label className="text-xs text-mist-500 block mb-1.5">First Name</label>
+                  <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">First Name</label>
                   <input
                     type="text"
                     placeholder="Enter first name"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                    className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none"
+                    className="w-full border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-mist-500 block mb-1.5">Last Name</label>
+                  <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Last Name</label>
                   <input
                     type="text"
                     placeholder="Enter last name"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none"
+                    className="w-full border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 2xl:gap-5">
                 <div>
-                  <label className="text-xs text-mist-500 block mb-1.5">Email Address</label>
+                  <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Email Address</label>
                   <input
                     type="email"
                     placeholder="Enter email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none"
+                    className="w-full border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-mist-500 block mb-1.5">Phone Number</label>
+                  <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Phone Number</label>
                   <input
                     type="tel"
                     placeholder="Enter phone number"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full border border-neutral-300 rounded-md px-3 py-2.5 text-sm text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none"
+                    className="w-full border border-neutral-300 rounded-md 2xl:rounded-lg px-3 2xl:px-4 py-2.5 2xl:py-4 text-sm 2xl:text-lg text-mist-700 placeholder:text-mist-400 focus:border-neutral-400 focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs text-mist-500 block mb-1.5">Upload ID / Passport <span className="text-red-400">*</span></label>
-                <div className="relative h-11">
+                <label className="text-xs 2xl:text-sm text-mist-500 block mb-1.5 2xl:mb-2">Upload ID / Passport <span className="text-red-400">*</span></label>
+                <div className="relative h-11 2xl:h-14">
                   {!villaIdDocumentUrl ? (
                     <input
                       id="villa-id-upload"
                       type="file"
                       accept="image/*,.pdf"
-                      className="w-full h-full border border-neutral-300 rounded-md px-3 py-[4px] text-sm text-mist-700 focus:border-neutral-400 focus:outline-none file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700 file:cursor-pointer"
+                      className="w-full h-full border border-neutral-300 rounded-md px-3 py-[4px] text-sm 2xl:text-base text-mist-700 focus:border-neutral-400 focus:outline-none file:mr-3 file:rounded-md file:border file:border-mist-200 file:bg-white file:px-3 file:py-1.5 file:text-sm file:text-mist-700 file:cursor-pointer"
                       onChange={async (e) => {
                         const file = e.target.files?.[0]
                         if (!file) return
@@ -2203,7 +2217,7 @@ function VillaSelectStep({
                     />
                   ) : (
                     <div className="w-full h-full flex items-center border border-neutral-300 rounded-md px-3 bg-white">
-                      <span className="text-sm text-mist-700 truncate flex-1">{villaIdDocumentName}</span>
+                      <span className="text-sm 2xl:text-base text-mist-700 truncate flex-1">{villaIdDocumentName}</span>
                       <button
                         type="button"
                         onClick={() => {
@@ -2215,18 +2229,18 @@ function VillaSelectStep({
                         className="flex-shrink-0 ml-2 text-mist-500 hover:text-mist-600 transition-colors"
                         aria-label="Remove file"
                       >
-                        <X size={18} strokeWidth={2.5} />
+                        <X size={18} strokeWidth={2.5} className="2xl:w-6 2xl:h-6" />
                       </button>
                     </div>
                   )}
                 </div>
-                {uploadingVillaId && <p className="mt-1 text-xs text-mist-400">Uploading...</p>}
+                {uploadingVillaId && <p className="mt-1 text-xs 2xl:text-sm text-mist-400">Uploading...</p>}
                 {villaIdDocumentUrl && (
                   <a
                     href={villaIdDocumentUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-1 inline-block text-xs text-mist-600 underline"
+                    className="mt-1 inline-block text-xs 2xl:text-sm text-mist-600 underline"
                   >
                     View uploaded document
                   </a>
@@ -2238,7 +2252,7 @@ function VillaSelectStep({
       </div>
 
       <button onClick={onNext} disabled={!canProceed}
-        className="w-full bg-mist-900 text-white py-3 rounded-md font-semibold text-sm hover:bg-mist-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+        className="w-full bg-mist-900 text-white py-3 2xl:py-5 rounded-md 2xl:rounded-lg font-semibold text-sm 2xl:text-lg hover:bg-mist-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
         Next
       </button>
     </div>
@@ -2250,28 +2264,28 @@ function VillaSelectStep({
 /* ================================================================== */
 function DoneStep({ bookingId, vehicleName, mode }: { bookingId: string; vehicleName: string; mode: "car" | "villa" }) {
   return (
-    <div className="text-center py-12 space-y-4">
-      <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto">
-        <CheckCircle size={32} className="text-green-600" />
+    <div className="text-center py-12 2xl:py-20 space-y-4 2xl:space-y-6">
+      <div className="w-16 2xl:w-20 h-16 2xl:h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto">
+        <CheckCircle size={32} className="text-green-600 2xl:w-10 2xl:h-10" />
       </div>
-      <h2 className="text-2xl font-bold text-mist-900">Reservation Submitted!</h2>
-      <p className="text-mist-500 text-sm max-w-md mx-auto">
+      <h2 className="text-2xl 2xl:text-4xl font-bold text-mist-900">Reservation Submitted!</h2>
+      <p className="text-sm 2xl:text-xl text-mist-500 max-w-md 2xl:max-w-2xl mx-auto">
         Your payment has been authorized for <span className="font-medium text-mist-900">{vehicleName}</span>.
         Our team will review availability and send you a contract to sign. You will only be charged after confirmation.
       </p>
-      <p className="text-xs text-mist-400">
+      <p className="text-xs 2xl:text-sm text-mist-400">
         Booking Reference: <span className="font-mono font-semibold text-mist-700">VV-{bookingId}</span>
       </p>
-      <p className="text-xs text-mist-400">
+      <p className="text-xs 2xl:text-sm text-mist-400">
         Free cancellation within 24 hours from the time you place the order.
       </p>
-      <div className="flex gap-3 justify-center pt-4">
+      <div className="flex gap-3 2xl:gap-6 justify-center pt-4 2xl:pt-6">
         <Link href="/account/bookings"
-          className="px-6 py-2.5 bg-mist-900 text-white rounded-md text-sm font-semibold hover:bg-mist-700 transition-colors">
+          className="px-6 2xl:px-8 py-2.5 2xl:py-4 bg-mist-900 text-white rounded-md text-sm 2xl:text-lg font-semibold hover:bg-mist-700 transition-colors">
           View My Bookings
         </Link>
         <Link href={mode === "car" ? "/cars" : "/villas"}
-          className="px-6 py-2.5 border border-mist-200 text-mist-700 rounded-md text-sm font-semibold hover:bg-mist-50 transition-colors">
+          className="px-6 2xl:px-8 py-2.5 2xl:py-4 border border-mist-200 text-mist-700 rounded-md text-sm 2xl:text-lg font-semibold hover:bg-mist-50 transition-colors">
           Browse More {mode === "car" ? "Cars" : "Villas"}
         </Link>
       </div>
@@ -2366,42 +2380,42 @@ function CarSummaryCard({
   }
 
   return (
-    <div className="border border-mist-200 rounded-2xl p-5 space-y-4 sticky top-24">
-      <div className="flex gap-4">
-        <div className="w-24 h-16 bg-mist-100 rounded-xl overflow-hidden shrink-0">
+    <div className="border border-mist-200 rounded-2xl 2xl:rounded-3xl p-5 2xl:p-8 space-y-4 2xl:space-y-6 sticky top-24">
+      <div className="flex gap-4 2xl:gap-6">
+        <div className="w-24 2xl:w-40 h-16 2xl:h-24 bg-mist-100 rounded-xl 2xl:rounded-2xl overflow-hidden shrink-0">
           {car.image ? (
             <img src={car.image} alt={car.name} loading="lazy" className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-xs text-mist-400">No image</div>
+            <div className="w-full h-full flex items-center justify-center text-xs 2xl:text-base text-mist-400">No image</div>
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-mist-900 text-sm">{car.name}</h3>
-          <div className="mt-2 space-y-1.5">
-            <div className="flex items-start gap-2">
+          <h3 className="font-semibold text-mist-900 text-sm 2xl:text-xl">{car.name}</h3>
+          <div className="mt-2 2xl:mt-3 space-y-1.5 2xl:space-y-2">
+            <div className="flex items-start gap-2 2xl:gap-3">
               <div className="w-2 h-2 rounded-full bg-mist-900 mt-1 shrink-0" />
-              <div className="text-xs text-mist-500">
+              <div className="text-xs 2xl:text-base text-mist-500">
                 <p>{formatDate(startDate, startTime)}</p>
                 <p className="text-mist-400">{car.location}</p>
               </div>
             </div>
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-2 2xl:gap-3">
               <div className="w-2 h-2 rounded-full bg-mist-400 mt-1 shrink-0" />
-              <div className="text-xs text-mist-500">
+              <div className="text-xs 2xl:text-base text-mist-500">
                 <p>{formatDate(endDate, endTime)}</p>
                 <p className="text-mist-400">{car.location}</p>
               </div>
             </div>
           </div>
           {days > 0 && (
-            <p className="text-[10px] text-mist-400 mt-2 flex items-center gap-1">
-              <MapPin size={10} /> Up to {car.milesIncluded} miles/day
+            <p className="text-[10px] 2xl:text-sm text-mist-400 mt-2 2xl:mt-3 flex items-center gap-1">
+              <MapPin size={10} className="2xl:w-3.5 2xl:h-3.5" /> Up to {car.milesIncluded} miles/day
             </p>
           )}
         </div>
       </div>
 
-      <div className="text-xs text-mist-500 space-y-0.5 border-t border-mist-100 pt-3">
+      <div className="text-xs 2xl:text-base text-mist-500 space-y-0.5 2xl:space-y-1 border-t border-mist-100 pt-3 2xl:pt-4">
         <p><span className="text-mist-700 font-medium">Full name:</span> {(firstName || lastName) ? `${firstName} ${lastName}`.trim() : (session?.user?.name || "—")}</p>
         <p><span className="text-mist-700 font-medium">Email:</span> {email || session?.user?.email || "—"}</p>
         <p><span className="text-mist-700 font-medium">Phone number:</span> {phone || "—"}</p>
@@ -2409,58 +2423,58 @@ function CarSummaryCard({
         <p><span className="text-mist-700 font-medium">Insurance:</span> {getUploadedFileName(insuranceUrl)}</p>
       </div>
 
-      <p className="text-xs text-mist-400 border-t border-mist-100 pt-3">
+      <p className="text-xs 2xl:text-base text-mist-400 border-t border-mist-100 pt-3 2xl:pt-4">
         Free cancellation within 24 hours from the time you place the order.
       </p>
 
       {pricing && days > 0 && (
-        <div className="space-y-2 text-sm border-t border-mist-100 pt-3">
+        <div className="space-y-2 2xl:space-y-3 text-sm 2xl:text-base border-t border-mist-100 pt-3 2xl:pt-4">
           <div className="flex justify-between text-mist-500">
-            <span>Car Total <span className="text-[12.75px]">({`$${car.pricePerDay.toLocaleString()} × ${days}d`})</span></span>
+            <span>Car Total <span className="text-[12.75px] 2xl:text-sm">({`$${car.pricePerDay.toLocaleString()} × ${days}d`})</span></span>
             <span className="text-mist-900 font-medium">${pricing.subtotal.toLocaleString()}</span>
           </div>
           {pricing.discountPercent > 0 && (
             <div className="flex justify-between text-mist-500">
-              <span>Long-Term Discount <span className="text-[12.75px]">({days} days – {pricing.discountPercent}% OFF)</span></span>
+              <span>Long-Term Discount <span className="text-[12.75px] 2xl:text-sm">({days} days – {pricing.discountPercent}% OFF)</span></span>
               <span className="text-mist-900 font-medium">-${pricing.discountAmount.toLocaleString()}</span>
             </div>
           )}
           {pricing.driverTotal > 0 && (
             <div className="flex justify-between text-mist-500">
-              <span>Driver Total <span className="text-[12.75px]">({driverHours} hrs x $45/hr × {actualDriverDays} days)</span></span>
+              <span>Driver Total <span className="text-[12.75px] 2xl:text-sm">({driverHours} hrs x $45/hr × {actualDriverDays} days)</span></span>
               <span className="text-mist-900 font-medium">${pricing.driverTotal.toLocaleString()}</span>
             </div>
           )}
           {pricing.couponAmount > 0 && (
             <div className="flex justify-between text-green-600">
-              <span>Promo Code <span className="text-[12.75px]">({pricing.couponPercent}% OFF)</span></span>
+              <span>Promo Code <span className="text-[12.75px] 2xl:text-sm">({pricing.couponPercent}% OFF)</span></span>
               <span>-${pricing.couponAmount.toLocaleString()}</span>
             </div>
           )}
           <div className="flex justify-between text-mist-500">
-            <span>Tax <span className="text-[12.75px]">({carTaxPercent}%)</span></span>
+            <span>Tax <span className="text-[12.75px] 2xl:text-sm">({carTaxPercent}%)</span></span>
             <span className="text-mist-900 font-medium">${pricing.tax.toLocaleString()}</span>
           </div>
           <div className="flex justify-between text-mist-500">
-            <span>Security Deposit <span className="text-[12.75px]">(Fully Refundable)</span></span>
+            <span>Security Deposit <span className="text-[12.75px] 2xl:text-sm">(Fully Refundable)</span></span>
             <span className="text-mist-900 font-medium">$2,000</span>
           </div>
           {extraTimeCost > 0 && (
             <div className="flex justify-between text-mist-500">
-              <span>Extra Time <span className="text-[12.75px]">({extraHours > 4 ? "Full Day Applied" : `${extraHours}h, ${freeHours} free`})</span></span>
+              <span>Extra Time <span className="text-[12.75px] 2xl:text-sm">({extraHours > 4 ? "Full Day Applied" : `${extraHours}h, ${freeHours} free`})</span></span>
               <span className="text-mist-900 font-medium flex items-center gap-1">${extraTimeCost.toLocaleString()}
                 <span className="relative">
-                <button
-                  type="button"
-                  onClick={() => setShowHoldInfo(true)}
-                  className="inline-flex items-center justify-center text-mist-400 hover:text-mist-600 transition-colors"
-                  aria-label="Security hold information"
-                >
-                  <Info size={13} />
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowHoldInfo(true)}
+                    className="inline-flex items-center justify-center text-mist-400 hover:text-mist-600 transition-colors"
+                    aria-label="Security hold information"
+                  >
+                    <Info size={13} className="2xl:w-4 2xl:h-4" />
+                  </button>
+                </span>
               </span>
-              </span>
-              
+
             </div>
           )}
           {deliveryType === "delivery" && deliveryAddress && (
@@ -2487,7 +2501,7 @@ function CarSummaryCard({
 
           <hr className="border-mist-100" />
           <div className="flex justify-between items-center text-mist-500">
-            <span>Pay Now <span className="text-[12.75px]">(Authorize Hold)</span></span>
+            <span>Pay Now <span className="text-[12.75px] 2xl:text-sm">(Authorize Hold)</span></span>
             <span className="text-blue-600 font-medium flex items-center gap-1">
               ${pricing.securityHold.toLocaleString()}
               <span className="relative">
@@ -2497,7 +2511,7 @@ function CarSummaryCard({
                   className="inline-flex items-center justify-center text-mist-400 hover:text-mist-600 transition-colors"
                   aria-label="Security hold information"
                 >
-                  <Info size={13} />
+                  <Info size={13} className="2xl:w-4 2xl:h-4" />
                 </button>
               </span>
             </span>
@@ -2507,19 +2521,19 @@ function CarSummaryCard({
           {/* Security Hold Info Modal - REPLACE the showOneWayInfo modal with this */}
           {showHoldInfo && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-              <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl">
-                <div className="mb-3 flex items-start justify-between gap-3">
-                  <h3 className="text-base font-semibold text-mist-900">About Security Hold</h3>
+              <div className="w-full max-w-md 2xl:max-w-lg rounded-2xl bg-white p-5 2xl:p-8 shadow-2xl">
+                <div className="mb-3 2xl:mb-5 flex items-start justify-between gap-3">
+                  <h3 className="text-base 2xl:text-xl font-semibold text-mist-900">About Security Hold</h3>
                   <button
                     type="button"
                     onClick={() => setShowHoldInfo(false)}
-                    className="rounded-md px-2 py-1 text-sm text-mist-400 hover:bg-mist-100 hover:text-mist-700"
+                    className="rounded-md px-2 py-1 text-sm 2xl:text-base text-mist-400 hover:bg-mist-100 hover:text-mist-700"
                     aria-label="Close"
                   >
                     x
                   </button>
                 </div>
-                <p className="text-sm leading-relaxed text-mist-600">
+                <p className="text-sm 2xl:text-lg leading-relaxed text-mist-600">
                   A temporary authorization hold will be placed on your payment method.
                   This is not a charge - the funds will be released after your rental is completed
                   and the vehicle is returned in acceptable condition.
@@ -2527,7 +2541,7 @@ function CarSummaryCard({
                 <button
                   type="button"
                   onClick={() => setShowHoldInfo(false)}
-                  className="mt-5 w-full rounded-md bg-mist-900 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-mist-700"
+                  className="mt-5 2xl:mt-7 w-full rounded-md bg-mist-900 py-2.5 2xl:py-4 text-sm 2xl:text-lg font-semibold text-white transition-colors hover:bg-mist-700"
                 >
                   Got it
                 </button>
@@ -2539,7 +2553,7 @@ function CarSummaryCard({
             <span className="text-mist-900 font-medium">${pricing.dueAtPickup.toLocaleString()}</span>
           </div>
           <hr className="border-mist-100" />
-          <div className="flex justify-between font-bold text-mist-900 text-base pt-1">
+          <div className="flex justify-between font-bold text-mist-900 text-base 2xl:text-xl pt-1">
             <span>Total Charges</span>
             <span>${pricing.total.toLocaleString()}</span>
           </div>
@@ -2570,36 +2584,36 @@ function VillaSummaryCard({
   }
 
   return (
-    <div className="border border-mist-200 rounded-2xl p-5 space-y-4 sticky top-24">
-      <div className="flex gap-4">
-        <div className="w-24 h-16 bg-mist-100 rounded-xl overflow-hidden shrink-0">
+    <div className="border border-mist-200 rounded-2xl 2xl:rounded-3xl p-5 2xl:p-8 space-y-4 2xl:space-y-6 sticky top-24">
+      <div className="flex gap-4 2xl:gap-6">
+        <div className="w-24 2xl:w-40 h-16 2xl:h-24 bg-mist-100 rounded-xl 2xl:rounded-2xl overflow-hidden shrink-0">
           {villa.image ? (
             <img src={villa.image} alt={villa.name} loading="lazy" className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-xs text-mist-400">No image</div>
+            <div className="w-full h-full flex items-center justify-center text-xs 2xl:text-base text-mist-400">No image</div>
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-mist-900 text-sm">{villa.name}</h3>
-          <p className="text-xs text-mist-400 mt-1 flex items-center gap-1"><MapPin size={10} /> {villa.location}</p>
-          <div className="mt-2 space-y-1">
-            <p className="text-xs text-mist-500">Check-in: {formatDate(startDate)}</p>
-            <p className="text-xs text-mist-500">Check-out: {formatDate(endDate)}</p>
+          <h3 className="font-semibold text-mist-900 text-sm 2xl:text-xl">{villa.name}</h3>
+          <p className="text-xs 2xl:text-base text-mist-400 mt-1 flex items-center gap-1"><MapPin size={10} className="2xl:w-3.5 2xl:h-3.5" /> {villa.location}</p>
+          <div className="mt-2 2xl:mt-3 space-y-1 2xl:space-y-1.5">
+            <p className="text-xs 2xl:text-base text-mist-500">Check-in: {formatDate(startDate)}</p>
+            <p className="text-xs 2xl:text-base text-mist-500">Check-out: {formatDate(endDate)}</p>
           </div>
-          <p className="text-xs text-mist-400 mt-1">{guestCount} guest{guestCount > 1 ? "s" : ""} · {villa.bedrooms} bedrooms</p>
+          <p className="text-xs 2xl:text-base text-mist-400 mt-1">{guestCount} guest{guestCount > 1 ? "s" : ""} · {villa.bedrooms} bedrooms</p>
         </div>
       </div>
 
-      <div className="text-xs text-mist-500 space-y-0.5 border-t border-mist-100 pt-3">
+      <div className="text-xs 2xl:text-base text-mist-500 space-y-0.5 2xl:space-y-1 border-t border-mist-100 pt-3 2xl:pt-4">
         <p><span className="text-mist-700 font-medium">Full name:</span> {(firstName || lastName) ? `${firstName} ${lastName}`.trim() : (session?.user?.name || "—")}</p>
         <p><span className="text-mist-700 font-medium">Email:</span> {email || session?.user?.email || "—"}</p>
         <p><span className="text-mist-700 font-medium">Phone number:</span> {phone || "—"}</p>
         <p><span className="text-mist-700 font-medium">Upload ID / Passport:</span> {villaIdDocumentName || "—"}</p>
       </div>
 
-      <div className="text-xs text-mist-400 border-t border-mist-100 pt-3">
-        <p className="font-medium text-mist-600 mb-2">Cancellation Policy</p>
-        <ul className="list-disc list-inside space-y-1">
+      <div className="text-xs 2xl:text-base text-mist-400 border-t border-mist-100 pt-3 2xl:pt-4">
+        <p className="font-medium text-mist-600 mb-2 2xl:mb-3">Cancellation Policy</p>
+        <ul className="list-disc list-inside space-y-1 2xl:space-y-1.5">
           <li>Full refund until 361 days before arrival.</li>
           <li>10% charge from 61 to 360 days before arrival.</li>
           <li>50% charge from 31 to 60 days before arrival.</li>
@@ -2608,66 +2622,66 @@ function VillaSummaryCard({
       </div>
 
       {pricing && days > 0 && (
-        <div className="space-y-2 text-sm border-t border-mist-100 pt-3">
+        <div className="space-y-2 2xl:space-y-3 text-sm 2xl:text-base border-t border-mist-100 pt-3 2xl:pt-4">
           <div className="flex justify-between text-mist-500">
-            <span>Nightly Rate <span className="text-[12.75px]">(${villa.pricePerNight.toLocaleString()} × {days} night{days > 1 ? "s" : ""})</span></span>
-            <span className="text-mist-900">${pricing.nightsTotal.toLocaleString()}</span>
+            <span>Nightly Rate <span className="text-[12.75px] 2xl:text-sm">(${villa.pricePerNight.toLocaleString()} × {days} night{days > 1 ? "s" : ""})</span></span>
+            <span className="text-mist-900 font-medium">${pricing.nightsTotal.toLocaleString()}</span>
           </div>
           {villaAirportTransfer && (
             <div className="flex justify-between text-mist-500">
               <span>Airport Transfer</span>
-              <span className="text-mist-900">${pricing.airportTransferFee.toLocaleString()}</span>
+              <span className="text-mist-900 font-medium">${pricing.airportTransferFee.toLocaleString()}</span>
             </div>
           )}
           {villaPrivateChef && (
             <div className="flex justify-between text-mist-500">
               <span>Private Chef</span>
-              <span className="text-mist-900">TBD</span>
+              <span className="text-mist-900 font-medium">TBD</span>
             </div>
           )}
           {villaSecurityService && (
             <div className="flex justify-between text-mist-500">
               <span>Security Service</span>
-              <span className="text-mist-900">TBD</span>
+              <span className="text-mist-900 font-medium">TBD</span>
             </div>
           )}
           {pricing.couponAmount > 0 && (
             <div className="flex justify-between text-green-600">
-              <span>Promo Code <span className="text-[12.75px]">({pricing.couponPercent}% OFF)</span></span>
+              <span>Promo Code <span className="text-[12.75px] 2xl:text-sm">({pricing.couponPercent}% OFF)</span></span>
               <span>-${pricing.couponAmount.toLocaleString()}</span>
             </div>
           )}
           {pricing.cleaningFee > 0 && (
             <div className="flex justify-between text-mist-500">
               <span>Cleaning Fee</span>
-              <span className="text-mist-900">${pricing.cleaningFee.toLocaleString()}</span>
+              <span className="text-mist-900 font-medium">${pricing.cleaningFee.toLocaleString()}</span>
             </div>
           )}
           <div className="flex justify-between text-mist-500">
-            <span>Tax <span className="text-[12.75px]">({villaTaxPercent}%)</span></span>
-            <span className="text-mist-900">${pricing.tax.toLocaleString()}</span>
+            <span>Tax <span className="text-[12.75px] 2xl:text-sm">({villaTaxPercent}%)</span></span>
+            <span className="text-mist-900 font-medium">${pricing.tax.toLocaleString()}</span>
           </div>
           {pricing.securityDeposit > 0 && (
             <div className="flex justify-between text-mist-500">
-              <span>Security Deposit <span className="text-[12.75px]">(Fully Refundable)</span></span>
-              <span className="text-mist-900">${pricing.securityDeposit.toLocaleString()}</span>
+              <span>Security Deposit <span className="text-[12.75px] 2xl:text-sm">(Fully Refundable)</span></span>
+              <span className="text-mist-900 font-medium">${pricing.securityDeposit.toLocaleString()}</span>
             </div>
           )}
           <hr className="border-mist-100" />
           <div className="flex justify-between text-mist-500">
-            <span>Pay Now <span className="text-[12.75px]">(Authorize Hold)</span></span>
+            <span>Pay Now <span className="text-[12.75px] 2xl:text-sm">(Authorize Hold)</span></span>
             <span className="text-blue-600 font-medium">${pricing.villaDeposit.toLocaleString()}</span>
           </div>
           <div className="flex justify-between items-center text-mist-500">
             <div className="flex flex-col gap-0.5">
               <span className="text-mist-500">Remaining Balance</span>
-              <span className="text-mist-500 text-[12.75px]">(Payable via wire tranfer after confirmation)</span>
+              <span className="text-mist-500 text-[12.75px] 2xl:text-sm">(Payable via wire tranfer after confirmation)</span>
 
             </div>
-            <span className="text-mist-900">${pricing.dueAtPickup.toLocaleString()}</span>
+            <span className="text-mist-900 font-medium">${pricing.dueAtPickup.toLocaleString()}</span>
           </div>
           <hr className="border-mist-100" />
-          <div className="flex justify-between font-bold text-mist-900 text-base pt-1">
+          <div className="flex justify-between font-bold text-mist-900 text-base 2xl:text-xl pt-1">
             <span>Total Charges</span>
             <span>${pricing.total.toLocaleString()}</span>
           </div>

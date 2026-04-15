@@ -857,11 +857,11 @@ function WeddingVillasContent() {
           "Complete privacy and personalized service",
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-3">
-            <span className="mt-0.5 flex-shrink-0 w-5 h-5 2xl:w-7 2xl:h-7 rounded-full bg-mist-200 flex items-center justify-center">
-              <svg className="w-2.5 h-2.5 2xl:w-3.5 2xl:h-3.5" viewBox="0 0 12 12" fill="none">
-                <path d="M2 6l3 3 5-5" stroke="#6B7280" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
+           <span className="mt-0.5 flex-shrink-0 w-5 2xl:w-7 h-5 2xl:h-7 rounded-full bg-mist-800 flex items-center justify-center">
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" className="2xl:w-4 2xl:h-4">
+                      <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
             <span className="text-base 2xl:text-2xl text-mist-600 leading-relaxed">{item}</span>
           </li>
         ))}
@@ -987,7 +987,7 @@ function WeddingVillasContent() {
       {/* Reuse existing sections */}
       <WhyChooseUs />
       <Reviews />
-      <section className="py-16 px-6 sm:px-16 lg:px-20 2xl:px-32 mt-24 2xl:mt-48">
+      <section className="px-6 sm:px-16 lg:px-20 2xl:px-32 mt-24 2xl:mt-48">
         <div className="">
           <div className="relative bg-mist-100 rounded-3xl 2xl:rounded-[40px] px-8 2xl:px-16 py-16 2xl:py-24 text-center overflow-hidden">
             <img

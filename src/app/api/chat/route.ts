@@ -62,6 +62,7 @@ IMPORTANT BOOKING RULES:
 - ALWAYS check availability before creating the booking
 - The deposit is typically 10-20% of the total price, but can be negotiated
 - After creating the booking, ALWAYS share the deposit payment link from the booking result
+- For deposit links: NEVER invent /payment-link or any custom payment URL. Use ONLY the exact depositLink value returned by create_mark_booking.
 - For cars: price is per day (pricePerDay from search results)
 - For villas: price is per night (pricePerNight from search results), add cleaning fee and tax
 - For events: discuss budget and pricing with the customer
@@ -216,6 +217,21 @@ function parseRetryDelayMs(errorText: string, retryAfterHeader: string | null, a
 function isRateLimitError(data: any) {
   const message = String(data?.error?.message || "").toLowerCase()
   return data?.error?.code === "rate_limit_exceeded" || message.includes("rate limit")
+}
+
+function enforceDepositLink(content: string, depositLink: string) {
+  let updated = content
+
+  updated = updated.replace(/\[([^\]]*payment[^\]]*)\]\(([^)]+)\)/gi, (_m, label) => `[${label}](${depositLink})`)
+  updated = updated.replace(/https?:\/\/[^\s)]+\/payment-link\b/gi, depositLink)
+  updated = updated.replace(/(^|[\s(])\/payment-link\b/gi, (_m, p1) => `${p1}${depositLink}`)
+
+  if (!updated.includes(depositLink)) {
+    const separator = updated.trim().endsWith(":") ? " " : "\n\n"
+    updated += `${separator}Deposit Payment Link: [Pay now](${depositLink})`
+  }
+
+  return updated
 }
 
 const tools = [
@@ -769,6 +785,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "AI service unavailable" }, { status: 503 })
     }
     let assistantMessage = data.choices[0].message
+    let latestDepositLink: string | null = null
 
     // Handle tool calls (may need multiple rounds)
     let rounds = 0
@@ -790,6 +807,14 @@ export async function POST(request: NextRequest) {
           continue
         }
         const result = await executeTool(toolCall.function.name, args)
+        if (
+          toolCall.function.name === "create_mark_booking" &&
+          result &&
+          typeof result.depositLink === "string" &&
+          result.depositLink.length > 0
+        ) {
+          latestDepositLink = result.depositLink
+        }
         toolResults.push({
           role: "tool",
           tool_call_id: toolCall.id,
@@ -860,6 +885,11 @@ export async function POST(request: NextRequest) {
       } else {
         aiContent = "I apologize for the technical difficulty. Could you please rephrase your request? I'm here to help you with luxury cars, villas, and events at VIDI VICI."
       }
+    }
+
+    // Ensure we never send a guessed payment link when a real booking link exists.
+    if (latestDepositLink) {
+      aiContent = enforceDepositLink(aiContent, latestDepositLink)
     }
 
     // Save AI response to DB

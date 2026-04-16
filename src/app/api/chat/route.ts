@@ -219,6 +219,13 @@ function isRateLimitError(data: any) {
   return data?.error?.code === "rate_limit_exceeded" || message.includes("rate limit")
 }
 
+function extractDepositLink(result: unknown): string | null {
+  if (!result || typeof result !== "object") return null
+  if (!("depositLink" in result)) return null
+  const link = (result as { depositLink?: unknown }).depositLink
+  return typeof link === "string" && link.length > 0 ? link : null
+}
+
 function enforceDepositLink(content: string, depositLink: string) {
   let updated = content
 
@@ -807,13 +814,9 @@ export async function POST(request: NextRequest) {
           continue
         }
         const result = await executeTool(toolCall.function.name, args)
-        if (
-          toolCall.function.name === "create_mark_booking" &&
-          result &&
-          typeof result.depositLink === "string" &&
-          result.depositLink.length > 0
-        ) {
-          latestDepositLink = result.depositLink
+        if (toolCall.function.name === "create_mark_booking") {
+          const depositLink = extractDepositLink(result)
+          if (depositLink) latestDepositLink = depositLink
         }
         toolResults.push({
           role: "tool",

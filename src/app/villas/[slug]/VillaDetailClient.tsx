@@ -1124,42 +1124,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
             </div>
           </div>
 
-          {/* Related Villas */}
-          {relatedVillas.length > 0 && (
-            <div className="mt-16">
-              <h2 className="text-2xl 2xl:text-4xl font-bold text-mist-900 mb-6 2xl:mb-10">More Luxury Villas</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 2xl:gap-10">
-                {relatedVillas.map((rv) => (
-                  <Link href={`/villas/${rv.slug}`} key={rv.id} className="group">
-                    <div className="relative flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer">
-                      <div className="relative h-56 overflow-hidden">
-                        {rv.image ? (
-                          <img src={rv.image} alt={rv.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                        ) : (
-                          <div className="w-full h-full bg-mist-100 flex items-center justify-center text-mist-400 text-sm">No Image</div>
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
-                      </div>
-                      <div className="flex flex-col gap-2 px-4 pt-3.5 pb-4">
-                        <p className="text-[10px] text-mist-400 font-medium tracking-wide uppercase truncate">
-                          Luxury Villa | {rv.location}
-                        </p>
-                        <h3 className="text-[15px] font-semibold text-mist-900 leading-snug">{rv.name}</h3>
-                        <div className="flex items-center justify-between mt-1">
-                          <div className="flex items-center gap-3 text-xs text-mist-500">
-                            <span className="flex items-center gap-1"><BedDouble size={12} /> {rv.bedrooms}</span>
-                            <span className="flex items-center gap-1"><Users size={12} /> {rv.guests}</span>
-                            <span className="flex items-center gap-1"><Maximize2 size={12} /> {formatSqft(rv.sqft)}</span>
-                          </div>
-                          <span className="text-[15px] font-bold text-mist-900">${rv.pricePerNight.toLocaleString()}<span className="text-[10px] text-mist-400 font-normal">/night</span></span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
+         
         </div>
       </div>
 

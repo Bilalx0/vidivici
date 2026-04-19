@@ -13,6 +13,7 @@ import DateRangeCalendarPopup, { DateTriggerField } from "@/components/ui/Floati
 import CarGallery from "@/components/cars/CarGallery" // adjust path as needed
 import Turnstile from "@/components/Turnstile"
 import RelatedVilla from "@/components/ui/RelatedVilla"
+import * as LucideIcons from "lucide-react"
 
 interface VillaImage {
   url: string
@@ -53,6 +54,22 @@ interface RelatedVilla {
 
 const TABS = ["Stay", "Event", "Production"] as const
 type TabType = (typeof TABS)[number]
+
+// Add this helper near the top of your villa detail component
+function DynamicIcon({ name, size = 20, className = "" }: {
+  name: string
+  size?: number
+  className?: string
+}) {
+  const Icon = (LucideIcons as Record<string, unknown>)[name] as
+    | React.ComponentType<{ size?: number; className?: string }>
+    | undefined
+  if (!Icon) {
+    const { BedDouble } = LucideIcons
+    return <BedDouble size={size} className={className} />
+  }
+  return <Icon size={size} className={className} />
+}
 
 const VILLA_ADDONS = [
   { name: "Private chef", icon: "/addon1.png" },
@@ -488,7 +505,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                         const IconComp = AMENITY_ICONS[amenity.iconKey]?.icon || BedDouble
                         return (
                           <div key={i} className="flex items-center gap-3">
-                            <IconComp size={20} className="text-mist-500 flex-shrink-0" />
+                            <DynamicIcon name={amenity.iconKey} size={20} className="text-mist-500 flex-shrink-0" />
                             <span className="text-sm 2xl:text-lg text-mist-700">{amenity.name}</span>
                           </div>
                         )
@@ -803,7 +820,7 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                               <span className="text-mist-900 font-medium">TBD</span>
                             </div>
                           )}
-                        
+
                           <div className="flex justify-between text-mist-500 text-sm 2xl:text-lg">
                             <span>Cleaning Fee</span>
                             <span className="text-mist-900 font-medium">${effectiveCleaningFee.toLocaleString()}</span>
@@ -1361,79 +1378,79 @@ export default function VillaDetailClient({ villa, relatedVillas }: { villa: Vil
                   </label>
                 </div>
 
-                   {checkInDate && checkOutDate ? (
-      <>
-        <button
-          onClick={() => {
-            const params = new URLSearchParams({
-              type: "villa",
-              villa: villa.slug,
-              ...(checkInDate && { checkIn: checkInDate }),
-              ...(checkInTime && { checkInTime }),
-              ...(checkOutDate && { checkOut: checkOutDate }),
-              ...(checkOutTime && { checkOutTime }),
-              ...(guestCount > 1 && { guests: String(guestCount) }),
-              ...(airportTransfer && { airportTransfer: "1" }),
-              ...(privateChef && { privateChef: "1" }),
-              ...(securityService && { securityService: "1" }),
-            });
-            router.push(`/booking?${params.toString()}`);
-          }}
-          className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide"
-        >
-          Next
-        </button>
+                {checkInDate && checkOutDate ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        const params = new URLSearchParams({
+                          type: "villa",
+                          villa: villa.slug,
+                          ...(checkInDate && { checkIn: checkInDate }),
+                          ...(checkInTime && { checkInTime }),
+                          ...(checkOutDate && { checkOut: checkOutDate }),
+                          ...(checkOutTime && { checkOutTime }),
+                          ...(guestCount > 1 && { guests: String(guestCount) }),
+                          ...(airportTransfer && { airportTransfer: "1" }),
+                          ...(privateChef && { privateChef: "1" }),
+                          ...(securityService && { securityService: "1" }),
+                        });
+                        router.push(`/booking?${params.toString()}`);
+                      }}
+                      className="w-full bg-neutral-500 hover:bg-mist-700 transition text-white py-3.5 rounded-md font-semibold text-sm tracking-wide"
+                    >
+                      Next
+                    </button>
 
-        {/* Price breakdown */}
-        <div className="space-y-3 pt-4 border-t border-mist-200">
-          <div className="flex justify-between text-mist-500 text-sm">
-            <span>Nightly Rate <span className="text-[12.75px]">(${villa.pricePerNight} × {days} nights)</span></span>
-            <span className="text-mist-900 font-medium">${nightsTotal.toLocaleString()}</span>
-          </div>
+                    {/* Price breakdown */}
+                    <div className="space-y-3 pt-4 border-t border-mist-200">
+                      <div className="flex justify-between text-mist-500 text-sm">
+                        <span>Nightly Rate <span className="text-[12.75px]">(${villa.pricePerNight} × {days} nights)</span></span>
+                        <span className="text-mist-900 font-medium">${nightsTotal.toLocaleString()}</span>
+                      </div>
 
-          {airportTransfer && (
-            <div className="flex justify-between text-mist-500 text-sm">
-              <span>Airport Transfer</span>
-              <span className="text-mist-900 font-medium">$500</span>
-            </div>
-          )}
-          {privateChef && (
-            <div className="flex justify-between text-mist-500 text-sm">
-              <span>Private Chef</span>
-              <span className="text-mist-900 font-medium">TBD</span>
-            </div>
-          )}
-          {securityService && (
-            <div className="flex justify-between text-mist-500 text-sm">
-              <span>Security Service</span>
-              <span className="text-mist-900 font-medium">TBD</span>
-            </div>
-          )}
-        
-          <div className="flex justify-between text-mist-500 text-sm">
-            <span>Cleaning Fee</span>
-            <span className="text-mist-900 font-medium">${effectiveCleaningFee.toLocaleString()}</span>
-          </div>
-          <div className="flex justify-between text-mist-500 text-sm">
-            <span>Tax <span className="text-[12.75px]">({villaTaxPercent}%)</span></span>
-            <span className="text-mist-900 font-medium">${tax.toLocaleString()}</span>
-          </div>
-          <div className="flex justify-between text-mist-500 text-sm">
-            <span>Security Deposit<span className="text-[12.75px]"> (Fully Refundable)</span></span>
-            <span className="text-mist-900 font-medium">${effectiveSecurityDeposit.toLocaleString()}</span>
-          </div>
-          <hr className="border-mist-200" />
-          <div className="flex justify-between font-bold text-mist-900 text-base pt-1">
-            <span>Total Charges</span>
-            <span>${total.toLocaleString()}</span>
-          </div>
-        </div>
-      </>
-    ) : (
-      <div className="text-center py-4 border border-mist-200 rounded-md">
-        <p className="text-mist-400 text-sm">Select dates to see pricing</p>
-      </div>
-    )}
+                      {airportTransfer && (
+                        <div className="flex justify-between text-mist-500 text-sm">
+                          <span>Airport Transfer</span>
+                          <span className="text-mist-900 font-medium">$500</span>
+                        </div>
+                      )}
+                      {privateChef && (
+                        <div className="flex justify-between text-mist-500 text-sm">
+                          <span>Private Chef</span>
+                          <span className="text-mist-900 font-medium">TBD</span>
+                        </div>
+                      )}
+                      {securityService && (
+                        <div className="flex justify-between text-mist-500 text-sm">
+                          <span>Security Service</span>
+                          <span className="text-mist-900 font-medium">TBD</span>
+                        </div>
+                      )}
+
+                      <div className="flex justify-between text-mist-500 text-sm">
+                        <span>Cleaning Fee</span>
+                        <span className="text-mist-900 font-medium">${effectiveCleaningFee.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between text-mist-500 text-sm">
+                        <span>Tax <span className="text-[12.75px]">({villaTaxPercent}%)</span></span>
+                        <span className="text-mist-900 font-medium">${tax.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between text-mist-500 text-sm">
+                        <span>Security Deposit<span className="text-[12.75px]"> (Fully Refundable)</span></span>
+                        <span className="text-mist-900 font-medium">${effectiveSecurityDeposit.toLocaleString()}</span>
+                      </div>
+                      <hr className="border-mist-200" />
+                      <div className="flex justify-between font-bold text-mist-900 text-base pt-1">
+                        <span>Total Charges</span>
+                        <span>${total.toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center py-4 border border-mist-200 rounded-md">
+                    <p className="text-mist-400 text-sm">Select dates to see pricing</p>
+                  </div>
+                )}
 
               </div>
             )}

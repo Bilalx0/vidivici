@@ -145,7 +145,6 @@ function VillaForm() {
 
       if (res.ok) {
         toast.success(isEditing ? "Villa updated successfully" : "Villa created successfully")
-        setTimeout(() => router.push("/admin/villas"), 500)
       } else {
         const data = await res.json().catch(() => ({}))
         toast.error(data.error || `Failed to ${isEditing ? "update" : "create"} villa`)
@@ -271,26 +270,27 @@ function VillaForm() {
           <h2 className="text-lg font-semibold text-mist-900 mb-4">Amenities</h2>
           <div className="space-y-3">
             {amenityRows.map((row, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-44">
-                    <IconPickerInput
-                      value={row.iconKey}
-                      onChange={(iconName) => updateAmenity(i, "iconKey", iconName || DEFAULT_ICON_KEY)}
-                      inputClassName="bg-white border border-mist-200 text-mist-900 text-sm px-3 py-2.5 rounded focus:border-black focus:outline-none w-full"
-                      placeholder="Pick icon"
-                    />
-                  </div>
-                  <input
-                    type="text"
-                    value={row.name}
-                    onChange={(e) => updateAmenity(i, "name", e.target.value)}
-                    placeholder="e.g., Infinity Pool"
-                    className="flex-1 bg-white border border-mist-200 text-mist-900 text-sm px-4 py-2.5 rounded focus:border-black focus:outline-none"
+              <div key={i} className="flex items-center gap-3">
+                <div className="w-44">
+                  <IconPickerInput
+                    value={row.iconKey}
+                    onChange={(iconName) => updateAmenity(i, "iconKey", iconName)}
+
+                    inputClassName="bg-white border border-mist-200 text-mist-900 text-sm px-3 py-2.5 rounded focus:border-black focus:outline-none w-full"
+                    placeholder="Pick icon"
                   />
-                  <button type="button" onClick={() => removeAmenity(i)} className="text-red-500 hover:text-red-400 p-1">
-                    <Trash2 size={16} />
-                  </button>
                 </div>
+                <input
+                  type="text"
+                  value={row.name}
+                  onChange={(e) => updateAmenity(i, "name", e.target.value)}
+                  placeholder="e.g., Infinity Pool"
+                  className="flex-1 bg-white border border-mist-200 text-mist-900 text-sm px-4 py-2.5 rounded focus:border-black focus:outline-none"
+                />
+                <button type="button" onClick={() => removeAmenity(i)} className="text-red-500 hover:text-red-400 p-1">
+                  <Trash2 size={16} />
+                </button>
+              </div>
             ))}
           </div>
           <button type="button" onClick={addAmenity} className="mt-3 flex items-center gap-2 text-sm text-mist-900 hover:text-mist-600">

@@ -115,7 +115,6 @@ export default function NewBookingPage() {
       })
       if (res.ok) {
         toast.success("Booking created!")
-        setTimeout(() => router.push("/admin/bookings"), 500)
       } else {
         const data = await res.json().catch(() => ({}))
         toast.error(data.error || "Failed to create booking")

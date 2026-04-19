@@ -29,21 +29,32 @@ export const AMENITY_ICONS: Record<string, { icon: LucideIcon; label: string }> 
 }
 
 export const ICON_KEYS = Object.keys(AMENITY_ICONS)
-export const DEFAULT_ICON_KEY = "sparkles"
+export const DEFAULT_ICON_KEY = "Sparkles" // was "sparkles"
 
-export function parseAmenity(raw: string): { name: string; iconKey: string } {
+export const parseAmenity = (raw: string): { name: string; iconKey: string } => {
   const colonIdx = raw.lastIndexOf(":")
+  
   if (colonIdx > 0) {
     const name = raw.slice(0, colonIdx).trim()
-    const key = raw.slice(colonIdx + 1).trim().toLowerCase()
+    const key = raw.slice(colonIdx + 1).trim()
+    
+    // Check exact case first, then lowercase fallback for old data
     if (AMENITY_ICONS[key]) return { name, iconKey: key }
+    if (AMENITY_ICONS[key.toLowerCase()]) return { name, iconKey: key.toLowerCase() }
+    
+    // Key not in AMENITY_ICONS — it's a raw lucide icon name (PascalCase), keep it
+    if (key.length > 0) return { name, iconKey: key }
+    
+    return { name: raw.trim(), iconKey: DEFAULT_ICON_KEY }
   }
+  
+  // No colon — just a name with default icon
   return { name: raw.trim(), iconKey: DEFAULT_ICON_KEY }
 }
 
 export function serializeAmenities(items: { name: string; iconKey: string }[]): string {
   return items
     .filter((a) => a.name.trim())
-    .map((a) => `${a.name.trim()}:${a.iconKey}`)
+    .map((a) => `${a.name.trim()}:${a.iconKey}`) // keep iconKey as-is (PascalCase)
     .join(", ")
 }

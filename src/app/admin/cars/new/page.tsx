@@ -154,7 +154,6 @@ function AddCarForm() {
 
       if (res.ok) {
         toast.success(isEditing ? "Car updated successfully" : "Car created successfully")
-        setTimeout(() => router.push("/admin/cars"), 500)
       } else {
         const data = await res.json().catch(() => ({}))
         toast.error(data.error || `Failed to ${isEditing ? "update" : "create"} car`)

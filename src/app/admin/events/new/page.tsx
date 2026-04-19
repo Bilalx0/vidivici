@@ -263,7 +263,6 @@ function EventForm() {
 
       if (res.ok) {
         toast.success(isEditing ? "Event updated successfully" : "Event created successfully")
-        setTimeout(() => router.push("/admin/events"), 500)
       } else {
         const data = await res.json().catch(() => ({}))
         toast.error(data.error || `Failed to ${isEditing ? "update" : "create"} event`)

@@ -93,7 +93,6 @@ function NewBlogPostForm() {
       if (!res.ok) throw new Error()
 
       toast.success(editId ? "Post updated successfully" : "Post created successfully")
-      router.push("/admin/blog")
     } catch {
       toast.error(editId ? "Failed to update post" : "Failed to create post")
     } finally {

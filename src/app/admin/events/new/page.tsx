@@ -417,14 +417,8 @@ function EventForm() {
             </div>
             <div>
               <div className="flex items-center justify-between mb-3">
-                <label className="text-xs text-mist-400 block mb-1">Why Choose Cards</label>
-                <button
-                  type="button"
-                  onClick={() => setWhyChooseCards((prev) => [...prev, { title: "", description: "", icon: "Star" }])}
-                  className="text-xs px-3 py-1.5 rounded bg-mist-100 text-mist-700 hover:bg-mist-200"
-                >
-                  Add Card
-                </button>
+                <label className="text-xs text-mist-400 block mb-1">Why Choose Section</label>
+               
               </div>
               <div className="mb-3">
                 <label className="text-xs text-mist-400 block mb-1">Description (below Why Choose heading)</label>
@@ -435,6 +429,16 @@ function EventForm() {
                   className={`${inputClass} resize-none`}
                   placeholder="e.g., Experience the perfect blend of luxury, entertainment, and world-class service"
                 />
+              </div>
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-xs text-mist-400 block mb-1">Why Choose Cards</label>
+                <button
+                  type="button"
+                  onClick={() => setWhyChooseCards((prev) => [...prev, { title: "", description: "", icon: "Star" }])}
+                  className="text-xs px-3 py-1.5 rounded bg-mist-100 text-mist-700 hover:bg-mist-200"
+                >
+                  Add Card
+                </button>
               </div>
               <div className="space-y-2.5">
                 {whyChooseCards.map((card, idx) => (

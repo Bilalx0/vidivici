@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
-const GROQ_API_KEY = process.env.GROQ_API_KEY
-const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY
+const OPENAI_URL = "https://api.openai.com/v1/chat/completions"
+const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini"
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -11,8 +12,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const { messageType, alternativeVehicle } = body
     // messageType: "confirmation" | "alternative" | "custom"
 
-    if (!GROQ_API_KEY) {
-      return NextResponse.json({ error: "GROQ AI not configured" }, { status: 500 })
+    if (!OPENAI_API_KEY) {
+      return NextResponse.json({ error: "OpenAI not configured" }, { status: 500 })
     }
 
     // Try car booking first, then villa, then event
@@ -115,14 +116,14 @@ Do NOT use markdown formatting - write plain text suitable for both email and Wh
 - Details: ${details}
 ${alternativeVehicle ? `- Alternative Vehicle Offered: ${alternativeVehicle}` : ""}`
 
-    const res = await fetch(GROQ_URL, {
+    const res = await fetch(OPENAI_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${GROQ_API_KEY}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
+        model: OPENAI_MODEL,
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
@@ -134,7 +135,7 @@ ${alternativeVehicle ? `- Alternative Vehicle Offered: ${alternativeVehicle}` : 
 
     if (!res.ok) {
       const err = await res.text()
-      console.error("GROQ error:", err)
+      console.error("OpenAI error:", err)
       return NextResponse.json({ error: "Failed to generate message" }, { status: 500 })
     }
 

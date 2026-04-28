@@ -3,12 +3,12 @@ import { prisma } from "@/lib/prisma"
 import { notifyAdmin } from "@/lib/email"
 import crypto from "crypto"
 
-const GROQ_API_KEY = process.env.GROQ_API_KEY!
-const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY!
+const OPENAI_URL = "https://api.openai.com/v1/chat/completions"
 const MAX_CONTEXT_MESSAGES = 12
 const MAX_CONTEXT_CHARS = 6000
-const PRIMARY_MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile"
-const FALLBACK_MODEL = process.env.GROQ_FALLBACK_MODEL || "llama-3.1-8b-instant"
+const PRIMARY_MODEL = process.env.OPENAI_MODEL || "gpt-4o"
+const FALLBACK_MODEL = process.env.OPENAI_FALLBACK_MODEL || "gpt-4o-mini"
 const PRIMARY_MAX_TOKENS = 900
 const FOLLOWUP_MAX_TOKENS = 700
 const FALLBACK_MAX_TOKENS = 500
@@ -685,16 +685,16 @@ export async function POST(request: NextRequest) {
       ...trimmedMessages.map((m: any) => ({ role: m.role === "admin" ? "assistant" : m.role, content: m.content })),
     ]
 
-    // Helper: call Groq with timeout + retry on rate limit
-    async function callGroq(body: object, retries = 2): Promise<any> {
+    // Helper: call OpenAI with timeout + retry on rate limit
+    async function callOpenAI(body: object, retries = 2): Promise<any> {
       for (let attempt = 0; attempt <= retries; attempt++) {
         const controller = new AbortController()
         const timeout = setTimeout(() => controller.abort(), 29000) // 29s timeout
         try {
-          const r = await fetch(GROQ_URL, {
+          const r = await fetch(OPENAI_URL, {
             method: "POST",
             headers: {
-              Authorization: `Bearer ${GROQ_API_KEY}`,
+              Authorization: `Bearer ${OPENAI_API_KEY}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify(body),
@@ -716,7 +716,7 @@ export async function POST(request: NextRequest) {
           }
           if (!r.ok) {
             const errText = await r.text()
-            console.error("Groq error:", r.status, errText)
+            console.error("OpenAI error:", r.status, errText)
             // Return parsed error for tool_use_failed handling
             try { return JSON.parse(errText) } catch { return null }
           }
@@ -724,21 +724,21 @@ export async function POST(request: NextRequest) {
         } catch (err: any) {
           clearTimeout(timeout)
           if (err.name === "AbortError") {
-            console.error("Groq request timed out")
+            console.error("OpenAI request timed out")
             return null
           }
           if (attempt < retries) {
             await new Promise((resolve) => setTimeout(resolve, 1000))
             continue
           }
-          console.error("Groq fetch error:", err)
+          console.error("OpenAI fetch error:", err)
           return null
         }
       }
       return null
     }
 
-    const groqBody = {
+    const openaiBody = {
       model: PRIMARY_MODEL,
       messages: workingMessages,
       tools,
@@ -747,13 +747,13 @@ export async function POST(request: NextRequest) {
       max_tokens: PRIMARY_MAX_TOKENS,
     }
 
-    let data = await callGroq(groqBody)
+    let data = await callOpenAI(openaiBody)
 
     // If primary model is rate-limited, fall back to a lower-cost model quickly
     if (isRateLimitError(data)) {
-      data = await callGroq(
+      data = await callOpenAI(
         {
-          ...groqBody,
+          ...openaiBody,
           model: FALLBACK_MODEL,
           max_tokens: FALLBACK_MAX_TOKENS,
           temperature: 0.3,
@@ -762,24 +762,24 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // If Groq returns a tool_use_failed error, try multiple recovery strategies
+    // If the API returns a tool_use_failed error, try multiple recovery strategies
     if (data?.error?.code === "tool_use_failed") {
-      console.warn("Groq tool_use_failed, trying recovery strategies...")
+      console.warn("tool_use_failed, trying recovery strategies...")
 
       // Strategy 1: Lower temperature significantly
-      data = await callGroq({ ...groqBody, temperature: 0.2 })
+      data = await callOpenAI({ ...openaiBody, temperature: 0.2 })
 
       if (data?.error?.code === "tool_use_failed") {
         console.warn("Still failing, trying with different model settings...")
         // Strategy 2: Lower temperature + reduce max_tokens
-        data = await callGroq({ ...groqBody, temperature: 0.1, max_tokens: FOLLOWUP_MAX_TOKENS })
+        data = await callOpenAI({ ...openaiBody, temperature: 0.1, max_tokens: FOLLOWUP_MAX_TOKENS })
       }
 
       if (data?.error?.code === "tool_use_failed") {
         console.warn("Still failing, trying without tools as last resort")
         // Strategy 3: Remove tools entirely (last resort)
-        data = await callGroq({
-          ...groqBody,
+        data = await callOpenAI({
+          ...openaiBody,
           tools: undefined,
           tool_choice: undefined,
           temperature: 0.4,
@@ -825,13 +825,13 @@ export async function POST(request: NextRequest) {
         })
       }
 
-      // Send tool results back to Groq (maintain context limits)
+      // Send tool results back to OpenAI (maintain context limits)
       const updatedMessages = [...workingMessages, assistantMessage, ...toolResults]
       const finalWorkingMessages = updatedMessages.length > 30
         ? [updatedMessages[0], ...updatedMessages.slice(-29)] // Keep system + last 29 messages
         : updatedMessages
 
-      const followUpData = await callGroq({
+      const followUpData = await callOpenAI({
         model: PRIMARY_MODEL,
         messages: finalWorkingMessages,
         tools,
@@ -841,7 +841,7 @@ export async function POST(request: NextRequest) {
       })
 
       if (isRateLimitError(followUpData)) {
-        const fallbackFollowUp = await callGroq(
+        const fallbackFollowUp = await callOpenAI(
           {
             model: FALLBACK_MODEL,
             messages: finalWorkingMessages,

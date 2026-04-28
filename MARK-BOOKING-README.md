@@ -185,7 +185,7 @@ npx prisma generate
 ```
 
 Make sure these environment variables are set:
-- `GROQ_API_KEY` — for Mark AI
+- `OPENAI_API_KEY` — for Mark AI
 - `PAYPAL_CLIENT_ID` / `PAYPAL_CLIENT_SECRET` / `PAYPAL_MODE` — for deposit payments
 - `NEXT_PUBLIC_PAYPAL_CLIENT_ID` — for client-side PayPal buttons
 - `NEXTAUTH_URL` — for generating correct links in emails

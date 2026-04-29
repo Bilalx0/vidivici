@@ -18,7 +18,7 @@ export default function Footer() {
 
   const [email, setEmail] = useState("");
 
-   const pathname = usePathname();
+  const pathname = usePathname();
 
   const noMargin = NO_MARGIN_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
 
@@ -43,15 +43,55 @@ export default function Footer() {
 
         {/* Top Branding Section */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 2xl:gap-12 pb-10 2xl:pb-16 border-b border-white/10">
-          <div className="flex items-center gap-6 2xl:gap-8 flex-shrink-0">
-            <div className="flex-shrink-0">
-              <Image src="/Logo.png" alt="Vidi Vici Logo" width={80} height={80} className="2xl:w-20 2xl:h-20" />
-            </div>
-            <div>
-              <p className="text-xl sm:text-3xl 2xl:text-4xl font-normal tracking-wide leading-tight">Vidi Vici</p>
-              <p className="text-xs sm:text-base 2xl:text-lg tracking-[0.5rem] 2xl:tracking-[1rem] text-[#EDEDED] uppercase mt-1">Rental</p>
-            </div>
-          </div>
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 xl:gap-7 2xl:gap-8 flex-shrink-0">
+  
+  {/* Logo */}
+  <div className="flex-shrink-0">
+    <Image
+      src="/Logo.png"
+      alt="Vidi Vici Logo"
+      width={80}
+      height={80}
+      className="
+        w-8 h-8 
+        sm:w-10 sm:h-10 
+        md:w-12 md:h-12 
+        lg:w-14 lg:h-14 
+        xl:w-16 xl:h-16 
+        2xl:w-20 2xl:h-20
+      "
+    />
+  </div>
+
+  {/* Text */}
+  <div className="flex flex-col justify-center">
+    
+    <p className="
+      text-lg 
+      sm:text-xl 
+      md:text-2xl 
+      lg:text-3xl 
+      xl:text-4xl 
+      2xl:text-5xl 
+      font-semibold tracking-wide leading-tight
+    ">
+      Vidi Vici
+    </p>
+
+    <p className="
+      text-[10px] 
+      sm:text-xs 
+      md:text-sm 
+      lg:text-base 
+      xl:text-lg 
+      2xl:text-xl 
+      uppercase tracking-widest text-center mt-1 text-gray-400
+    ">
+      Hospitality Group
+    </p>
+
+  </div>
+</div>
 
           <p className="text-[13px] 2xl:text-lg text-mist-300 leading-relaxed max-w-sm 2xl:max-w-xl lg:text-right">
             Experience the pinnacle of luxury and adventure with our exclusive
@@ -79,7 +119,7 @@ export default function Footer() {
               <FooterCol
                 title="Services"
                 links={[
-                 { label: "Cars", href: "/cars" },
+                  { label: "Cars", href: "/cars" },
                   { label: "Insurance Replacement", href: "/cars/insurance" },
                   { label: "Long-Term Car Rental", href: "/cars/longterm" },
 
@@ -94,7 +134,7 @@ export default function Footer() {
                   { label: "Film, TV & Video Car Rental", href: "/cars/film_tv_car_rental" },
                   { label: "Film, TV & Video House Rental", href: "/film-tv-production" },
                   { label: "Ballroom", href: "/ballroom" },
-                  { label: "Fifa World Cup 2026", href:"/fifa-world-cup" },
+                  { label: "Fifa World Cup 2026", href: "/fifa-world-cup" },
                 ]}
               />
             </div>
@@ -178,23 +218,23 @@ export default function Footer() {
           <FooterCol
             title="Services"
             links={[
-                  { label: "Cars", href: "/cars" },
-                  { label: "Insurance Replacement", href: "/cars/insurance" },
-                  { label: "Long-Term Car Rental", href: "/cars/longterm" },
+              { label: "Cars", href: "/cars" },
+              { label: "Insurance Replacement", href: "/cars/insurance" },
+              { label: "Long-Term Car Rental", href: "/cars/longterm" },
 
-                  { label: "Villas", href: "/villas" },
-                  { label: "Events", href: "/events" },
-                  { label: "Airport Transfer", href: "/cars/airport_transfer" },
-                  { label: "Wedding Car Rental", href: "/cars/wedding_car_rental" },
+              { label: "Villas", href: "/villas" },
+              { label: "Events", href: "/events" },
+              { label: "Airport Transfer", href: "/cars/airport_transfer" },
+              { label: "Wedding Car Rental", href: "/cars/wedding_car_rental" },
 
-                  { label: "Luxury Car Rental", href: "/cars/luxury_car_rental" },
-                  { label: "Corporate Car Rental", href: "/cars/corporate_car_rental" },
-                  { label: "Prom Car Rental", href: "/cars/prom_car_rental" },
-                  { label: "Film, TV & Video Car Rental", href: "/cars/film_tv_car_rental" },
-                  { label: "Film, TV & Video House Rental", href: "/film-tv-production" },
-                  { label: "Ballroom", href: "/ballroom" },
-                  { label: "Fifa World Cup 2026", href:"/fifa-world-cup" },
-                ]}
+              { label: "Luxury Car Rental", href: "/cars/luxury_car_rental" },
+              { label: "Corporate Car Rental", href: "/cars/corporate_car_rental" },
+              { label: "Prom Car Rental", href: "/cars/prom_car_rental" },
+              { label: "Film, TV & Video Car Rental", href: "/cars/film_tv_car_rental" },
+              { label: "Film, TV & Video House Rental", href: "/film-tv-production" },
+              { label: "Ballroom", href: "/ballroom" },
+              { label: "Fifa World Cup 2026", href: "/fifa-world-cup" },
+            ]}
           />
 
           <FooterCol
@@ -275,29 +315,29 @@ export default function Footer() {
 
           {/* Payment Cards - Using PNG images */}
           <div className="flex items-center gap-2 2xl:gap-4">
-            <img 
-              src="/card1.png" 
-              alt="Visa" 
+            <img
+              src="/card1.png"
+              alt="Visa"
               className="h-5 sm:h-6 2xl:h-9 w-auto object-contain rounded"
             />
-            <img 
-              src="/card2.png" 
-              alt="PayPal" 
+            <img
+              src="/card2.png"
+              alt="PayPal"
               className="h-5 sm:h-6 2xl:h-9 w-auto object-contain rounded"
             />
-            <img 
-              src="/card3.png" 
-              alt="Shop Pay" 
+            <img
+              src="/card3.png"
+              alt="Shop Pay"
               className="h-5 sm:h-6 2xl:h-9 w-auto object-contain rounded"
             />
-            <img 
-              src="/card4.png" 
-              alt="Google Pay" 
+            <img
+              src="/card4.png"
+              alt="Google Pay"
               className="h-5 sm:h-6 2xl:h-9 w-auto object-contain rounded"
             />
-            <img 
-              src="/card5.png" 
-              alt="Mastercard" 
+            <img
+              src="/card5.png"
+              alt="Mastercard"
               className="h-5 sm:h-6 2xl:h-9 w-auto object-contain rounded"
             />
           </div>

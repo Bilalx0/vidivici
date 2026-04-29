@@ -56,6 +56,12 @@ When the customer wants to book something:
 6. After the booking is created, share the deposit payment link with the customer
 7. Tell them: "Once you pay the deposit, our team will confirm availability with the property owner and send you the remaining balance details and wire transfer instructions."
 
+ITEM IDENTIFIER RULE (very important):
+- Tool results from search_cars/search_villas/search_events include both an "id" (UUID) and a "slug" for each item.
+- When you call check_availability or create_mark_booking, the itemId parameter accepts EITHER the UUID id OR the slug.
+- If you no longer have the search results in context (e.g. on a later turn), use the slug from the markdown link you previously sent — for [Mercedes-AMG G63](/cars/mercedes-amg-g63), the slug is "mercedes-amg-g63". Pass that as itemId.
+- If you don't remember either the UUID or the slug, call the search tool again to retrieve them before booking. Never invent an id.
+
 IMPORTANT BOOKING RULES:
 - ALWAYS collect customer name, email, and phone before booking
 - ALWAYS agree on total price and deposit amount before creating the booking
@@ -300,7 +306,7 @@ const tools = [
         type: "object",
         properties: {
           itemType: { type: "string", enum: ["car", "villa", "event"], description: "Type of item to check" },
-          itemId: { type: "string", description: "The ID of the car, villa, or event" },
+          itemId: { type: "string", description: "The ID (UUID) or slug of the car, villa, or event. Slug is the URL-safe identifier shown in markdown links like [Name](/cars/SLUG)." },
           startDate: { type: "string", description: "Start date (YYYY-MM-DD)" },
           endDate: { type: "string", description: "End date (YYYY-MM-DD)" },
         },
@@ -317,7 +323,7 @@ const tools = [
         type: "object",
         properties: {
           itemType: { type: "string", enum: ["car", "villa", "event"], description: "Type of booking" },
-          itemId: { type: "string", description: "The ID of the car, villa, or event" },
+          itemId: { type: "string", description: "The ID (UUID) or slug of the car, villa, or event. Slug is the URL-safe identifier shown in markdown links like [Name](/cars/SLUG)." },
           startDate: { type: "string", description: "Start date (YYYY-MM-DD)" },
           endDate: { type: "string", description: "End date (YYYY-MM-DD)" },
           customerName: { type: "string", description: "Customer's full name" },
@@ -441,8 +447,39 @@ async function searchEvents(params: any) {
   }))
 }
 
+// Resolve a car/villa/event by either UUID or slug. Returns the real id or null.
+async function resolveItemId(itemType: string, idOrSlug: string): Promise<string | null> {
+  if (!idOrSlug) return null
+  if (itemType === "car") {
+    const car = await prisma.car.findFirst({
+      where: { OR: [{ id: idOrSlug }, { slug: idOrSlug }] },
+      select: { id: true },
+    })
+    return car?.id ?? null
+  }
+  if (itemType === "villa") {
+    const villa = await prisma.villa.findFirst({
+      where: { OR: [{ id: idOrSlug }, { slug: idOrSlug }] },
+      select: { id: true },
+    })
+    return villa?.id ?? null
+  }
+  if (itemType === "event") {
+    const event = await prisma.event.findFirst({
+      where: { OR: [{ id: idOrSlug }, { slug: idOrSlug }] },
+      select: { id: true },
+    })
+    return event?.id ?? null
+  }
+  return null
+}
+
 async function checkAvailability(params: any) {
-  const { itemType, itemId, startDate, endDate } = params
+  const { itemType, startDate, endDate } = params
+  const itemId = await resolveItemId(itemType, params.itemId)
+  if (!itemId) {
+    return { available: false, conflicts: [], error: `${itemType} not found with that ID or slug` }
+  }
   const start = new Date(startDate)
   const end = new Date(endDate)
 
@@ -503,29 +540,40 @@ async function checkAvailability(params: any) {
 
 async function createMarkBooking(params: any) {
   try {
-    const { itemType, itemId, startDate, endDate, customerName, customerEmail, customerPhone, guests, totalPrice, depositAmount, notes } = params
+    const { itemType, startDate, endDate, customerName, customerEmail, customerPhone, guests, totalPrice, depositAmount, notes } = params
 
     // Validate required fields
-    if (!itemType || !itemId || !startDate || !endDate || !customerName || !customerEmail || !totalPrice || !depositAmount) {
+    if (!itemType || !params.itemId || !startDate || !endDate || !customerName || !customerEmail || !totalPrice || !depositAmount) {
       return { error: "Missing required fields. Need: itemType, itemId, startDate, endDate, customerName, customerEmail, totalPrice, depositAmount" }
     }
 
     let itemName = ""
     const itemWhere: any = {}
+    let itemId: string
 
     if (itemType === "car") {
-      const car = await prisma.car.findUnique({ where: { id: itemId }, include: { brand: true } })
-      if (!car) return { error: "Car not found with that ID" }
+      const car = await prisma.car.findFirst({
+        where: { OR: [{ id: params.itemId }, { slug: params.itemId }] },
+        include: { brand: true },
+      })
+      if (!car) return { error: "Car not found with that ID or slug" }
+      itemId = car.id
       itemName = `${car.brand.name} ${car.name}`
       itemWhere.carId = itemId
     } else if (itemType === "villa") {
-      const villa = await prisma.villa.findUnique({ where: { id: itemId } })
-      if (!villa) return { error: "Villa not found with that ID" }
+      const villa = await prisma.villa.findFirst({
+        where: { OR: [{ id: params.itemId }, { slug: params.itemId }] },
+      })
+      if (!villa) return { error: "Villa not found with that ID or slug" }
+      itemId = villa.id
       itemName = villa.name
       itemWhere.villaId = itemId
     } else if (itemType === "event") {
-      const event = await prisma.event.findUnique({ where: { id: itemId } })
-      if (!event) return { error: "Event not found with that ID" }
+      const event = await prisma.event.findFirst({
+        where: { OR: [{ id: params.itemId }, { slug: params.itemId }] },
+      })
+      if (!event) return { error: "Event not found with that ID or slug" }
+      itemId = event.id
       itemName = event.name
       itemWhere.eventId = itemId
     } else {
